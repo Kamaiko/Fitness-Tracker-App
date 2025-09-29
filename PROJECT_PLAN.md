@@ -1,42 +1,42 @@
-# 🏋️ IronIQ - Intelligent Bodybuilding Platform
-*Plan de Développement Complet*
+# 🦾 Halterofit - Intelligent Bodybuilding Platform
+*Plan de Développement MVP-First Strategy*
+
+> **MVP-First Approach** : Ce document présente notre stratégie de développement en phases, en commençant par un MVP solide pour valider le marché, puis en évoluant vers la plateforme complète.
 
 ---
 
 ## 📋 Table des Matières
-1. [Vision et Objectifs](#vision-et-objectifs)
-2. [Public Cible](#public-cible)
-3. [Analyse Concurrentielle](#analyse-concurrentielle)
-4. [Fonctionnalités Core (MVP)](#fonctionnalités-core-mvp)
-5. [Fonctionnalités Avancées](#fonctionnalités-avancées)
-6. [Architecture Technique](#architecture-technique)
-7. [Modèle de Données](#modèle-de-données)
-8. [Design System et UX](#design-system-et-ux)
-9. [Roadmap de Développement](#roadmap-de-développement)
-10. [Stratégie de Monétisation](#stratégie-de-monétisation)
-11. [Métriques de Succès](#métriques-de-succès)
-12. [Risques et Mitigations](#risques-et-mitigations)
-13. [Ressources et Prochaines Étapes](#ressources-et-prochaines-étapes)
+1. [Vision et Objectifs Long Terme](#-vision-et-objectifs-long-terme)
+2. [MVP Strategy & Focus](#-mvp-strategy--focus)
+3. [Public Cible](#-public-cible)
+4. [Analyse Concurrentielle](#-analyse-concurrentielle)
+5. [Features MVP (Phase 1)](#️-features-mvp-phase-1)
+6. [Features Avancées (Phase 2-3)](#-features-avancées-phase-2-3)
+7. [Architecture & Implementation](#️-architecture--implementation)
+8. [Roadmap Exécution](#️-roadmap-exécution)
+9. [Stratégie de Monétisation](#-stratégie-de-monétisation)
+10. [Métriques de Succès](#-métriques-de-succès)
+11. [Documentation Technique](#-documentation-technique)
 
 ---
 
-## 🎯 Vision et Objectifs
+## 🎯 Vision et Objectifs Long Terme
 
 ### Mission Statement
 **"Révolutionner l'entraînement en musculation grâce à l'intelligence artificielle et l'analyse de données avancée, pour maximiser les gains de chaque athlète."**
 
-### Problèmes Résolus
+### Problèmes Résolus (Vision Complète)
 - **Stagnation**: 80% des pratiquants abandonnent après 6 mois à cause des plateaux
 - **Overtraining**: Manque de signaux objectifs pour détecter la surcharge
 - **Personnalisation**: Programs one-size-fits-all qui ignorent l'individualité
-- **Cycle Management**: Aucun outil pour enhanced athletes (marché tabou mais réel) (Les user premium pourrait upload leurs bloodworks en pdf, et on fait rien que analyser les variations)
+- **Cycle Management**: Aucun outil pour enhanced athletes (marché tabou mais réel)
 - **Data Fragmentation**: Données éparpillées (nutrition, training, récupération)
 
 ### Vision à Long Terme
 Devenir la référence mondiale pour l'optimisation de performance en bodybuilding, combinant science du sport moderne et besoins réels des athlètes sérieux.
 
-### Différenciateurs Clés
-1. **Intelligence Predictive**: Anticipe plateaux et overtraining avant qu'ils surviennent
+### Différenciateurs Clés (Avantage Concurrentiel)
+1. **Intelligence Prédictive**: Anticipe plateaux et overtraining avant qu'ils surviennent
 2. **Enhanced-Friendly**: Seule app à reconnaître et optimiser pour enhanced athletes
 3. **RPE Analytics**: Système d'effort perçu le plus avancé du marché
 4. **Science-Based**: Chaque fonctionnalité basée sur recherche peer-reviewed
@@ -44,45 +44,101 @@ Devenir la référence mondiale pour l'optimisation de performance en bodybuildi
 
 ---
 
+## 🚀 MVP Strategy & Focus
+
+### Philosophy MVP-First
+Notre approche phased permet de **valider le marché rapidement** tout en construisant les fondations pour les features avancées futures.
+
+### MVP Core Value Proposition
+**"Le seul fitness tracker qui comprend vraiment les bodybuilders sérieux"**
+
+#### Pourquoi MVP d'abord ?
+1. **Validation rapide** : Tester l'adéquation produit-marché en 3 mois
+2. **Learning acceleré** : Feedback réel d'utilisateurs pour orienter Phase 2
+3. **Ressources limitées** : Focus sur l'exécution plutôt que sur la sur-ingénierie
+4. **Competitive advantage** : Time-to-market rapide avant que la concurrence réagisse
+
+#### MVP Success Criteria
+- **100 beta users** actifs après 3 mois
+- **50% D7 retention** (industry benchmark: 25%)
+- **NPS > 40** (satisfaction utilisateur)
+- **3.5 workouts/semaine** par utilisateur actif
+
+### MVP Scope Discipline
+**✅ In Scope (MVP)**
+- Smart workout logging avec RPE
+- Exercise library (500+ exercices)
+- Basic analytics avec trends
+- Rest timer intelligent
+- Plateau detection basique
+- Energy readiness score
+
+**❌ Out of Scope (Phase 2)**
+- Voice commands
+- Social features
+- Enhanced athlete tracking
+- AI recommendations avancées
+- Body composition analysis
+
+**🔮 Future Vision (Phase 3)**
+- Full AI coaching platform
+- Enhanced athlete ecosystem
+- Coaching marketplace
+- Advanced biometric integration
+
+---
+
 ## 👥 Public Cible
 
-### Persona Principal: "Marcus - Enhanced Bodybuilder"
-- **Âge**: 25-35 ans
-- **Expérience**: 5+ années d'entraînement sérieux
-- **Statut**: Enhanced (TRT/cycles)
-- **Objectifs**: Maximiser gains, éviter effets secondaires
-- **Pain Points**:
-  - Optimiser cycles blast/cruise
-  - Détecter overtraining tôt
-  - Planifier PCT intelligemment
-- **Budget**: 50-100$/mois pour outils/suppléments
+### MVP Target: Focus Personas Prioritaires
 
-### Persona Secondaire: "Sarah - Natural Competitor"
+#### **Primary MVP Target: "Alex - Serious Natural Lifter"** ⭐
+- **Âge**: 20-35 ans
+- **Expérience**: 2-5 années d'entraînement sérieux
+- **Statut**: Natural, orienté data
+- **Objectifs MVP**: Briser plateaux, voir progression claire, éviter overtraining
+- **Pain Points MVP**:
+  - Apps actuelles trop simplistes ou trop complexes
+  - Manque de progression mesurable
+  - Pas de détection de plateaux
+  - Programs génériques inefficaces
+- **Budget**: 0-30$/mois (freemium → premium)
+- **MVP Value**: "Enfin une app qui comprend la musculation sérieuse"
+
+#### **Secondary MVP Target: "Sarah - Natural Competitor"**
 - **Âge**: 22-30 ans
 - **Expérience**: Compétitrice bikini/physique
 - **Statut**: Natural + drug tested
-- **Objectifs**: Peak pour compétitions, maintenir gains off-season
-- **Pain Points**:
-  - Periodization complexe
-  - Balance récupération/volume
-  - Nutrition timing précis
-- **Budget**: 30-70$/mois
-
-### Persona Tertiaire: "Alex - Serious Lifter"
-- **Âge**: 20-40 ans
-- **Expérience**: 2-5 années
-- **Statut**: Natural, considère enhancement
-- **Objectifs**: Briser plateaux, optimiser progression
-- **Pain Points**:
-  - Confusion information contradictoire
-  - Manque de progression mesurable
-  - Programs génériques inefficaces
+- **Objectifs MVP**: Periodization intelligente, balance récupération/volume
+- **Pain Points MVP**:
+  - Periodization complexe mal supportée
+  - Manque d'outils pour detecter fatigue
+  - Analytics insuffisantes pour prep
 - **Budget**: 20-50$/mois
+- **MVP Value**: "Analytics qui comprennent la preparation competition"
 
-### Segments de Marché
-- **Primary (60%)**: Enhanced bodybuilders sérieux
-- **Secondary (30%)**: Compétiteurs natural
-- **Tertiary (10%)**: Powerlifters/strongmen data-driven
+#### **Future Target: "Marcus - Enhanced Bodybuilder"** (Phase 2)
+- **Âge**: 25-35 ans
+- **Expérience**: 5+ années d'entraînement sérieux
+- **Statut**: Enhanced (TRT/cycles)
+- **Objectifs Long Terme**: Optimiser cycles, maximiser gains, éviter sides
+- **Pain Points Future**:
+  - Aucun outil pour enhanced athletes
+  - Tracking cycles impossible ailleurs
+  - Optimisation performance/santé complexe
+- **Budget**: 50-100$/mois pour outils/suppléments
+- **Future Value**: "La seule app enhanced-friendly au monde"
+
+### MVP Market Segments Strategy
+- **MVP Focus (80%)**: Serious natural lifters + competitors
+- **Phase 2 Expansion (60%)**: Enhanced bodybuilders (différenciateur clé)
+- **Phase 3 (10%)**: Powerlifters/strongmen, general fitness evolution
+
+### MVP User Acquisition Strategy
+1. **Reddit Communities**: r/naturalbodybuilding, r/powerlifting
+2. **YouTube Partnerships**: Evidence-based fitness channels
+3. **Instagram**: Natural bodybuilding influencers
+4. **Word of mouth**: Product-market fit dans niche passionnée
 
 ---
 
@@ -121,89 +177,111 @@ Devenir la référence mondiale pour l'optimisation de performance en bodybuildi
 
 ---
 
-## ⚙️ Fonctionnalités Core (MVP)
+## ⚙️ Features MVP (Phase 1)
 
-### 1. Smart Workout Logger
-#### Interface de Logging
-- **Quick Entry**: Tap pour log sets, swipe pour ajuster poids
-- **Voice Commands**: "15 reps à 225 pounds"
-- **Auto-Timer**: Rest periods adaptatifs selon exercice
-- **Offline-First**: Fonctionne sans connexion
-- **Exercise Library**: 2000+ exercices avec instructions
+> **MVP Timeline** : 12 semaines (voir [MVP_ROADMAP.md](docs/MVP_ROADMAP.md) pour détails sprint par sprint)
 
-#### RPE Tracking Avancé
-- **Scale 1-100**: Plus précise que 1-10 traditionnelle
-- **Visual Feedback**: Graphiques RPE par set
-- **Pattern Recognition**: Détecte fatigue intra-workout
-- **Auto-Suggestions**: "RPE élevé, réduire volume?"
-- **Historical Context**: Compare aux sessions précédentes
+### 1. Smart Workout Logger 🏋️ *(MVP Core)*
 
-#### Session Analytics
-- **Volume Tracking**: Sets x reps x poids par muscle
-- **Intensity Metrics**: RPE moyen, max, distribution
+#### Interface de Logging MVP
+- **Quick Entry**: Tap pour log sets, interface optimisée gym
+- **Auto-Timer**: Rest periods adaptatifs selon exercice et RPE
+- **Offline-First**: Fonctionne sans connexion (essentiel gym)
+- **Exercise Library**: 500+ exercices avec instructions (Phase 1)
+- **Gesture Controls**: Swipe pour ajuster poids, tap pour increment
+
+#### RPE Tracking System ⭐ *(Différenciateur MVP)*
+- **Scale 1-10**: Plus intuitive pour MVP que 1-100
+- **Visual Feedback**: Interface claire avec couleurs RPE
+- **Quick Selection**: Tap rapide pour RPE après chaque set
+- **Historical Context**: "RPE plus élevé que d'habitude pour ce poids"
+- **Pattern Alerts**: "RPE élevé 3 sets de suite, considérer repos"
+
+#### Session Analytics MVP
+- **Volume Tracking**: Sets × reps × poids par muscle group
+- **Basic Intensity**: RPE moyen, max par exercice
 - **Time Tracking**: Durée totale, temps par exercice
-- **Heart Rate**: Intégration optionnelle wearables
-- **Notes Contextuelles**: Sommeil, nutrition, stress
+- **Session Notes**: Notes rapides post-workout
+- **PR Detection**: Highlight automatique des records personnels
 
-### 2. Performance Pattern Detection
-#### Algorithmes d'Analyse
-- **Trend Analysis**: Régression linéaire sur performances
-- **Plateau Detection**: Stagnation >3 semaines automatiquement détectée
-- **Volume/Intensity Balance**: Optimal selon recherche
-- **Fatigue Accumulation**: Modèle SRA (Stimulus-Recovery-Adaptation)
-- **Deload Timing**: Recommandations basées sur RPE trends
+### 2. Performance Analytics 📊 *(MVP Intelligence)*
 
-#### Visualisations Avancées
-- **Strength Curves**: Par exercice et groupe musculaire
-- **Volume Progression**: Histogrammes weekly/monthly
-- **RPE Heatmaps**: Patterns de fatigue
-- **Recovery Indicators**: HRV, subjective wellness
-- **Comparative Analysis**: Periods bulk/cut/maintenance
+#### Basic Trend Analysis
+- **Strength Progression**: Graphiques simples par exercice
+- **Volume Trends**: Progression weekly/monthly
+- **RPE Patterns**: Trends de difficulté par période
+- **Workout Frequency**: Consistency tracking
+- **Export Data**: CSV pour analyse externe
 
-### 3. Energy Readiness Score
-#### Questionnaire Intelligent (30s)
-- **Sleep Quality**: 1-10 avec duration
-- **Stress Level**: Work, personal, training
-- **Nutrition Status**: Hydration, last meal timing
+#### Plateau Detection Engine 🚨 *(MVP Différenciateur)*
+- **Auto-Detection**: Stagnation >3 semaines identifiée automatiquement
+- **Confidence Score**: Probabilité statistique de plateau réel
+- **Breaking Suggestions**: Protocols basés sur science (volume, technique, deload)
+- **Progress Alerts**: "Aucun progrès sur Bench Press depuis 3 semaines"
+
+### 3. Energy Readiness Score 🎯 *(MVP Innovation)*
+
+#### Questionnaire Rapide (30 secondes)
+- **Sleep Quality**: 1-10 avec durée optionnelle
+- **Energy Level**: Comment tu te sens aujourd'hui
 - **Motivation**: Mental readiness pour training
-- **Physical Sensations**: Soreness, energy level
+- **Muscle Soreness**: Niveau général de courbatures
+- **Stress Level**: Impact vie personnelle/travail
 
-#### Score Calculation
+#### Score & Recommendations
 ```typescript
 interface ReadinessScore {
   overall: number; // 0-100
-  confidence: number; // Statistical confidence
-  recommendations: string[];
-  adjustments: {
-    volume: number; // +/- percentage
-    intensity: number; // +/- percentage
-    focus: string[]; // Muscle groups to prioritize
-  };
+  recommendation: 'go_hard' | 'normal' | 'light' | 'rest';
+  message: string; // "Excellente journée pour des PRs!"
+  volumeAdjustment?: number; // +/- % suggestion
 }
 ```
 
-#### Adaptive Recommendations
-- **Green (80-100)**: "Go hard, excellent day for PRs"
-- **Yellow (60-79)**: "Normal session, maintain quality"
-- **Orange (40-59)**: "Light session, focus technique"
-- **Red (<40)**: "Rest day or active recovery"
+**Adaptive Suggestions MVP**:
+- **Green (80-100)**: "Go hard, excellente journée pour PRs"
+- **Yellow (60-79)**: "Session normale, maintenir qualité"
+- **Orange (40-59)**: "Session légère, focus technique"
+- **Red (<40)**: "Repos ou récupération active recommandé"
 
-### 4. Program Builder Intelligent
-#### Template Library
-- **Push/Pull/Legs**: 3,4,5,6 day versions
-- **Upper/Lower**: 2x, 3x frequency options
-- **Bro Split**: Optimisé volume/frequency
-- **Specialization**: Arms, chest, legs focus
-- **Custom**: Builder avec guidelines scientifiques
+### 4. Exercise Library & Programs 📚 *(MVP Foundation)*
 
-#### Auto-Periodization
-- **Linear Progression**: Pour débutants
-- **Double Progression**: Reps puis poids
-- **Block Periodization**: Accumulation/Intensification
-- **Daily Undulating**: Variety pour advanced
-- **Conjugate Method**: Westside-inspired
+#### Exercise Database MVP
+- **500+ Exercices**: Focus bodybuilding + powerlifting basics
+- **Search & Filter**: Par muscle group, équipement, difficulté
+- **Instructions**: Texte clair + tips de technique
+- **Favoris**: Quick access aux exercices préférés
+- **Recently Used**: Smart suggestions basées sur historique
 
-#### Volume Recommendations
+#### Basic Program Templates
+- **Push/Pull/Legs**: Version 3,4,5,6 jours
+- **Upper/Lower**: 2x et 3x par semaine
+- **Full Body**: Pour débutants
+- **Custom Builder**: Création simple avec guidelines volume
+
+### MVP Scope Summary
+
+**✅ Phase 1 MVP (12 semaines)**
+| Feature | Status | Value Proposition |
+|---------|--------|-------------------|
+| Workout Logging | Core | "Interface la plus rapide pour logger au gym" |
+| RPE Tracking | Différenciateur | "Seule app qui comprend vraiment l'effort perçu" |
+| Plateau Detection | Innovation | "Détection automatique des stagnations" |
+| Readiness Score | Unique | "Optimise tes sessions selon ton état" |
+| Exercise Library | Foundation | "500+ exercices avec instructions pro" |
+
+---
+
+## 🚀 Features Avancées (Phase 2-3)
+
+> **Post-MVP Features** : Ces excellentes idées seront implémentées après validation MVP
+
+### Phase 2: Intelligence & Social (Mois 4-6)
+
+#### 1. Advanced Program Builder 🧠
+- **Auto-Periodization**: Linear, block, daily undulating, conjugate
+- **Template Library Étendue**: 20+ programs scientifiques
+- **Volume Guidelines Intelligentes**:
 ```typescript
 interface VolumeGuidelines {
   muscleGroup: string;
@@ -212,25 +290,50 @@ interface VolumeGuidelines {
     intermediate: [number, number];
     advanced: [number, number];
   };
-  frequency: {
-    minimum: number;
-    optimal: number;
-    maximum: number;
-  };
+  frequency: { minimum: number; optimal: number; maximum: number; };
 }
 ```
 
----
+#### 2. Advanced Analytics & Voice Commands 🎤
+- **Voice Logging**: "15 reps à 225 pounds"
+- **RPE Heatmaps**: Patterns de fatigue visuels
+- **Advanced Visualizations**: Strength curves, comparative analysis
+- **Recovery Integration**: HRV, subjective wellness
+- **Predictive Analytics**: Modèle SRA (Stimulus-Recovery-Adaptation)
 
-## 🚀 Fonctionnalités Avancées
+#### 3. Social Features & Community 👥
+- **Training Partners**: Shared workouts, motivation
+- **Leaderboards**: Anonymous competitive elements
+- **Progress Sharing**: Privacy-controlled achievements
+- **Community Challenges**: Natty vs enhanced leagues
 
-### 1. Cycle Analytics for Enhanced Athletes
-#### Discrete Tracking
+### Phase 3: Enhanced & AI Platform (Mois 7+)
+
+#### 1. Enhanced Athlete Ecosystem 💊 *(Différenciateur Unique)*
+**Discrete Cycle Tracking**:
 - **Phase Tracking**: Natural, Cruise, Blast, PCT
-- **Compound Logging**: Anonymized database
-- **Dosage Correlation**: Performance vs dosage (statistical)
-- **Side Effect Monitoring**: Discrete health markers
-- **Timeline Visualization**: Performance curves par phase
+- **Compound Logging**: Anonymized statistical database
+- **Performance Correlation**: Dosage vs gains analysis
+- **Health Monitoring**: Discrete biomarker tracking
+- **Privacy & Security**: End-to-end encryption, legal compliance
+
+#### 2. AI Coaching Platform 🤖
+- **Plateau Breaking Engine**: Advanced algorithmic protocols
+- **Personalized Programming**: AI-generated workouts
+- **Recovery Optimization**: Multi-source integration (Whoop, Oura, etc.)
+- **Performance Prediction**: 3-6-12 month projections
+
+#### 3. Body Composition & Advanced Analytics 📸
+- **Photo Progress Tracking**: AI-powered BF% estimation
+- **Muscle Gain Visualization**: Change highlighting
+- **Timeline Projections**: "Future you" predictions
+- **Supplement Stack Optimizer**: Evidence-based recommendations
+
+#### 4. Platform Ecosystem 🌐
+- **Coaching Marketplace**: Expert-created programs
+- **Research Contribution**: Anonymous data for science
+- **API Access**: Third-party integrations
+- **Enterprise Features**: Gym chain partnerships
 
 #### Privacy & Security
 - **End-to-End Encryption**: Données sensibles chiffrées
