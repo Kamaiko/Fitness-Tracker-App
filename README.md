@@ -1,7 +1,6 @@
-# 🦾 Halterofit
-**L'app de tracking fitness intelligente pour les bodybuilders sérieux**
+# Halterofit
 
-*"Track like a scientist, train like a beast"*
+**Intelligent fitness tracking for serious bodybuilders**
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![React Native](https://img.shields.io/badge/React%20Native-0.72+-green.svg)
@@ -10,380 +9,209 @@
 
 ---
 
-## 📋 Table des Matières
-1. [Vision & Philosophie](#-vision--philosophie)
-2. [MVP Features](#-mvp-features-phase-1---12-semaines)
-3. [Architecture Technique](#️-architecture-technique-scalable)
-4. [Métriques de Succès](#-métriques-de-succès)
-5. [Roadmap](#️-roadmap-détaillé)
+## Table of Contents
+1. [Vision & Philosophy](#-vision--philosophy)
+2. [MVP Features](#-mvp-features-phase-1---12-weeks)
+3. [Technical Architecture](#️-technical-architecture)
+4. [Success Metrics](#-success-metrics)
+5. [Roadmap](#️-roadmap)
 6. [Setup Instructions](#️-setup-instructions)
 7. [Design System](#-design-system)
 
 ---
 
-## 🎯 Vision & Philosophie
+## 🎯 Vision & Philosophy
 
-**Halterofit** n'est pas une autre app fitness générique. C'est un outil scientifique pour les athlètes qui prennent leur progression au sérieux.
+**Halterofit** is a data-driven fitness tracking platform built specifically for serious bodybuilders who want to optimize their training through science and analytics.
 
 ### Mission Statement
-Révolutionner le tracking fitness en combinant science du sport moderne et besoins réels des bodybuilders, pour maximiser les gains de chaque athlète.
+Revolutionize fitness tracking by combining modern exercise science with real athlete needs, maximizing gains through intelligent data analysis.
 
-### Valeurs Core
-- **Science-Based** : Chaque feature basée sur recherche peer-reviewed
-- **Privacy-First** : Données sensibles chiffrées (cycles, bloodwork)
-- **Progressive Overload** : Focus sur la progression mesurable
-- **Alpha Mindset** : Interface noir minimaliste, zero bullshit
+### Core Values
+- **Science-Based**: Every feature backed by peer-reviewed research
+- **Privacy-First**: Sensitive data encrypted (cycles, bloodwork)
+- **Progressive Overload**: Focus on measurable progression
+- **Clean Interface**: Minimal dark UI, zero bullshit
 
-### Différenciateurs Clés
-1. **Intelligence Prédictive** : Anticipe plateaux et overtraining
-2. **Enhanced-Friendly** : Seule app à optimiser pour enhanced athletes
-3. **RPE Analytics** : Système d'effort perçu le plus avancé
-4. **Scientific Rigor** : Recherche vs marketing fluff
+### Key Differentiators
+1. **Predictive Intelligence**: Anticipates plateaus and overtraining
+2. **Enhanced-Friendly**: Only app optimized for enhanced athletes
+3. **Advanced RPE Analytics**: Most sophisticated effort tracking system
+4. **Scientific Rigor**: Research-backed vs marketing fluff
 
 ---
 
-## 🚀 MVP Features (Phase 1 - 12 semaines)
+## 🚀 MVP Features (Phase 1 - 12 weeks)
 
 ### Core Features
 
 #### 1. Smart Workout Logger
-- **Quick Entry** : Interface tap/swipe optimisée pour le gym
-- **Auto-Timer** : Rest periods adaptatifs selon exercice et RPE
-- **Voice Commands** : "15 reps à 225 pounds" (Phase 2)
-- **Offline-First** : Fonctionne sans connexion internet
-- **Exercise Library** : 500+ exercices avec instructions détaillées
+- **Quick Entry**: Tap/swipe interface optimized for gym use
+- **Auto Timer**: Adaptive rest periods based on exercise and RPE
+- **Offline-First**: Full functionality without internet connection
+- **Exercise Library**: 500+ exercises with proper instructions
+- **Gesture Controls**: Swipe to adjust weights, tap to increment
 
-#### 2. RPE Tracking Avancé ⚡
-- **Scale 1-10** : Plus intuitive que 1-100 pour MVP
-- **Visual Feedback** : Interface graphique claire
-- **Pattern Recognition** : Détecte fatigue intra-workout
-- **Auto-Suggestions** : "RPE élevé, réduire volume?"
-- **Historical Context** : Compare aux sessions précédentes
+#### 2. RPE Tracking System ⭐
+- **1-10 Scale**: Intuitive effort rating system
+- **Visual Feedback**: Clear color-coded RPE interface
+- **Pattern Recognition**: "RPE higher than usual for this weight"
+- **Smart Alerts**: "High RPE 3 sets in a row, consider rest"
 
 #### 3. Performance Analytics
-- **Volume Tracking** : Sets × reps × poids par muscle group
-- **Strength Curves** : Progression visuelle par exercice
-- **Trend Analysis** : Régression linéaire sur performances
-- **Weekly/Monthly** : Comparaisons de périodes
-- **Export Data** : CSV pour analyse externe
+- **Strength Progression**: Clean charts per exercise
+- **Volume Trends**: Weekly/monthly progression tracking
+- **Plateau Detection**: Automatic stagnation identification (>3 weeks)
+- **Export Data**: CSV export for external analysis
 
-#### 4. Energy Readiness Score 🔥 *(Différenciateur)*
-```typescript
-// Pre-workout questionnaire (30 secondes)
-interface ReadinessMetrics {
-  sleepQuality: 1-10;
-  stressLevel: 1-10;
-  motivation: 1-10;
-  energyLevel: 1-10;
-  muscleSoreness: 1-10;
-}
+#### 4. Energy Readiness Score
+- **Quick Assessment**: 30-second pre-workout questionnaire
+- **Adaptive Recommendations**: Modify training based on readiness
+- **Historical Correlation**: Track readiness vs performance
 
-// Score 0-100 avec recommendations
-interface ReadinessOutput {
-  score: number;
-  recommendation: 'go-hard' | 'normal' | 'light' | 'rest';
-  volumeAdjustment: number; // +/- %
-}
-```
-
-#### 5. Plateau Detection Engine 💪 *(Unique)*
-- **Auto-Detection** : Stagnation >3 semaines identifiée
-- **Confidence Score** : Probabilité statistique
-- **Breaking Protocols** : Volume waves, technique variations
-- **Exercise Substitutions** : Alternatives intelligentes
-
-### Features Différenciateurs MVP
-- **Rest Timer Intelligent** : S'adapte selon RPE précédent
-- **Exercise Tips Contextuels** : Tips qui évoluent avec ton niveau
-- **Progressive Overload Tracker** : Visualisation claire progression
-- **Fatigue Management** : Détection précoce overtraining
+#### 5. Program Templates
+- **Push/Pull/Legs**: 3, 4, 5, 6 day variations
+- **Upper/Lower**: 2x and 3x frequency options
+- **Full Body**: Beginner-friendly programs
+- **Custom Builder**: Simple creation with volume guidelines
 
 ---
 
-## 🏗️ Architecture Technique Scalable
+## 🏗️ Technical Architecture
 
-### Stack MVP
+### Stack Overview
 ```typescript
-{
-  "frontend": {
-    "framework": "React Native + Expo SDK 49+",
-    "language": "TypeScript 5.0+ (strict mode)",
-    "state": "Zustand + React Query",
-    "ui": "NativeWind (Tailwind CSS for React Native)",
-    "charts": "Victory Native + React Native Chart Kit",
-    "navigation": "Expo Router (file-based routing)",
-    "testing": "Jest + React Testing Library + Detox"
-  },
-  "backend": {
-    "platform": "Supabase (BaaS)",
-    "database": "PostgreSQL 15+",
-    "auth": "Supabase Auth (email + OAuth)",
-    "storage": "Supabase Storage (photos progress)",
-    "realtime": "WebSocket subscriptions",
-    "functions": "Supabase Edge Functions (Deno)"
-  },
-  "devops": {
-    "hosting": "Expo EAS (Expo Application Services)",
-    "ci_cd": "GitHub Actions",
-    "monitoring": "Sentry (error tracking)",
-    "analytics": "PostHog (privacy-focused)"
-  }
-}
+// Frontend
+React Native 0.72+
+Expo SDK 49+
+TypeScript 5.0+ (Strict Mode)
+NativeWind (Tailwind for RN)
+
+// Backend
+Supabase (PostgreSQL + Auth + Real-time)
+Row Level Security
+Edge Functions
+
+// State Management
+Zustand (Lightweight Redux alternative)
+React Query (Server state)
+
+// UI/Visualization
+Victory Native (Charts)
+Expo Router (File-based routing)
+
+// Testing
+Jest + React Testing Library
+Detox (E2E testing)
+
+// Development
+ESLint + Prettier
+Husky (Git hooks)
 ```
 
-### Architecture Évolutive
-```
-Phase 1 (MVP - 0-1K users):
-[React Native App] → [Supabase] → [PostgreSQL]
-
-Phase 2 (Scale - 1K-10K users):
-[React Native App] → [Load Balancer] → [Supabase + Python Analytics API]
-
-Phase 3 (Enterprise - 10K+ users):
-[React Native App] → [GraphQL Gateway] → [Microservices Kubernetes]
-```
-
-### Database Schema Core (PostgreSQL)
+### Database Schema (Core Tables)
 ```sql
--- Users avec profiling intelligent
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  username TEXT UNIQUE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+-- Users with privacy levels
+users (id, email, enhanced_status, privacy_level)
 
-  -- Profile Analytics
-  experience_level TEXT CHECK (experience_level IN ('beginner', 'intermediate', 'advanced')),
-  primary_goals JSONB, -- {"strength": true, "hypertrophy": true}
-  body_metrics JSONB, -- {"weight_kg": 80, "height_cm": 180}
+-- Workout sessions
+workouts (id, user_id, date, readiness_score, total_volume)
 
-  -- App Preferences
-  weight_unit TEXT DEFAULT 'kg' CHECK (weight_unit IN ('kg', 'lbs')),
-  theme TEXT DEFAULT 'dark',
-  privacy_level INTEGER DEFAULT 2
-);
+-- Exercise library
+exercises (id, name, category, muscle_groups, instructions)
 
--- Workouts avec analytics built-in
-CREATE TABLE workouts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  name TEXT NOT NULL,
-  date DATE NOT NULL,
-  start_time TIMESTAMP WITH TIME ZONE,
-  end_time TIMESTAMP WITH TIME ZONE,
+-- Individual sets
+exercise_sets (id, workout_id, exercise_id, weight, reps, rpe)
 
-  -- Pre-workout Analytics
-  readiness_score INTEGER CHECK (readiness_score BETWEEN 0 AND 100),
-  sleep_quality INTEGER CHECK (sleep_quality BETWEEN 1 AND 10),
-  stress_level INTEGER CHECK (stress_level BETWEEN 1 AND 10),
-
-  -- Session Analytics (calculated)
-  total_volume_kg DECIMAL(10,2),
-  average_rpe DECIMAL(3,1),
-  duration_minutes INTEGER,
-
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Exercise sets avec calculations automatiques
-CREATE TABLE exercise_sets (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  workout_id UUID REFERENCES workouts(id) ON DELETE CASCADE,
-  exercise_name TEXT NOT NULL,
-  set_number INTEGER NOT NULL,
-
-  -- Set Data
-  weight_kg DECIMAL(6,2),
-  reps INTEGER,
-  rpe INTEGER CHECK (rpe BETWEEN 1 AND 10),
-  rest_seconds INTEGER,
-
-  -- Auto-calculated Analytics
-  volume_load DECIMAL(10,2) GENERATED ALWAYS AS (weight_kg * reps) STORED,
-  estimated_1rm DECIMAL(6,2), -- Calculated via Brzycki formula
-
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Exercise Library
-CREATE TABLE exercises (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL UNIQUE,
-  category TEXT NOT NULL, -- 'chest', 'back', 'legs', 'shoulders', 'arms'
-  equipment TEXT[], -- Array: ['barbell', 'bench']
-
-  -- Exercise Analytics
-  primary_muscles TEXT[],
-  secondary_muscles TEXT[],
-  movement_pattern TEXT, -- 'push', 'pull', 'squat', 'hinge'
-  difficulty_level INTEGER CHECK (difficulty_level BETWEEN 1 AND 5),
-
-  -- Content
-  instructions TEXT,
-  tips TEXT,
-  video_url TEXT,
-
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- Performance analytics
+performance_metrics (id, user_id, date, volume_by_muscle, fatigue_index)
 ```
+
+### Security & Privacy
+- **End-to-End Encryption**: Sensitive cycle data
+- **Anonymous Analytics**: Aggregate insights without identification
+- **Row Level Security**: User data isolation
+- **GDPR Compliance**: Complete data control and deletion
 
 ---
 
-## 📊 Métriques de Succès
+## 📊 Success Metrics
 
-### MVP Success Criteria (12 semaines)
+### MVP Success Criteria (3 months)
+- **100 beta users** actively logging workouts
+- **50% D7 retention** (industry benchmark: 25%)
+- **NPS > 40** (satisfaction score)
+- **3.5 workouts/week** per active user
 
-#### Phase 1: Validation Technique (Semaines 1-4)
-```typescript
-interface TechnicalKPIs {
-  performance: {
-    coldStartTime: "< 2s",
-    crashRate: "< 0.1%",
-    offlineCapability: "100%",
-    memoryUsage: "< 150MB"
-  },
-  development: {
-    featuresPerWeek: "3-5",
-    bugFixTime: "< 24h",
-    testCoverage: "> 60%",
-    codeQuality: "TypeScript strict, ESLint"
-  }
-}
-```
+### Business Metrics (12 months)
+- **2,000 registered users**
+- **500 weekly actives**
+- **$5,000 MRR** (Monthly Recurring Revenue)
+- **4.0+ app store rating**
 
-#### Phase 2: Validation Utilisateur (Semaines 5-8)
-```typescript
-interface UserKPIs {
-  acquisition: {
-    betaSignups: 100,
-    signupConversion: "80%", // from landing page
-    profileCompletion: "60%"
-  },
-  engagement: {
-    D1Retention: "80%",
-    D7Retention: "50%",
-    D30Retention: "30%",
-    workoutsPerWeek: 3.5,
-    sessionDuration: "8 minutes"
-  }
-}
-```
-
-#### Phase 3: Product-Market Fit (Semaines 9-12)
-```typescript
-interface PMFKPIs {
-  quality: {
-    workoutCompletionRate: "85%",
-    dataAccuracy: "95%",
-    NPS: "> 40",
-    appStoreRating: "> 4.2"
-  },
-  adoption: {
-    timerUsage: "70%",
-    rpeTracking: "60%",
-    exerciseLibraryUsage: "80%",
-    readinessScoreUsage: "50%"
-  }
-}
-```
-
-### Triggers de Scale
-- **1000+ users actifs** → Migrer vers backend dédié
-- **10000+ users** → Implémenter cache layer (Redis)
-- **50000+ users** → Architecture microservices
+### Technical KPIs
+- **<2 second load times** on 3G
+- **99.9% uptime**
+- **<0.1% crash rate**
+- **95% workout completion rate**
 
 ---
 
-## 🗺️ Roadmap Détaillé
+## 🗓️ Roadmap
 
-### Phase 1: MVP Core (Semaines 1-12)
+### Phase 1: MVP (Months 1-3)
+**Goal**: Validate product-market fit with core features
 
-#### Sprint 1-2: Foundation (Semaines 1-2)
-- [x] **Setup Projet**
-  - Expo + TypeScript + NativeWind configuration
-  - Supabase project setup + database schema
-  - GitHub repo + CI/CD pipeline
-  - Development environment (Android testing)
+**Sprint 1-2: Foundation**
+- Project setup (React Native + Expo + TypeScript)
+- Supabase configuration and auth
+- Core database schema implementation
+- Basic workout logging interface
 
-#### Sprint 3-4: Auth & Core UI (Semaines 3-4)
-- [ ] **Authentication Flow**
-  - Email/password + social login (Google)
-  - User onboarding avec goal setting
-  - Profile setup (experience level, body metrics)
-- [ ] **Navigation & Theme**
-  - Expo Router file-based navigation
-  - Dark theme implementation
-  - Core UI components library
+**Sprint 3-4: Analytics**
+- RPE tracking system
+- Basic performance charts
+- Plateau detection algorithm
+- Data export functionality
 
-#### Sprint 5-6: Workout Logging (Semaines 5-6)
-- [ ] **Exercise Selection**
-  - Exercise library avec search/filter
-  - Favorites et recently used
-  - Custom exercise creation
-- [ ] **Set Logging**
-  - Quick entry interface (weight/reps/RPE)
-  - Rest timer avec notifications
-  - Set modifications et deletions
+**Sprint 5-6: Polish**
+- Dark theme implementation
+- Offline functionality
+- Performance optimization
+- Beta user testing
 
-#### Sprint 7-8: Analytics Core (Semaines 7-8)
-- [ ] **Basic Analytics**
-  - Volume calculations par muscle group
-  - Workout history avec filtering
-  - Progress charts (weight progression)
-- [ ] **RPE System**
-  - RPE entry avec visual feedback
-  - RPE trends per exercise
-  - Fatigue detection basique
+### Phase 2: Intelligence (Months 4-6)
+**Goal**: Advanced analytics and social features
 
-#### Sprint 9-10: Intelligence Features (Semaines 9-10)
-- [ ] **Readiness Score**
-  - Pre-workout questionnaire
-  - Score calculation algorithm
-  - Workout recommendations
-- [ ] **Plateau Detection**
-  - Trend analysis per exercise
-  - Stagnation detection (3+ weeks)
-  - Breaking protocol suggestions
+- Advanced program builder with auto-periodization
+- Voice commands for logging
+- Social features (leaderboards, progress sharing)
+- Wearable device integration (HRV, sleep)
 
-#### Sprint 11-12: Polish & Beta (Semaines 11-12)
-- [ ] **Performance Optimization**
-  - Code splitting et lazy loading
-  - Image optimization
-  - Offline sync reliability
-- [ ] **Beta Preparation**
-  - Beta testing avec 50 users
-  - Bug fixes based on feedback
-  - App store submission preparation
+### Phase 3: Enhanced Platform (Months 7+)
+**Goal**: Unique differentiators and monetization
 
-### Phase 2: Différenciation (Mois 4-6)
-- Advanced plateau breaking protocols
-- Body composition tracking avec photos
-- Social features (training partners)
-- Program builder avec AI recommendations
-- Enhanced athlete features (cycle tracking)
-
-### Phase 3: Scale & Monetization (Mois 7+)
-- Premium subscription ($9.99/mois)
-- Enhanced athlete tier ($19.99/mois)
+- Enhanced athlete ecosystem (cycle tracking)
+- AI coaching recommendations
+- Body composition analysis
 - Coaching marketplace
-- Supplement recommendations avec affiliate
-- Enterprise features (gym chains)
 
 ---
 
-## 🛠️ Setup Instructions
+## ⚙️ Setup Instructions
 
 ### Prerequisites
 ```bash
-node >= 18.0.0
-npm >= 9.0.0
-git >= 2.40.0
+Node.js 18+
+npm or yarn
+Expo CLI
+iOS Simulator / Android Studio (for development)
 ```
 
-### Installation Rapide
+### Installation
 ```bash
-# Clone le projet
-git clone https://github.com/[username]/halterofit.git
+# Clone repository
+git clone https://github.com/username/halterofit.git
 cd halterofit
 
 # Install dependencies
@@ -391,57 +219,34 @@ npm install
 
 # Setup environment variables
 cp .env.example .env
-# Ajouter tes credentials Supabase dans .env
+# Add your Supabase credentials
 
 # Start development server
 npm start
 
-# Run sur Android device
-npm run android
-
-# Run sur iOS simulator (Mac seulement)
+# Run on iOS
 npm run ios
+
+# Run on Android
+npm run android
 ```
 
-### Environment Variables (.env)
+### Environment Variables
 ```bash
-# Supabase Configuration
 EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# App Configuration
-EXPO_PUBLIC_APP_ENV=development
-EXPO_PUBLIC_APP_VERSION=0.1.0
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+EXPO_PUBLIC_API_BASE_URL=your_api_url
 ```
 
-### Testing
+### Development Scripts
 ```bash
-# Unit tests avec Jest
-npm test
-
-# E2E tests avec Detox
-npm run test:e2e
-
-# Test coverage report
-npm run test:coverage
-
-# Type checking
-npm run type-check
-
-# Linting
-npm run lint
-```
-
-### Build & Deploy
-```bash
-# Development build
-npx eas build --platform android --profile development
-
-# Production build
-npx eas build --platform all --profile production
-
-# Submit to stores
-npx eas submit --platform all
+npm start                # Start Expo development server
+npm test                 # Run tests
+npm run lint             # ESLint code checking
+npm run type-check       # TypeScript validation
+npm run format           # Prettier formatting
+npm run build:android    # Build Android APK
+npm run build:ios        # Build iOS IPA
 ```
 
 ---
@@ -449,205 +254,100 @@ npx eas submit --platform all
 ## 🎨 Design System
 
 ### Color Palette
-```scss
-// Primary Colors - Alpha/Masculine Theme
-$black-primary: #0A0A0A;     // Main background
-$black-surface: #1A1A1A;     // Card backgrounds
-$black-elevated: #2A2A2A;    // Elevated surfaces
-
-// Text Colors
-$white-primary: #FFFFFF;      // Primary text
-$gray-secondary: #B3B3B3;    // Secondary text
-$gray-tertiary: #666666;     // Disabled text
-
-// Accent Colors
-$red-danger: #FF3B30;        // High RPE, errors, warnings
-$green-success: #34C759;     // PRs, success states
-$blue-primary: #007AFF;      // Links, CTAs, info
-$orange-warning: #FF9500;    // Medium RPE, cautions
-
-// Data Visualization
-$chart-primary: #4299E1;     // Primary data series
-$chart-secondary: #ED8936;   // Secondary data series
-$chart-tertiary: #9F7AEA;    // Tertiary data series
+```typescript
+// Dark theme (primary)
+background: '#0f1419'     // Deep black
+surface: '#1a202c'        // Card backgrounds
+primary: '#4299e1'        // Brand blue
+success: '#38a169'        // Progress green
+warning: '#d69e2e'        // Caution amber
+danger: '#e53e3e'         // Critical red
+text: '#e2e8f0'          // Light text
 ```
 
-### Typography Scale
-```scss
-// Font Family
-$font-primary: 'SF Pro Display', system-ui, sans-serif;
-$font-body: 'SF Pro Text', system-ui, sans-serif;
-$font-mono: 'SF Mono', 'Monaco', monospace;
+### Typography
+```typescript
+// Font families
+primary: 'SF Pro Display'  // Headers
+body: 'SF Pro Text'        // Body text
+mono: 'SF Mono'           // Numbers, data
 
-// Scale (Modular Scale 1.25)
-$text-xs: 12px;    // Small labels, captions
-$text-sm: 14px;    // Body text, secondary
-$text-base: 16px;  // Default body text
-$text-lg: 18px;    // Subheadings
-$text-xl: 20px;    // Card titles
-$text-2xl: 24px;   // Page headers
-$text-3xl: 30px;   // Dashboard metrics
-$text-4xl: 36px;   // Hero numbers
+// Scale (1.25 modular scale)
+xs: 12px, sm: 14px, base: 16px
+lg: 18px, xl: 20px, 2xl: 24px
+3xl: 30px, 4xl: 36px, 5xl: 48px
 ```
 
-### Component Principles
-- **Touch Targets** : Minimum 44px pour accessibility
-- **Spacing** : 8px grid system (8, 16, 24, 32px)
-- **Border Radius** : 8px standard, 12px cards, 24px buttons
-- **Shadows** : Subtle elevations, dark theme friendly
-- **Animations** : 200ms standard, 300ms complex transitions
+### Component Guidelines
+- **Touch Targets**: Minimum 44px for accessibility
+- **Spacing**: 8px grid system (4, 8, 16, 24, 32px)
+- **Shadows**: Subtle elevation for cards and modals
+- **Animations**: 200ms duration for smooth interactions
 
 ---
 
-## 📝 Development Guidelines
+## 🚀 Future Vision (Phase 2-3)
 
-### Code Style
-```typescript
-// Use TypeScript strict mode
-interface WorkoutData {
-  id: string;
-  userId: string;
-  exercises: ExerciseSet[];
-  date: Date;
-  readinessScore?: number;
-}
+### Enhanced Athlete Features
+- **Cycle Tracking**: Discrete blast/cruise/PCT monitoring
+- **Biomarker Analysis**: Anonymous bloodwork trend analysis
+- **Performance Correlation**: Dosage vs gains statistical insights
+- **Health Monitoring**: Discrete side effect tracking
 
-// Prefer explicit typing
-const calculateVolume = (sets: ExerciseSet[]): number => {
-  return sets.reduce((total, set) => total + (set.weight * set.reps), 0);
-};
+### AI Coaching Platform
+- **Plateau Breaking**: Advanced algorithmic protocols
+- **Personalized Programming**: AI-generated workout plans
+- **Recovery Optimization**: Multi-source data integration
+- **Performance Prediction**: 3-6-12 month projections
 
-// Use meaningful function names
-const getWorkoutsForUser = async (userId: string): Promise<Workout[]> => {
-  // Implementation
-};
-```
-
-### File Organization
-```
-src/
-├── components/           # Reusable UI components
-│   ├── ui/              # Basic UI (Button, Input, etc.)
-│   ├── workout/         # Workout-specific components
-│   └── charts/          # Data visualization
-├── screens/             # Screen components (Expo Router)
-├── hooks/               # Custom React hooks
-├── services/            # API calls, Supabase client
-├── stores/              # Zustand stores
-├── types/               # TypeScript definitions
-├── utils/               # Helper functions
-└── constants/           # App constants, colors, etc.
-```
-
-### Testing Strategy
-```typescript
-// Unit Tests - Core Logic
-describe('WorkoutAnalytics', () => {
-  it('calculates total volume correctly', () => {
-    const sets = [
-      { weight: 100, reps: 10 },
-      { weight: 110, reps: 8 }
-    ];
-    expect(calculateTotalVolume(sets)).toBe(1880);
-  });
-});
-
-// Component Tests - User Interactions
-describe('WorkoutLogger', () => {
-  it('allows user to log a set', () => {
-    const { getByTestId } = render(<WorkoutLogger />);
-
-    fireEvent.changeText(getByTestId('weight-input'), '225');
-    fireEvent.changeText(getByTestId('reps-input'), '8');
-    fireEvent.press(getByTestId('save-button'));
-
-    expect(getByTestId('set-saved-message')).toBeTruthy();
-  });
-});
-```
+### Platform Ecosystem
+- **Coaching Marketplace**: Expert-created programs
+- **Research Contribution**: Anonymous data for exercise science
+- **API Access**: Third-party integrations
+- **Enterprise Features**: Gym chain partnerships
 
 ---
 
-## 🔐 Privacy & Security
+## 📄 Documentation
 
-### Data Protection
-- **Encryption at Rest** : Sensitive data (future cycle logs) encrypted
-- **Row Level Security** : Supabase RLS policies per user
-- **API Security** : Rate limiting, input validation
-- **GDPR Compliance** : Data export, deletion, consent
+### Technical Documentation
+- [Architecture Guide](docs/ARCHITECTURE.md) - Detailed technical architecture
+- [MVP Roadmap](docs/MVP_ROADMAP.md) - Sprint-by-sprint development plan
+- [Success Metrics](docs/METRICS.md) - KPIs and measurement strategy
+- [Project Structure](STRUCTURE.md) - Folder organization guide
 
-### Enhanced Athlete Features (Phase 2)
-```typescript
-// Encrypted cycle tracking
-interface CycleData {
-  phase: 'natural' | 'cruise' | 'blast' | 'pct';
-  startDate: Date;
-  endDate?: Date;
-  // Encrypted sensitive data
-  compounds?: EncryptedData;
-  dosages?: EncryptedData;
-}
-```
-
----
-
-## 🤝 Contributing
-
-### Workflow
-1. Fork le repo
+### Contributing
+1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit changes (`git commit -m 'Add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
 
-### Standards
-- TypeScript strict mode requis
-- Test coverage > 60% pour nouvelles features
-- ESLint + Prettier configuration
-- Conventional commits format
+### License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📄 License
+## 🎯 Target Users
 
-MIT License - voir [LICENSE.md](LICENSE.md) pour détails.
+### Primary: Serious Natural Lifters
+- **Experience**: 2-5 years serious training
+- **Goals**: Break plateaus, track progression
+- **Pain Points**: Generic apps, lack of intelligence
+- **Value**: "Finally an app that understands serious lifting"
 
----
+### Secondary: Natural Competitors
+- **Experience**: Competitive bodybuilding/physique
+- **Goals**: Periodization, competition prep optimization
+- **Pain Points**: Complex periodization, fatigue detection
+- **Value**: "Analytics that understand comp prep"
 
-## 🚀 Next Steps Immédiats
-
-1. **Setup Development Environment**
-   ```bash
-   npx create-expo-app halterofit --template typescript
-   cd halterofit
-   npm install @supabase/supabase-js zustand
-   ```
-
-2. **Configure Supabase Project**
-   - Create nouveau project sur supabase.com
-   - Setup database schema initial
-   - Configure authentication providers
-
-3. **Implement Auth Flow**
-   - Email/password registration
-   - User profile setup
-   - Navigation guards
-
-4. **Build First Workout Screen**
-   - Exercise selection interface
-   - Set logging functionality
-   - Rest timer implementation
+### Future: Enhanced Athletes (Phase 2)
+- **Experience**: 5+ years, enhanced protocols
+- **Goals**: Optimize cycles, maximize gains, health monitoring
+- **Pain Points**: No tools for enhanced athletes
+- **Value**: "The only enhanced-friendly app in the world"
 
 ---
 
-## 💪 Ready to Build the Future of Fitness Tracking?
-
-Ce n'est pas juste une app - c'est l'outil qui va transformer comment les bodybuilders sérieux trackent leur progression.
-
-**Time to execute. Let's build something legendary.**
-
----
-
-*Dernière mise à jour: 2025-01-XX*
-*Version: MVP 0.1.0*
-*Status: En développement actif*
+**Built for serious athletes who want to optimize their training through data and science.**
