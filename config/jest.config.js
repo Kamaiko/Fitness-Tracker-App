@@ -2,7 +2,7 @@ module.exports = {
   preset: 'jest-expo',
   setupFilesAfterEnv: [
     '@testing-library/jest-native/extend-expect',
-    '<rootDir>/jest.setup.js',
+    '<rootDir>/config/jest.setup.js',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
@@ -35,6 +35,7 @@ module.exports = {
     '^@/types/(.*)$': '<rootDir>/src/types/$1',
     '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@/constants/(.*)$': '<rootDir>/src/constants/$1',
+    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
     '^@/assets/(.*)$': '<rootDir>/assets/$1',
   },
   transformIgnorePatterns: [

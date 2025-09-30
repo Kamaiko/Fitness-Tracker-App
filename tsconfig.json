@@ -23,6 +23,7 @@
       "@/types/*": ["src/types/*"],
       "@/utils/*": ["src/utils/*"],
       "@/constants/*": ["src/constants/*"],
+      "@/lib/*": ["src/lib/*"],
       "@/assets/*": ["assets/*"]
     },
 

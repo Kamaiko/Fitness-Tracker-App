@@ -311,10 +311,11 @@ lg: 18px, xl: 20px, 2xl: 24px
 ## 📄 Documentation
 
 ### Technical Documentation
+- [Project Plan](docs/PROJECT_PLAN.md) - Complete development strategy and vision
 - [Architecture Guide](docs/ARCHITECTURE.md) - Detailed technical architecture
 - [MVP Roadmap](docs/MVP_ROADMAP.md) - Sprint-by-sprint development plan
 - [Success Metrics](docs/METRICS.md) - KPIs and measurement strategy
-- [Project Structure](STRUCTURE.md) - Folder organization guide
+- [Project Structure](docs/STRUCTURE.md) - Folder organization guide
 
 ### Contributing
 1. Fork the repository
