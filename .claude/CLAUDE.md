@@ -7,6 +7,43 @@
 3. Utiliser des messages de commit simples et professionnels
 4. Ne pas mentionner l'utilisation d'outils IA dans l'historique Git
 
+## Convention de nommage des commits
+
+### Format standard
+```
+<type>(<scope>): <description>
+
+[optional body]
+```
+
+### Types de commits
+- **feat**: Nouvelle fonctionnalité
+- **fix**: Correction de bug
+- **docs**: Documentation seulement
+- **style**: Changements de formatage (spaces, virgules, etc.)
+- **refactor**: Refactoring de code (ni feat ni fix)
+- **test**: Ajout ou modification de tests
+- **chore**: Maintenance (build, dépendances, config)
+
+### Scopes suggérés
+- **workout**: Fonctionnalités de workout
+- **exercises**: Bibliothèque d'exercices
+- **analytics**: Graphiques et statistiques
+- **auth**: Authentification
+- **ui**: Interface utilisateur
+- **config**: Configuration et setup
+
+### Exemples
+```
+feat(workout): add RPE tracking to set logger
+fix(analytics): correct volume calculation for compound exercises
+docs(readme): update installation instructions
+style(components): format workout card component
+refactor(lib): extract 1RM calculations to separate module
+test(workout): add unit tests for set validation
+chore(deps): update React Native to 0.72.6
+```
+
 ## Commandes utiles
 
 - `npm start` - Démarrer Expo
@@ -58,7 +95,8 @@
 
 ### Documentation
 - `README.md` - Plan MVP complet
+- `docs/PROJECT_PLAN.md` - Plan de développement complet
 - `docs/MVP_ROADMAP.md` - Roadmap 12 semaines
 - `docs/ARCHITECTURE.md` - Architecture technique
 - `docs/METRICS.md` - KPIs et métriques
-- `STRUCTURE.md` - Guide structure dossiers
+- `docs/STRUCTURE.md` - Guide structure dossiers
