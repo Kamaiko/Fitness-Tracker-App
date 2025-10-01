@@ -45,22 +45,22 @@ npm run ios
 ```
 src/
 ├── app/              # Expo Router screens
-│   ├── _layout.tsx   # Root layout with providers
-│   └── index.tsx     # Home screen
+│   ├── _layout.tsx   # Root layout
+│   ├── index.tsx     # Home screen
+│   └── +not-found.tsx # 404 screen
 ├── services/         # External services
-│   ├── supabase/     # Supabase client configuration
-│   └── storage/      # MMKV storage wrapper
-├── stores/           # Zustand state stores
-│   ├── authStore.ts  # Authentication state
-│   └── workoutStore.ts # Workout session state
-├── theme/            # Design system
-│   ├── colors.ts     # Color palette (dark theme)
-│   ├── spacing.ts    # 8px grid system
-│   └── typography.ts # Font sizes & weights
-├── lib/              # Business logic & calculations
-├── constants/        # App-wide constants
-└── types/            # TypeScript type definitions
+│   ├── supabase/     # Supabase client
+│   └── storage/      # MMKV wrapper
+├── stores/           # Zustand stores
+│   ├── authStore.ts  # Auth state
+│   └── workoutStore.ts # Workout state
+└── theme/            # Design system
+    ├── colors.ts     # Dark color palette
+    ├── spacing.ts    # 8px grid
+    └── typography.ts # Type scale
 ```
+
+See [docs/STRUCTURE.md](./docs/STRUCTURE.md) for complete details.
 
 ## 🔐 Environment Variables
 
@@ -73,10 +73,16 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=your_key_here
 
 ## 📚 Documentation
 
-See [`docs/`](./docs/) folder for detailed documentation:
-- [Project Plan](./docs/PROJECT_PLAN.md)
-- [MVP Roadmap](./docs/MVP_ROADMAP.md)
-- [Architecture](./docs/ARCHITECTURE.md)
+**→ [Read the full documentation](./docs/README.md)**
+
+Quick links:
+- **[TASKS.md](./docs/TASKS.md)** - Development checklist (start here!)
+- [CURRENT_STATE.md](./docs/CURRENT_STATE.md) - What's implemented now
+- [ROADMAP.md](./docs/ROADMAP.md) - Development phases
+- [TECHNICAL.md](./docs/TECHNICAL.md) - Architecture & decisions
+- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) - How to contribute
+
+See [docs/](./docs/) for complete documentation.
 
 ## 🎯 Current Status
 
