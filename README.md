@@ -16,7 +16,7 @@
 
 ```bash
 npm install          # Install dependencies
-cp .env.example .env # Setup environment variables
+cp .env.example .env # Setup environment variables (add Supabase credentials)
 npm start            # Start development server
 ```
 
@@ -49,11 +49,32 @@ npm start            # Start development server
 
 ```
 src/
-├── app/              # Screens (Expo Router)
-├── services/         # Supabase & storage
-├── stores/           # Zustand state
-└── theme/            # Design system
+├── app/                    # Expo Router screens (3 files)
+│   ├── _layout.tsx         # Root layout
+│   ├── index.tsx           # Home screen
+│   └── +not-found.tsx      # 404 screen
+│
+├── services/               # External services (2 files)
+│   ├── supabase/client.ts  # Supabase configuration
+│   └── storage/mmkv.ts     # MMKV encrypted storage
+│
+├── stores/                 # Zustand state management (2 files)
+│   ├── authStore.ts        # Authentication state
+│   └── workoutStore.ts     # Workout session state
+│
+├── theme/                  # Design system (4 files)
+│   ├── colors.ts           # Dark color palette
+│   ├── spacing.ts          # 8px grid system
+│   ├── typography.ts       # Type scale
+│   └── index.ts            # Theme exports
+│
+└── components/             # UI components (empty - future)
+    hooks/                  # Custom hooks (empty - future)
+    types/                  # TypeScript types (empty - future)
+    utils/                  # Utilities (empty - future)
 ```
+
+**Total:** 11 working files + structure for future development
 
 ---
 
@@ -61,8 +82,8 @@ src/
 
 | File | Purpose |
 |------|---------|
-| **[TASKS.md](./docs/TASKS.md)** | Development roadmap & checklist |
-| [TECHNICAL.md](./docs/TECHNICAL.md) | Architecture & technical decisions |
+| **[TASKS.md](./docs/TASKS.md)** | Development roadmap & checklist (94 tasks) |
+| [TECHNICAL.md](./docs/TECHNICAL.md) | Architecture & technical decisions (8 ADRs) |
 | [CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Setup & workflow guide |
 
 ---
@@ -73,17 +94,18 @@ src/
 **Progress:** Phase 0 ✅ → Phase 1 (Authentication) 🚧
 
 **Working:**
-- ✅ Expo SDK 54 + React 19
+- ✅ Expo SDK 54 + React 19 + TypeScript strict mode
 - ✅ Supabase client configured
-- ✅ Dark theme system
-- ✅ State management (Zustand)
+- ✅ Dark theme system (colors, spacing, typography)
+- ✅ State management (Zustand - auth & workout stores)
 - ✅ Encrypted storage (MMKV)
+- ✅ File-based routing (Expo Router)
 
-**Next:**
-- 🎯 Authentication screens
-- 🎯 Workout logging
-- 🎯 Exercise library
-- 🎯 Analytics dashboard
+**Next (Phase 1 - Weeks 3-4):**
+- 🎯 Authentication screens (login, register)
+- 🎯 Database schema + Row Level Security
+- 🎯 Tab navigation structure
+- 🎯 Core UI components (Button, Input, Card)
 
 ---
 
