@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "mcp__sequential-thinking__sequentialthinking",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Read(//c/DevTools/Projects/halterofit/**)",
+      "Bash(npm install:*)",
+      "Read(//c/DevTools/Projects/**)",
+      "Bash(npm start)"
     ],
     "deny": [],
     "ask": []
