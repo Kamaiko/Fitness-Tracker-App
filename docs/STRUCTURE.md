@@ -43,7 +43,8 @@ node_modules/       # Dependencies (gitignored)
 src/
 ├── app/                          # Expo Router screens
 │   ├── _layout.tsx               # Root layout (StatusBar + Stack navigation)
-│   └── index.tsx                 # Home screen (minimal, no theme imports)
+│   ├── index.tsx                 # Home screen (minimal)
+│   └── +not-found.tsx            # 404 error screen
 │
 ├── services/                     # External services
 │   ├── supabase/
@@ -55,24 +56,11 @@ src/
 │   ├── authStore.ts              # Authentication state (user, loading, signOut)
 │   └── workoutStore.ts           # Workout session state (active, startTime)
 │
-├── theme/                        # Design system
-│   ├── index.ts                  # Re-exports all theme modules
-│   ├── colors.ts                 # Dark theme color palette
-│   ├── spacing.ts                # 8px grid system (4, 8, 16, 24, 32, 48, 64)
-│   └── typography.ts             # Modular scale typography (1.25 ratio)
-│
-├── lib/                          # Business logic & utilities (from old project)
-│   ├── calculations/
-│   │   ├── oneRepMax.ts
-│   │   ├── volume.ts
-│   │   └── rpe.ts
-│   └── validators/
-│
-├── constants/                    # App constants (from old project)
-│   └── colors.ts                 # Old color definitions
-│
-└── types/                        # TypeScript type definitions
-    └── index.ts                  # Shared types
+└── theme/                        # Design system
+    ├── index.ts                  # Re-exports all theme modules
+    ├── colors.ts                 # Dark theme color palette
+    ├── spacing.ts                # 8px grid system (4, 8, 16, 24, 32, 48, 64)
+    └── typography.ts             # Modular scale typography (1.25 ratio)
 ```
 
 ---
@@ -176,6 +164,12 @@ src/
 - ❌ `src/app/(tabs)/` - Old navigation structure (5 screens)
 - ❌ `src/app/(auth)/` - Old auth screens (login, register)
 - ❌ `src/app/(modals)/` - Empty directory
+- ❌ `src/constants/` - Duplicate theme files (colors, typography, etc.)
+- ❌ `src/lib/` - Calculation utilities (will reimplement when needed)
+- ❌ `config/` - Unused config files (jest, eslint, prettier)
+- ❌ `__tests__/` - Empty test directory
+- ❌ `scripts/` - Empty scripts directory
+- ❌ `eas.json` - EAS Build config (not needed for MVP)
 
 ### Configuration Changes
 - **babel.config.js:** Removed all plugins (reanimated, nativewind, module-resolver, dotenv)
