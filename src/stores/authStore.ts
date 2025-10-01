@@ -6,7 +6,7 @@
  */
 
 import { create } from 'zustand';
-import { supabase } from '@/services/supabase/client';
+import { supabase } from '../services/supabase/client';
 
 interface User {
   id: string;

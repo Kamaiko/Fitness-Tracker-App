@@ -1,6 +1,10 @@
+<div align="center">
+
 # Halterofit
 
 **Intelligent fitness tracking for serious bodybuilders**
+
+</div>
 
 ## 🚀 Quick Start
 
@@ -28,26 +32,34 @@ npm run ios
 ## 🛠️ Tech Stack
 
 - **Expo SDK 54** - React Native framework
-- **TypeScript** - Type safety
-- **Expo Router** - File-based routing
-- **Supabase** - Backend (PostgreSQL + Auth)
-- **Zustand** - State management
-- **React Query** - Server state
-- **MMKV** - Fast local storage
+- **React 19.1.0** - Latest React with new architecture
+- **TypeScript 5.9** - Type safety with strict mode
+- **Expo Router 6** - File-based navigation
+- **Supabase** - Backend (PostgreSQL + Auth + Real-time)
+- **Zustand** - Lightweight state management
+- **MMKV** - Fast encrypted storage
+- **React Native SVG** - Vector graphics support
 
 ## 📂 Project Structure
 
 ```
 src/
 ├── app/              # Expo Router screens
-├── components/       # Reusable components
-├── hooks/            # Custom React hooks
-├── services/         # API & storage services
-├── stores/           # Zustand stores
-├── theme/            # Colors, spacing, typography
-├── types/            # TypeScript types
-├── utils/            # Helper functions
-└── constants/        # App constants
+│   ├── _layout.tsx   # Root layout with providers
+│   └── index.tsx     # Home screen
+├── services/         # External services
+│   ├── supabase/     # Supabase client configuration
+│   └── storage/      # MMKV storage wrapper
+├── stores/           # Zustand state stores
+│   ├── authStore.ts  # Authentication state
+│   └── workoutStore.ts # Workout session state
+├── theme/            # Design system
+│   ├── colors.ts     # Color palette (dark theme)
+│   ├── spacing.ts    # 8px grid system
+│   └── typography.ts # Font sizes & weights
+├── lib/              # Business logic & calculations
+├── constants/        # App-wide constants
+└── types/            # TypeScript type definitions
 ```
 
 ## 🔐 Environment Variables
@@ -71,7 +83,26 @@ See [`docs/`](./docs/) folder for detailed documentation:
 **Version:** 0.1.0 (Initial Setup)
 **SDK:** Expo 54.0.12
 **React:** 19.1.0
+**Status:** ✅ Base setup complete, ready for feature development
+
+### ✅ What's working:
+- Expo SDK 54 with React 19
+- Dark theme home screen
+- Supabase configuration
+- MMKV storage setup
+- Zustand stores (auth, workout)
+- Theme system (colors, spacing, typography)
+
+### 🚧 Next steps:
+- Implement authentication screens
+- Build workout logging interface
+- Add exercise library
+- Create analytics dashboard
 
 ---
 
+<div align="center">
+
 Built with ❤️ for serious lifters
+
+</div>
