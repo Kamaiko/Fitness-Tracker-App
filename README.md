@@ -73,16 +73,9 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=your_key_here
 
 ## 📚 Documentation
 
-**→ [Read the full documentation](./docs/README.md)**
-
-Quick links:
 - **[TASKS.md](./docs/TASKS.md)** - Development checklist (start here!)
-- [CURRENT_STATE.md](./docs/CURRENT_STATE.md) - What's implemented now
-- [ROADMAP.md](./docs/ROADMAP.md) - Development phases
-- [TECHNICAL.md](./docs/TECHNICAL.md) - Architecture & decisions
-- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) - How to contribute
-
-See [docs/](./docs/) for complete documentation.
+- [TECHNICAL.md](./docs/TECHNICAL.md) - Architecture, standards & ADRs
+- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) - Setup & workflow guide
 
 ## 🎯 Current Status
 

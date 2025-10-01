@@ -210,42 +210,50 @@
 
 ---
 
-## 📁 Code Organization
+## 📁 Project Structure
 
-### Directory Structure
+### Current Structure (v0.1.0)
+
 ```
 src/
-├── app/                    # Expo Router screens
-│   ├── _layout.tsx         # Root layout
-│   ├── index.tsx           # Home screen
-│   ├── +not-found.tsx      # 404 screen
-│   ├── (auth)/             # Auth group (future)
-│   └── (tabs)/             # Tab navigation (future)
+├── app/                          # Expo Router screens
+│   ├── _layout.tsx               # Root layout (StatusBar + Stack)
+│   ├── index.tsx                 # Home screen (minimal)
+│   └── +not-found.tsx            # 404 error screen
 │
-├── components/             # Reusable components (future)
-│   ├── ui/                 # Base UI components
-│   └── workout/            # Domain-specific components
-│
-├── services/               # External services
+├── services/                     # External services
 │   ├── supabase/
-│   │   └── client.ts       # Supabase client
+│   │   └── client.ts             # Supabase client
 │   └── storage/
-│       └── mmkv.ts         # MMKV wrapper
+│       └── mmkv.ts               # MMKV wrapper
 │
-├── stores/                 # Zustand stores
-│   ├── authStore.ts        # Auth state
-│   └── workoutStore.ts     # Workout state
+├── stores/                       # Zustand stores
+│   ├── authStore.ts              # Auth state
+│   └── workoutStore.ts           # Workout state
 │
-├── theme/                  # Design system
-│   ├── colors.ts           # Color palette
-│   ├── spacing.ts          # Spacing values
-│   ├── typography.ts       # Typography scale
-│   └── index.ts            # Re-exports
+└── theme/                        # Design system
+    ├── index.ts                  # Re-exports
+    ├── colors.ts                 # Dark theme palette
+    ├── spacing.ts                # 8px grid
+    └── typography.ts             # Modular scale
+```
+
+### Future Structure (Post-MVP)
+```
+src/
+├── app/
+│   ├── (tabs)/                   # Tab navigation
+│   ├── (auth)/                   # Auth screens
+│   └── (modals)/                 # Modals
 │
-├── hooks/                  # Custom hooks (future)
-├── utils/                  # Utility functions (future)
-├── types/                  # TypeScript types (future)
-└── constants/              # Constants (future)
+├── components/                   # Reusable components
+│   ├── ui/                       # Base UI (Button, Input, Card)
+│   ├── workout/                  # Workout components
+│   └── analytics/                # Analytics components
+│
+├── hooks/                        # Custom hooks
+├── utils/                        # Utilities
+└── types/                        # TypeScript types
 ```
 
 ### Naming Conventions
@@ -262,19 +270,23 @@ src/
 ### Color Palette (Dark Theme)
 ```typescript
 {
+  // Backgrounds
   background: '#0A0A0A',        // Deep black
   surface: '#1A1A1A',           // Cards
   surfaceElevated: '#2A2A2A',   // Elevated cards
 
+  // Brand
   primary: '#4299e1',           // Brand blue
   primaryDark: '#2b6cb0',       // Pressed state
   primaryLight: '#63b3ed',      // Highlights
 
+  // Status
   success: '#38a169',           // Green
   warning: '#d69e2e',           // Amber
   danger: '#e53e3e',            // Red
   info: '#3182ce',              // Blue
 
+  // Text
   text: '#e2e8f0',              // Primary text
   textSecondary: '#a0aec0',     // Secondary text
   textTertiary: '#718096'       // Tertiary text
@@ -312,6 +324,11 @@ src/
     medium: '500',
     semibold: '600',
     bold: '700'
+  },
+  lineHeights: {
+    tight: 1.2,
+    normal: 1.5,
+    relaxed: 1.75
   }
 }
 ```
