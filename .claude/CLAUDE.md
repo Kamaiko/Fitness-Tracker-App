@@ -49,22 +49,20 @@ chore(deps): update React Native to 0.72.6
 - `npm start` - Démarrer Expo
 - `npm run android` - Run sur Android
 - `npm run ios` - Run sur iOS
-- `npm test` - Tests unitaires
-- `npm run lint` - ESLint
-- `npm run type-check` - Vérification TypeScript
-- `npm run format` - Prettier formatting
+- `npm run type-check` - Vérification TypeScript (recommandé avant commit)
 
 ## À propos du projet : Halterofit
 
 **Application de tracking fitness intelligente pour bodybuilders sérieux**
 
 ### Stack technique
-- **Frontend**: React Native + Expo + TypeScript
-- **Backend**: Supabase (PostgreSQL + Auth + Real-time)
-- **State**: Zustand + React Query
-- **UI**: NativeWind (Tailwind pour RN)
-- **Charts**: Victory Native
-- **Testing**: Jest + React Testing Library + Detox
+- **Frontend**: React Native 0.81.4 + Expo SDK 54 + TypeScript 5.9
+- **Backend**: Supabase (PostgreSQL + Auth + Real-time + Storage)
+- **State**: Zustand 5.0.8 (global) + React Query 5.90.2 (server)
+- **Storage**: MMKV 3.3.3 (encrypted local storage)
+- **Charts**: react-native-chart-kit 6.12.0
+- **Navigation**: Expo Router 6.0.10
+- **Testing**: Aucun pour MVP (sera ajouté post-MVP)
 
 ### Fonctionnalités MVP (Phase 1)
 - Smart workout logging avec RPE
@@ -94,9 +92,7 @@ chore(deps): update React Native to 0.72.6
 - `docs/` - Documentation détaillée
 
 ### Documentation
-- `README.md` - Plan MVP complet
-- `docs/PROJECT_PLAN.md` - Plan de développement complet
-- `docs/MVP_ROADMAP.md` - Roadmap 12 semaines
-- `docs/ARCHITECTURE.md` - Architecture technique
-- `docs/METRICS.md` - KPIs et métriques
-- `docs/STRUCTURE.md` - Guide structure dossiers
+- `README.md` - Vue d'ensemble du projet
+- `docs/TASKS.md` - Roadmap de développement (94 tâches)
+- `docs/TECHNICAL.md` - Architecture et décisions techniques (ADRs)
+- `docs/CONTRIBUTING.md` - Guide de contribution et setup

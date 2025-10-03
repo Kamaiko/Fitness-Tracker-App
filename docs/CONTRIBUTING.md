@@ -37,7 +37,7 @@ Welcome to Halterofit! This guide will help you set up the project and start con
 ## 🛠️ Development Workflow
 
 ### 1. Pick a Task
-- Check [TASKS.md](./TASKS.md) for the next priority
+- Check [TASKS.md](TASKS.md) for the next priority
 - Start with "Current Focus" tasks
 - Pick tasks from Phase 1 if you're new
 
@@ -49,7 +49,7 @@ git checkout -b fix/bug-description
 ```
 
 ### 3. Make Changes
-- Follow [TECHNICAL.md](./TECHNICAL.md) coding standards
+- Follow [TECHNICAL.md](TECHNICAL.md) coding standards
 - Test on a real device
 - Use theme values (colors, spacing, typography)
 
@@ -79,106 +79,71 @@ git push origin feature/task-description
 
 ## 📋 Pre-Commit Checklist
 
-- [ ] App builds without errors
-- [ ] TypeScript compiles (`npx tsc --noEmit`)
+- [ ] App builds without errors (`npm start`)
+- [ ] TypeScript compiles (`npm run type-check`)
 - [ ] No console.log statements
 - [ ] Uses theme values (no hardcoded colors/spacing)
-- [ ] Tested on Android device
+- [ ] Tested on real device (Android or iOS)
 - [ ] Commit message follows convention
 
 ---
 
-## 📚 Where to Find What
+## 📚 Documentation
 
-### Development
-- **[TASKS.md](./TASKS.md)** - What to work on next
-- **[TECHNICAL.md](./TECHNICAL.md)** - Architecture, standards, ADRs
-
-### Getting Started
-- **[README.md](../README.md)** - Project overview
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - This file
+- **[TASKS.md](TASKS.md)** - Development roadmap (94 tasks)
+- **[TECHNICAL.md](TECHNICAL.md)** - Architecture & technical decisions
+- **[README.md](../README.md)** - Project overview & quick start
 
 ---
 
-## 🎨 Quick Standards
+## 🎨 Coding Standards
 
-### TypeScript
-```typescript
-// ✅ Good
-interface User {
-  id: string;
-  email: string;
-}
+**See [TECHNICAL.md](TECHNICAL.md) for complete coding standards.**
 
-function getUser(id: string): User | null { }
-
-// ❌ Bad
-function getUser(id: any): any { }
-```
-
-### Styling
-```typescript
-// ✅ Good
-import { Colors, Spacing } from '../theme';
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.background,
-    padding: Spacing.md,
-  },
-});
-
-// ❌ Bad
-<View style={{ backgroundColor: '#000', padding: 16 }}>
-```
-
-### Imports
-```typescript
-// ✅ Good (relative imports for now)
-import { Colors } from '../theme/colors';
-
-// ❌ Bad (@ aliases not configured yet)
-import { Colors } from '@/theme/colors';
-```
+### Key Rules
+- ✅ TypeScript strict mode (no `any`)
+- ✅ Use theme values from `src/theme/`
+- ✅ Relative imports (no `@/` aliases yet)
+- ✅ Functional components only
+- ❌ No hardcoded colors/spacing
+- ❌ No inline styles
 
 ---
 
 ## 🐛 Common Issues
 
 **"Cannot find module"**
-- Run `npm install`
-- Clear cache: `npm start -- --clear`
-
-**App crashes**
-- Check TypeScript: `npx tsc --noEmit`
-- Look for console errors
-- Clear cache and restart
-
-**QR code not working**
-- Same WiFi network required
-- Check firewall settings
-- Try manual connection in Expo Go
-
----
-
-## 📝 Useful Commands
-
 ```bash
-npm start                # Start dev server
-npm start -- --clear     # Start with cache cleared
-npm run android          # Run on Android emulator
-npm run ios              # Run on iOS simulator
-npx tsc --noEmit         # Check TypeScript errors
+npm install
+npm start -- --clear
 ```
 
+**TypeScript errors**
+```bash
+npm run type-check
+```
+
+**App crashes**
+- Check console for errors
+- Clear cache: `npm start -- --clear`
+- Restart Expo Go
+
+**QR code not working**
+- Ensure same WiFi network
+- Check firewall settings
+- Use manual connection in Expo Go
+
 ---
 
-## 📚 Resources
+## 📝 Commands
 
-- [Expo Docs](https://docs.expo.dev/)
-- [React Native Docs](https://reactnative.dev/)
-- [Supabase Docs](https://supabase.com/docs)
-- [Zustand Docs](https://docs.pmnd.rs/zustand)
+```bash
+npm start              # Start dev server
+npm start -- --clear   # Clear cache & start
+npm run android        # Android emulator
+npm run ios            # iOS simulator
+npm run type-check     # TypeScript validation
+```
 
 ---
 
