@@ -8,6 +8,12 @@
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
 
+<br/>
+
+<img src="./docs/images/home-placeholder.jpeg" alt="Home Screen Placeholder" width="300"/>
+
+_⚠️ Temporary placeholder UI for testing navigation structure_
+
 </div>
 
 ---
