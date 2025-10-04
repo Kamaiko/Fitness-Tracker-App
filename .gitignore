@@ -73,6 +73,9 @@ ios-distribution.p12
 supabase/.branches
 supabase/.temp
 
+# MCP Configuration (contains access tokens)
+.mcp.json
+
 # TypeScript
 *.tsbuildinfo
 
