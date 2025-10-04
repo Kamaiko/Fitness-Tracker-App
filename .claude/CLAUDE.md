@@ -51,6 +51,13 @@ chore(deps): update React Native to 0.72.6
 - `npm run ios` - Run sur iOS
 - `npm run type-check` - Vérification TypeScript (recommandé avant commit)
 
+## État actuel de l'interface
+
+⚠️ **IMPORTANT**: L'interface actuelle (tabs navigation + home screen) est **TEMPORAIRE et PLACEHOLDER**.
+- Elle sert uniquement à tester la navigation et la structure de base
+- **Tout sera à refaire éventuellement** avec le design final
+- Ne pas investir trop de temps dans le perfectionnement de cette UI
+
 ## À propos du projet : Halterofit
 
 **Application de tracking fitness intelligente pour bodybuilders sérieux**

@@ -7,42 +7,23 @@
 
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 
 export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header Welcome */}
-      <Animated.View entering={FadeIn.duration(800)} style={styles.header}>
+      <View style={styles.header}>
         <Text style={styles.welcomeText}>Welcome back,</Text>
         <Text style={styles.userName}>Athlete</Text>
-      </Animated.View>
-
-      {/* CTA Start Workout */}
-      <Animated.View entering={FadeInDown.delay(200).duration(800)}>
-        <TouchableOpacity activeOpacity={0.9}>
-          <LinearGradient
-            colors={['#8A2BE2', '#00FFFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.ctaButton}
-          >
-            <Text style={styles.ctaText}>START WORKOUT</Text>
-            <View style={styles.pulseIndicator} />
-          </LinearGradient>
-        </TouchableOpacity>
-      </Animated.View>
+      </View>
 
       {/* Stats Cards */}
-      <Animated.View
-        entering={FadeInDown.delay(400).duration(800)}
-        style={styles.statsSection}
-      >
+      <View style={styles.statsSection}>
         <Text style={styles.sectionTitle}>Your Progress</Text>
         <View style={styles.statsGrid}>
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
-              <Text style={styles.statIcon}>💪</Text>
+              <Text style={styles.statIcon}>⚡</Text>
             </View>
             <Text style={styles.statValue}>0</Text>
             <Text style={styles.statLabel}>Workouts</Text>
@@ -64,13 +45,10 @@ export default function HomeScreen() {
             <Text style={styles.statLabel}>Volume (kg)</Text>
           </View>
         </View>
-      </Animated.View>
+      </View>
 
       {/* Chart Section with Skeleton */}
-      <Animated.View
-        entering={FadeInDown.delay(600).duration(800)}
-        style={styles.chartSection}
-      >
+      <View style={styles.chartSection}>
         <Text style={styles.sectionTitle}>Weekly Progress</Text>
         <View style={styles.chartContainer}>
           {/* Skeleton Chart */}
@@ -94,7 +72,22 @@ export default function HomeScreen() {
             <Text style={styles.emptySubtext}>Start your first workout to see progress</Text>
           </View>
         </View>
-      </Animated.View>
+      </View>
+
+      {/* CTA Start Workout */}
+      <View style={styles.ctaSection}>
+        <TouchableOpacity activeOpacity={0.9}>
+          <LinearGradient
+            colors={['#8A2BE2', '#00FFFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.ctaButton}
+          >
+            <Text style={styles.ctaText}>START WORKOUT</Text>
+            <View style={styles.pulseIndicator} />
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
 
       {/* Bottom Spacing */}
       <View style={{ height: 40 }} />
@@ -123,9 +116,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#F0F0F0',
   },
-  ctaButton: {
-    marginHorizontal: 24,
+  ctaSection: {
+    paddingHorizontal: 24,
+    marginTop: 16,
     marginBottom: 32,
+  },
+  ctaButton: {
     borderRadius: 16,
     padding: 20,
     flexDirection: 'row',

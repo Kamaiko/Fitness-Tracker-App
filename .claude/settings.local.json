@@ -6,7 +6,11 @@
       "Read(//c/DevTools/Projects/halterofit/**)",
       "Bash(npm install:*)",
       "Read(//c/DevTools/Projects/**)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "Bash(dir \"C:\\Users\\Patrick Patenaude\\.cursor\" /b /s)",
+      "Bash(findstr:*)",
+      "Bash(powershell:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
