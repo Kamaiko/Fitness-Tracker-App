@@ -33,29 +33,22 @@ npm start
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **Framework:** Expo SDK 54 + React 19 + TypeScript 5.9
-- **Navigation:** Expo Router 6
-- **State:** Zustand 5.0 + React Query 5.90
-- **Storage:** WatermelonDB (SQLite) + MMKV (encrypted)
-- **UI:** FlashList + expo-image + Victory Native
-
-### Backend
-- **Supabase:** PostgreSQL + Auth + Storage + Real-time
-- **Sync:** WatermelonDB ↔ Supabase
-
-### External Services
-- **ExerciseDB API:** 1,300+ exercises
-- **Sentry:** Error monitoring
-- **RevenueCat:** Subscriptions (future)
+| Category | Technologies |
+|----------|-------------|
+| **Framework** | Expo SDK 54 + React Native 0.81 + TypeScript 5.9 |
+| **Navigation** | Expo Router 6 |
+| **State** | Zustand 5.0 + React Query 5.90 |
+| **Storage** | WatermelonDB (SQLite) + MMKV (encrypted) |
+| **UI** | FlashList + expo-image + Victory Native |
+| **Backend** | Supabase (PostgreSQL + Auth + Storage + Real-time) |
+| **Sync** | WatermelonDB ↔ Supabase |
+| **External** | ExerciseDB API, Sentry, RevenueCat |
 
 ---
 
 ## 🎯 Current Status
 
 **Version:** 0.2.0 | **Progress:** 12% (Phase 0.5 in progress)
-
-_→ See [TASKS.md](./docs/TASKS.md) for detailed roadmap_
 
 ---
 
@@ -67,17 +60,3 @@ _→ See [TASKS.md](./docs/TASKS.md) for detailed roadmap_
 | **[TECHNICAL.md](./docs/TECHNICAL.md)** | Architecture (12 ADRs), database schema, algorithms |
 | **[TASKS.md](./docs/TASKS.md)** | 98 tasks, 14-week timeline, progress tracking |
 | [CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Setup, commit conventions, workflow |
-
----
-
-## 🤝 Contributing
-
-**Commits:** `<type>(<scope>): <description>`
-
-_→ See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details_
-
----
-
-## 📝 Credits
-
-ExerciseDB • Victory Native • Inspired by Strong, Hevy, JEFIT
