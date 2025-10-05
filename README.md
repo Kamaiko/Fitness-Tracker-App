@@ -37,33 +37,20 @@ npm start            # Start development server
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** Expo SDK 54 + React 19 + TypeScript 5.9 (strict mode)
-- **Navigation:** Expo Router 6 (file-based routing)
-- **State Management:**
-  - Zustand 5.0 (global state)
-  - React Query 5.90 (server state)
-- **Storage:**
-  - **WatermelonDB** (offline-first SQLite database)
-  - **MMKV** (encrypted key-value storage)
-- **UI Performance:**
-  - **FlashList** (10x faster than FlatList)
-  - **expo-image** (aggressive caching)
-  - Victory Native (charts - under evaluation)
+- **Framework:** Expo SDK 54 + React 19 + TypeScript 5.9
+- **Navigation:** Expo Router 6
+- **State:** Zustand 5.0 + React Query 5.90
+- **Storage:** WatermelonDB (SQLite) + MMKV (encrypted)
+- **UI:** FlashList + expo-image + Victory Native
 
 ### Backend
-- **Supabase:** PostgreSQL + Auth (JWT + RLS) + Real-time + Storage
-- **Sync:** WatermelonDB ↔ Supabase bidirectional sync
+- **Supabase:** PostgreSQL + Auth + Storage + Real-time
+- **Sync:** WatermelonDB ↔ Supabase
 
 ### External Services
-- **ExerciseDB API:** 1,300+ exercises with GIFs (saves 100-200h of manual work)
-- **Sentry:** Error monitoring & performance tracking
-- **RevenueCat:** In-app subscriptions (future)
-
-### Design
-- Dark theme optimized for gym environment
-- 8px grid system (consistent spacing)
-- Custom design tokens (colors, typography)
-- High contrast (bright gym lighting)
+- **ExerciseDB API:** 1,300+ exercises
+- **Sentry:** Error monitoring
+- **RevenueCat:** Subscriptions (future)
 
 ---
 
@@ -100,14 +87,4 @@ _→ See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for setup, workflow, conventi
 
 ## 📝 Credits
 
-**Data:** ExerciseDB (1,300+ exercises) | **Charts:** Victory Native | **Inspiration:** Strong, Hevy, JEFIT
-
----
-
-<div align="center">
-
-**Built with precision for serious lifters** 🏋️
-
-_Offline-first • Science-based • Performance-optimized_
-
-</div>
+ExerciseDB • Victory Native • Inspired by Strong, Hevy, JEFIT
