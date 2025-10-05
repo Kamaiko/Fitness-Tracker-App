@@ -666,148 +666,46 @@ CREATE POLICY "Exercises are public"
 
 ## 📊 Analytics & Algorithms
 
-### Scientific Formulas (Use Established Standards)
+**Principle:** Use scientifically validated formulas (no reinventing). Avoid AI/ML for MVP.
 
-**Critical Principle:** Do NOT reinvent fitness formulas. Use scientifically validated calculations to maintain credibility.
+### Core Calculations
 
-#### 1RM (One-Rep Max) Estimation
+| Metric | Formula | Implementation |
+|--------|---------|----------------|
+| **1RM** | Average of Epley, Brzycki, Lombardi | `weight * (1 + reps/30)` (Epley) |
+| **Volume** | Sets × Reps × Weight × (RPE/10) | Compound exercises: 1.5x multiplier |
+| **Plateau** | Mann-Kendall test + linear regression | `slope < 0.5 && pValue > 0.05` → plateau |
+
+**1RM Example:**
 ```typescript
-// Multiple validated formulas - offer user choice
-export const calculate1RM = {
-  epley: (weight: number, reps: number): number =>
-    weight * (1 + reps / 30),
-
-  brzycki: (weight: number, reps: number): number =>
-    weight * (36 / (37 - reps)),
-
-  lombardi: (weight: number, reps: number): number =>
-    weight * Math.pow(reps, 0.10),
-
-  // Most accurate for reps 1-10
-  mayhew: (weight: number, reps: number): number =>
-    (100 * weight) / (52.2 + 41.9 * Math.exp(-0.055 * reps))
-};
-
-// Recommended: Average of multiple formulas for accuracy
-export function estimate1RM(weight: number, reps: number): number {
-  if (reps === 1) return weight;
-  if (reps > 10) return calculate1RM.epley(weight, reps); // Epley better for high reps
-
-  const formulas = [
-    calculate1RM.epley,
-    calculate1RM.brzycki,
-    calculate1RM.lombardi
-  ];
-
-  const estimates = formulas.map(f => f(weight, reps));
-  return estimates.reduce((sum, val) => sum + val, 0) / estimates.length;
-}
+// Average 3 validated formulas (reps 1-10)
+const avg1RM = (epley + brzycki + lombardi) / 3;
 ```
 
-#### Volume Calculation
+**Plateau Detection (Statistical):**
 ```typescript
-export function calculateVolume(sets: ExerciseSet[]): number {
-  return sets.reduce((total, set) => {
-    // Basic volume: Sets × Reps × Weight
-    const baseVolume = (set.reps || 0) * (set.weight || 0);
-
-    // Optional: Weight by intensity (RPE/RIR)
-    // Higher RPE = more effective volume
-    const intensityMultiplier = set.rpe ? set.rpe / 10 : 1;
-
-    return total + (baseVolume * intensityMultiplier);
-  }, 0);
-}
-
-// Differentiate compound vs isolation
-export function calculateEffectiveVolume(
-  sets: ExerciseSet[],
-  exerciseType: 'compound' | 'isolation'
-): number {
-  const rawVolume = calculateVolume(sets);
-  // Compound exercises = higher systemic fatigue, count more
-  return exerciseType === 'compound' ? rawVolume * 1.5 : rawVolume;
-}
+import { mannKendallTest } from 'simple-statistics';
+// Returns: { isPlateau, trend, confidence }
+// Uses 4-week window, p-value > 0.05 = no significant trend
 ```
 
-#### Plateau Detection
-**Use statistical methods, not arbitrary rules**
+**Progressive Overload Metrics:**
+- Weight (increase kg/lbs)
+- Volume (sets × reps × weight)
+- Intensity (RPE/RIR improvement)
+- Density (reduce rest time)
 
-```typescript
-import { linearRegression, mannKendallTest } from 'simple-statistics';
+### Features to Avoid (Over-Engineering)
 
-export function detectPlateau(
-  performances: Array<{ date: Date; value: number }>,
-  windowWeeks: number = 4
-): {
-  isPlateau: boolean;
-  trend: 'increasing' | 'decreasing' | 'flat';
-  confidence: number;
-} {
-  const recent = performances.slice(-windowWeeks * 2); // 2 workouts/week avg
+| ❌ Avoid | Why | ✅ Alternative |
+|---------|-----|---------------|
+| "Energy Readiness Score" | Needs wearables (HRV, sleep) | Subjective rating (1-10) |
+| "AI Recommendations" | No training data at launch | Rule-based (if RIR=0 → suggest +2.5kg) |
 
-  // Mann-Kendall trend test (robust to outliers)
-  const values = recent.map(p => p.value);
-  const { trend, pValue } = mannKendallTest(values);
-
-  // Linear regression for trend slope
-  const dataPoints = recent.map((p, i) => [i, p.value]);
-  const { m: slope } = linearRegression(dataPoints);
-
-  return {
-    isPlateau: Math.abs(slope) < 0.5 && pValue > 0.05, // No significant trend
-    trend: slope > 0.5 ? 'increasing' : slope < -0.5 ? 'decreasing' : 'flat',
-    confidence: 1 - pValue
-  };
-}
-```
-
-**Library:** Use `simple-statistics` npm package for statistical functions.
-
-#### Progressive Overload Tracking
-```typescript
-export type ProgressionMetric =
-  | 'weight'      // Increase weight
-  | 'volume'      // More sets × reps × weight
-  | 'intensity'   // Higher RPE/closer to failure
-  | 'density'     // Less rest time
-  | 'range';      // Better range of motion
-
-export function analyzeProgression(
-  current: WorkoutSession,
-  previous: WorkoutSession
-): {
-  metric: ProgressionMetric;
-  improvement: number;
-  percentage: number;
-}[] {
-  // Compare multiple metrics, return what improved
-  // Implementation details...
-}
-```
-
-### Analytics Features to Avoid (Over-Engineering)
-
-❌ **"Energy Readiness Score"** without wearables
-- Apps like Whoop have PhD teams + years of R&D
-- Without HRV/sleep data from wearables, it's just guesswork
-- ✅ **Alternative:** Simple subjective rating (1-10) from user
-
-❌ **"AI Recommendations"** for MVP
-- Requires massive datasets to train ML models
-- At launch, you won't have enough user data
-- ✅ **Alternative:** Rule-based suggestions
-  ```typescript
-  // Example: Suggest weight increase
-  if (allSetsCompletedWithRIR0) {
-    return { suggestion: 'increase_weight', amount: '2.5kg' };
-  }
-  ```
-
-✅ **Keep These "Smart" Features:**
-- **Plateau Detection** (statistical algorithms, not AI)
-- **Auto-fill last weights/reps** (simple data lookup)
-- **Rest timer with history-based suggestions** (average previous rest times)
+**Keep (Simple but Valuable):**
+- Plateau detection (statistical, not AI)
+- Auto-fill last workout
+- Rest timer from history average
 
 ---
 
