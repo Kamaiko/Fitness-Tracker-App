@@ -60,32 +60,39 @@ chore(deps): update React Native to 0.72.6
 
 ## À propos du projet : Halterofit
 
-**Application de tracking fitness intelligente pour bodybuilders sérieux**
+**Application de tracking fitness offline-first**
+
+### Status actuel
+- **Version**: 0.2.0
+- **Phase**: 0.5 (Architecture & Database Setup)
+- **Progression**: 12% (10/98 tâches)
 
 ### Stack technique
 - **Frontend**: React Native 0.81.4 + Expo SDK 54 + TypeScript 5.9
-- **Backend**: Supabase (PostgreSQL + Auth + Real-time + Storage)
-- **State**: Zustand 5.0.8 (global) + React Query 5.90.2 (server)
-- **Storage**: MMKV 3.3.3 (encrypted local storage)
-- **Charts**: react-native-chart-kit 6.12.0
-- **Navigation**: Expo Router 6.0.10
-- **Testing**: Aucun pour MVP (sera ajouté post-MVP)
+- **Backend**: Supabase (PostgreSQL + Auth + Storage + Real-time)
+- **State**: Zustand 5.0 + React Query 5.90
+- **Storage**: WatermelonDB (offline SQLite) + MMKV 3.3 (encrypted)
+- **UI**: FlashList + expo-image + Victory Native
+- **Navigation**: Expo Router 6
+- **External**: ExerciseDB API (1,300+ exercises), Sentry (monitoring)
+- **Testing**: None for MVP (add pre-production)
 
-### Fonctionnalités MVP (Phase 1)
-- Smart workout logging avec RPE
-- Exercise library (500+ exercices)
-- Basic analytics avec trends
-- Rest timer intelligent
-- Plateau detection
-- Energy readiness score
+### Fonctionnalités MVP (Phases 1-4)
+- Workout logging (RPE + RIR tracking, quick 1-2 taps)
+- Exercise library (1,300+ ExerciseDB + custom exercises)
+- Plate calculator
+- Rest timer (background notifications)
+- Analytics (volume, progression, plateau detection Mann-Kendall)
+- Superset/circuit support
+- Offline-first (WatermelonDB sync)
 
-### Fonctionnalités futures (Phase 2-3)
-- Enhanced athlete tracking (cycles)
-- Voice commands
-- AI recommendations
+### Fonctionnalités futures (Post-MVP)
+- Workout templates
+- Voice commands (TBD)
 - Body composition analysis
 - Social features
 - Coaching marketplace
+- Advanced rule-based suggestions (no AI/ML)
 
 ### Structure du projet
 - `src/app/` - Pages & Navigation (Expo Router)
@@ -98,8 +105,18 @@ chore(deps): update React Native to 0.72.6
 - `src/constants/` - Constantes de l'app
 - `docs/` - Documentation détaillée
 
+### Décisions architecturales clés
+- **Offline-first**: WatermelonDB (SQLite) sync avec Supabase
+- **Performance**: FlashList (54% FPS vs FlatList), expo-image caching
+- **Données**: ExerciseDB API (1,300+ exercises, économise 190h)
+- **Analytics**: Scientifique (Mann-Kendall plateau detection, 1RM formulas)
+- **Pas de AI/ML**: Rule-based suggestions only (pas de données training)
+- **Database**: 5 tables (users, exercises, workouts, workout_exercises, exercise_sets)
+- **Support**: Supersets, RIR tracking, multiple exercise types
+
 ### Documentation
-- `README.md` - Vue d'ensemble du projet
-- `docs/TASKS.md` - Roadmap de développement (94 tâches)
-- `docs/TECHNICAL.md` - Architecture et décisions techniques (ADRs)
-- `docs/CONTRIBUTING.md` - Guide de contribution et setup
+- `README.md` - Vue d'ensemble (tech stack, status, liens)
+- `docs/PRD.md` - Product requirements, personas, success metrics
+- `docs/TASKS.md` - 98 tâches, 14 semaines, progress tracking
+- `docs/TECHNICAL.md` - 12 ADRs, database schema, algorithmes
+- `docs/CONTRIBUTING.md` - Setup, commit conventions, workflow
