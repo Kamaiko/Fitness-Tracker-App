@@ -21,61 +21,13 @@
 
 ## 📦 Technology Stack
 
-### Frontend
-```typescript
-{
-  framework: "React Native 0.81.4",
-  runtime: "Expo SDK 54.0.12",
-  language: "TypeScript 5.9 (strict mode)",
-  navigation: "Expo Router 6.0.10",
-  stateManagement: {
-    global: "Zustand 5.0.8",
-    server: "React Query 5.90.2"
-  },
-  styling: "React Native StyleSheet (native)",
-  storage: {
-    database: "WatermelonDB (offline-first SQLite)",
-    keyValue: "MMKV 3.3.3 (encrypted)",
-    usage: "Hybrid strategy - see ADR-009"
-  },
-  ui: {
-    lists: "FlashList (10x faster than FlatList)",
-    images: "expo-image (aggressive caching)",
-    charts: "Victory Native (under evaluation)"
-  }
-}
-```
+**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | Zustand 5 + React Query 5.90 | WatermelonDB (offline SQLite) + MMKV 3.3 (encrypted) | FlashList + expo-image + Victory Native
 
-### Backend
-```typescript
-{
-  platform: "Supabase",
-  database: "PostgreSQL (Supabase-managed)",
-  auth: "Supabase Auth (JWT + RLS)",
-  storage: "Supabase Storage",
-  realtime: "Supabase Realtime (WebSockets)",
-  sync: "WatermelonDB ↔ Supabase bidirectional sync"
-}
-```
+**Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime) | WatermelonDB ↔ Supabase sync
 
-### External Services
-```typescript
-{
-  exercises: "ExerciseDB API (1,300+ exercises with images/GIFs)",
-  monitoring: "Sentry (error tracking & performance)",
-  monetization: "RevenueCat (future - in-app subscriptions)"
-}
-```
+**External:** ExerciseDB API (1,300+ exercises) | Sentry (monitoring) | RevenueCat (future subscriptions)
 
-### Development Tools
-```typescript
-{
-  bundler: "Metro (Expo-optimized)",
-  linting: "None (removed for MVP)",
-  testing: "None (MVP - will add later)",
-  cicd: "None (MVP - will add later)"
-}
-```
+**Dev Tools:** Metro bundler | No linting/testing for MVP (add pre-production)
 
 ---
 
@@ -327,71 +279,13 @@ src/
 
 ## 🎨 Design System
 
-### Color Palette (Dark Theme)
-```typescript
-{
-  // Backgrounds
-  background: '#0A0A0A',        // Deep black
-  surface: '#1A1A1A',           // Cards
-  surfaceElevated: '#2A2A2A',   // Elevated cards
+**Dark Theme:** Backgrounds (#0A0A0A, #1A1A1A, #2A2A2A), Primary (#4299e1), Status (success/warning/danger/info), Text (3 levels)
 
-  // Brand
-  primary: '#4299e1',           // Brand blue
-  primaryDark: '#2b6cb0',       // Pressed state
-  primaryLight: '#63b3ed',      // Highlights
+**Spacing (8px grid):** xs:4, sm:8, md:16, lg:24, xl:32, xxl:48, xxxl:64
 
-  // Status
-  success: '#38a169',           // Green
-  warning: '#d69e2e',           // Amber
-  danger: '#e53e3e',            // Red
-  info: '#3182ce',              // Blue
+**Typography:** Modular scale 1.25 (12-36px), weights 400-700, line heights 1.2-1.75
 
-  // Text
-  text: '#e2e8f0',              // Primary text
-  textSecondary: '#a0aec0',     // Secondary text
-  textTertiary: '#718096'       // Tertiary text
-}
-```
-
-### Spacing System (8px Grid)
-```typescript
-{
-  xs: 4,    // 0.5 units
-  sm: 8,    // 1 unit
-  md: 16,   // 2 units
-  lg: 24,   // 3 units
-  xl: 32,   // 4 units
-  xxl: 48,  // 6 units
-  xxxl: 64  // 8 units
-}
-```
-
-### Typography Scale (1.25 Modular Scale)
-```typescript
-{
-  sizes: {
-    xs: 12,
-    sm: 14,
-    base: 16,
-    lg: 18,
-    xl: 20,
-    xxl: 24,
-    xxxl: 30,
-    xxxxl: 36
-  },
-  weights: {
-    regular: '400',
-    medium: '500',
-    semibold: '600',
-    bold: '700'
-  },
-  lineHeights: {
-    tight: 1.2,
-    normal: 1.5,
-    relaxed: 1.75
-  }
-}
-```
+_→ See `src/theme/` for complete design tokens_
 
 ---
 
@@ -852,59 +746,17 @@ return JSON.stringify({ user, workouts, exercises, exported_at })
 
 ### Runtime Performance
 
-#### Lists (Critical for Exercise Library & History)
-- **ALWAYS use FlashList** (never FlatList) - see ADR-010
-- **Estimated performance gains:**
-  - 54% FPS improvement
-  - 82% CPU reduction
-  - Prevents out-of-memory crashes on Android low-end
-- **Implementation:**
-  ```typescript
-  <FlashList
-    data={exercises}
-    estimatedItemSize={80} // Required prop
-    renderItem={renderExercise}
-  />
-  ```
+#### Lists (Critical)
+- **FlashList only** (54% FPS improvement, 82% CPU reduction, prevents OOM crashes)
+- Required prop: `estimatedItemSize={80}`
 
-#### Images (500+ Exercise GIFs)
-- **Use expo-image** (not react-native-image or Image)
-- Aggressive caching strategy
-- Lazy load images as user scrolls
-- Pre-cache favorited exercises
-- **Configuration:**
-  ```typescript
-  <Image
-    source={{ uri: exerciseGif }}
-    cachePolicy="memory-disk" // Cache aggressively
-    contentFit="cover"
-    transition={200}
-  />
-  ```
+#### Images (500+ GIFs)
+- **expo-image** with `cachePolicy="memory-disk"`
+- Lazy load + pre-cache favorites
 
 #### Database Queries
-- **WatermelonDB best practices:**
-  - Use `.observe()` for reactive queries (auto-updates UI)
-  - Limit queries with `.take(20)` for pagination
-  - Use indexes on frequently queried fields
-  - Batch inserts for bulk operations
-  - **Example:**
-    ```typescript
-    // ✅ Good - Reactive and paginated
-    const workouts = useObservable(
-      database.collections
-        .get('workouts')
-        .query(Q.sortBy('started_at', Q.desc), Q.take(20))
-    );
-
-    // ❌ Bad - Loads all workouts into memory
-    const allWorkouts = await database.collections.get('workouts').query().fetch();
-    ```
-
-- **Supabase RLS optimization:**
-  - RLS policies can slow queries if complex
-  - Use `EXPLAIN ANALYZE` on Supabase dashboard
-  - Add indexes on `user_id` columns (already in schema)
+- **WatermelonDB:** `.observe()` for reactive queries, `.take(20)` for pagination, batch inserts
+- **Supabase:** RLS policies optimized, indexes on `user_id`
 
 #### Animations
 - **Target:** 60fps consistently
@@ -927,116 +779,29 @@ return JSON.stringify({ user, workouts, exercises, exported_at })
 
 ## 📋 Coding Standards
 
-### TypeScript
-- **Always** use strict mode
-- **Always** define return types for functions
-- **Prefer** interfaces over types
-- **Avoid** `any` type
-- **Use** explicit null checks
+**TypeScript:** Strict mode, explicit return types, interfaces > types, no `any`, explicit null checks
 
-```typescript
-// ✅ Good
-interface User {
-  id: string;
-  email: string;
-}
+**React:** Functional components, TypeScript props interfaces, named exports, <200 lines
 
-function getUser(id: string): User | null {
-  // ...
-}
-
-// ❌ Bad
-function getUser(id: any) {
-  // ...
-}
-```
-
-### React Components
-- **Use** functional components
-- **Use** TypeScript props interfaces
-- **Prefer** named exports
-- **Keep** components small (<200 lines)
-
-```typescript
-// ✅ Good
-interface ButtonProps {
-  title: string;
-  onPress: () => void;
-  variant?: 'primary' | 'secondary';
-}
-
-export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
-  // ...
-}
-
-// ❌ Bad
-export default function Button(props: any) {
-  // ...
-}
-```
-
-### Styling
-- **Use** StyleSheet.create()
-- **Keep** styles close to component
-- **Use** theme values (from src/theme)
-- **Avoid** inline styles
-
-```typescript
-// ✅ Good
-import { Colors, Spacing } from '../theme';
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.background,
-    padding: Spacing.md,
-  },
-});
-
-// ❌ Bad
-<View style={{ backgroundColor: '#000', padding: 16 }}>
-```
+**Styling:** StyleSheet.create(), theme values (Colors, Spacing), no inline styles
 
 ---
 
 ## 🔧 Development Workflow
 
-### Git Commit Conventions
-Follow conventions in `.claude/CLAUDE.md`:
-```
-<type>(<scope>): <description>
+**Commits:** `<type>(<scope>): <description>` (feat/fix/docs/style/refactor/test/chore)
 
-Examples:
-feat(workout): add RPE tracking to set logger
-fix(analytics): correct volume calculation
-docs(readme): update installation instructions
-```
+**Branches:** master (production), feature/*, fix/*, docs/*
 
-### Branch Strategy
-- `master` - production-ready code
-- `feature/*` - new features
-- `fix/*` - bug fixes
-- `docs/*` - documentation
+**Review:** TypeScript compiles, no console.log, follows standards, uses theme, proper errors
 
-### Code Review Checklist
-- [ ] TypeScript compiles without errors
-- [ ] No console.log statements
-- [ ] Follows coding standards
-- [ ] Uses theme values
-- [ ] Proper error handling
-- [ ] Commit message follows convention
+_→ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow_
 
 ---
 
 ## 🚀 Deployment
 
-### Current
-- **Development:** Expo Go app (scan QR code)
-- **Build:** None (using Expo Go for development)
-
-### Future
-- **Android:** EAS Build → Google Play (internal testing)
-- **iOS:** EAS Build → TestFlight
-- **Production:** Play Store + App Store
+**Current:** Expo Go (development) | **Future:** EAS Build → TestFlight/Google Play → App Stores
 
 ---
 
@@ -1078,38 +843,13 @@ docs(readme): update installation instructions
 
 ## 📚 Resources
 
-### Official Documentation
-- [Expo Docs](https://docs.expo.dev/)
-- [React Native Docs](https://reactnative.dev/)
-- [Supabase Docs](https://supabase.com/docs) | [WatermelonDB + Supabase Guide](https://supabase.com/blog/react-native-offline-first-watermelon-db)
-- [WatermelonDB Docs](https://nozbe.github.io/WatermelonDB/)
-- [Zustand Docs](https://docs.pmnd.rs/zustand)
-- [React Query Docs](https://tanstack.com/query/latest)
-- [FlashList Docs](https://shopify.github.io/flash-list/)
-- [Victory Native Docs](https://commerce.nearform.com/open-source/victory-native/)
+**Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [Zustand](https://docs.pmnd.rs/zustand) | [React Query](https://tanstack.com/query/latest) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
 
-### External APIs & Services
-- [ExerciseDB API Docs](https://v2.exercisedb.io/docs) - Exercise database
-- [Sentry React Native](https://docs.sentry.io/platforms/react-native/) - Error monitoring
-- [RevenueCat Docs](https://www.revenuecat.com/docs/getting-started/installation/reactnative) - In-app purchases
+**APIs:** [ExerciseDB](https://v2.exercisedb.io/docs) | [Sentry](https://docs.sentry.io/platforms/react-native/) | [RevenueCat](https://www.revenuecat.com/docs)
 
-### Useful Tools
-- [React Native Directory](https://reactnative.directory/) - Find compatible packages
-- [Can I Use React Native](https://caniusenative.com/) - API compatibility
-- [Expo Snack](https://snack.expo.dev/) - Online playground
-- [Bundle Visualizer](https://www.npmjs.com/package/react-native-bundle-visualizer) - Analyze bundle size
-- [simple-statistics](https://simplestatistics.org/) - Statistical calculations
+**Tools:** [RN Directory](https://reactnative.directory/) | [Bundle Visualizer](https://www.npmjs.com/package/react-native-bundle-visualizer) | [simple-statistics](https://simplestatistics.org/)
 
-### Design & Inspiration
-- **Study these apps for UX patterns:**
-  - Strong (iOS/Android) - Industry standard for workout logging
-  - Hevy (iOS/Android) - Modern UI, good analytics
-  - JEFIT (iOS/Android) - Feature-rich, established
-
-### Learning Resources
-- [Supabase + WatermelonDB Tutorial](https://www.themorrow.digital/blog/building-an-offline-first-app-with-expo-supabase-and-watermelondb)
-- [React Native Performance Guide](https://reactnative.dev/docs/performance)
-- [Fitness App Monetization Strategies](https://www.revenuecat.com/blog/fitness-app-monetization/)
+**Inspiration:** Strong, Hevy, JEFIT
 
 ---
 
