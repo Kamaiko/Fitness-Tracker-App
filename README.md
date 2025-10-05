@@ -2,7 +2,7 @@
 
 # Halterofit
 
-**Offline-first fitness tracking for serious bodybuilders**
+**Offline-first fitness tracking**
 
 [![Expo SDK](https://img.shields.io/badge/Expo-54.0.12-000020?style=flat&logo=expo)](https://expo.dev)
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
@@ -13,7 +13,7 @@
 
 <img src="./docs/images/home-placeholder.jpeg" alt="Home Screen Placeholder" width="300"/>
 
-_⚠️ Temporary placeholder UI for testing navigation structure_
+_⚠️ Placeholder UI_
 
 </div>
 
@@ -22,15 +22,12 @@ _⚠️ Temporary placeholder UI for testing navigation structure_
 ## 🚀 Quick Start
 
 ```bash
-npm install          # Install dependencies
-cp .env.example .env # Setup environment variables (add Supabase credentials)
-npm start            # Start development server
+npm install
+cp .env.example .env  # Add Supabase credentials
+npm start
 ```
 
-**Testing on device:**
-1. Install [Expo Go](https://expo.dev/client)
-2. Scan QR code from terminal
-3. Ensure same WiFi network
+**Device:** Install [Expo Go](https://expo.dev/client), scan QR code
 
 ---
 
@@ -75,13 +72,9 @@ _→ See [TASKS.md](./docs/TASKS.md) for detailed roadmap_
 
 ## 🤝 Contributing
 
-```bash
-# Commit convention
-<type>(<scope>): <description>
-# Example: feat(workout): add RPE tracking to set logger
-```
+**Commits:** `<type>(<scope>): <description>`
 
-_→ See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for setup, workflow, conventions_
+_→ See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details_
 
 ---
 
