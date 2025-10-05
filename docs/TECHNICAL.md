@@ -813,88 +813,33 @@ export function analyzeProgression(
 
 ## 💰 Business Model & Monetization Strategy
 
-### Current Status
-**All features free for MVP/Beta** - Focus on product-market fit first
+**Current:** All features free (MVP focus on product-market fit)
 
-### Future Monetization (Post-MVP)
+### Future Freemium Model (Post-MVP)
 
-#### Freemium Model (Recommended)
-Based on successful fitness apps (Strong, Hevy, JEFIT):
+| Tier | Price | Features |
+|------|-------|----------|
+| **Free** | $0 | Unlimited logging, 30-day history, basic analytics, ExerciseDB library |
+| **Pro** | **$6.99/mo** | Unlimited history, plateau detection, volume analytics, templates, ad-free |
 
-**Free Tier:**
-- Unlimited workout logging
-- Basic exercise library (all ExerciseDB exercises)
-- Workout history (last 30 days)
-- Basic analytics (volume, PR tracking)
-- Export data (CSV)
+**Competitive Positioning:**
 
-**Pro Tier ($5-10/month or $50-80/year):**
-- Unlimited workout history
-- Advanced analytics:
-  - Plateau detection
-  - Volume distribution by muscle group
-  - Progression charts (6-12 months)
-  - Body part frequency heatmaps
-- Unlimited workout templates
-- Cloud backup (unlimited)
-- Custom exercise creation (unlimited)
-- Ad-free experience
-- Early access to new features
+| App | Price | Positioning |
+|-----|-------|-------------|
+| Strong | $5.99/mo | Established leader |
+| Hevy | $8.99/mo | AI features |
+| JEFIT | $12.99/mo | Feature-rich |
+| **Halterofit** | **$6.99/mo** | **Offline-first + scientific analytics** |
 
-**Implementation via RevenueCat:**
-```typescript
-// Already prepared in schema (users.subscription_tier)
-// RevenueCat handles:
-- iOS App Store subscriptions (30% Apple cut)
-- Google Play subscriptions (30% Google cut)
-- Web subscriptions via Stripe (lower fees)
-- Unified API across platforms
-- Subscription status sync
-- Family sharing support
-```
+**Implementation:**
+- RevenueCat (iOS/Android/Web subscriptions)
+- Schema ready: `users.subscription_tier`, `subscription_expires_at`
+- Feature flags: `user.subscription_tier === 'pro'`
 
-#### Why Architecture Supports This Now
-Even though features are free currently, the database is ready:
-
-```sql
--- users table already has:
-subscription_tier TEXT DEFAULT 'free'
-subscription_expires_at TIMESTAMP
-
--- Can add feature flags in code:
-const canAccessAdvancedAnalytics = user.subscription_tier === 'pro';
-```
-
-**Adding paywall later without this = painful migration**
-
-### Alternative Revenue Streams (Phase 3+)
-
-1. **Coaching Marketplace** (10-15% commission)
-   - Connect users with certified trainers
-   - In-app coaching messaging
-   - Workout plan purchases
-
-2. **Affiliate Marketing**
-   - Supplement recommendations (examine.com integration)
-   - Equipment links (Amazon affiliate)
-   - Gym membership referrals
-
-3. **One-Time Purchases**
-   - Premium workout programs from coaches
-   - Specialized training guides
-   - Video form analysis credits
-
-### Pricing Research
-Competitive analysis (2025):
-
-| App | Model | Price | Key Features |
-|-----|-------|-------|--------------|
-| Strong | Freemium | $5.99/mo | Analytics, unlimited history |
-| Hevy | Freemium | $8.99/mo | AI features, templates |
-| JEFIT | Freemium | $12.99/mo | Exercise videos, advanced stats |
-| **Halterofit** | **TBD** | **$6.99/mo?** | **Plateau detection, offline-first** |
-
-**Recommendation:** $6.99/month or $59.99/year (save 30%)
+**Alternative Revenue (Phase 3+):**
+- Coaching marketplace (10-15% commission)
+- Affiliate marketing (supplements, equipment)
+- One-time purchases (workout programs)
 
 ---
 
@@ -902,175 +847,91 @@ Competitive analysis (2025):
 
 ### Authentication & Data Protection
 
-**Authentication Flow:**
-- JWT tokens managed by Supabase Auth
-- Tokens stored in MMKV (encrypted at rest)
-- Auto-refresh handled by Supabase client
-- Session persistence across app restarts
-- Biometric authentication (Face ID/Touch ID) - future enhancement
+**Authentication:**
+- Supabase Auth (JWT tokens, auto-refresh)
+- MMKV encrypted storage (tokens, session)
+- Future: Biometric (Face ID/Touch ID)
 
-**Data Protection Layers:**
+**Security Layers:**
 
-1. **Database Level (Supabase):**
-   ```sql
-   -- Row Level Security (RLS) on all user tables
-   ALTER TABLE workouts ENABLE ROW LEVEL SECURITY;
+| Layer | Implementation | Protection |
+|-------|---------------|------------|
+| **Database** | RLS policies | Users see only their data (`auth.uid() = user_id`) |
+| **Local** | MMKV encrypted, SQLCipher optional | Tokens never plain text |
+| **Network** | HTTPS (TLS 1.3) | Future: Certificate pinning |
 
-   -- Users see only their own data
-   CREATE POLICY "Users see own workouts"
-     ON workouts FOR ALL
-     USING (auth.uid() = user_id);
+**Row Level Security Example:**
+```sql
+CREATE POLICY "Users see own workouts"
+  ON workouts FOR ALL
+  USING (auth.uid() = user_id);
+```
 
-   -- Exercises are public (from ExerciseDB)
-   CREATE POLICY "Exercises are public"
-     ON exercises FOR SELECT
-     TO authenticated
-     USING (true);
-
-   -- Users can only create/update their own custom exercises
-   CREATE POLICY "Users manage own custom exercises"
-     ON exercises FOR INSERT
-     USING (auth.uid() = created_by AND is_custom = TRUE);
-   ```
-
-2. **Local Storage (WatermelonDB + MMKV):**
-   - WatermelonDB: SQLite database (encrypted via SQLCipher if needed)
-   - MMKV: Encrypted by default
-   - Auth tokens never persisted in plain text
-
-3. **Network (Supabase ↔ App):**
-   - All API calls over HTTPS (TLS 1.3)
-   - Certificate pinning (future enhancement for production)
-
-**Security Best Practices:**
-- ✅ Never store passwords locally (Supabase handles auth)
-- ✅ Use environment variables for API keys (.env not committed)
-- ✅ Validate all user inputs (client + server side)
-- ✅ Sanitize data before database insertion (prevent SQL injection)
-- ✅ No sensitive data in console.log (remove in production builds)
+**Best Practices:**
+- Environment variables for API keys (`.env` not committed)
+- Client + server input validation
+- No passwords/PII in logs
 
 ---
 
 ### Error Monitoring & Performance Tracking
 
-**Sentry Integration (Critical for Production)**
-
+**Sentry Setup (Production-Only):**
 ```typescript
-// Setup Sentry for React Native
-import * as Sentry from '@sentry/react-native';
-
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
-  environment: __DEV__ ? 'development' : 'production',
-  enabled: !__DEV__, // Only in production
-
-  // Performance monitoring
-  tracesSampleRate: 1.0, // 100% of transactions
-  profilesSampleRate: 0.2, // 20% of transactions for profiling
-
-  // Ignore common React Native errors
-  ignoreErrors: [
-    'Network request failed',
-    'Aborted', // User cancelled
-  ],
-
-  // Add context
-  beforeSend(event, hint) {
-    // Add user context (no PII)
-    if (user) {
-      event.user = {
-        id: user.id, // UUID, not email
-        subscription_tier: user.subscription_tier,
-      };
-    }
-    return event;
-  }
+  enabled: !__DEV__,
+  tracesSampleRate: 1.0, // 100% performance monitoring
+  beforeSend: (event) => ({
+    ...event,
+    user: { id: user.id } // No PII
+  })
 });
 ```
 
-**What to Monitor:**
+**Monitoring Thresholds:**
 
-| Metric | Tool | Threshold | Action |
-|--------|------|-----------|--------|
-| **Crash Rate** | Sentry | >0.5% | Hotfix immediately |
-| **ANR (Android)** | Sentry | >1% | Investigate performance |
-| **API Errors** | Sentry | >5% | Check Supabase status |
-| **Slow Queries** | Sentry Performance | >2s | Add DB indexes |
-| **Bundle Size** | bundle-visualizer | >10MB | Code splitting |
-| **Cold Start** | Sentry Performance | >3s | Optimize init |
+| Metric | Threshold | Action |
+|--------|-----------|--------|
+| Crash rate | >0.5% | Hotfix |
+| ANR (Android) | >1% | Performance audit |
+| API errors | >5% | Check Supabase |
+| Slow queries | >2s | Add indexes |
+| Cold start | >3s | Optimize init |
 
-**Implementation Priority:**
-1. ✅ **Phase 1:** Setup Sentry (2 hours)
-2. ✅ **Phase 2:** Add performance monitoring
-3. ✅ **Phase 3:** User analytics (PostHog or Mixpanel)
-
-**Free Tiers Available:**
-- Sentry: 5,000 errors/month free
-- PostHog: 1M events/month free
-- Mixpanel: 100k events/month free
+**Free Tiers:**
+- Sentry: 5,000 errors/month
+- PostHog: 1M events/month
 
 ---
 
 ### Compliance & Privacy
 
-**GDPR/CCPA Requirements:**
+**App Store Requirements (MVP):**
 
-Even though MVP is free, need basic compliance for App Store approval:
+| Requirement | Implementation |
+|-------------|---------------|
+| Privacy Policy | Data collection disclosure (workouts, email, analytics) |
+| Terms of Service | Liability disclaimers (not medical advice) |
+| Data Deletion | Cascade delete (Supabase → WatermelonDB → MMKV) |
+| Data Export | JSON export (GDPR compliance) |
+| Privacy Manifest | iOS 17+ declarations |
+| Age Rating | 4+ (fitness app) |
 
-1. **Privacy Policy** (required)
-   - What data is collected (workouts, email, performance)
-   - How it's used (analytics, app functionality)
-   - Third parties (Supabase, Sentry, ExerciseDB)
-   - User rights (access, deletion, export)
+**Data Deletion Flow:**
+```typescript
+async function deleteUserAccount() {
+  await supabase.auth.admin.deleteUser(userId); // Cascades via foreign keys
+  await database.unsafeResetDatabase(); // WatermelonDB
+  storage.clearAll(); // MMKV
+}
+```
 
-2. **Terms of Service** (required)
-   - Liability disclaimers (not medical advice)
-   - User-generated content policy
-   - Account termination conditions
-
-3. **Data Deletion Flow** (required)
-   ```typescript
-   // Implement in app settings
-   async function deleteUserAccount() {
-     // 1. Delete from Supabase (cascades to all user data via foreign keys)
-     await supabase.auth.admin.deleteUser(userId);
-
-     // 2. Clear local WatermelonDB
-     await database.write(async () => {
-       await database.unsafeResetDatabase();
-     });
-
-     // 3. Clear MMKV
-     storage.clearAll();
-
-     // 4. Sign out
-     await signOut();
-   }
-   ```
-
-4. **Data Export** (GDPR right to data portability)
-   ```typescript
-   async function exportUserData() {
-     const workouts = await database.collections.get('workouts').query().fetch();
-     const exercises = await database.collections.get('exercises').query().fetch();
-
-     const exportData = {
-       user: { id, email, preferences },
-       workouts: workouts.map(serializeWorkout),
-       exercises: exercises.map(serializeExercise),
-       exported_at: new Date().toISOString()
-     };
-
-     // Generate JSON file
-     return JSON.stringify(exportData, null, 2);
-   }
-   ```
-
-**App Store Requirements:**
-- Privacy manifest (iOS 17+)
-- Required reason API declarations
-- Data collection transparency
-- Age rating (4+ suitable for fitness app)
+**Data Export (GDPR):**
+```typescript
+// Export all user data as JSON
+return JSON.stringify({ user, workouts, exercises, exported_at })
+```
 
 ---
 
