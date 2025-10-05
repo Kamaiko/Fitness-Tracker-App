@@ -205,143 +205,68 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 
 ---
 
-### ADR-010: FlashList over FlatList
-**Decision:** Use Shopify's FlashList instead of React Native's FlatList
+### ADR-010: FlashList for High-Performance Lists
+**Decision:** FlashList for all lists (exercise library, workout history)
 
 **Rationale:**
-- **Performance Benchmarks (2025):**
-  - 54% FPS improvement (36.9 → 56.9 FPS)
-  - 82% CPU reduction (198.9% → 36.5%)
-  - JS thread utilization: <10% vs >90%
-  - Eliminates out-of-memory crashes
+- 54% FPS improvement (36.9 → 56.9 FPS), 82% CPU reduction
+- Cell recycling (10x faster than FlatList virtualization)
+- Critical for 500+ exercise library on Android low-end devices
 
-- **Technical Advantages:**
-  - Cell recycling vs virtualization (recycles views instead of destroying/recreating)
-  - Skips expensive React reconciliation
-  - Up to 10x faster rendering
-  - Critical for Android low-end devices
-
-- **Use Cases in This App:**
-  - Exercise library (500+ items with images)
-  - Workout history (potentially 200+ workouts after 1 year)
-  - Set logging (scrolling through previous sets)
-
-**Consequences:**
-- ✅ Major performance gains on Android
-- ✅ Drop-in replacement (similar API to FlatList)
-- ✅ Maintained by Shopify (active development)
-- ❌ Slightly larger bundle size (+~50KB)
-- ⚠️ Requires measuring item heights (estimatedItemSize prop)
-
-**Migration from FlatList:**
+**Migration:**
 ```typescript
-// Before (FlatList)
-<FlatList data={exercises} renderItem={renderExercise} />
-
-// After (FlashList)
-<FlashList data={exercises} renderItem={renderExercise} estimatedItemSize={80} />
+// Add estimatedItemSize prop
+<FlashList data={items} renderItem={...} estimatedItemSize={80} />
 ```
 
-**Status:** 📋 Planned (Phase 1 - before building exercise list)
+**Trade-offs:** +50KB bundle, requires manual item height estimation
+
+**Status:** 📋 Planned (Phase 1)
 
 ---
 
-### ADR-011: Victory Native for Charts
-**Decision:** Use Victory Native instead of react-native-chart-kit
-
-**Context:**
-- Initial choice: react-native-chart-kit
-- Fitness apps require complex charts with many data points
-- Long-term progression tracking (6-12 months of data)
+### ADR-011: Victory Native for Analytics Charts
+**Decision:** Victory Native (evaluating) over react-native-chart-kit
 
 **Rationale:**
-- **react-native-chart-kit Issues:**
-  - Limited customization
-  - Poor performance with many data points (>100)
-  - Maintenance doubtful (infrequent updates)
-  - No gesture support (zoom, pan)
+- Better for large datasets (500+ data points for 6-12 month progression)
+- Actively maintained (Formidable Labs, 160k weekly downloads)
+- Gesture support (zoom, pan), extensive customization
 
-- **Victory Native Advantages:**
-  - 160k+ weekly downloads (actively maintained)
-  - Backed by Formidable Labs
-  - Highly customizable
-  - Smooth animations
-  - Good performance with large datasets
-  - Cross-platform consistency
-  - Extensive documentation
+**Chart Requirements:**
+- Line: Weight progression over time
+- Bar: Weekly volume tracking
+- Multi-line: Compare multiple exercises
 
-**Chart Requirements for This App:**
-- Line charts: Weight/strength progression over time (potentially 500+ data points)
-- Bar charts: Weekly volume tracking
-- Multi-line charts: Comparing multiple exercises
-- Interactive tooltips: Show exact values on tap
+**Trade-offs:** +100KB bundle, steeper learning curve
 
-**Alternative Considered:**
-- **react-native-gifted-charts**: Good alternative with 3D effects, gradients
-- Chose Victory Native for: better documentation, larger community, proven track record
+**Alternative:** react-native-gifted-charts (3D effects, lighter)
 
-**Consequences:**
-- ✅ Better long-term maintainability
-- ✅ Handles large datasets
-- ✅ Professional-looking charts
-- ❌ Larger bundle size vs chart-kit (~100KB)
-- ❌ Slightly steeper learning curve
-
-**Status:** 🔄 Under Evaluation (may keep chart-kit for MVP if Victory is too complex)
+**Status:** 🔄 Under Evaluation (may defer to chart-kit for MVP)
 
 ---
 
-### ADR-012: ExerciseDB API for Exercise Data
-**Decision:** Integrate ExerciseDB API instead of manually creating exercise database
+### ADR-012: ExerciseDB API Integration
+**Decision:** Seed exercise library from ExerciseDB API (1,300+ exercises)
 
 **Rationale:**
-- **Time Savings:**
-  - Manual creation of 500+ exercises: 100-200 hours
-  - API integration + customization: 6-10 hours
-  - **Net savings: ~190 hours**
+- **Time savings:** 190 hours (200h manual creation → 10h integration)
+- **Quality:** Professional GIFs, instructions, categorization
+- **Coverage:** Exceeds 500 exercise target
 
-- **ExerciseDB Features:**
-  - 1,300+ exercises (exceeds our target of 500)
-  - Categorized by body part, muscle group, equipment
-  - High-quality GIFs for visual guidance
-  - Step-by-step instructions
-  - Free tier available + open-source version on GitHub
-  - Official API: https://v2.exercisedb.io/docs
-
-**Implementation Strategy:**
+**Implementation:**
 ```typescript
-// One-time import: Seed Supabase with ExerciseDB
-1. Fetch exercises from ExerciseDB API
-2. Transform to our schema
-3. Bulk insert to Supabase exercises table
-4. Store locally in WatermelonDB
-
-// Runtime: Use local data (no API calls during workouts)
-- Users search/filter exercises from local WatermelonDB
-- Custom exercises added by users stored separately
-- Periodic sync to refresh exercise library
+// One-time seed: ExerciseDB → Supabase → WatermelonDB
+// Runtime: No API calls (local-only search/filtering)
 ```
 
-**Data Ownership:**
-- ExerciseDB data seeded once to Supabase (our database)
-- No runtime dependency on ExerciseDB API
-- Users can add custom exercises
-- Full control over exercise data
+**Data Ownership:** Seeded to our Supabase (full control), users add custom exercises
 
-**Consequences:**
-- ✅ Massive time savings (190 hours)
-- ✅ Professional quality content
-- ✅ Proven categorization/taxonomy
-- ✅ Visual aids (GIFs) included
-- ❌ Initial API dependency (one-time)
-- ⚠️ Need to comply with ExerciseDB license terms
+**Trade-offs:** Initial API dependency (one-time), license compliance required
 
-**Alternative APIs Researched:**
-- Wger Workout Manager API (200+ exercises, open source)
-- API Ninjas Exercises API (1,000+ exercises)
-- Chose ExerciseDB for: best documentation, largest free dataset, active maintenance
+**Alternatives:** Wger API (200 exercises), API Ninjas (1,000)
 
-**Status:** 📋 Planned (Phase 3 - Exercise Library)
+**Status:** 📋 Planned (Phase 3)
 
 ---
 
