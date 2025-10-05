@@ -1142,151 +1142,38 @@ docs(readme): update installation instructions
 
 ---
 
-## 🎨 UX Best Practices for Fitness Apps
+## 🎨 UX Best Practices (from Strong, Hevy, JEFIT)
 
-### Critical Patterns from Industry Leaders
+### Core Patterns
 
-Based on Strong, Hevy, JEFIT analysis:
+| Feature | Anti-Pattern | Best Practice |
+|---------|-------------|---------------|
+| **Set Logging** | 7 taps (modals, confirmations) | 1-2 taps (auto-fill last, inline edit, quick +/- buttons) |
+| **Plate Calculator** | Manual math | Button next to weight → "Add per side: 20kg + 10kg + 2.5kg" |
+| **Rest Timer** | Stops when minimized | Background + push notification + auto-start from history |
+| **RIR Tracking** | Prompt after every set (annoying) | End-of-workout summary OR optional inline button |
+| **Exercise Search** | Search button + pagination | Real-time filter (FlashList 500+ exercises, 300ms debounce) |
+| **Workout Start** | Empty only | MVP: Empty + Repeat Last; Phase 2: Templates + Resume |
 
-#### 1. **Plate Calculator** (Essential Feature)
-**Problem:** Users waste time calculating which plates to add to barbell
+### Mobile-Specific
 
-**Solution:**
+**Gym Environment:**
+- Large tap targets (44x44pt minimum) - gloves, sweaty hands
+- High contrast - bright lighting
+- Landscape support - phone on bench
+- One-handed mode
+
+**Offline UX:**
+- Never show "No internet" errors during workout
+- Queue sync, show success immediately
+- Subtle sync indicator (status bar)
+- Conflict resolution: Last write wins
+
+**Error Messages (Contextual):**
 ```typescript
-interface PlateCalculatorInput {
-  targetWeight: number;
-  barWeight: number; // 20kg (Olympic) or 15kg (Standard)
-  unit: 'kg' | 'lbs';
-  availablePlates: number[]; // [20, 15, 10, 5, 2.5, 1.25] for kg
-}
-
-// Returns: "Add per side: 20kg + 10kg + 2.5kg"
-```
-
-**UX:** Small button next to weight input, shows modal with plate breakdown
-
----
-
-#### 2. **Quick Set Logging** (Minimize Taps)
-
-**Anti-pattern:**
-```
-Tap "Add Set" → Enter weight → Tap "Next" → Enter reps → Tap "Next" → Select RPE → Tap "Save"
-= 7 taps per set ❌
-```
-
-**Best practice:**
-```
-Auto-fill last weight/reps → Edit if needed → Tap checkmark
-= 1-2 taps per set ✅
-```
-
-**Implementation:**
-- Pre-populate weight/reps from last identical set
-- Inline editing (no modals)
-- Swipe gestures for navigation between exercises
-- Quick buttons for common weight changes (+2.5kg, +5kg, -2.5kg)
-
----
-
-#### 3. **Rest Timer UX**
-
-**Must-haves:**
-- Continues in background (don't pause when app minimized)
-- Push notification when rest complete (with quick actions)
-- Auto-start based on historical average rest time
-- Skip/Add time buttons (+15s, -15s)
-
-**Optional but nice:**
-- Haptic feedback at 10s, 5s, 0s remaining
-- Visual progress ring
-- Sound notifications (toggle in settings)
-
----
-
-#### 4. **Workout Quick Start Patterns**
-
-Standard apps offer multiple entry points:
-
-1. **Start Empty Workout** → Add exercises as you go
-2. **Repeat Last [Exercise Name]** → Pre-fill from history
-3. **Start from Template** → Pre-defined workout structure
-4. **Quick Start** → Resume in-progress workout
-
-**Implementation Priority:**
-- MVP: (1) Empty + (2) Repeat Last
-- Phase 2: (3) Templates + (4) Resume
-
----
-
-#### 5. **RIR (Reps in Reserve) Tracking - Non-Intrusive**
-
-**Research findings:**
-- ❌ Prompting after every set = annoying, disrupts flow
-- ✅ End-of-workout prompt = better compliance
-- ✅ Optional toggle per exercise = user control
-
-**Recommended UX:**
-```typescript
-// Option A: End of workout
-"How did your sets feel today?"
-[Set 1: Bench Press] → RIR: 0 1 2 3 4 5
-[Set 2: Bench Press] → RIR: 0 1 2 3 4 5
-
-// Option B: Optional inline (small button)
-Weight: 100kg | Reps: 8 | [+RIR]
-                          ↓ (if tapped)
-                         RIR: 0 1 2 3 4 5
-```
-
-**Settings:**
-- [ ] Enable RIR tracking
-- [ ] Prompt timing: After each set | End of workout | Manual only
-
----
-
-#### 6. **Exercise Selection Search**
-
-**Must-have features:**
-- Real-time search (no search button needed)
-- Filter by: Muscle group, Equipment, Difficulty
-- Recently used exercises at top
-- Favorites/starred exercises
-- Quick add button (no need to go back)
-
-**Performance:**
-- FlashList for 500+ exercises
-- Local search (WatermelonDB query, no API)
-- Debounced search input (300ms)
-- Show images/GIFs in list
-
----
-
-### Mobile-Specific Considerations
-
-#### Gym Environment UX
-- **Large tap targets** (minimum 44x44pt) - wearing gloves
-- **High contrast text** - bright gym lighting
-- **Landscape support** - phone propped on bench
-- **One-handed mode** - holding weight plate in other hand
-
-#### Offline UX
-- **Never show "No internet" errors** during workout
-- Queue sync for later, show success immediately
-- Sync indicator in status bar (subtle)
-- Conflict resolution: Last write wins (simple, predictable)
-
-#### Error States
-```typescript
-// Good error messages for fitness context
-❌ "Network request failed"
-✅ "Saved locally. Will sync when online."
-
-❌ "Invalid input"
-✅ "Weight must be between 0-500kg"
-
-❌ "Error 500"
-✅ "Couldn't load history. Try again?"
+❌ "Network request failed" → ✅ "Saved locally. Will sync when online."
+❌ "Invalid input" → ✅ "Weight must be between 0-500kg"
+❌ "Error 500" → ✅ "Couldn't load history. Try again?"
 ```
 
 ---
