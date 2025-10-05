@@ -36,12 +36,12 @@ npm start
 | Layer | Category | Technologies |
 |-------|----------|-------------|
 | **Frontend** | Framework | Expo SDK 54 + React Native 0.81 + TypeScript 5.9 |
-| **Frontend** | Navigation | Expo Router 6 |
-| **Frontend** | State | Zustand 5.0 + React Query 5.90 |
-| **Frontend** | Storage | WatermelonDB (SQLite) + MMKV (encrypted) |
-| **Frontend** | UI | FlashList + expo-image + Victory Native |
+| | Navigation | Expo Router 6 |
+| | State | Zustand 5.0 + React Query 5.90 |
+| | Storage | WatermelonDB (SQLite) + MMKV (encrypted) |
+| | UI | FlashList + expo-image + Victory Native |
 | **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
-| **Backend** | Sync | WatermelonDB ↔ Supabase |
+| | Sync | WatermelonDB ↔ Supabase |
 | **External** | Services | ExerciseDB API, Sentry, RevenueCat |
 
 ---
