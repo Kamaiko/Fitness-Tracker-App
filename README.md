@@ -59,4 +59,4 @@ npm start
 | **[PRD.md](./docs/PRD.md)** | Product requirements, user personas, success metrics |
 | **[TECHNICAL.md](./docs/TECHNICAL.md)** | Architecture (12 ADRs), database schema, algorithms |
 | **[TASKS.md](./docs/TASKS.md)** | 98 tasks, 14-week timeline, progress tracking |
-| [CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Setup, commit conventions, workflow |
+| **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** | Setup, commit conventions, workflow |
