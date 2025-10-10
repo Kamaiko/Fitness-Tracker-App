@@ -6,6 +6,8 @@
 2. **JAMAIS ajouter de signatures ou mentions d'IA dans les commits**
 3. Utiliser des messages de commit simples et professionnels
 4. Ne pas mentionner l'utilisation d'outils IA dans l'historique Git
+5. **TOUJOURS faire un audit complet après des changements majeurs**
+6. **TOUJOURS écrire du code clean, scalable et maintenable**
 
 ## Convention de nommage des commits
 
@@ -71,11 +73,14 @@ chore(deps): update React Native to 0.72.6
 - **Frontend**: React Native 0.81.4 + Expo SDK 54 + TypeScript 5.9
 - **Backend**: Supabase (PostgreSQL + Auth + Storage + Real-time)
 - **State**: Zustand 5.0 + React Query 5.90
-- **Storage**: WatermelonDB (offline SQLite) + MMKV 3.3 (encrypted)
-- **UI**: FlashList + expo-image + Victory Native
+- **Storage**: AsyncStorage (→ WatermelonDB + MMKV en Phase 3 avec Dev Client)
+- **Styling**: NativeWind v4 (Tailwind CSS)
+- **UI**: FlashList + expo-image + Victory Native v41
 - **Navigation**: Expo Router 6
+- **Code Quality**: ESLint + Prettier
 - **External**: ExerciseDB API (1,300+ exercises), Sentry (monitoring)
 - **Testing**: None for MVP (add pre-production)
+- **Phase actuelle**: 0.5 - Compatible Expo Go (pas de modules natifs)
 
 ### Fonctionnalités MVP (Phases 1-4)
 - Workout logging (RPE + RIR tracking, quick 1-2 taps)

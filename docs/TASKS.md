@@ -8,17 +8,20 @@
 ## 📊 Current Status
 
 **Version:** 0.2.0 (Architecture Planning Complete)
-**Progress:** ![](https://img.shields.io/badge/Progress-12%25-yellow)
+**Progress:** ![](https://img.shields.io/badge/Progress-20%25-yellow)
 
 ### What's Working
 - ✅ Expo SDK 54.0.12 with React 19.1.0
-- ✅ Supabase client configured
-- ✅ MMKV storage setup
+- ✅ Supabase client configured with AsyncStorage auth persistence
+- ✅ AsyncStorage abstraction (clean migration path to MMKV Phase 3)
+- ✅ NativeWind v4 (Tailwind CSS) - all screens migrated
+- ✅ Victory Native v41 for analytics charts
+- ✅ ESLint + Prettier configured
 - ✅ Zustand stores (auth, workout)
-- ✅ Dark theme system (colors, spacing, typography)
+- ✅ Centralized color constants (src/constants/colors.ts)
 - ✅ Home screen with Expo Router navigation
-- ✅ App runs successfully on Android
-- ✅ **Architectural decisions documented (WatermelonDB, FlashList, ExerciseDB, etc.)**
+- ✅ App runs successfully on Android (Expo Go compatible)
+- ✅ **Architectural decisions documented (ADRs updated)**
 
 ### What's Next (Critical Path)
 - 🎯 **Phase 0.5:** WatermelonDB setup + DB schema implementation
@@ -48,13 +51,13 @@
 
 | Category | Completed | Total | Progress | Notes |
 |----------|-----------|-------|----------|-------|
-| **Infrastructure** | 18 | 18 | 100% | ✅ NativeWind + Victory Native migration complete |
+| **Infrastructure** | 21 | 21 | 100% | ✅ NativeWind, Victory Native, ESLint, AsyncStorage |
 | **Authentication** | 0 | 15 | 0% | Added nutrition phase management |
 | **Workout Logging** | 0 | 28 | 0% | Added RIR, plate calculator, quick start |
 | **Exercise Library** | 0 | 10 | 0% | **Reduced** (ExerciseDB API integration vs manual) |
 | **Analytics** | 0 | 15 | 0% | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
 | **Polish & Launch** | 0 | 18 | 0% | Added Sentry, compliance (GDPR), export |
-| **Total** | 18 | 104 | 17% | Infrastructure phase complete ✅ |
+| **Total** | 21 | 107 | 20% | Infrastructure complete, Expo Go compatible ✅ |
 
 ---
 
@@ -69,7 +72,7 @@
 
 ---
 
-## ✅ Completed Tasks (18)
+## ✅ Completed Tasks (21)
 
 ### Phase 0: Infrastructure & Setup
 - [x] 0.1 Create Expo SDK 54 project with TypeScript
@@ -78,18 +81,21 @@
 - [x] 0.4 Configure Expo Router for navigation
 - [x] 0.5 Create Supabase project and get credentials
 - [x] 0.6 Configure Supabase client in React Native
-- [x] 0.7 Setup MMKV storage with helper functions
+- [x] 0.7 Setup AsyncStorage with abstraction (→ MMKV in Phase 3)
 - [x] 0.8 Create Zustand stores (auth, workout)
-- [x] 0.9 Implement dark theme system (colors, spacing, typography)
+- [x] 0.9 Create centralized color constants (src/constants/colors.ts)
 - [x] 0.10 Create initial home screen
 - [x] 0.11 **Document architectural decisions (TECHNICAL.md updated)**
-- [x] 0.12 **Migrate to NativeWind v4 (tailwind.config.js, babel, global.css)**
-- [x] 0.13 **Refactor home screen with NativeWind (268→124 lines, 54% reduction)**
+- [x] 0.12 **Migrate to NativeWind v4 (tailwind.config.js, metro.config.js, babel.config.js, global.css)**
+- [x] 0.13 **Refactor all screens with NativeWind (home 268→124 lines, 54% reduction)**
 - [x] 0.14 **Switch from react-native-chart-kit to Victory Native v41**
 - [x] 0.15 **Create example Victory Native chart component**
-- [x] 0.16 **Update ADR-005 (NativeWind decision finalized)**
-- [x] 0.17 **Update ADR-011 (Victory Native decision finalized)**
-- [x] 0.18 **Document NativeWind usage in TECHNICAL.md**
+- [x] 0.16 **Update ADR-004 (AsyncStorage → MMKV strategy)**
+- [x] 0.17 **Update ADR-005 (NativeWind decision finalized)**
+- [x] 0.18 **Update ADR-009 (WatermelonDB Phase 3 timeline)**
+- [x] 0.19 **Setup ESLint + Prettier with React/TypeScript rules**
+- [x] 0.20 **Configure Supabase auth persistence with AsyncStorage**
+- [x] 0.21 **Add npm scripts: lint, lint:fix, format, format:check**
 
 ---
 

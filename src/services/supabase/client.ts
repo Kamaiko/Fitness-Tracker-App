@@ -1,25 +1,29 @@
 /**
  * Supabase Client Configuration
  *
- * This file initializes the Supabase client with credentials from environment variables.
- * Used throughout the app for all database operations.
+ * Initializes Supabase client with auth session persistence.
+ *
+ * **Auth Storage Strategy:**
+ * - **Phase 0-2 (Current):** AsyncStorage via our storage abstraction
+ * - **Phase 3+:** Will migrate to MMKV for better performance & encryption
+ *
+ * The storage abstraction (`src/services/storage/storage.ts`) allows seamless
+ * migration to MMKV when we create the Dev Client in Phase 3.
  */
 
 import { createClient } from '@supabase/supabase-js';
-import Constants from 'expo-constants';
+import { storage } from '@/services/storage/storage';
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Missing Supabase credentials. Please check your .env file.'
-  );
+  throw new Error('Missing Supabase credentials. Please check your .env file.');
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    storage: undefined, // We'll use MMKV for auth storage later
+    storage: storage, // Uses AsyncStorage (Phase 0-2) → MMKV (Phase 3+)
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,

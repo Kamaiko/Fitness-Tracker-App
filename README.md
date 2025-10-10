@@ -51,13 +51,15 @@ npm start
 |-------|----------|-------------|
 | **Frontend** | Framework | Expo SDK 54 + React Native 0.81 + TypeScript 5.9 |
 | | Navigation | Expo Router 6 |
+| | Styling | NativeWind v4 (Tailwind CSS) |
 | | State | Zustand 5.0 + React Query 5.90 |
-| | Storage | WatermelonDB (offline-first SQLite) + MMKV (encrypted) |
-| | UI | FlashList + expo-image + Victory Native |
+| | Storage | AsyncStorage (→ WatermelonDB + MMKV in Phase 3) |
+| | UI | FlashList + expo-image + Victory Native v41 |
 | **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
-| | Sync | WatermelonDB ↔ Supabase (offline-first) |
 | **External** | Services | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
 | **Analytics** | Libraries | simple-statistics (Mann-Kendall, regressions) |
+
+**Current Phase:** 0.5 - Expo Go compatible (no native modules)
 
 ---
 

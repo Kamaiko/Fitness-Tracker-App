@@ -21,13 +21,15 @@
 
 ## 📦 Technology Stack
 
-**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | Zustand 5 + React Query 5.90 | WatermelonDB (offline SQLite) + MMKV 3.3 (encrypted) | FlashList + expo-image + Victory Native
+**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS) | Zustand 5 + React Query 5.90 | AsyncStorage (→ WatermelonDB Phase 3) | FlashList + expo-image + Victory Native v41
 
-**Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime) | WatermelonDB ↔ Supabase sync
+**Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime)
 
 **External:** ExerciseDB API (1,300+ exercises) | Sentry (monitoring) | RevenueCat (future subscriptions)
 
-**Dev Tools:** Metro bundler | No linting/testing for MVP (add pre-production)
+**Dev Tools:** Metro bundler | ESLint + Prettier (Phase 1) | No testing for MVP (add pre-production)
+
+**Current Phase:** Phase 0.5 - Expo Go compatible (no native modules)
 
 ---
 
@@ -66,14 +68,37 @@
 
 ---
 
-### ADR-004: MMKV for Key-Value Storage
-**Decision:** MMKV for auth tokens, preferences, settings
+### ADR-004: AsyncStorage for Key-Value Storage (Phase 0-2)
+**Decision:** AsyncStorage for MVP (Phases 0-2), migrate to MMKV + WatermelonDB in Phase 3
 
-**Rationale:** 30x faster than AsyncStorage, synchronous API, built-in encryption
+**Current Implementation (Phase 0-2):**
+- `src/services/storage/storage.ts` - Clean abstraction over AsyncStorage
+- Used for: preferences, flags, tokens, simple key-value data
+- ✅ Expo Go compatible (no native modules required)
+- ✅ Sufficient performance for MVP needs
 
-**Trade-offs:** iOS-style API (different from AsyncStorage pattern)
+**Phase 3 Migration (Dev Client Required):**
+When implementing workout logging, we'll transition to:
+- **WatermelonDB** - Relational workout data (SQLite) with Supabase sync
+- **MMKV** - Fast encrypted storage for auth tokens and preferences
+- **Requires:** Dev Client creation (native modules)
 
-**Status:** ✅ Implemented
+**Storage Decision Matrix:**
+| Storage | Speed | Encryption | Use Case | Phase | Expo Go |
+|---------|-------|------------|----------|-------|---------|
+| AsyncStorage | Slow | ❌ | MVP preferences | 0-2 | ✅ |
+| MMKV | Fast | ✅ | Tokens, settings | 3+ | ❌ |
+| WatermelonDB | Fast | Optional | Workout logs | 3+ | ❌ |
+
+**Why Wait for Phase 3:**
+- ✅ Faster iteration in Phases 0-2 (no native setup)
+- ✅ Team can contribute without Xcode/Android Studio
+- ✅ Simpler testing (Expo Go on any device)
+- ❌ One-time migration effort (planned in Phase 3)
+
+**Trade-offs:** AsyncStorage is 10-50x slower than MMKV, but sufficient for < 100KB data
+
+**Status:** ✅ Implemented (AsyncStorage) | 📋 Phase 3 (MMKV + WatermelonDB)
 
 ---
 
@@ -131,20 +156,25 @@
 
 ---
 
-### ADR-009: WatermelonDB + Hybrid Storage Strategy
+### ADR-009: WatermelonDB + Hybrid Storage Strategy (Phase 3)
 **Decision:** WatermelonDB (SQLite) with Supabase sync + MMKV + Zustand hybrid
 
 **Context:** Zero data loss requirement; instant UI responsiveness critical during workouts; true offline-first architecture needed
 
-**Architecture:**
+**Current Phase (0-2) - Simplified:**
+- AsyncStorage only (Expo Go compatible)
+- No native modules
+- Sufficient for MVP UI/UX development
 
-| Layer | Purpose | Examples | Performance |
-|-------|---------|----------|-------------|
-| **WatermelonDB** | Relational data (syncs to Supabase) | Workouts, exercises, sets | 20x > AsyncStorage |
-| **MMKV** | Local-only key-value | Auth tokens, preferences | 30x > AsyncStorage |
-| **Zustand** | Temporary UI state | `isWorkoutActive`, forms | In-memory (instant) |
+**Phase 3 Architecture (Dev Client Required):**
 
-**Data Flow:**
+| Layer | Purpose | Examples | Performance | Native Module |
+|-------|---------|----------|-------------|---------------|
+| **WatermelonDB** | Relational data (syncs to Supabase) | Workouts, exercises, sets | 20x > AsyncStorage | ✅ SQLite |
+| **MMKV** | Local-only key-value | Auth tokens, preferences | 30x > AsyncStorage | ✅ C++ |
+| **Zustand** | Temporary UI state | `isWorkoutActive`, forms | In-memory (instant) | ❌ |
+
+**Phase 3 Data Flow:**
 ```
 User Input → Zustand → WatermelonDB → Supabase (when online)
                 ↓
@@ -158,13 +188,18 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 - Each tool optimized for specific use case
 
 **Trade-offs:**
+- Requires Dev Client (native build)
 - 3 storage layers (complexity)
-- 4-6 hour setup
+- 4-6 hour initial setup
 - Learning curve for sync protocol
 
-**Implementation:** Phase 0.5 (Week 3)
+**Migration Timeline:**
+- **Phase 0-2:** AsyncStorage only
+- **Phase 3 Week 1:** Create Dev Client + install WatermelonDB
+- **Phase 3 Week 2:** Implement sync protocol
+- **Phase 3 Week 3:** Migrate existing data from AsyncStorage
 
-**Status:** 📋 Planned
+**Status:** 📋 Planned for Phase 3
 
 ---
 

@@ -13,7 +13,12 @@
       "Bash(dir:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(tree:*)",
+      "Bash(for dir in src/components/analytics src/components/forms src/components/navigation src/components/shared src/components/ui src/components/workout src/hooks/analytics src/hooks/auth src/hooks/ui src/hooks/workout src/services/analytics src/services/api)",
+      "Bash(done)",
+      "Bash(grep:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
