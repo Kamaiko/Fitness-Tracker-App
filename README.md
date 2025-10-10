@@ -54,7 +54,8 @@ npm start
 | | Styling | NativeWind v4 (Tailwind CSS) |
 | | State | Zustand 5.0 + React Query 5.90 |
 | | Storage | AsyncStorage (→ WatermelonDB + MMKV in Phase 3) |
-| | UI | FlashList + expo-image + Victory Native v41 |
+| | UI | FlashList + expo-image + react-native-chart-kit |
+| | Charts | react-native-chart-kit (→ Victory Native Phase 3) |
 | **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
 | **External** | Services | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
 | **Analytics** | Libraries | simple-statistics (Mann-Kendall, regressions) |

@@ -75,12 +75,13 @@ chore(deps): update React Native to 0.72.6
 - **State**: Zustand 5.0 + React Query 5.90
 - **Storage**: AsyncStorage (→ WatermelonDB + MMKV en Phase 3 avec Dev Client)
 - **Styling**: NativeWind v4 (Tailwind CSS)
-- **UI**: FlashList + expo-image + Victory Native v41
+- **UI**: FlashList + expo-image + react-native-chart-kit
+- **Charts**: react-native-chart-kit (→ Victory Native v41 en Phase 3 avec Dev Client)
 - **Navigation**: Expo Router 6
 - **Code Quality**: ESLint + Prettier
 - **External**: ExerciseDB API (1,300+ exercises), Sentry (monitoring)
 - **Testing**: None for MVP (add pre-production)
-- **Phase actuelle**: 0.5 - Compatible Expo Go (pas de modules natifs)
+- **Phase actuelle**: 0.5 - Compatible Expo Go (100% pas de modules natifs)
 
 ### Fonctionnalités MVP (Phases 1-4)
 - Workout logging (RPE + RIR tracking, quick 1-2 taps)

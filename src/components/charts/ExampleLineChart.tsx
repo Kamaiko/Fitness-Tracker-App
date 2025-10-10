@@ -1,48 +1,66 @@
 /**
- * Example Line Chart Component
+ * ExampleLineChart - Simple line chart using react-native-chart-kit
  *
- * Demonstrates Victory Native usage for progression tracking
- * This will be used for exercise progression, volume tracking, etc.
+ * Phase 0-2: Uses react-native-chart-kit (Expo Go compatible)
+ * Phase 3+: Will migrate to Victory Native (requires Dev Client)
+ *
+ * This component serves as a mockup for analytics charts during MVP development.
  */
 
-import { View } from 'react-native';
-import { CartesianChart, Line } from 'victory-native';
+import { LineChart } from 'react-native-chart-kit';
+import { View, Text, Dimensions } from 'react-native';
 import { COLORS } from '@/constants/colors';
 
 interface ExampleLineChartProps {
-  data?: { week: number; weight: number }[];
+  data?: number[];
+  labels?: string[];
+  title?: string;
 }
 
-export function ExampleLineChart({ data }: ExampleLineChartProps) {
-  // Mock data for demonstration
-  const mockData = data || [
-    { week: 1, weight: 100 },
-    { week: 2, weight: 102.5 },
-    { week: 3, weight: 105 },
-    { week: 4, weight: 107.5 },
-    { week: 5, weight: 110 },
-    { week: 6, weight: 112.5 },
-    { week: 7, weight: 115 },
-    { week: 8, weight: 117.5 },
-  ];
+export function ExampleLineChart({
+  data = [65, 68, 70, 72, 75, 78, 80],
+  labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  title = 'Weekly Progress',
+}: ExampleLineChartProps) {
+  const screenWidth = Dimensions.get('window').width;
 
   return (
-    <View className="h-60">
-      <CartesianChart
-        data={mockData}
-        xKey="week"
-        yKeys={["weight"]}
-        domainPadding={{ left: 20, right: 20, top: 20, bottom: 20 }}
-      >
-        {({ points }) => (
-          <Line
-            points={points.weight}
-            color={COLORS.primary.DEFAULT}
-            strokeWidth={3}
-            animate={{ type: "timing", duration: 300 }}
-          />
-        )}
-      </CartesianChart>
+    <View className="items-center">
+      {title && <Text className="text-lg font-semibold text-foreground mb-2">{title}</Text>}
+
+      <LineChart
+        data={{
+          labels: labels,
+          datasets: [
+            {
+              data: data,
+            },
+          ],
+        }}
+        width={screenWidth - 48} // Full width minus padding
+        height={220}
+        chartConfig={{
+          backgroundColor: COLORS.background.surface,
+          backgroundGradientFrom: COLORS.background.surface,
+          backgroundGradientTo: COLORS.background.elevated,
+          decimalPlaces: 0,
+          color: (opacity = 1) => `rgba(66, 153, 225, ${opacity})`, // primary color
+          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.7})`,
+          style: {
+            borderRadius: 16,
+          },
+          propsForDots: {
+            r: '6',
+            strokeWidth: '2',
+            stroke: COLORS.primary.DEFAULT,
+          },
+        }}
+        bezier
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
+      />
     </View>
   );
 }

@@ -21,7 +21,7 @@
 
 ## 📦 Technology Stack
 
-**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS) | Zustand 5 + React Query 5.90 | AsyncStorage (→ WatermelonDB Phase 3) | FlashList + expo-image + Victory Native v41
+**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS) | Zustand 5 + React Query 5.90 | AsyncStorage (→ WatermelonDB Phase 3) | FlashList + expo-image + react-native-chart-kit (→ Victory Native Phase 3)
 
 **Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime)
 
@@ -223,30 +223,34 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 
 ---
 
-### ADR-011: Victory Native for Analytics Charts
-**Decision:** Victory Native v41 (switched from react-native-chart-kit in Phase 0.5)
+### ADR-011: Charts Strategy - react-native-chart-kit → Victory Native
+**Decision:** Use react-native-chart-kit (Phase 0-2), migrate to Victory Native (Phase 3+)
 
-**Rationale:**
-- **Required features unavailable in chart-kit:**
-  - Multi-line comparisons (3+ exercises)
-  - Zoom/pan gestures (1000+ data points for 2 years)
-  - Trend lines and regressions
-  - Interactive tooltips with full control
-- Actively maintained (Formidable Labs)
-- Handles large datasets efficiently
-- Better for advanced analytics requirements
+**Phase 0-2 (Current - Expo Go):**
+- **Library:** react-native-chart-kit
+- **Rationale:**
+  - ✅ Pure JavaScript + react-native-svg (Expo Go compatible)
+  - ✅ Sufficient for mockups and basic analytics during MVP
+  - ✅ No native modules required
+  - ✅ Fast iteration during UI/UX development
+- **Limitations:** No zoom/pan, limited multi-line support, basic customization
 
-**Chart Requirements Implemented:**
-- Line: Weight progression, estimated 1RM over time
-- Bar: Weekly/monthly volume tracking
-- Multi-line: Compare multiple exercises, acute/chronic load
-- Scatter: RPE/RIR analysis, fatigue indicators
+**Phase 3+ (Dev Client):**
+- **Library:** Victory Native v41 (modern, Skia-based)
+- **Why upgrade:**
+  - ✅ Multi-line comparisons (3+ exercises)
+  - ✅ Zoom/pan gestures (1000+ data points for 2 years)
+  - ✅ Trend lines and regressions
+  - ✅ Interactive tooltips with full control
+  - ✅ Superior performance with react-native-skia
+- **Requirements:** Dev Client (react-native-skia is native module)
+- **Migration:** Update imports, adjust data format (similar API)
 
 **Trade-offs:**
-- +100KB bundle (acceptable for features gained)
-- Initial learning curve (mitigated: Claude codes it)
+- Phase 0-2: Limited features but maintains Expo Go compatibility
+- Phase 3: Better features but requires native build
 
-**Why not chart-kit:** Insufficient for context-aware analytics (no zoom, no multi-line, limited customization)
+**Why this strategy:** Aligns with AsyncStorage → MMKV/WatermelonDB migration timeline
 
 **Status:** ✅ Implemented (Phase 0.5)
 
