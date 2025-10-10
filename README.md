@@ -2,12 +2,12 @@
 
 # Halterofit
 
-**Offline-first fitness tracking**
+**Science-based fitness tracking with intelligent analytics**
 
 [![Expo SDK](https://img.shields.io/badge/Expo-54.0.12-000020?style=flat&logo=expo)](https://expo.dev)
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
-[![WatermelonDB](https://img.shields.io/badge/WatermelonDB-Offline--First-00A36C?style=flat)](https://nozbe.github.io/WatermelonDB/)
+[![Science-Based](https://img.shields.io/badge/Analytics-Science--Based-00A36C?style=flat)](https://github.com)
 
 <br/>
 
@@ -31,6 +31,20 @@ npm start
 
 ---
 
+## 🎯 What Makes Halterofit Different
+
+**Context-aware analytics that understand YOUR training:**
+- 📊 **Personalized 1RM** adjusted by RIR (proximity to failure matters)
+- 📈 **Load management** (Acute/Chronic ratios, fatigue tracking, overtraining alerts)
+- 🎯 **Nutrition phase tracking** (bulk/cut/maintenance - stable in cut = success, not plateau)
+- 🧪 **Science-based plateau detection** (Mann-Kendall statistical test + context)
+- 📝 **Post-workout reports** (performance score, fatigue estimate, actionable recommendations)
+- 📅 **Weekly summaries** (trends, PRs, consistency, deload suggestions)
+
+**Unlike Jefit/Strong/Hevy:** We don't just show numbers - we explain WHY and WHAT TO DO.
+
+---
+
 ## 🛠️ Tech Stack
 
 | Layer | Category | Technologies |
@@ -38,11 +52,12 @@ npm start
 | **Frontend** | Framework | Expo SDK 54 + React Native 0.81 + TypeScript 5.9 |
 | | Navigation | Expo Router 6 |
 | | State | Zustand 5.0 + React Query 5.90 |
-| | Storage | WatermelonDB (SQLite) + MMKV (encrypted) |
+| | Storage | WatermelonDB (offline-first SQLite) + MMKV (encrypted) |
 | | UI | FlashList + expo-image + Victory Native |
 | **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
-| | Sync | WatermelonDB ↔ Supabase |
-| **External** | Services | ExerciseDB API, Sentry, RevenueCat |
+| | Sync | WatermelonDB ↔ Supabase (offline-first) |
+| **External** | Services | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
+| **Analytics** | Libraries | simple-statistics (Mann-Kendall, regressions) |
 
 ---
 

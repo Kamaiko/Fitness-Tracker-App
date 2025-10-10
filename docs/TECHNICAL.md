@@ -124,7 +124,7 @@
 ### ADR-009: WatermelonDB + Hybrid Storage Strategy
 **Decision:** WatermelonDB (SQLite) with Supabase sync + MMKV + Zustand hybrid
 
-**Context:** Gyms have poor WiFi; workout data loss unacceptable; Supabase alone not truly offline-first
+**Context:** Zero data loss requirement; instant UI responsiveness critical during workouts; true offline-first architecture needed
 
 **Architecture:**
 
@@ -142,7 +142,8 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 ```
 
 **Benefits:**
-- True offline-first with reactive UI
+- Zero latency during workouts (no network waits)
+- Guaranteed data reliability
 - Automatic conflict resolution
 - Each tool optimized for specific use case
 
@@ -319,6 +320,10 @@ CREATE TABLE users (
   preferred_unit TEXT DEFAULT 'kg', -- 'kg' or 'lbs'
   preferred_distance_unit TEXT DEFAULT 'km', -- 'km' or 'miles'
 
+  -- Nutrition Phase Tracking (CRITICAL for context-aware analytics)
+  nutrition_phase TEXT DEFAULT 'maintenance', -- 'bulk', 'cut', 'maintenance'
+  nutrition_phase_started_at TIMESTAMP, -- Track phase duration for analytics
+
   -- Future: Subscription tracking
   subscription_tier TEXT DEFAULT 'free', -- 'free' or 'pro'
   subscription_expires_at TIMESTAMP,
@@ -330,6 +335,7 @@ CREATE TABLE users (
 
 **Design Notes:**
 - `preferred_unit` eliminates need to convert stored weights
+- `nutrition_phase` + `nutrition_phase_started_at` enable context-aware analytics ("stable performance in cut = success")
 - `subscription_tier` added now (even if unused) to avoid migration later
 - `profile_data` JSONB for flexibility without schema changes
 
@@ -560,46 +566,91 @@ CREATE POLICY "Exercises are public"
 
 ## 📊 Analytics & Algorithms
 
-**Principle:** Use scientifically validated formulas (no reinventing). Avoid AI/ML for MVP.
+**Principle:** Use scientifically validated formulas (no reinventing). Science-based, context-aware analytics. Avoid AI/ML for MVP.
 
 ### Core Calculations
 
 | Metric | Formula | Implementation |
 |--------|---------|----------------|
-| **1RM** | Average of Epley, Brzycki, Lombardi | `weight * (1 + reps/30)` (Epley) |
-| **Volume** | Sets × Reps × Weight × (RPE/10) | Compound exercises: 1.5x multiplier |
-| **Plateau** | Mann-Kendall test + linear regression | `slope < 0.5 && pValue > 0.05` → plateau |
+| **Personalized 1RM** | Average of Epley, Brzycki, Lombardi **+ RIR adjustment** | `weight * (1 + reps/30) * (1 + RIR * 0.033)` |
+| **Volume** | Sets × Reps × Weight (context-aware) | Compound: 1.5x multiplier, warmups excluded |
+| **Acute Load** | Sum of volume (last 7 days) | Rolling 7-day window |
+| **Chronic Load** | Average volume (last 28 days) | 4-week baseline |
+| **Fatigue Ratio** | Acute Load / Chronic Load | >1.5 = high fatigue, <0.8 = detraining |
+| **Plateau Detection** | Mann-Kendall + nutrition context | `slope < 0.5 && pValue > 0.05 && phase != 'cut'` |
 
-**1RM Example:**
+### Advanced Analytics Implementation
+
+**Personalized 1RM with RIR Adjustment:**
 ```typescript
-// Average 3 validated formulas (reps 1-10)
-const avg1RM = (epley + brzycki + lombardi) / 3;
+// Traditional formula doesn't account for proximity to failure
+// 100kg × 8 @ RIR2 > 105kg × 6 @ RIR0 (more strength capacity)
+function calculatePersonalized1RM(weight, reps, rir) {
+  const epley = weight * (1 + reps/30);
+  const brzycki = weight * (36 / (37 - reps));
+  const lombardi = weight * Math.pow(reps, 0.1);
+  const baseEstimate = (epley + brzycki + lombardi) / 3;
+
+  // RIR adjustment: each RIR = ~3.3% additional capacity
+  const rirAdjustment = 1 + (rir * 0.033);
+  return baseEstimate * rirAdjustment;
+}
 ```
 
-**Plateau Detection (Statistical):**
+**Load Management & Fatigue:**
 ```typescript
-import { mannKendallTest } from 'simple-statistics';
-// Returns: { isPlateau, trend, confidence }
-// Uses 4-week window, p-value > 0.05 = no significant trend
+function calculateFatigueMetrics(recentWorkouts) {
+  const acuteLoad = sumVolume(last7Days);
+  const chronicLoad = avgVolume(last28Days);
+  const fatigueRatio = acuteLoad / chronicLoad;
+
+  // Ratios from sports science literature
+  if (fatigueRatio > 1.5) return { status: 'HIGH_FATIGUE', recommendation: 'Consider deload' };
+  if (fatigueRatio < 0.8) return { status: 'DETRAINING', recommendation: 'Increase volume' };
+  return { status: 'OPTIMAL', recommendation: 'Continue current training' };
+}
+```
+
+**Context-Aware Plateau Detection:**
+```typescript
+function detectPlateauWithContext(exerciseHistory, user) {
+  const mannKendall = performMannKendallTest(exerciseHistory, 28); // 4 weeks
+  const isStatisticalPlateau = mannKendall.slope < 0.5 && mannKendall.pValue > 0.05;
+
+  // Context matters: stable in cut = success, not plateau
+  if (isStatisticalPlateau && user.nutrition_phase === 'cut') {
+    return { isPlateau: false, message: 'Maintaining strength during cut - excellent!' };
+  }
+
+  if (isStatisticalPlateau && user.nutrition_phase === 'bulk') {
+    return { isPlateau: true, message: 'True plateau detected. Consider variation or deload.' };
+  }
+
+  return { isPlateau: isStatisticalPlateau };
+}
 ```
 
 **Progressive Overload Metrics:**
-- Weight (increase kg/lbs)
-- Volume (sets × reps × weight)
-- Intensity (RPE/RIR improvement)
-- Density (reduce rest time)
+- Weight progression (increase kg/lbs)
+- Volume progression (sets × reps × weight)
+- Intensity progression (RPE/RIR improvement, better performance at same RIR)
+- Density progression (reduce rest time while maintaining performance)
 
 ### Features to Avoid (Over-Engineering)
 
 | ❌ Avoid | Why | ✅ Alternative |
 |---------|-----|---------------|
-| "Energy Readiness Score" | Needs wearables (HRV, sleep) | Subjective rating (1-10) |
-| "AI Recommendations" | No training data at launch | Rule-based (if RIR=0 → suggest +2.5kg) |
+| "Energy Readiness Score" | Needs wearables (HRV, sleep) | Fatigue ratio from load management |
+| "AI/ML Recommendations" | No training data at launch | Science-based rules (RIR, load ratios, nutrition context) |
+| "Automatic Program Design" | Too complex for MVP | Template system + suggestions |
 
-**Keep (Simple but Valuable):**
-- Plateau detection (statistical, not AI)
-- Auto-fill last workout
-- Rest timer from history average
+**Core Features (Science-Based, Not AI):**
+- **Personalized 1RM** (RIR-adjusted formulas)
+- **Load management** (acute/chronic ratios)
+- **Context-aware plateau detection** (Mann-Kendall + nutrition phase)
+- **Workout Reports** (performance score, fatigue estimate, recommendations)
+- **Weekly Summaries** (volume trends, consistency, deload suggestions)
+- **Progressive overload suggestions** (based on RIR, fatigue, nutrition phase)
 
 ---
 
@@ -826,10 +877,10 @@ _→ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow_
 - Landscape support - phone on bench
 - One-handed mode
 
-**Offline UX:**
+**Data Reliability:**
 - Never show "No internet" errors during workout
-- Queue sync, show success immediately
-- Subtle sync indicator (status bar)
+- Instant save confirmation (local-first)
+- Subtle sync indicator when online
 - Conflict resolution: Last write wins
 
 **Error Messages (Contextual):**

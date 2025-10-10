@@ -49,12 +49,12 @@
 | Category | Completed | Total | Progress | Notes |
 |----------|-----------|-------|----------|-------|
 | **Infrastructure** | 10 | 18 | 56% | Added WatermelonDB, FlashList, Sentry |
-| **Authentication** | 0 | 14 | 0% | Simplified (removed recovery optimization) |
+| **Authentication** | 0 | 15 | 0% | Added nutrition phase management |
 | **Workout Logging** | 0 | 28 | 0% | Added RIR, plate calculator, quick start |
 | **Exercise Library** | 0 | 10 | 0% | **Reduced** (ExerciseDB API integration vs manual) |
-| **Analytics** | 0 | 10 | 0% | **Simplified** (removed AI, kept plateau detection) |
+| **Analytics** | 0 | 15 | 0% | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
 | **Polish & Launch** | 0 | 18 | 0% | Added Sentry, compliance (GDPR), export |
-| **Total** | 10 | 98 | 10% | |
+| **Total** | 10 | 104 | 10% | |
 
 ---
 
@@ -118,6 +118,7 @@
   - Create SQL migration with revised schema (see TECHNICAL.md § Database Schema)
   - Tables: users, exercises, workouts, workout_exercises, exercise_sets
   - Add fields: weight_unit, rir, rest_time_seconds, superset_group, etc.
+  - Add nutrition phase tracking to users table (nutrition_phase, nutrition_phase_started_at)
   - Add subscription_tier to users table (future monetization)
   - Implement Row Level Security policies
   - Create indexes for performance
@@ -174,12 +175,14 @@
   Tasks:
   - npm install simple-statistics
   - Create analytics utilities folder
-  - Implement 1RM calculation functions (see TECHNICAL.md)
-  - Implement plateau detection algorithm
+  - Implement personalized 1RM calculation with RIR adjustment (see TECHNICAL.md)
+  - Implement load management calculations (acute/chronic load, fatigue ratio)
+  - Implement context-aware plateau detection algorithm
 
   Files to create:
-  - src/utils/analytics/calculations.ts (1RM, volume, etc.)
-  - src/utils/analytics/plateau.ts (statistical analysis)
+  - src/utils/analytics/calculations.ts (personalized 1RM, volume, load management)
+  - src/utils/analytics/plateau.ts (Mann-Kendall with nutrition context)
+  - src/utils/analytics/loadManagement.ts (acute/chronic, fatigue ratio)
   ```
 
 - [ ] 0.5.7 **Update Zustand stores to persist via MMKV** (S - 1h)
@@ -301,10 +304,23 @@
 - [ ] 4.2 Create useful TypeScript types (M - 2h) `[src/types/]`
   ```
   Files to create:
-  - src/types/database.ts (database tables interfaces)
+  - src/types/database.ts (database tables interfaces including nutrition_phase)
   - src/types/exercises.ts (exercise, set, workout types)
-  - src/types/user.ts (user, profile types)
+  - src/types/user.ts (user, profile, nutrition phase types)
+  - src/types/analytics.ts (load metrics, fatigue ratios, workout reports)
   - src/types/api.ts (API response types)
+  ```
+
+- [ ] 4.3 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
+  ```
+  Features:
+  - Current phase display (bulk/cut/maintenance)
+  - Phase duration tracker
+  - Simple toggle to change phase
+  - Explanation of how phase affects analytics
+  - History of past phases (optional for MVP)
+
+  Updates users.nutrition_phase and nutrition_phase_started_at
   ```
 
 ---
@@ -663,10 +679,10 @@
 
 ---
 
-## 📋 Phase 4: Analytics & Smart Features (0/10)
+## 📋 Phase 4: Analytics & Smart Features (0/15)
 
-**Timeline:** Weeks 11-12 | **Priority:** MEDIUM
-**MAJOR CHANGES:** Removed AI features, kept statistical algorithms
+**Timeline:** Weeks 11-12 | **Priority:** HIGH
+**MAJOR CHANGES:** Enhanced with context-aware analytics, load management, personalized 1RM, workout reports
 
 ### 12. Progress Dashboard
 
@@ -683,14 +699,15 @@
   Data source: WatermelonDB aggregation queries
   ```
 
-- [ ] 12.2 Implement volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
+- [ ] 12.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
   ```
   Calculations (see TECHNICAL.md Analytics section):
-  - Total volume: Σ (sets × reps × weight)
-  - Effective volume: Weight by RPE intensity
-  - Volume by muscle group
-  - Volume by week/month
-  - Compound vs isolation volume
+  - Total volume: Σ (sets × reps × weight) - exclude warmup sets
+  - Effective volume: Weight by exercise position and RIR
+  - Volume by muscle group, movement pattern
+  - Volume by week/month with nutrition phase context
+  - Compound vs isolation volume (1.5x multiplier for compounds)
+  - Acute Load (7-day), Chronic Load (28-day), Fatigue Ratio
 
   Store aggregated data in WatermelonDB for performance
   ```
@@ -706,58 +723,116 @@
   - Zoom/pan gestures (Victory Native supports)
   ```
 
-### 13. Advanced Analytics (Statistical, not AI)
+### 13. Advanced Analytics (Science-Based)
 
-- [ ] 13.1 **Implement plateau detection algorithm** (M - 4h) `[src/lib/analytics/plateau.ts]` `[KEEP - Scientific]`
+- [ ] 13.1 **Implement context-aware plateau detection** (M - 5h) `[src/lib/analytics/plateau.ts]` `[CRITICAL]`
   ```
   Algorithm (see TECHNICAL.md):
   - Use Mann-Kendall trend test (simple-statistics library)
   - Linear regression for slope
   - Analyze last 4-8 weeks of data
-  - Return: isPlateau (boolean), trend direction, confidence level
+  - CONTEXT-AWARE: Check user nutrition phase
+    - If cut: stable = success (not plateau)
+    - If bulk: stable = true plateau
+    - If maintenance: evaluate normally
+  - Return: isPlateau (boolean), trend, confidence, contextMessage
 
-  NOT AI/ML - pure statistical analysis
+  Science-based statistical analysis, NOT AI/ML
   ```
 
-- [ ] 13.2 Implement volume distribution (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
+- [ ] 13.2 Implement load management system (M - 4h) `[src/lib/analytics/loadManagement.ts]` `[NEW - CRITICAL]`
+  ```
+  Metrics from sports science literature:
+  - Acute Load: Sum of volume (last 7 days)
+  - Chronic Load: Average volume (last 28 days)
+  - Fatigue Ratio: Acute / Chronic
+    - >1.5 = HIGH FATIGUE → suggest deload
+    - 0.8-1.5 = OPTIMAL
+    - <0.8 = DETRAINING → increase volume
+  - Overtraining alerts based on sustained high ratios
+
+  Display in dashboard and post-workout reports
+  ```
+
+- [ ] 13.3 Implement personalized 1RM with RIR adjustment (M - 3h) `[src/lib/analytics/personalized1RM.ts]` `[NEW]`
+  ```
+  Enhancement over basic formulas:
+  - Calculate base 1RM (avg of Epley, Brzycki, Lombardi)
+  - Adjust by RIR: each RIR point = ~3.3% additional capacity
+  - Example: 100kg × 8 @ RIR2 = higher e1RM than 105kg × 6 @ RIR0
+  - Only use "working sets" (exclude warmups, RIR ≤ 3)
+  - Track personal accuracy factor over time
+
+  Compare PRs using adjusted 1RM, not just raw weight
+  ```
+
+- [ ] 13.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
   ```
   Analysis:
   - Volume per muscle group (pie chart)
+  - Volume per movement pattern (push/pull/legs)
   - Volume per exercise category (compound vs isolation)
   - Volume per day of week (bar chart)
   - Recommendations: "Increase chest volume by 15% to match back"
+  - Contextualize by nutrition phase
   ```
 
-- [ ] 13.3 Add workout frequency analysis (M - 3h)
+- [ ] 13.5 Add workout frequency & consistency analysis (M - 3h)
   ```
   Metrics:
-  - Workouts per week (average, trend)
+  - Workouts per week (average, trend, by nutrition phase)
   - Most common workout days
-  - Consistency score (%)
+  - Consistency score (%) - missed vs planned
   - Streak tracking (current, longest)
   - Calendar heatmap visualization
+  - Session completion rate (started vs finished)
   ```
 
-### 14. Smart Features (Rule-Based, Not AI)
+### 14. Performance Feedback & Reports
 
-- [ ] 14.1 Implement 1RM calculations (S - 2h) `[src/lib/analytics/calculations.ts]`
+- [ ] 14.1 **Create post-workout report system** (L - 6h) `[src/components/analytics/WorkoutReport.tsx]` `[NEW - CRITICAL]`
   ```
-  Use established formulas (see TECHNICAL.md):
-  - Epley, Brzycki, Lombardi, Mayhew
-  - Average of multiple formulas for accuracy
-  - Display estimated 1RM for each exercise
-  - Track 1RM progression over time
+  Displayed immediately after "End Workout":
+  - Performance Score (1-10) based on:
+    - Volume vs historical average (adjusted by nutrition phase)
+    - Intensity (avg RIR, set completion)
+    - Consistency (adherence to plan/template)
+  - Fatigue Estimate: Acute/Chronic Load ratio
+    - "Low" / "Moderate" / "High"
+  - Contextualized Feedback:
+    - "Volume down 8% in cut - expected and healthy"
+    - "Maintained intensity despite fatigue - excellent"
+  - Recommendations:
+    - "Consider extra rest day this week" (high fatigue)
+    - "Good recovery indicators, push hard next session"
+
+  Keep it concise (3-4 lines max), actionable, science-based
   ```
 
-- [ ] 14.2 Add rule-based weight suggestions (M - 3h)
+- [ ] 14.2 **Create weekly summary system** (L - 5h) `[src/components/analytics/WeeklySummary.tsx]` `[NEW]`
   ```
-  Simple rules (NOT AI):
-  - If last set RIR = 0-1 → "Try +2.5kg next time"
-  - If last set RIR = 4-5 → "Try +1 rep or +2.5kg"
-  - If plateau detected → "Consider deload week"
-  - If volume spike >30% → "Watch for fatigue"
+  Generated every Monday morning (background task):
+  - Volume trends (by muscle group, vs previous week)
+  - Personal records achieved
+  - Consistency metrics (workouts completed, streak)
+  - Load management status (acute/chronic ratio)
+  - Deload recommendation if needed (sustained high fatigue)
+  - Nutrition phase context ("Week 3 of cut, strength maintained")
 
-  Show as subtle suggestions, not forced recommendations
+  Push notification: "Your Weekly Summary is ready!"
+  ```
+
+- [ ] 14.3 Add context-aware weight suggestions (M - 4h) `[src/lib/suggestions/weightSuggestions.ts]`
+  ```
+  Science-based rules (NOT AI):
+  - If last RIR = 0-1 AND nutrition = bulk → "+2.5kg"
+  - If last RIR = 0-1 AND nutrition = cut → "Maintain weight"
+  - If last RIR = 4-5 → "+1 rep or +2.5kg"
+  - If plateau + bulk → "Consider deload or variation"
+  - If fatigue ratio >1.4 → "Maintain or reduce volume"
+  - If performance declining 2+ weeks → "Check recovery"
+
+  Show as subtle suggestions, consider all context
   ```
 
 ---

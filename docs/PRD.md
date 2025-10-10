@@ -15,13 +15,13 @@ This product requirements document defines the scope, features, and technical re
 
 ### Product summary
 
-Halterofit is a mobile fitness tracking application that solves a critical problem for serious lifters: existing workout tracking apps fail in gym environments due to poor WiFi connectivity, leading to data loss and frustration. The application provides true offline-first architecture, ensuring workouts are never lost while delivering scientific analytics based on validated formulas rather than AI gimmicks.
+Halterofit is a mobile fitness tracking application designed for serious lifters who demand intelligent progression analytics. Unlike existing apps that only track raw data, Halterofit provides context-aware analysis that accounts for exercise order, rest periods, nutrition phase (bulk/cut/maintenance), RIR/RPE, and training fatigue to deliver actionable insights for breaking plateaus and optimizing progression.
 
-**Core value proposition:** Reliable workout tracking that works without internet + scientific analytics for serious progression tracking.
+**Core value proposition:** Intelligent workout tracking with scientific analytics that understand context, not just numbers.
 
-**Target market:** Serious bodybuilders, strength athletes, and powerlifters who train 3-6 times per week and require reliable workout data for progressive overload.
+**Target market:** Serious bodybuilders, strength athletes, and powerlifters who train 3-6 times per week and require data-driven insights for progressive overload.
 
-**Competitive differentiation:** True offline-first architecture using WatermelonDB, scientific plateau detection using Mann-Kendall statistical test, and essential gym features like plate calculator and background rest timer.
+**Competitive differentiation:** Context-aware analytics (nutrition phase, exercise position, fatigue modeling), statistical plateau detection (Mann-Kendall test), advanced load tracking (acute/chronic ratios), personalized 1RM estimation adjusted by RIR, and comprehensive performance feedback (Workout Reports, Weekly Summaries).
 
 ---
 
@@ -46,10 +46,10 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 ### User goals
 
 **Primary user goals:**
-- Log workouts quickly (1-2 taps per set) without losing data in poor WiFi environments
-- Track progressive overload through weight, volume, and intensity metrics
+- Log workouts quickly (1-2 taps per set) with guaranteed data reliability
+- Track progressive overload through context-aware metrics (weight, volume, intensity, fatigue)
 - Detect training plateaus early using statistical analysis
-- Access workout history and exercise library without internet connection
+- Understand progression in context of nutrition phase (bulk/cut/maintenance) and training variables
 
 **Secondary user goals:**
 - Understand which muscle groups need more volume for balanced development
@@ -82,25 +82,27 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 - Primary goal: Hypertrophy and progressive overload
 
 **Behaviors:**
-- Tracks every set with precision (weight, reps, perceived difficulty)
+- Tracks every set with precision (weight, reps, perceived difficulty, context)
 - Plans workouts in advance or follows structured programs
-- Trains in commercial gyms with often poor WiFi connectivity
+- Adjusts training expectations based on nutrition phase (bulk, cut, or maintenance)
 - Uses phone during rest periods (email, social media, workout tracking)
-- Values data accuracy and historical tracking for progression analysis
+- Values context-aware analytics that explain why performance changes
 
 **Pain points:**
-- Current apps lose data when WiFi drops during workout
+- Current apps show raw numbers without context (no nutrition phase awareness, exercise order impact, fatigue modeling)
+- No RIR/RPE tracking or intelligent analytics based on proximity to failure
+- Analytics are basic: only show 1RM/weight charts without trends, regressions, or plateau alerts
+- No load management (acute/chronic load ratios, overtraining detection)
 - Excessive tapping required to log sets (7+ taps in some apps)
-- Cannot access exercise library or history without internet
-- Rest timer stops working when phone is locked or app minimized
-- Difficult to identify plateaus without manual spreadsheet analysis
+- Difficult to identify plateaus without manual analysis or understand WHY they happen
 
 **Needs from the product:**
-- Guaranteed offline functionality (workouts never lost)
-- Quick set logging with auto-fill from previous workout
-- Plate calculator for quick weight planning
-- Background rest timer with notifications
-- Statistical plateau detection to adjust training strategy
+- Quick set logging with context tracking (RIR, exercise position, rest periods)
+- Science-based analytics: statistical plateau detection (Mann-Kendall), load management (acute/chronic ratios), personalized 1RM with RIR adjustment
+- Nutrition phase tracking to contextualize performance (bulk/cut/maintenance)
+- Actionable insights: "Why am I plateauing? What should I change?"
+- Weekly summaries and workout reports with fatigue indicators
+- Reliable data capture without network dependency
 
 ### Secondary persona: Strength athlete
 
@@ -114,20 +116,22 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 - Follows periodized training programs with precise loading schemes
 - Tracks 1RM progression and training percentages
 - Uses RPE/RIR scales for autoregulation (adjust daily based on readiness)
-- Trains in garage gyms or specialized strength facilities (often no WiFi)
+- Monitors fatigue and adjusts intensity based on science-backed indicators
 - Reviews training logs to identify weak points and adjust programming
 
 **Pain points:**
-- Need accurate 1RM calculations using validated formulas (Epley, Brzycki, Lombardi)
-- Difficult to track RPE across weeks to manage fatigue
+- Basic 1RM formulas don't account for RIR or individual response curves
+- Difficult to track RPE/RIR trends and relate them to performance outcomes
+- No fatigue modeling (acute vs chronic load ratios)
 - Cannot analyze volume distribution across movement patterns
-- Existing apps focus on bodybuilding, not strength-specific metrics
+- Existing apps don't contextualize performance within training phases
 
 **Needs from the product:**
-- Accurate 1RM calculations with multiple validated formulas
-- RPE/RIR tracking with historical trends
-- Volume analysis by lift type (squat, bench, deadlift patterns)
-- Reliable offline mode for basement/garage gym training
+- Personalized 1RM calculations adjusted by RIR and historical accuracy
+- RPE/RIR tracking with trends and fatigue indicators
+- Load management metrics (acute/chronic load, fatigue ratio, overtraining alerts)
+- Volume analysis by lift type and movement pattern
+- Science-based recommendations for deload, intensity adjustments
 - Export data for coach review or personal analysis
 
 ### Role-based access
@@ -167,20 +171,19 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 **Phase:** 0.5 (Week 3)
 
 **Requirements:**
-- WatermelonDB local SQLite database for all workout data
+- WatermelonDB local SQLite database for all workout data (offline-first architecture)
 - Automatic bidirectional sync with Supabase when internet available
 - Conflict resolution using "last write wins" strategy
 - Sync queue indicator in UI showing pending changes
-- No "network error" messages during workout logging
-- Workout data persists locally even if user never goes online
+- Workout data persists locally with guaranteed reliability
 
 **Acceptance criteria:**
-- User can log entire workout with airplane mode enabled
+- User can log entire workout offline without interruption
 - Data automatically syncs to Supabase when connection restored
 - Sync indicator shows pending/syncing/synced states clearly
 - Conflict resolution works correctly when same workout edited on multiple devices
-- App never shows blocking errors due to network connectivity
 - Database schema matches exactly between WatermelonDB and Supabase
+- Zero data loss guarantee regardless of network conditions
 
 ### Workout logging
 
@@ -232,25 +235,25 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 
 ### Analytics and progression tracking
 
-**Priority:** MEDIUM
+**Priority:** HIGH
 **Phase:** 4 (Weeks 11-12)
 
 **Requirements:**
-- Volume tracking by week, month, and muscle group (sets × reps × weight)
-- Strength progression charts for selected exercises (Victory Native charts)
-- Estimated 1RM calculations using average of Epley, Brzycki, and Lombardi formulas
-- Plateau detection using Mann-Kendall statistical test on 4-8 week windows
-- Personal records tracking (max weight, max reps, max volume per exercise)
-- Workout frequency analysis and consistency scoring
-- Volume distribution by muscle group with visual pie/bar charts
+- **Context-aware metrics:** Nutrition phase tracking (bulk/cut/maintenance), exercise order impact, rest time analysis, set type classification (warmup/working/drop set)
+- **Load management:** Acute Load (7-day volume), Chronic Load (28-day average), Fatigue Ratio (AL/CL), overtraining alerts
+- **Advanced analytics:** Personalized 1RM adjusted by RIR and historical accuracy, plateau detection (Mann-Kendall test), regression analysis with trend lines
+- **Performance feedback:** Post-workout reports (performance score, fatigue estimate, recommendations), weekly summaries (volume trends, PR highlights, deload suggestions)
+- **Volume tracking:** By week/month/muscle group/movement pattern, visualized with trend lines and smoothing
+- **Progression visualization:** Multi-exercise comparisons, rolling metrics, phase-based analysis (mesocycle tracking)
 
 **Acceptance criteria:**
-- Volume calculations correctly weight compound exercises with 1.5x multiplier
-- 1RM estimations match validated formulas within 0.5kg accuracy
-- Plateau detection identifies stagnant progression with p-value > 0.05 significance
-- Charts render 1,000+ data points in <500ms with zoom/pan gestures
-- Analytics dashboard loads in <1 second using pre-aggregated WatermelonDB queries
-- Personal records automatically update when new PR achieved
+- Nutrition phase contextualization: "Performance stable in cut is expected, not a plateau"
+- Personalized 1RM uses RIR data: "100kg × 8 @ RIR2 = higher e1RM than 105kg × 6 @ RIR0"
+- Fatigue ratio alerts: "AL/CL = 1.5 → Consider deload this week"
+- Plateau detection with context: "No progress + nutrition = maintenance. No progress + bulk = true plateau"
+- Workout reports display within 2s of completing workout
+- Charts support zoom/pan, render 1000+ points in <500ms, show trend lines/regressions
+- Weekly summaries generated automatically every Monday morning
 
 ### User experience features
 
@@ -400,7 +403,11 @@ Halterofit is a mobile fitness tracking application that solves a critical probl
 
 ## Narrative
 
-I am a dedicated bodybuilder training 5 times per week at my local gym where WiFi is unreliable. I open Halterofit for my Push Day workout and tap "Repeat Last Workout" to load my previous session. The app instantly shows Bench Press with my last weight and reps pre-filled. I perform my first set, tap the checkmark, and my rest timer automatically starts with a 3-minute countdown. During rest, I scroll social media and the timer continues in the background. When rest completes, my phone vibrates and shows a notification. I increase the weight using the "+5kg" button and tap the plate calculator to see I need a 20kg and 2.5kg plate per side. I log my sets quickly, complete all exercises in my workout, and hit "End Workout." The app saves everything locally and shows me I achieved a new PR on Incline Dumbbell Press. Later that evening at home with WiFi, I check the Analytics tab and see a plateau alert for Overhead Press. The chart shows my weight has been flat for 5 weeks with statistical significance, and the app suggests a deload week. I adjust my training plan accordingly, confident that my data is accurate and my progression is optimized.
+I am a dedicated bodybuilder training 5 times per week, currently in a cutting phase. I open Halterofit for my Push Day workout and tap "Repeat Last Workout" to load my previous session. The app instantly shows Bench Press with my last weight and reps pre-filled, along with a suggestion based on my last RIR: "Last set: 100kg × 8 @ RIR2 → Try 102.5kg for progressive overload." I perform my first set at 102.5kg × 7 @ RIR2, tap the checkmark, and my rest timer automatically starts with a 3-minute countdown. I log all my sets quickly, tracking RIR on each one.
+
+After completing the workout, I get an immediate Workout Report: "Performance Score: 8.5/10 | Fatigue: Moderate | Volume slightly below average due to cut phase - this is expected. Consider maintaining intensity rather than pushing for PRs this week." The report also shows my Acute/Chronic Load ratio is 1.2 (healthy range), and I'm on track with my weekly volume targets given my nutrition phase.
+
+Later that evening, I check the Analytics tab and see my Bench Press progression chart. Despite weight being stable for 3 weeks, the app doesn't flag a plateau - instead it contextualizes: "Maintaining strength during cut phase is excellent progress. Your personalized 1RM (adjusted by RIR data) actually increased 2kg." I also review my Weekly Summary showing volume distribution by muscle group, my consistency streak (23 workouts, 92% completion rate), and a recommendation: "Consider a deload week in 2 weeks based on cumulative fatigue indicators." I adjust my training plan accordingly, confident that my data tells the full story, not just raw numbers.
 
 ---
 
