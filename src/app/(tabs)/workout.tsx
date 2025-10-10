@@ -1,30 +1,12 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 export default function WorkoutScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Workout</Text>
-      <Text style={styles.subtitle}>Start your training session</Text>
+    <View className="flex-1 bg-background items-center justify-center p-6">
+      <Text className="text-3xl font-bold text-foreground mb-2">Workout</Text>
+      <Text className="text-base text-foreground-secondary">
+        Start your training session
+      </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#F0F0F0',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#999',
-  },
-});

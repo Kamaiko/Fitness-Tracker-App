@@ -7,6 +7,7 @@
 
 import { View } from 'react-native';
 import { CartesianChart, Line } from 'victory-native';
+import { COLORS } from '@/constants/colors';
 
 interface ExampleLineChartProps {
   data?: { week: number; weight: number }[];
@@ -36,7 +37,7 @@ export function ExampleLineChart({ data }: ExampleLineChartProps) {
         {({ points }) => (
           <Line
             points={points.weight}
-            color="#4299e1"
+            color={COLORS.primary.DEFAULT}
             strokeWidth={3}
             animate={{ type: "timing", duration: 300 }}
           />

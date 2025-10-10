@@ -2,9 +2,10 @@ module.exports = function (api) {
   api.cache(true);
 
   return {
-    presets: ['babel-preset-expo'],
+    presets: [
+      ['babel-preset-expo', { jsxImportSource: 'nativewind' }]
+    ],
     plugins: [
-      // NativeWind plugin for Tailwind CSS classes
       'nativewind/babel',
     ],
   };

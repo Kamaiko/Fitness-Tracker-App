@@ -104,7 +104,7 @@ export default function HomeScreen() {
       <View className="px-6 mt-4 mb-8">
         <TouchableOpacity activeOpacity={0.9}>
           <LinearGradient
-            colors={['#8A2BE2', '#00FFFF']}
+            colors={['#8A2BE2', '#00FFFF']} // Vibrant gradient for CTA (intentional design choice)
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             className="rounded-2xl p-5 flex-row items-center justify-center shadow-lg"
@@ -112,7 +112,7 @@ export default function HomeScreen() {
             <Text className="text-lg font-bold text-white tracking-widest">
               START WORKOUT
             </Text>
-            <View className="w-2 h-2 rounded-full bg-[#00FFFF] ml-3" />
+            <View className="w-2 h-2 rounded-full bg-cyan-400 ml-3" />
           </LinearGradient>
         </TouchableOpacity>
       </View>

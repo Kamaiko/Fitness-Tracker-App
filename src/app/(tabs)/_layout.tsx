@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet, Text } from 'react-native';
+import { COLORS } from '@/constants/colors';
 
 export default function TabsLayout() {
   return (
@@ -7,8 +8,8 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#8A2BE2',
-        tabBarInactiveTintColor: '#666666',
+        tabBarActiveTintColor: COLORS.primary.DEFAULT,
+        tabBarInactiveTintColor: COLORS.foreground.tertiary,
         tabBarShowLabel: true,
         tabBarLabelStyle: styles.tabLabel,
       }}
@@ -24,21 +25,21 @@ export default function TabsLayout() {
         name="workout"
         options={{
           title: 'Workout',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>▶️</Text>,
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>💪</Text>,
         }}
       />
       <Tabs.Screen
         name="stats"
         options={{
-          title: 'Stats',
+          title: 'Analytics',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>📊</Text>,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>⚙️</Text>,
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>👤</Text>,
         }}
       />
     </Tabs>
@@ -47,9 +48,9 @@ export default function TabsLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.background.surface,
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: COLORS.background.elevated,
     height: 85,
     paddingBottom: 25,
     paddingTop: 8,
