@@ -48,13 +48,13 @@
 
 | Category | Completed | Total | Progress | Notes |
 |----------|-----------|-------|----------|-------|
-| **Infrastructure** | 10 | 18 | 56% | Added WatermelonDB, FlashList, Sentry |
+| **Infrastructure** | 18 | 18 | 100% | ✅ NativeWind + Victory Native migration complete |
 | **Authentication** | 0 | 15 | 0% | Added nutrition phase management |
 | **Workout Logging** | 0 | 28 | 0% | Added RIR, plate calculator, quick start |
 | **Exercise Library** | 0 | 10 | 0% | **Reduced** (ExerciseDB API integration vs manual) |
 | **Analytics** | 0 | 15 | 0% | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
 | **Polish & Launch** | 0 | 18 | 0% | Added Sentry, compliance (GDPR), export |
-| **Total** | 10 | 104 | 10% | |
+| **Total** | 18 | 104 | 17% | Infrastructure phase complete ✅ |
 
 ---
 
@@ -69,7 +69,7 @@
 
 ---
 
-## ✅ Completed Tasks (10)
+## ✅ Completed Tasks (18)
 
 ### Phase 0: Infrastructure & Setup
 - [x] 0.1 Create Expo SDK 54 project with TypeScript
@@ -83,6 +83,13 @@
 - [x] 0.9 Implement dark theme system (colors, spacing, typography)
 - [x] 0.10 Create initial home screen
 - [x] 0.11 **Document architectural decisions (TECHNICAL.md updated)**
+- [x] 0.12 **Migrate to NativeWind v4 (tailwind.config.js, babel, global.css)**
+- [x] 0.13 **Refactor home screen with NativeWind (268→124 lines, 54% reduction)**
+- [x] 0.14 **Switch from react-native-chart-kit to Victory Native v41**
+- [x] 0.15 **Create example Victory Native chart component**
+- [x] 0.16 **Update ADR-005 (NativeWind decision finalized)**
+- [x] 0.17 **Update ADR-011 (Victory Native decision finalized)**
+- [x] 0.18 **Document NativeWind usage in TECHNICAL.md**
 
 ---
 

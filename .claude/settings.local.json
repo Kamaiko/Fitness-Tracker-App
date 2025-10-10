@@ -10,7 +10,10 @@
       "Bash(dir \"C:\\Users\\Patrick Patenaude\\.cursor\" /b /s)",
       "Bash(findstr:*)",
       "Bash(powershell:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
