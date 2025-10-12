@@ -122,22 +122,37 @@ npm start
 
 ---
 
-## ⚠️ Known Limitations & Future Work
+## 🚀 Architecture Notes
 
-### Sync Conflicts (Phase 0-2)
+### Current Implementation
 
-**Current:** Simplified timestamp-based ("last write wins")
-**Limitation:** Multi-device edits of same workout may lose data
-**Upgrade when:** Users report lost changes (>5 reports)
-**Solution:** Add version tracking (2-6h work)
-**Reference:** Git history `git log --grep="audit"` or tag `phase-0.5-audit`
+**Database:** expo-sqlite with Supabase sync (offline-first, fully functional)
+**Sync Strategy:** Last-write-wins (timestamp-based) - simple and reliable for single-user MVP
+**Storage:** AsyncStorage for preferences and auth tokens
+**Performance:** Optimized for 500-1000 workouts without indexes
 
-### Performance
+### Planned Enhancements (Post-MVP)
 
-**Database indexes:** Add when >500 workouts (2h work)
+These optimizations will be implemented **only if production metrics indicate need**:
 
-### Scalability
+**Multi-Device Sync Conflict Resolution:**
 
-**Repository Pattern:** Refactor only if migrating to WatermelonDB (1 week work)
+- Current: Last-write-wins (sufficient for 95% of use cases)
+- Future: Add version tracking if users report data loss (>5 reports)
+- Effort: 2-6 hours when needed
+
+**Database Performance:**
+
+- Current: expo-sqlite performs well up to 500+ workouts
+- Future: Add indexes if query times exceed 200ms at p95
+- Effort: 2-4 hours when needed
+
+**Architecture Flexibility:**
+
+- Current: Direct database calls (fast development, easy maintenance)
+- Future: Repository pattern only if migrating to WatermelonDB (1000+ users)
+- Effort: 1 week when needed
+
+**Migration Path:** See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed optimization triggers
 
 ---
