@@ -6,6 +6,27 @@
 
 ---
 
+## 📑 Table des Matières
+
+- [📐 Vue d'Ensemble](#-vue-densemble)
+- [📂 Structure Détaillée](#-structure-détaillée)
+  - [1. `/app` - Navigation (Expo Router)](#1-app---navigation-expo-router)
+  - [2. `/components` - UI Components](#2-components---ui-components)
+  - [3. `/hooks` - Custom React Hooks](#3-hooks---custom-react-hooks)
+  - [4. `/services` - Business Logic](#4-services---business-logic)
+  - [5. `/stores` - Global State (Zustand)](#5-stores---global-state-zustand)
+  - [6. `/types` - TypeScript Definitions](#6-types---typescript-definitions)
+  - [7. `/utils` - Pure Utility Functions](#7-utils---pure-utility-functions)
+  - [8. `/constants` - App-wide Constants](#8-constants---app-wide-constants)
+- [🔄 Data Flow](#-data-flow)
+- [📦 Import Patterns](#-import-patterns)
+- [🧪 Testing Strategy (Future)](#-testing-strategy-future)
+- [🚀 Post-MVP Performance Optimizations](#-post-mvp-performance-optimizations)
+- [📚 Références](#-références)
+- [✅ Architecture Checklist](#-architecture-checklist)
+
+---
+
 ## 📐 Vue d'Ensemble
 
 Halterofit utilise une **architecture modulaire scalable** inspirée des meilleures pratiques React Native/Expo:

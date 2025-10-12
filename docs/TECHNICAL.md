@@ -1,8 +1,39 @@
 # 🏗️ Technical Documentation
 
-**Last Updated:** October 2025
+**Last Updated:** January 2025
 **Version:** 0.2.0
-**Status:** ✅ Production-Ready
+**Status:** Phase 0.5 - Foundation
+
+---
+
+## 📑 Table of Contents
+
+- [📐 Architecture Overview](#-architecture-overview)
+- [📦 Technology Stack](#-technology-stack)
+- [🏛️ Architecture Decisions (ADRs)](#️-architecture-decisions-adrs)
+  - [ADR-001: Expo SDK vs Bare React Native](#adr-001-expo-sdk-vs-bare-react-native)
+  - [ADR-002: Supabase vs Firebase vs AWS Amplify](#adr-002-supabase-vs-firebase-vs-aws-amplify)
+  - [ADR-003: TypeScript Strict Mode](#adr-003-typescript-strict-mode)
+  - [ADR-004: Database Strategy - expo-sqlite](#adr-004-database-strategy---expo-sqlite)
+  - [ADR-005: Navigation with Expo Router](#adr-005-navigation-with-expo-router)
+  - [ADR-006: State Management - Zustand + React Query](#adr-006-state-management---zustand--react-query)
+  - [ADR-007: Styling with NativeWind](#adr-007-styling-with-nativewind)
+  - [ADR-008: Testing Strategy](#adr-008-testing-strategy)
+  - [ADR-009: Storage Strategy - AsyncStorage](#adr-009-storage-strategy---asyncstorage)
+  - [ADR-010: Performance Libraries](#adr-010-performance-libraries)
+  - [ADR-011: Charts Library - react-native-chart-kit](#adr-011-charts-library---react-native-chart-kit)
+- [📁 Project Structure](#-project-structure)
+- [🎨 Design System](#-design-system)
+- [🗄️ Database Schema](#️-database-schema)
+- [📊 Analytics & Algorithms](#-analytics--algorithms)
+- [💰 Business Model & Monetization](#-business-model--monetization-strategy)
+- [🔐 Security & Monitoring](#-security--monitoring)
+- [⚡ Performance Guidelines](#-performance-guidelines)
+- [📋 Coding Standards](#-coding-standards)
+- [🔧 Development Workflow](#-development-workflow)
+- [🚀 Deployment](#-deployment)
+- [🎨 UX Best Practices](#-ux-best-practices-from-strong-hevy-jefit)
+- [📚 Resources](#-resources)
 
 ---
 
