@@ -16,18 +16,21 @@
 - ✅ Supabase client configured with AsyncStorage auth persistence
 - ✅ AsyncStorage abstraction (clean migration path to MMKV Phase 3)
 - ✅ NativeWind v4 (Tailwind CSS) - all screens migrated
-- ✅ Victory Native v41 for analytics charts
-- ✅ ESLint + Prettier configured
+- ✅ react-native-chart-kit for analytics charts (Expo Go compatible)
+- ✅ ESLint + Prettier + Husky + lint-staged configured
+- ✅ Commitlint for conventional commits
+- ✅ Jest + React Native Testing Library infrastructure
 - ✅ Zustand stores (auth, workout)
 - ✅ Centralized color constants (src/constants/colors.ts)
 - ✅ Home screen with Expo Router navigation
 - ✅ App runs successfully on Android (Expo Go compatible)
 - ✅ **Architectural decisions documented (ADRs updated)**
+- ✅ **expo-sqlite database with Supabase sync**
 
 ### What's Next (Critical Path)
 
-- 🎯 **Phase 0.5:** WatermelonDB setup + DB schema implementation
-- 🎯 **Phase 1:** Authentication + Performance libraries
+- 🎯 **Phase 0.5:** Critical audit corrections (user persistence, error handling, Zustand persist)
+- 🎯 **Phase 1:** Authentication + CI/CD + Performance libraries
 - 🎯 **Phase 2:** Workout logging core features
 
 ---
@@ -44,8 +47,8 @@
 └── Phase 5: Polish, Monitoring & Beta (Weeks 13-14)
 ```
 
-**Target:** MVP Launch in 14 weeks (revised from 12 weeks)
-**Reason for extension:** WatermelonDB integration + proper DB schema takes time but prevents future refactoring
+**Target:** MVP Launch in 14 weeks
+**Note:** Using expo-sqlite (Expo Go compatible) instead of WatermelonDB for Phase 0-2
 
 ---
 
@@ -53,7 +56,7 @@
 
 | Category             | Completed | Total | Progress | Notes                                                                               |
 | -------------------- | --------- | ----- | -------- | ----------------------------------------------------------------------------------- |
-| **Infrastructure**   | 21        | 21    | 100%     | ✅ NativeWind, Victory Native, ESLint, AsyncStorage                                 |
+| **Infrastructure**   | 21        | 21    | 100%     | ✅ NativeWind, chart-kit, ESLint, Husky, AsyncStorage                               |
 | **Architecture**     | 3         | 10    | 30%      | ✅ Jest setup complete, ⚠️ CRITICAL: 8 audit corrections needed                     |
 | **Testing**          | 1         | 2     | 50%      | ✅ Jest infrastructure, pending: 30-40 unit tests                                   |
 | **Authentication**   | 0         | 15    | 0%       | Added nutrition phase management                                                    |
@@ -97,18 +100,28 @@ Key milestones:
 
 ---
 
-## 📋 Phase 0.5: Architecture & Database Setup (13/15) ⭐ CRITICAL
+## 📋 Phase 0.5: Architecture & Critical Corrections (4/11) ⭐ CRITICAL
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
-**Goal:** Establish offline-first architecture with expo-sqlite + Supabase sync
+**Goal:** Complete offline-first architecture setup and critical audit corrections
 
-**DECISION:** Using expo-sqlite (Expo Go compatible) instead of WatermelonDB
+**COMPLETED:**
 
-- ✅ Keeps Expo Go workflow
-- ✅ Offline-first architecture
-- ✅ Migration path to WatermelonDB at 1000+ users
+- ✅ expo-sqlite database with Supabase sync (offline-first)
+- ✅ Modular architecture refactor (barrel exports, clean structure)
+- ✅ Technical audit (8 problems identified)
+- ✅ Jest testing infrastructure (ready for CI/CD)
 
-**⚠️ AUDIT CRITICAL:** 8 corrections identified - See [AUDIT_FIXES.md](./AUDIT_FIXES.md)
+**IN PROGRESS:**
+
+- ⚠️ 8 critical corrections required before Phase 1
+- See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
+
+**WHY expo-sqlite (not WatermelonDB):**
+
+- ✅ 100% Expo Go compatible (no Dev Client needed)
+- ✅ Offline-first with Supabase sync
+- ✅ Migration path to WatermelonDB at 1000+ users if needed
 
 ### 0.5. Database & Storage Architecture
 
@@ -271,9 +284,10 @@ Key milestones:
 - [ ] 0.5.15 **[OPTIONAL] Chart Abstraction** (M - 3h)
 
   ```
-  Problem: Hard Victory Native migration
-  Impact if skipped: 📘 3h refactor Phase 3
+  Problem: Tight coupling to react-native-chart-kit
+  Impact if skipped: 📘 3h refactor if switching chart library
   See: AUDIT_FIXES.md → Correction #7
+  Note: Low priority - chart-kit works well for MVP
   ```
 
 - [ ] 0.5.16 **[OPTIONAL] Domain vs DB Types** (M - 4h)
@@ -836,7 +850,7 @@ Key milestones:
   Implementation:
   - Bottom sheet modal
   - Multiple selection (checkboxes)
-  - Apply filters to WatermelonDB query
+  - Apply filters to expo-sqlite query
   - Show active filter count badge
   ```
 
@@ -846,7 +860,7 @@ Key milestones:
 
   ```
   For selected exercise, show:
-  - Chart: Weight progression over time (Victory Native)
+  - Chart: Weight progression over time (react-native-chart-kit)
   - Chart: Volume progression (sets × reps × weight)
   - List: Last 10 workouts with this exercise
   - Personal records: Max weight, Max reps, Max volume
@@ -876,14 +890,14 @@ Key milestones:
 
   ```
   Sections:
-  - Weekly volume chart (bar chart - Victory Native)
+  - Weekly volume chart (bar chart - react-native-chart-kit)
   - Strength progression (line chart - selected exercises)
   - Workout frequency (calendar heatmap)
   - Personal records (list with badges)
   - Body part split (pie chart or bars)
 
-  Charts library: Victory Native (see ADR-011)
-  Data source: WatermelonDB aggregation queries
+  Charts library: react-native-chart-kit (Expo Go compatible)
+  Data source: expo-sqlite aggregation queries
   ```
 
 - [ ] 12.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
@@ -897,7 +911,7 @@ Key milestones:
   - Compound vs isolation volume (1.5x multiplier for compounds)
   - Acute Load (7-day), Chronic Load (28-day), Fatigue Ratio
 
-  Store aggregated data in WatermelonDB for performance
+  Store aggregated data in expo-sqlite for performance
   ```
 
 - [ ] 12.3 Add strength progression charts (M - 4h) `[src/components/analytics/StrengthChart.tsx]`
@@ -908,7 +922,7 @@ Key milestones:
   - Y-axis: Weight or Estimated 1RM
   - Show trend line (linear regression)
   - Highlight PRs with markers
-  - Zoom/pan gestures (Victory Native supports)
+  - Pinch to zoom (react-native-chart-kit or manual implementation)
   ```
 
 ### 13. Advanced Analytics (Science-Based)
