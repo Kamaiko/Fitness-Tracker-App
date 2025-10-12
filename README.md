@@ -112,7 +112,7 @@ npm start
 | **Testing**   | Framework    | Jest + React Native Testing Library                   |
 
 **Current Phase:** 0.5 - **100% Expo Go compatible** (offline-first with expo-sqlite)
-**Future optimization:** Consider WatermelonDB + MMKV at 1000+ users if needed
+**Future optimization:** Consider WatermelonDB + MMKV + Victory Native at 1000+ users if needed
 
 ---
 
