@@ -59,36 +59,6 @@ npm start
 # Scan the QR code displayed in terminal
 ```
 
-### Available Commands
-
-| Command                 | Description                       |
-| ----------------------- | --------------------------------- |
-| `npm start`             | Start Expo development server     |
-| `npm run android`       | Run on Android emulator           |
-| `npm run ios`           | Run on iOS simulator (macOS only) |
-| `npm run type-check`    | Validate TypeScript types         |
-| `npm run lint`          | Check code style with ESLint      |
-| `npm run lint:fix`      | Fix auto-fixable linting issues   |
-| `npm test`              | Run Jest test suite               |
-| `npm run test:watch`    | Run tests in watch mode           |
-| `npm run test:coverage` | Generate coverage report          |
-
-### Common Issues
-
-**"Network request failed"**
-→ Check `.env` file has correct Supabase URL and anon key
-
-**"Database error"**
-→ Ensure database schema is created in Supabase (see [DATABASE.md](docs/DATABASE.md))
-
-**"Module not found"**
-→ Run `npm install` and restart Metro bundler
-
-**"Jest tests failing"**
-→ Clear cache: `npm test -- --clearCache`
-
-**More help?** Check [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed setup
-
 ### Project Documentation
 
 | Document                                    | Description                                          |
