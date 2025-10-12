@@ -23,7 +23,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    storage: storage, // Uses AsyncStorage (Phase 0-2) → MMKV (Phase 3+)
+    storage: {
+      getItem: (key: string) => storage.get(key),
+      setItem: (key: string, value: string) => storage.set(key, value),
+      removeItem: (key: string) => storage.delete(key),
+    },
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,

@@ -7,7 +7,7 @@
 
 import { create } from 'zustand';
 
-interface WorkoutState {
+export interface WorkoutState {
   isWorkoutActive: boolean;
   workoutStartTime: Date | null;
 

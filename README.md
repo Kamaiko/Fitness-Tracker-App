@@ -21,15 +21,52 @@ _⚠️ Placeholder UI_
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
+
+### 1. Installation
 
 ```bash
 npm install
-cp .env.example .env  # Add Supabase credentials
-npm start
+cp .env.example .env  # Add your Supabase credentials
 ```
 
-**Device:** Install [Expo Go](https://expo.dev/client), scan QR code
+### 2. Configure Supabase
+
+Create a free account at [supabase.com](https://supabase.com/dashboard) and add your credentials to `.env`:
+
+```bash
+EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJxxx...
+```
+
+### 3. Start Development
+
+```bash
+npm start  # Start Expo Dev Server
+```
+
+Scan the QR code with [Expo Go](https://expo.dev/client) app on your device.
+
+### 4. Key Commands
+
+```bash
+# Development
+npm start              # Start Expo
+npm run android        # Android emulator
+npm run ios            # iOS simulator
+
+# Code Quality
+npm run type-check     # TypeScript check
+npm run lint           # ESLint
+npm run format         # Prettier format
+```
+
+### 5. Next Steps
+
+- **Database Schema:** See [docs/DATABASE.md](docs/DATABASE.md) for setup
+- **Architecture:** Read [docs/TECHNICAL.md](docs/TECHNICAL.md)
+- **Tasks:** Check [docs/TASKS.md](docs/TASKS.md) for roadmap
+- **Test Database:** Run examples in `src/services/database/__tests__/example.ts`
 
 ---
 
@@ -55,14 +92,15 @@ npm start
 | | Navigation | Expo Router 6 |
 | | Styling | NativeWind v4 (Tailwind CSS) |
 | | State | Zustand 5.0 + React Query 5.90 |
-| | Storage | AsyncStorage (→ WatermelonDB + MMKV in Phase 3) |
+| | **Database** | **expo-sqlite** (offline-first) + Supabase sync |
+| | Preferences | AsyncStorage (auth, settings) |
 | | UI | FlashList + expo-image + react-native-chart-kit |
-| | Charts | react-native-chart-kit (→ Victory Native Phase 3) |
 | **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
 | **External** | Services | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
 | **Analytics** | Libraries | simple-statistics (Mann-Kendall, regressions) |
 
-**Current Phase:** 0.5 - Expo Go compatible (no native modules)
+**Current Phase:** 0.5 - **100% Expo Go compatible** (offline-first with expo-sqlite)
+**Migration Path:** WatermelonDB + MMKV at 1000+ users (Phase 3)
 
 ---
 
@@ -76,7 +114,8 @@ npm start
 
 | Document | Description |
 |----------|-------------|
+| **[DATABASE.md](./docs/DATABASE.md)** | Database setup, CRUD operations, sync guide |
+| **[TECHNICAL.md](./docs/TECHNICAL.md)** | Architecture, ADRs, database schema |
+| **[TASKS.md](./docs/TASKS.md)** | Development roadmap, 107 tasks, progress tracking |
 | **[PRD.md](./docs/PRD.md)** | Product requirements, user personas, success metrics |
-| **[TECHNICAL.md](./docs/TECHNICAL.md)** | Architecture (12 ADRs), database schema, algorithms |
-| **[TASKS.md](./docs/TASKS.md)** | 98 tasks, 14-week timeline, progress tracking |
 | **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** | Setup, commit conventions, workflow |

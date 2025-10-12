@@ -1,21 +1,96 @@
 # 🏗️ Technical Documentation
 
 **Last Updated:** October 2025
-**Version:** 0.2.0 (Architecture Planning Complete)
-**Document Status:** ✅ Production-Ready
-
-> **Note:** This document reflects architectural decisions and planning from deep analysis session (October 2025). All critical decisions (offline-first strategy, database schema, performance libraries, external services) have been documented with rationale and industry best practices.
+**Version:** 0.2.0
+**Status:** ✅ Production-Ready
 
 ---
 
-## 🎯 Architecture Overview
+## 📐 Architecture Overview
 
 ### Philosophy
 - **Mobile-First:** Optimized for mobile experience
-- **Offline-First:** Works without internet connection
+- **Offline-First:** Works without internet connection (CRITICAL)
 - **Performance-First:** <2s cold start, 60fps animations
 - **Type-Safe:** TypeScript strict mode throughout
 - **Simple & Pragmatic:** Choose simplicity over complexity
+
+### Key Decision: expo-sqlite + Supabase Sync
+
+**Why expo-sqlite instead of WatermelonDB:**
+- ✅ **Expo Go Compatible** - No Dev Client required
+- ✅ **Offline-First** - CRITICAL priority from PRD
+- ✅ **Learning Opportunity** - Understand sync logic
+- ✅ **Performance** - Sufficient for <1000 users
+- ✅ **Migration Path** - Easy upgrade to WatermelonDB when needed
+
+### Storage Stack
+
+```
+┌─────────────────────────────────────────┐
+│         USER ACTIONS (UI)               │
+└─────────────┬───────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────┐
+│    ZUSTAND (temporary UI state)         │
+│    - Active workout, form inputs        │
+└─────────────┬───────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────┐
+│    EXPO-SQLITE (offline-first)          │
+│    - Workouts, exercises, sets          │
+│    - Instant save, no network wait      │
+│    - Flag: synced (0 or 1)             │
+└─────────────┬───────────────────────────┘
+              │
+              ▼ (background sync)
+┌─────────────────────────────────────────┐
+│    SUPABASE (cloud backup)              │
+│    - PostgreSQL + Row Level Security    │
+│    - Conflict: last write wins          │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│    ASYNCSTORAGE (preferences only)      │
+│    - Auth tokens, user settings         │
+└─────────────────────────────────────────┘
+```
+
+**Component Rationale:**
+
+| Component | Role | Why This Choice |
+|-----------|------|----------------|
+| **expo-sqlite** | Main database | Expo Go + Offline-first + Performance |
+| **AsyncStorage** | Simple prefs | Already installed + Sufficient for settings |
+| **Supabase** | Cloud sync | No custom backend + RLS + Realtime |
+| **Zustand** | Temporary UI state | Minimal (1KB) + Simple + TypeScript |
+
+### Data Flow: Logging a Set
+
+```
+1. User taps "Log Set"
+   └─> Component: <SetLogger />
+
+2. ZUSTAND update (instant UI)
+   └─> workoutStore.addSet({ weight: 100, reps: 8 })
+
+3. EXPO-SQLITE save (instant, <10ms)
+   └─> await logSet(workoutExerciseId, setNumber, data)
+   └─> INSERT INTO exercise_sets ... synced = 0
+
+4. UI shows success ✅ (no waiting!)
+
+5. BACKGROUND SYNC (non-blocking)
+   └─> autoSync()
+       ├─> Get unsynced sets (synced = 0)
+       ├─> Batch 50 sets at a time
+       ├─> supabase.from('exercise_sets').upsert(batch)
+       └─> UPDATE exercise_sets SET synced = 1
+```
+
+**User Experience:** <10ms (instant), Sync: 1-3s (invisible)
 
 ---
 
@@ -68,37 +143,47 @@
 
 ---
 
-### ADR-004: AsyncStorage for Key-Value Storage (Phase 0-2)
-**Decision:** AsyncStorage for MVP (Phases 0-2), migrate to MMKV + WatermelonDB in Phase 3
+### ADR-004: expo-sqlite for Offline-First Storage (Phase 0.5+)
+**Decision:** expo-sqlite with manual Supabase sync (Phase 0.5+), migrate to WatermelonDB at 1000+ users
 
-**Current Implementation (Phase 0-2):**
-- `src/services/storage/storage.ts` - Clean abstraction over AsyncStorage
-- Used for: preferences, flags, tokens, simple key-value data
-- ✅ Expo Go compatible (no native modules required)
-- ✅ Sufficient performance for MVP needs
+**Current Implementation (Phase 0.5):**
+- `src/services/database/` - SQLite with type-safe CRUD + sync
+- Used for: workouts, exercises, sets (offline-first relational data)
+- ✅ Expo Go compatible (expo-sqlite is built-in)
+- ✅ Excellent performance (native SQLite)
+- ✅ Manual sync with Supabase (~200 lines code)
 
-**Phase 3 Migration (Dev Client Required):**
-When implementing workout logging, we'll transition to:
-- **WatermelonDB** - Relational workout data (SQLite) with Supabase sync
-- **MMKV** - Fast encrypted storage for auth tokens and preferences
-- **Requires:** Dev Client creation (native modules)
+**Storage Architecture:**
+| Storage | Speed | Use Case | Phase | Expo Go |
+|---------|-------|----------|-------|---------|
+| **expo-sqlite** | Fast | Workouts, exercises, sets | 0.5+ | ✅ |
+| **AsyncStorage** | Slow | Auth tokens, preferences | 0+ | ✅ |
+| **WatermelonDB** | Fast | Replace expo-sqlite (auto sync) | 3+ | ❌ |
+| **MMKV** | Fast | Replace AsyncStorage (encrypted) | 3+ | ❌ |
 
-**Storage Decision Matrix:**
-| Storage | Speed | Encryption | Use Case | Phase | Expo Go |
-|---------|-------|------------|----------|-------|---------|
-| AsyncStorage | Slow | ❌ | MVP preferences | 0-2 | ✅ |
-| MMKV | Fast | ✅ | Tokens, settings | 3+ | ❌ |
-| WatermelonDB | Fast | Optional | Workout logs | 3+ | ❌ |
+**Why expo-sqlite Now:**
+- ✅ Offline-first required (CRITICAL priority in PRD)
+- ✅ Expo Go compatible (no Dev Client needed yet)
+- ✅ Learning opportunity (understand sync logic)
+- ✅ Performance sufficient for <1000 users
+- ✅ Migration path clear when needed
 
-**Why Wait for Phase 3:**
-- ✅ Faster iteration in Phases 0-2 (no native setup)
-- ✅ Team can contribute without Xcode/Android Studio
-- ✅ Simpler testing (Expo Go on any device)
-- ❌ One-time migration effort (planned in Phase 3)
+**Migration to WatermelonDB (When 1000+ users OR performance issues):**
+```
+Current: expo-sqlite + manual sync (200 lines)
+Future:  WatermelonDB + auto sync (20 lines)
 
-**Trade-offs:** AsyncStorage is 10-50x slower than MMKV, but sufficient for < 100KB data
+Migration time: 2-3 days
+Benefits: Reactive queries, better conflict resolution, auto sync
+```
 
-**Status:** ✅ Implemented (AsyncStorage) | 📋 Phase 3 (MMKV + WatermelonDB)
+**Trade-offs:**
+- ⚠️ Manual sync code (vs WatermelonDB auto sync)
+- ⚠️ Simple conflict resolution (last write wins vs smart merge)
+- ✅ Full control and understanding
+- ✅ No Dev Client required
+
+**Status:** ✅ Implemented (expo-sqlite + sync) | 📋 Future (WatermelonDB migration when scaling)
 
 ---
 

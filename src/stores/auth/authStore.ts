@@ -6,14 +6,14 @@
  */
 
 import { create } from 'zustand';
-import { supabase } from '../services/supabase/client';
+import { supabase } from '@/services/supabase';
 
-interface User {
+export interface User {
   id: string;
   email: string;
 }
 
-interface AuthState {
+export interface AuthState {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;

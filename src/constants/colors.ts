@@ -14,7 +14,7 @@
  * ❌ <View style={{ backgroundColor: COLORS.primary }}>
  */
 
-export const COLORS = {
+export const Colors = {
   // Background colors
   background: {
     DEFAULT: '#0A0A0A',   // bg-background
@@ -61,4 +61,4 @@ export const COLORS = {
 /**
  * Type helper for color keys
  */
-export type ColorKeys = keyof typeof COLORS;
+export type ColorKeys = keyof typeof Colors;

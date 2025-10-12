@@ -9,7 +9,7 @@
 
 import { LineChart } from 'react-native-chart-kit';
 import { View, Text, Dimensions } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { Colors } from '@/constants';
 
 interface ExampleLineChartProps {
   data?: number[];
@@ -40,9 +40,9 @@ export function ExampleLineChart({
         width={screenWidth - 48} // Full width minus padding
         height={220}
         chartConfig={{
-          backgroundColor: COLORS.background.surface,
-          backgroundGradientFrom: COLORS.background.surface,
-          backgroundGradientTo: COLORS.background.elevated,
+          backgroundColor: Colors.background.surface,
+          backgroundGradientFrom: Colors.background.surface,
+          backgroundGradientTo: Colors.background.elevated,
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(66, 153, 225, ${opacity})`, // primary color
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.7})`,
@@ -52,7 +52,7 @@ export function ExampleLineChart({
           propsForDots: {
             r: '6',
             strokeWidth: '2',
-            stroke: COLORS.primary.DEFAULT,
+            stroke: Colors.primary.DEFAULT,
           },
         }}
         bezier

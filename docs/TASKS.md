@@ -99,49 +99,62 @@
 
 ---
 
-## 📋 Phase 0.5: Architecture & Database Setup (0/7) ⭐ CRITICAL
+## 📋 Phase 0.5: Architecture & Database Setup (5/7) ⭐ CRITICAL
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
-**Goal:** Establish offline-first architecture and proper database schema before building features
+**Goal:** Establish offline-first architecture with expo-sqlite + Supabase sync
+
+**DECISION:** Using expo-sqlite (Expo Go compatible) instead of WatermelonDB
+- ✅ Keeps Expo Go workflow
+- ✅ Offline-first architecture
+- ✅ Migration path to WatermelonDB at 1000+ users
 
 ### 0.5. Database & Storage Architecture
 
-- [ ] 0.5.1 **Setup WatermelonDB with Supabase sync** (L - 4-6h) `[CRITICAL]`
+- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) `[COMPLETED]`
+  ```
+  ✅ Completed tasks:
+  - Installed expo-sqlite (Expo Go compatible)
+  - Created SQLite database setup (src/services/database/db.ts)
+  - Implemented database schema (5 tables)
+  - Created TypeScript types (src/services/database/types.ts)
+  - Implemented CRUD operations (src/services/database/workouts.ts)
+  - Created Supabase sync service (src/services/database/sync.ts)
+  - Documented architecture (src/services/database/README.md)
+  - Updated app layout to initialize database
+
+  Files created:
+  - src/services/database/db.ts (SQLite initialization + schema)
+  - src/services/database/types.ts (TypeScript types)
+  - src/services/database/workouts.ts (CRUD operations)
+  - src/services/database/sync.ts (Supabase sync ~200 lines)
+  - src/services/database/index.ts (exports)
+  - src/services/database/README.md (documentation)
+  - src/services/database/__tests__/example.ts (usage examples)
+
+  Benefits:
+  - 100% Expo Go compatible
+  - Offline-first working
+  - Type-safe operations
+  - Clean migration path to WatermelonDB later
+  ```
+
+- [ ] 0.5.2 **Implement database schema in Supabase** (M - 3-4h) `[NEXT]`
   ```
   Tasks:
-  - Install @nozbe/watermelondb
-  - Configure SQLite adapter
-  - Create WatermelonDB schema matching Supabase
-  - Implement sync protocol with Supabase
-  - Test offline-online synchronization
-  - Document sync strategy in TECHNICAL.md
-
-  Files to create:
-  - src/services/database/watermelon.ts (WatermelonDB setup)
-  - src/services/database/schema.ts (WatermelonDB schema)
-  - src/services/database/sync.ts (Supabase sync logic)
-  - src/models/ (WatermelonDB models for workouts, exercises, sets)
-
-  Reference: https://supabase.com/blog/react-native-offline-first-watermelon-db
-  ```
-
-- [ ] 0.5.2 **Implement revised database schema in Supabase** (M - 3-4h) `[CRITICAL]`
-  ```
-  Tasks:
-  - Create SQL migration with revised schema (see TECHNICAL.md § Database Schema)
+  - Create SQL migration matching SQLite schema
   - Tables: users, exercises, workouts, workout_exercises, exercise_sets
-  - Add fields: weight_unit, rir, rest_time_seconds, superset_group, etc.
-  - Add nutrition phase tracking to users table (nutrition_phase, nutrition_phase_started_at)
-  - Add subscription_tier to users table (future monetization)
-  - Implement Row Level Security policies
-  - Create indexes for performance
-  - Seed initial data (test user)
+  - Fields: weight_unit, rir, rest_time_seconds, superset_group
+  - Nutrition phase tracking (nutrition_phase, nutrition_phase_started_at)
+  - Row Level Security policies
+  - Indexes for performance
+  - Seed test data
 
   Files to create:
   - supabase/migrations/001_initial_schema.sql
-  - scripts/seed-database.ts (optional seed script)
+  - scripts/seed-database.ts (optional)
 
-  Important: Schema MUST match WatermelonDB schema exactly
+  Note: Schema matches SQLite for easy sync
   ```
 
 - [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
