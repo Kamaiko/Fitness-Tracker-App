@@ -8,7 +8,70 @@
 ## 📊 Current Status
 
 **Version:** 0.2.0 (Architecture Planning Complete)
-**Progress:** ![](https://img.shields.io/badge/Progress-20%25-yellow)
+**Progress:** ![](https://img.shields.io/badge/Progress-6%25-red)
+**Total:** 6 completed / 96 total tasks
+
+## 🗺️ Development Roadmap
+
+```
+Phase 0.5: Architecture & Foundation (4/15 tasks) ← YOU ARE HERE
+   ├─ Database setup ✅
+   ├─ Dev tools setup ✅
+   ├─ Architecture refactor ✅
+   ├─ Audit analysis ✅
+   └─ 8 CRITICAL corrections ⚠️ BLOCKERS
+        ↓
+Phase 1: Authentication & Foundation (0/14 tasks)
+   ├─ Supabase Auth integration
+   ├─ Login/Register screens
+   ├─ CI/CD pipeline
+   └─ Type definitions
+        ↓
+Phase 2: Core Workout Logging (0/18 tasks)
+   ├─ Active workout screen
+   ├─ Set logging interface
+   ├─ Rest timer
+   └─ Workout history
+        ↓
+Phase 3: Exercise Library & Management (0/12 tasks)
+   ├─ ExerciseDB API integration (1,300+ exercises)
+   ├─ Exercise selector
+   ├─ Custom exercises
+   └─ Search & filters
+        ↓
+Phase 4: Analytics & Insights (0/15 tasks)
+   ├─ Progress charts (react-native-chart-kit)
+   ├─ Volume tracking
+   ├─ Plateau detection (Mann-Kendall)
+   └─ Workout reports
+        ↓
+Phase 5: Advanced Features (0/15 tasks)
+   ├─ Workout templates
+   ├─ Exercise substitutions
+   ├─ Progressive overload tracking
+   └─ Performance optimizations
+        ↓
+Phase 6: Polish & Launch (0/9 tasks)
+   ├─ Onboarding
+   ├─ Help documentation
+   ├─ Privacy compliance (GDPR)
+   └─ App store submission
+```
+
+### Phase Timeline & Effort
+
+| Phase     | Tasks  | Est. Time    | Status      | Dependencies                |
+| --------- | ------ | ------------ | ----------- | --------------------------- |
+| **0.5**   | 15     | 35-45h       | IN PROGRESS | None (started)              |
+| **1**     | 14     | 25-30h       | BLOCKED     | ← Phase 0.5 critical fixes  |
+| **2**     | 18     | 50-60h       | BLOCKED     | ← Phase 1 auth              |
+| **3**     | 12     | 30-40h       | BLOCKED     | ← Phase 2 workout core      |
+| **4**     | 15     | 35-45h       | BLOCKED     | ← Phase 3 exercise library  |
+| **5**     | 15     | 40-50h       | BLOCKED     | ← Phase 4 analytics         |
+| **6**     | 9      | 20-25h       | BLOCKED     | ← Phase 5 advanced features |
+| **TOTAL** | **98** | **235-295h** | **6% done** | **14 weeks at 20h/week**    |
+
+**⚠️ Critical Path:** Phase 0.5 (8 audit corrections) MUST complete before Phase 1 can start.
 
 ### What's Working
 
@@ -85,18 +148,19 @@
 
 ## 📜 Completed Tasks History
 
-**23 tasks completed** across Phase 0 and 0.5.
+**6 tasks completed** across Phase 0 and 0.5 (see checkboxes [x] below).
 
-For detailed history of completed tasks, see Git commits:
+For detailed Git history:
 
 ```bash
-git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline
+git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 ```
 
-Key milestones:
+**Key milestones:**
 
-- ✅ **Phase 0**: Expo setup, Supabase config, NativeWind migration, ESLint/Prettier
-- ✅ **Phase 0.5 (partial)**: expo-sqlite setup, architecture refactor, audit analysis
+- ✅ Phase 0: Expo SDK 54, Supabase client, NativeWind v4, ESLint/Prettier
+- ✅ Phase 0.5: expo-sqlite + sync, Jest infrastructure, dev tools (Husky/lint-staged)
+- 🟡 Phase 0.5 IN PROGRESS: 8 critical audit corrections (19-27h remaining)
 
 ---
 
@@ -105,7 +169,7 @@ Key milestones:
 **Timeline:** Week 3 | **Priority:** HIGHEST
 **Goal:** Complete infrastructure setup and critical corrections before Phase 1
 
-**Progress:** 4/15 tasks completed (27%)
+**Progress:** 4/15 tasks completed (27%) in this phase
 
 **Stack:** expo-sqlite + AsyncStorage + react-native-chart-kit (100% Expo Go)
 
@@ -264,26 +328,6 @@ Key milestones:
   Problem: Type organization confusion
   Impact if skipped: 📘 Minor confusion
   See: AUDIT_FIXES.md → Correction #8
-  ```
-
-- [ ] 0.5.17 **Setup professional dev tools** (S - 30min) ✅ RECOMMENDED
-
-  ```
-  Tasks:
-  - Install and configure Husky + lint-staged
-  - Setup commitlint (enforce commit conventions)
-  - Create .editorconfig (consistent formatting)
-  - Create .github/dependabot.yml (automated security updates)
-  - Test pre-commit hooks
-
-  Impact: Prevents committing broken code, enforces conventions
-  Professional standard: Essential for portfolio projects
-
-  Files to create:
-  - .husky/pre-commit
-  - .commitlintrc.json
-  - .editorconfig
-  - .github/dependabot.yml
   ```
 
 ---

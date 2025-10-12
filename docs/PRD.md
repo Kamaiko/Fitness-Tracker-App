@@ -1,8 +1,8 @@
 # Product Requirements Document: Halterofit
 
 **Version:** 1.0
-**Last Updated:** October 2025
-**Document Status:** Draft
+**Last Updated:** January 2025
+**Document Status:** Active
 **Target Release:** MVP - 14 weeks from project start
 
 ---

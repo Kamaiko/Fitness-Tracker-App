@@ -21,50 +21,92 @@ _⚠️ Placeholder UI_
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Node.js** 18+ | **npm** 9+ | **Expo Go** app | **Supabase account** (free)
+- **Node.js** 18+ and **npm** 9+
+- **Expo Go** app ([iOS](https://apps.apple.com/app/expo-go/id982107779) | [Android](https://play.google.com/store/apps/details?id=host.exp.exponent))
+- **Supabase account** (free tier) - [Sign up here](https://supabase.com/dashboard/sign-up)
 
-### Setup
+### Installation (5 minutes)
 
 ```bash
-# 1. Install dependencies
+# 1. Clone and install
+git clone https://github.com/yourusername/halterofit.git
+cd halterofit
 npm install
 
-# 2. Configure environment
+# 2. Create Supabase project
+# Go to https://supabase.com/dashboard
+# Create new project → Copy URL and anon key
+
+# 3. Configure environment
 cp .env.example .env
-# Edit .env with your Supabase credentials:
-# EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-# EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
-# 3. Start development
+# Edit .env and add your credentials:
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+
+# 4. Setup database schema
+# In Supabase Dashboard → SQL Editor → Run:
+# (Copy schema from docs/DATABASE.md or use migration files)
+
+# 5. Start development server
 npm start
-# Scan QR code with Expo Go app
+
+# 6. Open Expo Go on your phone
+# Scan the QR code displayed in terminal
 ```
 
-### Commands
+### Available Commands
 
-```bash
-npm start              # Start Expo
-npm run android        # Android emulator
-npm run ios            # iOS simulator
-npm run type-check     # TypeScript check
-npm run lint           # ESLint
-npm test               # Run tests
-npm run test:watch     # Watch mode
-npm run test:coverage  # Coverage report
-```
+| Command                 | Description                       |
+| ----------------------- | --------------------------------- |
+| `npm start`             | Start Expo development server     |
+| `npm run android`       | Run on Android emulator           |
+| `npm run ios`           | Run on iOS simulator (macOS only) |
+| `npm run type-check`    | Validate TypeScript types         |
+| `npm run lint`          | Check code style with ESLint      |
+| `npm run lint:fix`      | Fix auto-fixable linting issues   |
+| `npm test`              | Run Jest test suite               |
+| `npm run test:watch`    | Run tests in watch mode           |
+| `npm run test:coverage` | Generate coverage report          |
 
-**Troubleshooting?** See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+### Common Issues
 
-**Documentation:**
+**"Network request failed"**
+→ Check `.env` file has correct Supabase URL and anon key
 
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Project structure
-- [DATABASE.md](docs/DATABASE.md) - Database schema
-- [TASKS.md](docs/TASKS.md) - Roadmap
-- [AUDIT_FIXES.md](docs/AUDIT_FIXES.md) - Critical fixes
+**"Database error"**
+→ Ensure database schema is created in Supabase (see [DATABASE.md](docs/DATABASE.md))
+
+**"Module not found"**
+→ Run `npm install` and restart Metro bundler
+
+**"Jest tests failing"**
+→ Clear cache: `npm test -- --clearCache`
+
+**More help?** Check [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed setup
+
+### Project Documentation
+
+| Document                                    | Description                                          |
+| ------------------------------------------- | ---------------------------------------------------- |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Code organization, patterns, folder structure        |
+| **[DATABASE.md](docs/DATABASE.md)**         | Database setup, schema, CRUD operations              |
+| **[TASKS.md](docs/TASKS.md)**               | Development roadmap (96 tasks across 6 phases)       |
+| **[AUDIT_FIXES.md](docs/AUDIT_FIXES.md)**   | 8 critical corrections blocking Phase 1              |
+| **[PRD.md](docs/PRD.md)**                   | Product requirements, user stories, success metrics  |
+| **[TECHNICAL.md](docs/TECHNICAL.md)**       | Architecture Decision Records (ADRs), tech decisions |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** | Development workflow, commit conventions, style      |
+
+### Next Steps After Setup
+
+1. **Explore codebase**: Start with `src/app/(tabs)/index.tsx` (Home screen)
+2. **Review architecture**: Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+3. **Check roadmap**: See [docs/TASKS.md](docs/TASKS.md) for current phase
+4. **Critical fixes**: Review [docs/AUDIT_FIXES.md](docs/AUDIT_FIXES.md) before Phase 1
 
 ---
 
@@ -106,7 +148,7 @@ npm run test:coverage  # Coverage report
 
 ## 🎯 Current Status
 
-**Version:** 0.2.0 | **Progress:** 21% (25/119 tasks) | **Phase:** 0.5 - Critical corrections
+**Version:** 0.2.0 | **Progress:** 6% (6/96 tasks) | **Phase:** 0.5 - Critical corrections
 
 ---
 
