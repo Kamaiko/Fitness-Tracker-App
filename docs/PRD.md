@@ -167,7 +167,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Email/password authentication via Supabase Auth with JWT tokens
 - User registration with email verification
 - Password reset flow via email
-- Secure session management with encrypted MMKV storage
+- Secure session management with AsyncStorage (via Supabase SDK)
 - Automatic session refresh (30-day validity)
 - Row-Level Security policies ensuring users only access their own data
 
@@ -187,7 +187,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 **Requirements:**
 
-- WatermelonDB local SQLite database for all workout data (offline-first architecture)
+- expo-sqlite offline-first database for all workout data (100% Expo Go compatible)
 - Automatic bidirectional sync with Supabase when internet available
 - Conflict resolution using "last write wins" strategy
 - Sync queue indicator in UI showing pending changes
@@ -199,7 +199,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Data automatically syncs to Supabase when connection restored
 - Sync indicator shows pending/syncing/synced states clearly
 - Conflict resolution works correctly when same workout edited on multiple devices
-- Database schema matches exactly between WatermelonDB and Supabase
+- Database schema matches exactly between expo-sqlite and Supabase PostgreSQL
 - Zero data loss guarantee regardless of network conditions
 
 ### Workout logging
@@ -250,8 +250,8 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Search returns results in <300ms for local database queries
 - FlashList renders 500+ exercise library smoothly at 60fps on mid-range Android devices
 - Exercise GIFs load from cache in <200ms using expo-image
-- Custom exercises save to both Supabase and WatermelonDB with is_custom flag
-- Favorites persist in MMKV and sync across devices
+- Custom exercises save to both Supabase and expo-sqlite with is_custom flag
+- Favorites persist in AsyncStorage and sync across devices
 - Exercise detail screen shows personal history if user has logged that exercise
 
 ### Analytics and progression tracking
@@ -301,7 +301,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Plate calculator supports user-configurable available plates in settings
 - Supersets display grouped exercises with clear visual indicators
 - RPE/RIR entry does not block set completion (always optional)
-- Set history loads instantly from WatermelonDB indexed queries
+- Set history loads instantly from expo-sqlite indexed queries
 - Weight suggestions appear as subtle hints, not forced recommendations
 - Templates save with exercise order, target sets/reps, and superset grouping
 
@@ -341,7 +341,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 8. User taps plate calculator icon → Modal shows "Add per side: 20kg + 10kg + 2.5kg"
 9. User performs set, logs with 105kg × 6 reps, taps "RIR: 2"
 10. User completes all exercises, taps "End Workout"
-11. Workout saves to WatermelonDB, queues for Supabase sync
+11. Workout saves to expo-sqlite, queues for Supabase sync
 12. Summary screen shows volume, duration, PRs achieved
 
 **Success criteria:**
@@ -436,7 +436,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - FlashList for all long lists (54% FPS improvement vs FlatList)
 - expo-image for aggressive GIF caching (1,300+ exercise images)
 - Skeleton screens during initial load (<2s cold start target)
-- WatermelonDB lazy loading (data loaded on demand, not at startup)
+- expo-sqlite lazy loading (data loaded on demand, not at startup)
 
 ---
 
@@ -517,7 +517,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 **Infrastructure:**
 
 - Database query time (95th percentile): <200ms
-- WatermelonDB sync duration: <5 seconds for typical user dataset (100 workouts)
+- expo-sqlite sync duration: <5 seconds for typical user dataset (100 workouts)
 - Bundle size: <10MB (initial download)
 - Memory usage: <150MB during active workout
 - Battery drain: <5% per hour of active use
@@ -534,13 +534,13 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Supabase Auth for JWT-based authentication with Row-Level Security
 - Supabase Storage for future user-uploaded exercise images/videos
 - Supabase Realtime for future collaborative features (coach-client)
-- Real-time sync protocol with WatermelonDB for offline-first architecture
+- Custom sync implementation with expo-sqlite for offline-first architecture
 
 **ExerciseDB API:**
 
 - One-time seed operation: Fetch 1,300+ exercises from ExerciseDB v2 API
 - Transform exercise data to match internal schema (exercises table)
-- Bulk insert to Supabase, sync to WatermelonDB local database
+- Bulk insert to Supabase, sync to expo-sqlite local database
 - No runtime API calls (all exercise data stored locally after seed)
 - Mark exercises as is_custom = false to distinguish from user-created exercises
 
@@ -564,27 +564,27 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 
 **Three-tier storage architecture:**
 
-**Tier 1 - WatermelonDB (Local SQLite):**
+**Tier 1 - expo-sqlite (Local SQLite):**
 
 - Purpose: Offline-first relational data (workouts, exercises, sets)
 - Tables: users, exercises, workouts, workout_exercises, exercise_sets
-- Sync: Bidirectional sync with Supabase using WatermelonDB sync protocol
-- Performance: 20-30x faster than AsyncStorage for relational queries
-- Encryption: Optional SQLCipher encryption for sensitive data
+- Sync: Bidirectional sync with Supabase using custom sync logic
+- Performance: Optimized for relational queries, sufficient for MVP scale
+- Encryption: Available via SQLCipher if needed for sensitive data
 
-**Tier 2 - MMKV (Local Key-Value):**
+**Tier 2 - AsyncStorage (Local Key-Value):**
 
 - Purpose: Local-only settings and preferences (no sync to cloud)
 - Data: Auth tokens, user preferences, favorites, onboarding state
-- Performance: 30x faster than AsyncStorage, synchronous API
-- Encryption: Built-in AES encryption for auth tokens
+- Performance: Sufficient for MVP settings/preferences storage
+- Encryption: Auth tokens stored securely via Supabase SDK
 - Size: <1MB typical usage
 
 **Tier 3 - Zustand (In-Memory State):**
 
 - Purpose: Temporary UI state during app session
 - Data: Active workout state, form inputs, navigation state
-- Persistence: Selected slices persisted to MMKV via middleware
+- Persistence: Selected slices persisted to AsyncStorage via middleware
 - Reset: State cleared on app close (except persisted slices)
 
 **Data privacy compliance:**
@@ -615,7 +615,7 @@ CREATE POLICY "Exercises are public"
 **Database scaling strategy:**
 
 - Supabase free tier: 500MB database, 50K monthly active users (sufficient for MVP)
-- WatermelonDB local storage: <50MB per user for 2 years of workout data
+- expo-sqlite local storage: <50MB per user for 2 years of workout data
 - Pagination: Load 20 workouts at a time, lazy load older history
 - Indexes: Indexed columns for user_id, started_at, exercise_id for fast queries
 - Aggregations: Pre-calculate weekly/monthly volume in background jobs (post-MVP)
@@ -638,11 +638,11 @@ CREATE POLICY "Exercises are public"
 
 ### Potential technical challenges
 
-**Challenge 1: WatermelonDB sync complexity**
+**Challenge 1: expo-sqlite sync implementation**
 
-- Risk: Sync protocol requires 4-6 hours setup, complex debugging
-- Mitigation: Follow official Supabase + WatermelonDB guide, implement comprehensive logging
-- Contingency: If sync fails, fall back to manual Supabase queries with optimistic UI updates (loses offline-first guarantee)
+- Risk: Custom sync logic requires careful handling of conflicts and edge cases
+- Mitigation: Implement comprehensive logging, "last write wins" strategy, thorough testing
+- Contingency: If sync issues arise, add conflict detection and user resolution UI
 
 **Challenge 2: Android low-end device performance**
 
@@ -665,7 +665,7 @@ CREATE POLICY "Exercises are public"
 **Challenge 5: Chart performance with large datasets**
 
 - Risk: Rendering 1,000+ data points (2 years of daily workouts) may lag
-- Mitigation: Victory Native optimized for large datasets, downsample data for long time ranges
+- Mitigation: react-native-chart-kit sufficient for MVP, downsample data for long time ranges
 - Optimization: Show last 3 months by default, "View All" loads full dataset
 
 ---
@@ -724,19 +724,21 @@ CREATE POLICY "Exercises are public"
 
 - Expo SDK 54 project initialization with TypeScript strict mode
 - Supabase project creation and client configuration
-- MMKV storage setup with encryption
+- AsyncStorage setup for settings and preferences
 - Zustand state management (auth, workout stores)
 - Dark theme system (colors, spacing, typography)
 - Expo Router navigation structure
 
-**Phase 0.5: Architecture and Database (Week 3) - IN PROGRESS**
+**Phase 0.5: Architecture and Foundation (Week 3) - IN PROGRESS**
 
-- WatermelonDB setup with Supabase sync protocol (4-6 hours)
+- expo-sqlite setup with Supabase sync (COMPLETED ✓)
 - Database schema implementation (5 tables: users, exercises, workouts, workout_exercises, exercise_sets)
 - FlashList installation and configuration
 - expo-image setup for GIF caching
 - Sentry error monitoring integration
 - simple-statistics library for analytics algorithms
+- Jest testing infrastructure (COMPLETED ✓)
+- Professional dev tools: Husky, lint-staged, commitlint (COMPLETED ✓)
 
 **Phase 1: Authentication and Foundation (Weeks 4-5)**
 
@@ -749,7 +751,7 @@ CREATE POLICY "Exercises are public"
 
 **Phase 2: Workout Logging (Weeks 6-8)**
 
-- Workout session state management with auto-save to WatermelonDB
+- Workout session state management with auto-save to expo-sqlite
 - Active workout screen with set logger (1-2 tap workflow)
 - Rest timer with background execution and notifications
 - Exercise selection modal with real-time search
@@ -765,11 +767,11 @@ CREATE POLICY "Exercises are public"
 - Exercise detail screen with GIF, instructions, personal history
 - Custom exercise creation with user-defined properties
 - Filter panel (muscle group, equipment, difficulty)
-- Favorites system with MMKV persistence
+- Favorites system with AsyncStorage persistence
 
 **Phase 4: Analytics and Smart Features (Weeks 11-12)**
 
-- Analytics dashboard with Victory Native charts
+- Analytics dashboard with react-native-chart-kit
 - Volume tracking by week, month, muscle group
 - Strength progression charts with trend lines
 - Plateau detection using Mann-Kendall statistical test
@@ -791,8 +793,8 @@ CREATE POLICY "Exercises are public"
 
 **Blockers for Phase 1:**
 
-- Phase 0.5 WatermelonDB setup must complete before any data-related features
-- Database schema implementation must finalize before UI development
+- Phase 0.5 critical corrections must complete (user persistence, error handling)
+- Database schema implementation in Supabase must finalize before auth
 
 **Blockers for Phase 2:**
 
@@ -809,6 +811,83 @@ CREATE POLICY "Exercises are public"
 - UI components (Phase 1) can develop alongside database work (Phase 0.5)
 - Analytics algorithms (Phase 4) can develop and test with mock data
 - Exercise library frontend (Phase 3) can develop while ExerciseDB seed runs
+
+### Post-MVP Performance Optimizations
+
+**Context:** The current tech stack (expo-sqlite, AsyncStorage, react-native-chart-kit) is designed to handle MVP scale efficiently while maintaining 100% Expo Go compatibility. The following optimizations may be considered post-MVP IF performance metrics indicate bottlenecks.
+
+**Optimization Strategy (Conservative, Metric-Driven):**
+
+**1. Database: expo-sqlite → WatermelonDB**
+
+- **Trigger conditions:**
+  - 1000+ active users AND
+  - Query performance degradation (>200ms at 95th percentile) OR
+  - Sync issues at scale (failed syncs >2%)
+- **Benefits:**
+  - Reactive queries (automatic UI updates)
+  - Optimized sync protocol
+  - Better performance with large datasets
+  - More mature sync solution
+- **Requirements:** Development Build (native SQLite optimizations)
+- **Migration effort:** 2-3 days (database abstraction layer exists)
+- **Risks:** Increased complexity, native build workflow, longer iteration cycles
+
+**2. Storage: AsyncStorage → MMKV**
+
+- **Trigger conditions:**
+  - 1000+ users AND
+  - Storage operations become measurable bottleneck OR
+  - User complaints about settings/preferences lag
+- **Benefits:**
+  - 10-30x faster read/write operations
+  - Synchronous API (simpler code)
+  - Built-in encryption for sensitive data
+- **Requirements:** Development Build (native C++ module)
+- **Migration effort:** 2-4 hours (abstraction layer ready in codebase)
+- **Risks:** Low (simple API, well-tested library)
+
+**3. Charts: react-native-chart-kit → Victory Native**
+
+- **Trigger conditions:**
+  - User feature requests for advanced interactions OR
+  - Performance issues with 1000+ data points OR
+  - Need for multi-line comparisons (>3 exercises)
+- **Benefits:**
+  - Advanced gestures (zoom, pan, pinch)
+  - Better animations and interactivity
+  - Skia-based rendering (better performance)
+  - Interactive tooltips with full customization
+- **Requirements:** Development Build (react-native-skia native module)
+- **Migration effort:** 3-6 hours (chart abstraction layer exists)
+- **Risks:** More dependencies, larger bundle size, Skia complexity
+
+**Decision Framework:**
+
+1. **Measure:** Collect performance metrics (query times, sync success rate, user complaints)
+2. **Analyze:** Determine if current stack is bottleneck vs other factors
+3. **Cost-benefit:** Weigh optimization gains vs Development Build complexity
+4. **Decide:** Only migrate if data clearly justifies the investment
+5. **Implement:** Phased rollout with thorough testing
+6. **Validate:** Confirm improvements match expectations
+
+**Development Build Note:**
+
+Creating a Development Build (custom native build via EAS Build or local) replaces the Expo Go workflow with native Xcode/Android Studio builds. This:
+
+- ✅ Unlocks native modules (WatermelonDB, MMKV, Victory Native/Skia)
+- ❌ Increases iteration time (rebuild required for native changes)
+- ❌ Adds complexity (native dependency management, platform-specific configs)
+- ❌ Requires Mac for iOS builds (or EAS Build cloud service)
+
+**Only pursue Development Build when:**
+
+- MVP has validated product-market fit
+- User base justifies optimization investment (1000+ users)
+- Performance data proves need (not speculation)
+- Team ready for increased complexity
+
+**Current status:** No migration planned. MVP stack is sufficient for target scale (500-1000 users). Will revisit based on production metrics post-launch.
 
 ---
 
@@ -830,7 +909,7 @@ CREATE POLICY "Exercises are public"
 - As a returning user, I want to log in with my credentials so that I can access my workout history.
 - Acceptance criteria:
   - Login form accepts email and password with validation
-  - Successful login stores encrypted JWT token in MMKV
+  - Successful login stores JWT token securely via Supabase SDK in AsyncStorage
   - Session persists across app restarts for 30 days
   - Failed login shows clear error message ("Invalid email or password")
   - User redirected to Home/Workout tab after successful login
@@ -852,7 +931,7 @@ CREATE POLICY "Exercises are public"
   - "Delete Account" button in Profile/Settings with destructive styling
   - Confirmation dialog warns "This action cannot be undone. All workouts will be permanently deleted."
   - Deletion cascades to all tables (workouts, workout_exercises, exercise_sets) via foreign keys
-  - WatermelonDB local database reset, MMKV storage cleared
+  - expo-sqlite local database cleared, AsyncStorage reset
   - User logged out and redirected to login screen
 
 **US-005: Data export**
@@ -872,7 +951,7 @@ CREATE POLICY "Exercises are public"
 - As a user, I want to start a new workout without any pre-filled exercises so that I can create a spontaneous training session.
 - Acceptance criteria:
   - "Start Workout" button on Home/Workout tab
-  - Tapping button creates new workout record in WatermelonDB with started_at timestamp
+  - Tapping button creates new workout record in expo-sqlite with started_at timestamp
   - Active workout screen displays with empty exercise list and "Add Exercise" button
   - Workout duration timer starts immediately
   - Workout saves to database without internet connection
@@ -882,7 +961,7 @@ CREATE POLICY "Exercises are public"
 - As a user, I want to quickly load my previous workout with all exercises pre-populated so that I can save time and ensure consistency.
 - Acceptance criteria:
   - "Repeat Last Workout" option when starting workout
-  - Fetches most recent completed workout from WatermelonDB
+  - Fetches most recent completed workout from expo-sqlite
   - Creates new workout with same exercises, order, and superset grouping
   - Pre-fills target sets and reps from previous workout
   - Last weight and reps displayed for each exercise for easy reference
@@ -894,7 +973,7 @@ CREATE POLICY "Exercises are public"
 - Acceptance criteria:
   - Weight and reps input fields pre-filled from last set or last workout
   - Quick adjustment buttons: +5kg, +2.5kg, -2.5kg, -5kg (or lbs equivalent)
-  - Tapping checkmark immediately saves set to WatermelonDB
+  - Tapping checkmark immediately saves set to expo-sqlite
   - Set save latency <50ms (no loading spinner required)
   - Rest timer auto-starts after set completion
   - Set history shows last 3-5 sets from previous workouts below input
@@ -961,7 +1040,7 @@ CREATE POLICY "Exercises are public"
   - Summary screen displays: total duration, exercises completed, sets logged, volume (kg × reps × sets)
   - Personal records achieved highlighted with badge icons
   - Option to add workout notes before final save
-  - Workout immediately saved to WatermelonDB, queued for Supabase sync
+  - Workout immediately saved to expo-sqlite, queued for Supabase sync
 
 **US-015: View workout history**
 
@@ -972,7 +1051,7 @@ CREATE POLICY "Exercises are public"
   - Pagination loads 20 workouts at a time with "Load More" button
   - Swipe actions: "Repeat" (start new workout from template), "Delete" (with confirmation)
   - Tapping workout opens detail screen with full exercise and set breakdown
-  - History loads in <1 second using WatermelonDB indexed query
+  - History loads in <1 second using expo-sqlite indexed query
 
 **US-016: Edit past workout**
 
@@ -980,7 +1059,7 @@ CREATE POLICY "Exercises are public"
 - Acceptance criteria:
   - "Edit" button in workout detail screen
   - Edit mode allows modifying sets (weight, reps, RPE, RIR), adding/removing exercises
-  - Changes save to WatermelonDB immediately, queue for Supabase sync
+  - Changes save to expo-sqlite immediately, queue for Supabase sync
   - Edited workouts show "Last edited: [timestamp]" in detail screen
   - Cannot edit completed_at timestamp (prevents cheating on consistency metrics)
 
@@ -995,7 +1074,7 @@ CREATE POLICY "Exercises are public"
   - Searches exercise name and muscle_groups array fields
   - Fuzzy matching tolerates typos (e.g., "romanian" matches "Romanian Deadlift")
   - Results display exercise name, primary muscle, equipment, and GIF thumbnail
-  - Search returns results from local WatermelonDB (no API calls)
+  - Search returns results from local expo-sqlite (no API calls)
 
 **US-018: Filter exercises**
 
@@ -1026,7 +1105,7 @@ CREATE POLICY "Exercises are public"
   - Form fields: name (required), type (strength/cardio/timed/bodyweight), category (compound/isolation), muscle groups (multi-select), equipment (select), instructions (text area), difficulty
   - Optional image upload (expo-image-picker) saved to Supabase Storage
   - Custom exercise marked with is_custom = true, created_by = user_id
-  - Saves to Supabase exercises table, syncs to WatermelonDB
+  - Saves to Supabase exercises table, syncs to expo-sqlite
   - Custom exercises appear in search/filter alongside ExerciseDB exercises
 
 **US-021: Favorite exercises**
@@ -1035,7 +1114,7 @@ CREATE POLICY "Exercises are public"
 - Acceptance criteria:
   - Star icon in exercise list items and detail screen
   - Tapping star toggles favorite state with haptic feedback
-  - Favorites stored in MMKV as array of exercise IDs (fast access)
+  - Favorites stored in AsyncStorage as array of exercise IDs (fast access)
   - Syncs to Supabase for cross-device consistency
   - Filter option "Show Favorites Only" displays only favorited exercises
   - Favorited exercises appear at top of exercise selector during workout
@@ -1047,7 +1126,7 @@ CREATE POLICY "Exercises are public"
 - As a user, I want to see an overview of my training progress with charts and key metrics.
 - Acceptance criteria:
   - Analytics tab displays dashboard with sections: weekly volume chart (bar chart), strength progression (line chart for selected exercises), workout frequency (calendar heatmap), personal records (list with badges), body part volume distribution (pie chart)
-  - Charts render in <500ms using Victory Native with 1,000+ data points
+  - Charts render in <500ms using react-native-chart-kit with 1,000+ data points
   - Default time range: last 3 months (user can adjust to 1 month, 6 months, 1 year, all time)
   - Tapping chart sections navigates to detailed views
 
@@ -1128,7 +1207,7 @@ CREATE POLICY "Exercises are public"
 - Acceptance criteria:
   - Settings for: Compound exercises (default 180s), Isolation exercises (default 90s), Cardio (default 60s)
   - Override option: "Use historical average" (calculates average rest from past workouts)
-  - Settings save to MMKV for instant access during workouts
+  - Settings save to AsyncStorage for instant access during workouts
 
 **US-031: Configure plate calculator**
 
@@ -1137,7 +1216,7 @@ CREATE POLICY "Exercises are public"
   - Settings screen lists standard plates: 25kg, 20kg, 15kg, 10kg, 5kg, 2.5kg, 1.25kg (or lbs equivalents)
   - Checkboxes to enable/disable each plate size
   - Bar type selection: Olympic (20kg/45lbs), Standard (15kg/35lbs), Custom (user enters bar weight)
-  - Settings save to MMKV, immediately reflected in plate calculator
+  - Settings save to AsyncStorage, immediately reflected in plate calculator
 
 **US-032: Manage data and privacy**
 
@@ -1153,10 +1232,10 @@ CREATE POLICY "Exercises are public"
 
 - As a new user, I want to be guided through initial setup so that the app is configured to my preferences.
 - Acceptance criteria:
-  - Onboarding flow shows on first launch only (tracked in MMKV)
+  - Onboarding flow shows on first launch only (tracked in AsyncStorage)
   - Screens: Welcome (app overview), Feature highlights (3-4 screens with images), Preferences setup (units, experience level, goals)
   - Skip button available on all screens except welcome
-  - Completion saves preferences to user profile and marks onboarding_complete in MMKV
+  - Completion saves preferences to user profile and marks onboarding_complete in AsyncStorage
   - User redirected to Home/Workout tab after completion
 
 **US-034: Access help documentation**

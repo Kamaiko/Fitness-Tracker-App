@@ -51,6 +51,7 @@ app/
 ```
 
 **Conventions**:
+
 - Screens suffixed with `.tsx`
 - Layouts named `_layout.tsx`
 - Use `(groups)` for route organization without URL segments
@@ -83,6 +84,7 @@ components/
 ```
 
 **Conventions**:
+
 - PascalCase file names
 - Export named components: `export function Button() {}`
 - Include types in same file for small components
@@ -90,6 +92,7 @@ components/
 - Use NativeWind (Tailwind) for styling
 
 **Example**:
+
 ```tsx
 // components/ui/Button.tsx
 interface ButtonProps {
@@ -102,9 +105,7 @@ export function Button({ onPress, children, variant = 'primary' }: ButtonProps) 
   return (
     <Pressable
       onPress={onPress}
-      className={`px-4 py-2 rounded-lg ${
-        variant === 'primary' ? 'bg-primary' : 'bg-secondary'
-      }`}
+      className={`px-4 py-2 rounded-lg ${variant === 'primary' ? 'bg-primary' : 'bg-secondary'}`}
     >
       <Text className="text-foreground font-semibold">{children}</Text>
     </Pressable>
@@ -136,12 +137,14 @@ hooks/
 ```
 
 **Conventions**:
+
 - Prefix with `use`: `useActiveWorkout()`
 - Return objects, not arrays: `{ workout, isLoading, error }`
 - Encapsulate complex state logic
 - Can use stores, services, other hooks
 
 **Example**:
+
 ```tsx
 // hooks/workout/useActiveWorkout.ts
 import { useWorkoutStore } from '@/stores';
@@ -194,6 +197,7 @@ services/
 ```
 
 **Conventions**:
+
 - Pure functions when possible
 - Return Promises for async operations
 - Throw descriptive errors
@@ -201,6 +205,7 @@ services/
 - Use `@/services` barrel export for common imports
 
 **Example**:
+
 ```typescript
 // services/database/workouts.ts
 import { getDatabase } from './db';
@@ -210,10 +215,11 @@ export async function createWorkout(data: CreateWorkout): Promise<Workout> {
   const db = getDatabase();
   const id = generateId();
 
-  await db.runAsync(
-    `INSERT INTO workouts (id, user_id, started_at) VALUES (?, ?, ?)`,
-    [id, data.user_id, data.started_at]
-  );
+  await db.runAsync(`INSERT INTO workouts (id, user_id, started_at) VALUES (?, ?, ?)`, [
+    id,
+    data.user_id,
+    data.started_at,
+  ]);
 
   return getWorkoutById(id);
 }
@@ -241,12 +247,14 @@ stores/
 ```
 
 **Conventions**:
+
 - Use Zustand for global state
 - Export both hook and types: `export { useAuthStore } from './authStore'`
 - Keep stores focused (single responsibility)
 - Use services for persistence, not stores directly
 
 **Example**:
+
 ```typescript
 // stores/auth/authStore.ts
 import { create } from 'zustand';
@@ -272,11 +280,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
   isAuthenticated: false,
 
-  setUser: (user) => set({
-    user,
-    isAuthenticated: user !== null,
-    isLoading: false
-  }),
+  setUser: (user) =>
+    set({
+      user,
+      isAuthenticated: user !== null,
+      isLoading: false,
+    }),
 
   signOut: async () => {
     await supabase.auth.signOut();
@@ -305,10 +314,12 @@ types/
 **Convention: Type Colocation vs Shared Types**
 
 ✅ **Colocate types** when:
+
 - Types are ONLY used within one module
 - Example: `database/types.ts` (only used by database service)
 
 ❌ **Shared types folder** when:
+
 - Types used across multiple modules
 - Public API contracts
 - External service types
@@ -334,12 +345,14 @@ utils/
 ```
 
 **Conventions**:
+
 - Pure functions only (same input = same output)
 - No state, no side effects
 - Export named functions: `export function formatWeight() {}`
 - Include unit tests
 
 **Example**:
+
 ```typescript
 // utils/calculations/oneRepMax.ts
 /**
@@ -366,6 +379,7 @@ constants/
 ```
 
 **Conventions**:
+
 - Use PascalCase for constants: `Colors`, `Sizes`
 - Colors MUST match `tailwind.config.js`
 - Export as `const` objects
@@ -485,44 +499,100 @@ src/
 ```
 
 **Test Layers**:
+
 - **Unit Tests**: `utils/`, `services/` (pure functions)
 - **Component Tests**: `components/` (React Testing Library)
 - **Integration Tests**: E2E flows (Detox - Post-MVP)
 
 ---
 
-## 🚀 Migration Path (Phase 3+)
+## 🚀 Post-MVP Performance Optimizations
 
-### When to Migrate?
+### Optimization Strategy (Conservative, Metric-Driven)
 
-**Triggers for architecture changes:**
+**Context:** Current stack (expo-sqlite, AsyncStorage, react-native-chart-kit) is designed for MVP scale while maintaining 100% Expo Go compatibility. The following optimizations may be considered post-MVP IF performance metrics indicate bottlenecks.
 
-1. **WatermelonDB** (from expo-sqlite)
-   - When: 1000+ active users OR performance issues
-   - Benefits: Reactive queries, optimized sync
-   - Effort: 2-3 days
+**Decision Framework:**
 
-2. **MMKV** (from AsyncStorage)
-   - When: Creating Dev Client (Phase 3)
-   - Benefits: 10x faster, encryption
-   - Effort: 2 hours (abstraction ready)
+1. **Measure** performance metrics (query times, storage latency, user complaints)
+2. **Analyze** if current stack is bottleneck vs other factors
+3. **Evaluate** cost-benefit of Development Build complexity
+4. **Decide** only if data clearly justifies investment
+5. **Implement** with phased rollout and thorough testing
+6. **Validate** improvements match expectations
 
-3. **Victory Native** (from chart-kit)
-   - When: Creating Dev Client (Phase 3)
-   - Benefits: Better charts, animations
-   - Effort: 1 day
+---
+
+### Potential Optimizations (Development Build Required)
+
+**1. Database: expo-sqlite → WatermelonDB**
+
+- **Trigger conditions:**
+  - 1000+ active users AND
+  - Query performance degradation (>200ms at 95th percentile) OR
+  - Sync issues at scale (failed syncs >2%)
+- **Benefits:** Reactive queries, optimized sync protocol, better performance
+- **Requirements:** Development Build (native SQLite optimizations)
+- **Migration effort:** 2-3 days (abstraction layer exists in codebase)
+- **Risks:** Increased complexity, native build workflow, longer iteration cycles
+
+**2. Storage: AsyncStorage → MMKV**
+
+- **Trigger conditions:**
+  - 1000+ users AND
+  - Storage operations become measurable bottleneck OR
+  - User complaints about settings/preferences lag
+- **Benefits:** 10-30x faster read/write, synchronous API, built-in encryption
+- **Requirements:** Development Build (native C++ module)
+- **Migration effort:** 2-4 hours (abstraction layer ready)
+- **Risks:** Low (simple API, well-tested library)
+
+**3. Charts: react-native-chart-kit → Victory Native**
+
+- **Trigger conditions:**
+  - User feature requests for advanced interactions OR
+  - Performance issues with 1000+ data points OR
+  - Need for multi-line comparisons (>3 exercises)
+- **Benefits:** Advanced gestures (zoom/pan), better animations, Skia rendering
+- **Requirements:** Development Build (react-native-skia)
+- **Migration effort:** 3-6 hours (chart abstraction exists)
+- **Risks:** More dependencies, larger bundle size, Skia complexity
+
+---
+
+### Development Build Considerations
+
+Creating a **Development Build** (custom native build via EAS Build or local) replaces Expo Go workflow with native Xcode/Android Studio builds.
+
+**Trade-offs:**
+
+- ✅ Unlocks native modules (WatermelonDB, MMKV, Victory Native/Skia)
+- ❌ Increases iteration time (rebuild required for native changes)
+- ❌ Adds complexity (native dependency management, platform configs)
+- ❌ Requires Mac for iOS builds (or EAS Build cloud service)
+
+**Only pursue Development Build when:**
+
+- MVP has validated product-market fit (500-1000+ users)
+- User base justifies optimization investment
+- Performance data proves need (not speculation)
+- Team ready for increased complexity
+
+**Current status:** No migration planned. MVP stack sufficient for target scale. Will revisit based on production metrics post-launch.
 
 ---
 
 ## 📚 Références
 
 **Architecture inspirée de:**
+
 - [Feature-Sliced Design](https://feature-sliced.design/)
 - [Expo Router File-Based Routing](https://docs.expo.dev/router/introduction/)
 - [Bulletproof React](https://github.com/alan2207/bulletproof-react)
 - [React Native Boilerplate](https://github.com/thecodingmachine/react-native-boilerplate)
 
 **Stack utilisé:**
+
 - React Native 0.81.4
 - Expo SDK 54
 - TypeScript 5.9
@@ -536,6 +606,7 @@ src/
 ## ✅ Architecture Checklist
 
 **Phase 0.5 (Current)**:
+
 - [x] Modular folder structure
 - [x] Barrel exports (index.ts)
 - [x] Absolute imports (@/)

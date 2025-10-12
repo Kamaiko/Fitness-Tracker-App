@@ -100,30 +100,20 @@ Key milestones:
 
 ---
 
-## 📋 Phase 0.5: Architecture & Critical Corrections (4/11) ⭐ CRITICAL
+## 📋 Phase 0.5: Architecture & Foundation (4/15) ⭐ CRITICAL
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
-**Goal:** Complete offline-first architecture setup and critical audit corrections
+**Goal:** Complete infrastructure setup and critical corrections before Phase 1
 
-**COMPLETED:**
+**Progress:** 4/15 tasks completed (27%)
 
-- ✅ expo-sqlite database with Supabase sync (offline-first)
-- ✅ Modular architecture refactor (barrel exports, clean structure)
-- ✅ Technical audit (8 problems identified)
-- ✅ Jest testing infrastructure (ready for CI/CD)
+**Stack:** expo-sqlite + AsyncStorage + react-native-chart-kit (100% Expo Go)
 
-**IN PROGRESS:**
+---
 
-- ⚠️ 8 critical corrections required before Phase 1
-- See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
+### 0.5.A Infrastructure Setup (2/5 completed)
 
-**WHY expo-sqlite (not WatermelonDB):**
-
-- ✅ 100% Expo Go compatible (no Dev Client needed)
-- ✅ Offline-first with Supabase sync
-- ✅ Migration path to WatermelonDB at 1000+ users if needed
-
-### 0.5. Database & Storage Architecture
+**Goal:** Setup database, performance libraries, and monitoring
 
 - [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
   - expo-sqlite database service implemented
@@ -132,9 +122,6 @@ Key milestones:
   - See commit history for details
 
 - [ ] 0.5.2 **Implement database schema in Supabase** (M - 3-4h) `[NEXT]`
-
-  ```
-  Tasks:
   - Create SQL migration matching SQLite schema
   - Tables: users, exercises, workouts, workout_exercises, exercise_sets
   - Fields: weight_unit, rir, rest_time_seconds, superset_group
@@ -142,71 +129,38 @@ Key milestones:
   - Row Level Security policies
   - Indexes for performance
   - Seed test data
-
-  Files to create:
-  - supabase/migrations/001_initial_schema.sql
-  - scripts/seed-database.ts (optional)
-
-  Note: Schema matches SQLite for easy sync
-  ```
+  - File: supabase/migrations/001_initial_schema.sql
 
 - [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
-
-  ```
-  Tasks:
   - npm install @shopify/flash-list
   - Update metro.config.js if needed
   - Create example FlashList component for testing
   - Document usage patterns in TECHNICAL.md
 
-  Files to create:
-  - src/components/ui/ExampleFlashList.tsx (testing)
-  ```
-
 - [ ] 0.5.4 **Install and configure expo-image** (S - 1h)
-
-  ```
-  Tasks:
   - Install expo-image
   - Configure caching strategy
   - Create Image wrapper component with defaults
   - Test with sample exercise GIF
 
-  Files to create:
-  - src/components/ui/CachedImage.tsx (wrapper around expo-image)
-  ```
-
 - [ ] 0.5.5 **Setup Sentry for error monitoring** (M - 2h)
-
-  ```
-  Tasks:
   - Create Sentry account (free tier)
   - Install @sentry/react-native
-  - Configure in app/_layout.tsx
+  - Configure in app/\_layout.tsx
   - Test error reporting
   - Add performance monitoring
-  - Document in TECHNICAL.md
 
-  Files to modify:
-  - src/app/_layout.tsx (Sentry.init)
-  - .env.example (SENTRY_DSN)
-  ```
+---
 
-- [ ] 0.5.6 **Install simple-statistics for analytics algorithms** (S - 30min)
+### 0.5.B Analytics & Architecture (2/3 completed)
 
-  ```
-  Tasks:
+**Goal:** Analytics libraries and architecture cleanup
+
+- [ ] 0.5.6 **Install simple-statistics for analytics** (S - 30min)
   - npm install simple-statistics
   - Create analytics utilities folder
-  - Implement personalized 1RM calculation with RIR adjustment (see TECHNICAL.md)
-  - Implement load management calculations (acute/chronic load, fatigue ratio)
-  - Implement context-aware plateau detection algorithm
-
-  Files to create:
-  - src/utils/analytics/calculations.ts (personalized 1RM, volume, load management)
-  - src/utils/analytics/plateau.ts (Mann-Kendall with nutrition context)
-  - src/utils/analytics/loadManagement.ts (acute/chronic, fatigue ratio)
-  ```
+  - Document planned algorithms (1RM, plateau detection, load management)
+  - Implementation happens in Phase 4
 
 - [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
   - Barrel exports, stores reorganization
@@ -218,16 +172,30 @@ Key milestones:
   - AUDIT_FIXES.md created
   - See commit: "docs(audit): add comprehensive corrections guide"
 
+---
+
+### 0.5.C Development Tools (2/2 completed) ✅
+
+**Goal:** Testing infrastructure and dev quality tools
+
+- [x] 0.5.17 **Setup professional dev tools** (S - 30min) ✅
+  - Installed Husky + lint-staged
+  - Setup commitlint (enforce commit conventions)
+  - Created .editorconfig
+  - Created .github/dependabot.yml
+  - Pre-commit hooks working
+
 - [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h) ✅
   - Installed Jest + React Native Testing Library
   - Configured jest.config.js with jest-expo preset
   - Created jest.setup.js with Expo mocks
   - Added test scripts to package.json
   - Created 3 example test files (7 tests passing)
-  - Updated README.md with testing commands
-  - See commit: TBD
+  - CI/CD ready in Phase 1
 
-### 0.5. Audit Corrections (0/8) 🔴 CRITICAL - DO BEFORE PHASE 1
+---
+
+### 0.5.D Critical Corrections (0/8) 🔴 BLOCKERS FOR PHASE 1
 
 **Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
 
@@ -258,8 +226,8 @@ Key milestones:
 - [ ] 0.5.12 **[IMPORTANT] Repository Pattern** (L - 8h)
 
   ```
-  Problem: Hard WatermelonDB migration
-  Impact if skipped: ⚠️ 1 week refactor in Phase 3
+  Problem: Direct database coupling makes future optimization harder
+  Impact if skipped: ⚠️ 1 week refactor if migrating database layer
   See: AUDIT_FIXES.md → Correction #4
   Note: Can be done progressively during Phase 1-2
   ```
@@ -344,7 +312,7 @@ Key milestones:
   - Sign up functionality
   - Sign in functionality
   - Sign out functionality
-  - Session management with MMKV
+  - Session management with AsyncStorage (via Supabase SDK)
   - Error handling (user-friendly messages)
 
 - [ ] 1.4 Add form validation utilities (S - 2h) `[src/utils/validation.ts]`
@@ -404,24 +372,19 @@ Key milestones:
   - Footer section (optional actions)
   - Pressable variant
 
-### 4. Development Tools & Quality Assurance
+### 4. TypeScript Types & Configuration
 
-- [ ] 4.1 Setup CI/CD pipeline with GitHub Actions (M - 1.5h) ✅ RECOMMENDED
+- [ ] 4.1 Create useful TypeScript types (M - 2h) `[src/types/]`
 
   ```
-  Tasks:
-  - Create .github/workflows/quality-checks.yml
-  - Configure quality gates (type-check, lint, format-check, test:ci)
-  - Add status badge to README.md
-  - Test workflow on PR
-  - Configure to run on push to main and all PRs
+  Files to create:
+  - src/types/database.ts (database tables interfaces including nutrition_phase)
+  - src/types/exercises.ts (exercise, set, workout types)
+  - src/types/user.ts (user, profile, nutrition phase types)
+  - src/types/analytics.ts (load metrics, fatigue ratios, workout reports)
+  - src/types/api.ts (API response types)
 
-  Impact: Catches errors before merge, professional standard
-  Reference: See PRD.md "Testing & QA Strategy"
-
-  Note: Jest infrastructure already setup in Phase 0.5 (task 0.5.18)
-  CI will run: type-check, lint, format-check, test:ci
-  Tests will be written progressively in Phase 2-3
+  Note: Types needed throughout Phase 1-2 development
   ```
 
 - [ ] 4.2 Setup development environment file (S - 30min)
@@ -440,18 +403,29 @@ Key milestones:
   - EXERCISEDB_API_KEY (if using paid tier)
   ```
 
-- [ ] 4.3 Create useful TypeScript types (M - 2h) `[src/types/]`
+### 5. Phase 1 Completion: CI/CD & Features
+
+- [ ] 5.1 Setup CI/CD pipeline with GitHub Actions (M - 1.5h) ✅ RECOMMENDED
 
   ```
-  Files to create:
-  - src/types/database.ts (database tables interfaces including nutrition_phase)
-  - src/types/exercises.ts (exercise, set, workout types)
-  - src/types/user.ts (user, profile, nutrition phase types)
-  - src/types/analytics.ts (load metrics, fatigue ratios, workout reports)
-  - src/types/api.ts (API response types)
+  Tasks:
+  - Create .github/workflows/quality-checks.yml
+  - Configure quality gates (type-check, lint, format-check, test:ci)
+  - Add status badge to README.md
+  - Test workflow on PR
+  - Configure to run on push to main and all PRs
+
+  Impact: Catches errors before merge, professional standard
+  Reference: See PRD.md "Testing & QA Strategy"
+
+  Note: Jest infrastructure already setup in Phase 0.5 (task 0.5.18)
+  CI will run: type-check, lint, format-check, test:ci
+  Tests will be written progressively in Phase 2-3
+
+  Milestone: Completes Phase 1 foundation (auth + CI/CD)
   ```
 
-- [ ] 4.3 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
+- [ ] 5.2 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
 
   ```
   Features:
@@ -481,7 +455,7 @@ Key milestones:
   - Current exercise
   - Sets logged
   - Rest timer state
-  - Auto-save to WatermelonDB
+  - Auto-save to expo-sqlite
 
   Include:
   - Actions for starting/ending workout
@@ -542,8 +516,8 @@ Key milestones:
   - Calendar view (optional)
 
   Uses:
-  - WatermelonDB queries with .observe() for reactive UI
-  - Pagination with .take(20)
+  - expo-sqlite queries for reactive UI
+  - Pagination with LIMIT/OFFSET
   ```
 
 - [ ] 5.5 Create workout detail/summary screen (M - 3h) `[src/app/(tabs)/workout/[id].tsx]`
@@ -572,7 +546,7 @@ Key milestones:
   - Quick add button (no need to go back)
 
   Data source:
-  - WatermelonDB local exercises table
+  - expo-sqlite local exercises table
   - No API calls (data already seeded from ExerciseDB)
   ```
 
@@ -583,12 +557,12 @@ Key milestones:
   - Full-text search on exercise name, muscle groups
   - Fuzzy matching (typos)
   - Ranking: exact match > starts with > contains
-  - WatermelonDB .extend(rawSql) for custom queries if needed
+  - expo-sqlite raw SQL for custom queries if needed
   ```
 
 - [ ] 6.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
   ```
-  - Store favorited exercise IDs in MMKV (simple array)
+  - Store favorited exercise IDs in AsyncStorage (simple array)
   - Toggle favorite function
   - Filter exercises to show only favorites
   - Zustand store for reactive UI
@@ -653,7 +627,7 @@ Key milestones:
 - [ ] 8.1 Implement "Start Empty Workout" (S - 2h)
 
   ```
-  - Create new workout in WatermelonDB
+  - Create new workout in expo-sqlite
   - Navigate to active workout screen
   - User adds exercises as they go
   ```
@@ -772,7 +746,7 @@ Key milestones:
   - Fetch all exercises from API (1,300+ exercises)
   - Transform to our schema (match exercises table)
   - Bulk insert to Supabase exercises table
-  - Sync to local WatermelonDB
+  - Sync to local expo-sqlite
   - Mark as is_custom = false
 
   Script:
@@ -787,7 +761,7 @@ Key milestones:
   ```
   Features:
   - FlashList for performance (500+ items)
-  - Search bar (real-time, local WatermelonDB query)
+  - Search bar (real-time, local expo-sqlite query)
   - Filters: Muscle group, Equipment, Difficulty
   - Show exercise GIF thumbnail (expo-image with caching)
   - Tap to view details
@@ -824,7 +798,7 @@ Key milestones:
 
   Saved to:
   - Supabase exercises table
-  - WatermelonDB local
+  - expo-sqlite local
   ```
 
 - [ ] 10.2 Add exercise images/videos (optional for custom) (M - 3h)
@@ -1069,7 +1043,7 @@ Key milestones:
   ```
   - Profile app launch with Sentry Performance
   - Defer non-critical initialization
-  - Optimize WatermelonDB initial queries
+  - Optimize expo-sqlite initial queries
   - Use skeleton screens during load
   - Target: <2s cold start
   ```
@@ -1124,8 +1098,8 @@ Key milestones:
   - "Delete My Account" button (destructive action)
   - Confirmation dialog with warnings
   - Delete all data from Supabase (cascades via foreign keys)
-  - Clear WatermelonDB local database
-  - Clear MMKV storage
+  - Clear expo-sqlite local database
+  - Clear AsyncStorage
   - Sign out user
 
   See TECHNICAL.md § Compliance code examples
@@ -1212,7 +1186,7 @@ Key milestones:
   - Skip option
 
   Show once on first launch
-  Store completion in MMKV
+  Store completion in AsyncStorage
   ```
 
 - [ ] 18.2 Add user feedback system (M - 3h)
