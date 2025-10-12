@@ -98,39 +98,6 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## 🗺️ Revised Roadmap Overview
-
-```
-├── Phase 0: Setup ✅ (Weeks 1-2) - COMPLETED
-├── Phase 0.5: Architecture Setup 🚧 (Week 3) - IN PROGRESS ⭐ CRITICAL
-├── Phase 1: Auth & Foundation (Weeks 4-5) - NEXT
-├── Phase 2: Workout Logging (Weeks 6-8)
-├── Phase 3: Exercise Library (Weeks 9-10)
-├── Phase 4: Analytics & Smart Features (Weeks 11-12)
-└── Phase 5: Polish, Monitoring & Beta (Weeks 13-14)
-```
-
-**Target:** MVP Launch in 14 weeks
-**Note:** Using expo-sqlite (Expo Go compatible) instead of WatermelonDB for Phase 0-2
-
----
-
-## 📊 Progress Tracking
-
-| Category             | Completed | Total | Progress | Notes                                                                               |
-| -------------------- | --------- | ----- | -------- | ----------------------------------------------------------------------------------- |
-| **Infrastructure**   | 21        | 21    | 100%     | ✅ NativeWind, chart-kit, ESLint, Husky, AsyncStorage                               |
-| **Architecture**     | 3         | 10    | 30%      | ✅ Jest setup complete, ⚠️ CRITICAL: 8 audit corrections needed                     |
-| **Testing**          | 1         | 2     | 50%      | ✅ Jest infrastructure, pending: 30-40 unit tests                                   |
-| **Authentication**   | 0         | 15    | 0%       | Added nutrition phase management                                                    |
-| **Workout Logging**  | 0         | 28    | 0%       | Added RIR, plate calculator, quick start                                            |
-| **Exercise Library** | 0         | 10    | 0%       | **Reduced** (ExerciseDB API integration vs manual)                                  |
-| **Analytics**        | 0         | 15    | 0%       | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
-| **Polish & Launch**  | 0         | 18    | 0%       | Added Sentry, compliance (GDPR), export                                             |
-| **Total**            | 25        | 119   | 21%      | Phase 0.5: Jest ✅, Audit corrections in progress ⚠️                                |
-
----
-
 ## 🎯 Current Focus
 
 **Week of January 2025** - Phase 0.5 Audit Corrections:

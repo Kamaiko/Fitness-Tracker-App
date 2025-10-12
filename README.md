@@ -141,14 +141,3 @@ npm start
 **Repository Pattern:** Refactor only if migrating to WatermelonDB (1 week work)
 
 ---
-
-## 📚 Documentation
-
-| Document                                      | Description                                          |
-| --------------------------------------------- | ---------------------------------------------------- |
-| **[DATABASE.md](./docs/DATABASE.md)**         | Database setup, CRUD operations, sync guide          |
-| **[TECHNICAL.md](./docs/TECHNICAL.md)**       | Architecture, ADRs, database schema                  |
-| **[TASKS.md](./docs/TASKS.md)**               | Development roadmap, 107 tasks, progress tracking    |
-| **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** | Architecture modulaire, patterns, data flow          |
-| **[PRD.md](./docs/PRD.md)**                   | Product requirements, user personas, success metrics |
-| **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** | Setup, commit conventions, workflow                  |
