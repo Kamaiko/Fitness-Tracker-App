@@ -52,11 +52,15 @@ npm run android        # Android emulator
 npm run ios            # iOS simulator
 npm run type-check     # TypeScript check
 npm run lint           # ESLint
+npm test               # Run tests
+npm run test:watch     # Watch mode
+npm run test:coverage  # Coverage report
 ```
 
 **Troubleshooting?** See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 
 **Documentation:**
+
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Project structure
 - [DATABASE.md](docs/DATABASE.md) - Database schema
 - [TASKS.md](docs/TASKS.md) - Roadmap
@@ -67,6 +71,7 @@ npm run lint           # ESLint
 ## 🎯 What Makes Halterofit Different
 
 **Context-aware analytics that understand YOUR training:**
+
 - 📊 **Personalized 1RM** adjusted by RIR (proximity to failure matters)
 - 📈 **Load management** (Acute/Chronic ratios, fatigue tracking, overtraining alerts)
 - 🎯 **Nutrition phase tracking** (bulk/cut/maintenance - stable in cut = success, not plateau)
@@ -80,18 +85,19 @@ npm run lint           # ESLint
 
 ## 🛠️ Tech Stack
 
-| Layer | Category | Technologies |
-|-------|----------|-------------|
-| **Frontend** | Framework | Expo SDK 54 + React Native 0.81 + TypeScript 5.9 |
-| | Navigation | Expo Router 6 |
-| | Styling | NativeWind v4 (Tailwind CSS) |
-| | State | Zustand 5.0 + React Query 5.90 |
-| | **Database** | **expo-sqlite** (offline-first) + Supabase sync |
-| | Preferences | AsyncStorage (auth, settings) |
-| | UI | FlashList + expo-image + react-native-chart-kit |
-| **Backend** | Platform | Supabase (PostgreSQL + Auth + Storage + Real-time) |
-| **External** | Services | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
-| **Analytics** | Libraries | simple-statistics (Mann-Kendall, regressions) |
+| Layer         | Category     | Technologies                                          |
+| ------------- | ------------ | ----------------------------------------------------- |
+| **Frontend**  | Framework    | Expo SDK 54 + React Native 0.81 + TypeScript 5.9      |
+|               | Navigation   | Expo Router 6                                         |
+|               | Styling      | NativeWind v4 (Tailwind CSS)                          |
+|               | State        | Zustand 5.0 + React Query 5.90                        |
+|               | **Database** | **expo-sqlite** (offline-first) + Supabase sync       |
+|               | Preferences  | AsyncStorage (auth, settings)                         |
+|               | UI           | FlashList + expo-image + react-native-chart-kit       |
+| **Backend**   | Platform     | Supabase (PostgreSQL + Auth + Storage + Real-time)    |
+| **External**  | Services     | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
+| **Analytics** | Libraries    | simple-statistics (Mann-Kendall, regressions)         |
+| **Testing**   | Framework    | Jest + React Native Testing Library                   |
 
 **Current Phase:** 0.5 - **100% Expo Go compatible** (offline-first with expo-sqlite)
 **Migration Path:** WatermelonDB + MMKV at 1000+ users (Phase 3)
@@ -107,6 +113,7 @@ npm run lint           # ESLint
 ## ⚠️ Known Limitations & Future Work
 
 ### Sync Conflicts (Phase 0-2)
+
 **Current:** Simplified timestamp-based ("last write wins")
 **Limitation:** Multi-device edits of same workout may lose data
 **Upgrade when:** Users report lost changes (>5 reports)
@@ -114,20 +121,22 @@ npm run lint           # ESLint
 **Reference:** Git history `git log --grep="audit"` or tag `phase-0.5-audit`
 
 ### Performance
+
 **Database indexes:** Add when >500 workouts (2h work)
 
 ### Scalability
+
 **Repository Pattern:** Refactor only if migrating to WatermelonDB (1 week work)
 
 ---
 
 ## 📚 Documentation
 
-| Document | Description |
-|----------|-------------|
-| **[DATABASE.md](./docs/DATABASE.md)** | Database setup, CRUD operations, sync guide |
-| **[TECHNICAL.md](./docs/TECHNICAL.md)** | Architecture, ADRs, database schema |
-| **[TASKS.md](./docs/TASKS.md)** | Development roadmap, 107 tasks, progress tracking |
-| **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** | Architecture modulaire, patterns, data flow |
-| **[PRD.md](./docs/PRD.md)** | Product requirements, user personas, success metrics |
-| **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** | Setup, commit conventions, workflow |
+| Document                                      | Description                                          |
+| --------------------------------------------- | ---------------------------------------------------- |
+| **[DATABASE.md](./docs/DATABASE.md)**         | Database setup, CRUD operations, sync guide          |
+| **[TECHNICAL.md](./docs/TECHNICAL.md)**       | Architecture, ADRs, database schema                  |
+| **[TASKS.md](./docs/TASKS.md)**               | Development roadmap, 107 tasks, progress tracking    |
+| **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** | Architecture modulaire, patterns, data flow          |
+| **[PRD.md](./docs/PRD.md)**                   | Product requirements, user personas, success metrics |
+| **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** | Setup, commit conventions, workflow                  |

@@ -54,13 +54,14 @@
 | Category             | Completed | Total | Progress | Notes                                                                               |
 | -------------------- | --------- | ----- | -------- | ----------------------------------------------------------------------------------- |
 | **Infrastructure**   | 21        | 21    | 100%     | ✅ NativeWind, Victory Native, ESLint, AsyncStorage                                 |
-| **Architecture**     | 2         | 10    | 20%      | ⚠️ CRITICAL: 8 audit corrections needed                                             |
+| **Architecture**     | 3         | 10    | 30%      | ✅ Jest setup complete, ⚠️ CRITICAL: 8 audit corrections needed                     |
+| **Testing**          | 1         | 2     | 50%      | ✅ Jest infrastructure, pending: 30-40 unit tests                                   |
 | **Authentication**   | 0         | 15    | 0%       | Added nutrition phase management                                                    |
 | **Workout Logging**  | 0         | 28    | 0%       | Added RIR, plate calculator, quick start                                            |
 | **Exercise Library** | 0         | 10    | 0%       | **Reduced** (ExerciseDB API integration vs manual)                                  |
 | **Analytics**        | 0         | 15    | 0%       | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
 | **Polish & Launch**  | 0         | 18    | 0%       | Added Sentry, compliance (GDPR), export                                             |
-| **Total**            | 23        | 117   | 20%      | Phase 0.5: Audit corrections required ⚠️                                            |
+| **Total**            | 25        | 119   | 21%      | Phase 0.5: Jest ✅, Audit corrections in progress ⚠️                                |
 
 ---
 
@@ -203,6 +204,15 @@ Key milestones:
   - 8 problems identified (3 critical)
   - AUDIT_FIXES.md created
   - See commit: "docs(audit): add comprehensive corrections guide"
+
+- [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h) ✅
+  - Installed Jest + React Native Testing Library
+  - Configured jest.config.js with jest-expo preset
+  - Created jest.setup.js with Expo mocks
+  - Added test scripts to package.json
+  - Created 3 example test files (7 tests passing)
+  - Updated README.md with testing commands
+  - See commit: TBD
 
 ### 0.5. Audit Corrections (0/8) 🔴 CRITICAL - DO BEFORE PHASE 1
 
@@ -387,7 +397,7 @@ Key milestones:
   ```
   Tasks:
   - Create .github/workflows/quality-checks.yml
-  - Configure quality gates (type-check, lint, format-check)
+  - Configure quality gates (type-check, lint, format-check, test:ci)
   - Add status badge to README.md
   - Test workflow on PR
   - Configure to run on push to main and all PRs
@@ -395,8 +405,9 @@ Key milestones:
   Impact: Catches errors before merge, professional standard
   Reference: See PRD.md "Testing & QA Strategy"
 
-  Value: Even without tests, catches type/lint errors in CI
-  Future: Will run unit tests when added in Phase 3
+  Note: Jest infrastructure already setup in Phase 0.5 (task 0.5.18)
+  CI will run: type-check, lint, format-check, test:ci
+  Tests will be written progressively in Phase 2-3
   ```
 
 - [ ] 4.2 Setup development environment file (S - 30min)
@@ -700,20 +711,21 @@ Key milestones:
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
 
-### 8. Automated Testing Setup
+### 8. Automated Testing
 
-- [ ] 8.1 **Setup Jest and React Native Testing Library** (M - 2h)
+**Note:** Jest infrastructure already setup in Phase 0.5 (task 0.5.18) ✅
+
+- [x] 8.1 **Setup Jest and React Native Testing Library** (M - 2h) ✅
 
   ```
-  Tasks:
-  - npm install --save-dev jest @testing-library/react-native @testing-library/jest-native
-  - Configure jest.config.js
-  - Setup test utilities and custom matchers
-  - Create __tests__ directories structure
-  - Add npm scripts: "test", "test:watch", "test:coverage"
+  COMPLETED in Phase 0.5 (task 0.5.18):
+  - ✅ Installed Jest + React Native Testing Library
+  - ✅ Configured jest.config.js with jest-expo preset
+  - ✅ Created jest.setup.js with Expo mocks
+  - ✅ Added test scripts to package.json
+  - ✅ Created 3 example test files (7 tests passing)
 
-  Reference: See PRD.md "Testing & QA Strategy"
-  Impact: Foundation for all unit/integration tests
+  Reference: See task 0.5.18 for details
   ```
 
 - [ ] 8.2 **Write unit tests for critical features** (L - 6h)
@@ -732,6 +744,8 @@ Key milestones:
   - src/utils/calculations/__tests__/oneRepMax.test.ts
   - src/utils/validators/__tests__/workout.test.ts
   - src/services/database/__tests__/workouts.test.ts
+
+  Note: Jest infrastructure ready, just write the tests
   ```
 
 ### 9. ExerciseDB API Integration
