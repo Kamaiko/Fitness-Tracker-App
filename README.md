@@ -104,6 +104,23 @@ npm run lint           # ESLint
 
 ---
 
+## ⚠️ Known Limitations & Future Work
+
+### Sync Conflicts (Phase 0-2)
+**Current:** Simplified timestamp-based ("last write wins")
+**Limitation:** Multi-device edits of same workout may lose data
+**Upgrade when:** Users report lost changes (>5 reports)
+**Solution:** Add version tracking (2-6h work)
+**Reference:** Git history `git log --grep="audit"` or tag `phase-0.5-audit`
+
+### Performance
+**Database indexes:** Add when >500 workouts (2h work)
+
+### Scalability
+**Repository Pattern:** Refactor only if migrating to WatermelonDB (1 week work)
+
+---
+
 ## 📚 Documentation
 
 | Document | Description |
