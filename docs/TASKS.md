@@ -52,27 +52,31 @@
 | Category | Completed | Total | Progress | Notes |
 |----------|-----------|-------|----------|-------|
 | **Infrastructure** | 21 | 21 | 100% | ✅ NativeWind, Victory Native, ESLint, AsyncStorage |
+| **Architecture** | 2 | 10 | 20% | ⚠️ CRITICAL: 8 audit corrections needed |
 | **Authentication** | 0 | 15 | 0% | Added nutrition phase management |
 | **Workout Logging** | 0 | 28 | 0% | Added RIR, plate calculator, quick start |
 | **Exercise Library** | 0 | 10 | 0% | **Reduced** (ExerciseDB API integration vs manual) |
 | **Analytics** | 0 | 15 | 0% | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
 | **Polish & Launch** | 0 | 18 | 0% | Added Sentry, compliance (GDPR), export |
-| **Total** | 21 | 107 | 20% | Infrastructure complete, Expo Go compatible ✅ |
+| **Total** | 23 | 117 | 20% | Phase 0.5: Audit corrections required ⚠️ |
 
 ---
 
 ## 🎯 Current Focus
 
-**Week of October 2025** - Phase 0.5:
-- [ ] 0.5.1 Setup WatermelonDB with Supabase sync
-- [ ] 0.5.2 Implement revised database schema
-- [ ] 0.5.3 Install FlashList
-- [ ] 0.5.4 Install expo-image
-- [ ] 0.5.5 Setup Sentry error monitoring
+**Week of January 2025** - Phase 0.5 Audit Corrections:
+- [ ] 0.5.9 **[CRITICAL]** User ID Persistence (4h)
+- [ ] 0.5.10 **[CRITICAL]** Zustand Persist (2h)
+- [ ] 0.5.11 **[CRITICAL]** Error Handling (3h)
+- [ ] 0.5.12 **[IMPORTANT]** Repository Pattern (8h)
+- [ ] 0.5.13 **[IMPORTANT]** Sync Conflicts (8h)
+- [ ] 0.5.14 **[IMPORTANT]** DB Indexes (2h)
+
+**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for step-by-step guide
 
 ---
 
-## ✅ Completed Tasks (21)
+## ✅ Completed Tasks (23)
 
 ### Phase 0: Infrastructure & Setup
 - [x] 0.1 Create Expo SDK 54 project with TypeScript
@@ -99,7 +103,7 @@
 
 ---
 
-## 📋 Phase 0.5: Architecture & Database Setup (5/7) ⭐ CRITICAL
+## 📋 Phase 0.5: Architecture & Database Setup (13/15) ⭐ CRITICAL
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
 **Goal:** Establish offline-first architecture with expo-sqlite + Supabase sync
@@ -108,6 +112,8 @@
 - ✅ Keeps Expo Go workflow
 - ✅ Offline-first architecture
 - ✅ Migration path to WatermelonDB at 1000+ users
+
+**⚠️ AUDIT CRITICAL:** 8 corrections identified - See [AUDIT_FIXES.md](./AUDIT_FIXES.md)
 
 ### 0.5. Database & Storage Architecture
 
@@ -211,17 +217,85 @@
   - src/utils/analytics/loadManagement.ts (acute/chronic, fatigue ratio)
   ```
 
-- [ ] 0.5.7 **Update Zustand stores to persist via MMKV** (S - 1h)
+- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) `[COMPLETED]`
   ```
-  Tasks:
-  - Add Zustand persist middleware
-  - Configure MMKV storage adapter
-  - Persist: user preferences, auth state, app settings
-  - Test: Close app → Reopen → State persisted
+  ✅ Completed tasks:
+  - Created barrel exports (index.ts) for all modules
+  - Reorganized stores into subdirectories
+  - Removed duplicate folders
+  - Standardized absolute imports
+  - Added ARCHITECTURE.md documentation
+  - Type-check passes successfully
+  ```
 
-  Files to modify:
-  - src/stores/authStore.ts (add persist middleware)
-  - src/stores/workoutStore.ts (if needed)
+- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) `[COMPLETED]`
+  ```
+  ✅ Completed tasks:
+  - Comprehensive architecture audit
+  - Identified 8 problems (3 critical, 3 important, 2 improvements)
+  - Created AUDIT_FIXES.md with detailed guide
+  ```
+
+### 0.5. Audit Corrections (0/8) 🔴 CRITICAL - DO BEFORE PHASE 1
+
+**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
+
+- [ ] 0.5.9 **[CRITICAL] User ID Persistence** (M - 4h)
+  ```
+  Problem: User forgotten on app restart → data loss
+  Impact if skipped: 🔴 Data loss in production
+  See: AUDIT_FIXES.md → Correction #1
+  ```
+
+- [ ] 0.5.10 **[CRITICAL] Zustand Persist Middleware** (M - 2h)
+  ```
+  Problem: Workout state lost on app crash/restart
+  Impact if skipped: 🔴 Active workout lost on crash
+  See: AUDIT_FIXES.md → Correction #2
+  ```
+
+- [ ] 0.5.11 **[CRITICAL] Error Handling Layer** (M - 3h)
+  ```
+  Problem: No proper error handling → bad UX
+  Impact if skipped: ⚠️ Poor UX, difficult debugging
+  See: AUDIT_FIXES.md → Correction #3
+  ```
+
+- [ ] 0.5.12 **[IMPORTANT] Repository Pattern** (L - 8h)
+  ```
+  Problem: Hard WatermelonDB migration
+  Impact if skipped: ⚠️ 1 week refactor in Phase 3
+  See: AUDIT_FIXES.md → Correction #4
+  Note: Can be done progressively during Phase 1-2
+  ```
+
+- [ ] 0.5.13 **[IMPORTANT] Sync Conflict Detection** (L - 8h)
+  ```
+  Problem: Data overwrite with "last write wins"
+  Impact if skipped: 🔴 Data corruption multi-device
+  See: AUDIT_FIXES.md → Correction #5
+  Note: MUST complete before Phase 2 (Sync)
+  ```
+
+- [ ] 0.5.14 **[IMPORTANT] Database Indexes** (M - 2h)
+  ```
+  Problem: Slow queries with 500+ workouts
+  Impact if skipped: ⚠️ Slow performance
+  See: AUDIT_FIXES.md → Correction #6
+  ```
+
+- [ ] 0.5.15 **[OPTIONAL] Chart Abstraction** (M - 3h)
+  ```
+  Problem: Hard Victory Native migration
+  Impact if skipped: 📘 3h refactor Phase 3
+  See: AUDIT_FIXES.md → Correction #7
+  ```
+
+- [ ] 0.5.16 **[OPTIONAL] Domain vs DB Types** (M - 4h)
+  ```
+  Problem: Type organization confusion
+  Impact if skipped: 📘 Minor confusion
+  See: AUDIT_FIXES.md → Correction #8
   ```
 
 ---
