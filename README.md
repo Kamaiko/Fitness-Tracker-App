@@ -133,26 +133,35 @@ npm start
 
 ### Planned Enhancements (Post-MVP)
 
-These optimizations will be implemented **only if production metrics indicate need**:
+These optimizations will be implemented **only if production metrics indicate need** (1000+ users):
 
-**Multi-Device Sync Conflict Resolution:**
+**Database: expo-sqlite → WatermelonDB**
 
-- Current: Last-write-wins (sufficient for 95% of use cases)
-- Future: Add version tracking if users report data loss (>5 reports)
-- Effort: 2-6 hours when needed
+- **Trigger:** Query performance >200ms at p95 OR sync failures >2%
+- **Benefits:** Reactive queries (.observe()), optimized sync protocol, better scalability
+- **Requirements:** Development Build (native SQLite optimizations)
+- **Effort:** 2-3 days (abstraction layer already exists)
 
-**Database Performance:**
+**Storage: AsyncStorage → MMKV**
 
-- Current: expo-sqlite performs well up to 500+ workouts
-- Future: Add indexes if query times exceed 200ms at p95
-- Effort: 2-4 hours when needed
+- **Trigger:** Storage performance bottleneck OR encryption requirements
+- **Benefits:** 10-30x faster read/write, synchronous API, built-in encryption
+- **Requirements:** Development Build (native C++ module)
+- **Effort:** 2-4 hours (simple migration)
 
-**Architecture Flexibility:**
+**Charts: react-native-chart-kit → Victory Native**
 
-- Current: Direct database calls (fast development, easy maintenance)
-- Future: Repository pattern only if migrating to WatermelonDB (1000+ users)
-- Effort: 1 week when needed
+- **Trigger:** User requests for advanced interactions OR multi-line charts (>3 series)
+- **Benefits:** Advanced gestures (zoom/pan), smooth animations, Skia rendering
+- **Requirements:** Development Build (react-native-skia)
+- **Effort:** 3-6 hours (chart abstraction ready)
 
-**Migration Path:** See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed optimization triggers
+**Database Indexes:**
+
+- **Trigger:** 500+ workouts per user
+- **Benefits:** Faster queries on large datasets
+- **Effort:** 2-4 hours
+
+**Migration Strategy:** Conservative, metric-driven approach. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed triggers and decision framework.
 
 ---
