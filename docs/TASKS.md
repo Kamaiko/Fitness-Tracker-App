@@ -11,6 +11,7 @@
 **Progress:** ![](https://img.shields.io/badge/Progress-20%25-yellow)
 
 ### What's Working
+
 - ✅ Expo SDK 54.0.12 with React 19.1.0
 - ✅ Supabase client configured with AsyncStorage auth persistence
 - ✅ AsyncStorage abstraction (clean migration path to MMKV Phase 3)
@@ -24,6 +25,7 @@
 - ✅ **Architectural decisions documented (ADRs updated)**
 
 ### What's Next (Critical Path)
+
 - 🎯 **Phase 0.5:** WatermelonDB setup + DB schema implementation
 - 🎯 **Phase 1:** Authentication + Performance libraries
 - 🎯 **Phase 2:** Workout logging core features
@@ -49,22 +51,23 @@
 
 ## 📊 Progress Tracking
 
-| Category | Completed | Total | Progress | Notes |
-|----------|-----------|-------|----------|-------|
-| **Infrastructure** | 21 | 21 | 100% | ✅ NativeWind, Victory Native, ESLint, AsyncStorage |
-| **Architecture** | 2 | 10 | 20% | ⚠️ CRITICAL: 8 audit corrections needed |
-| **Authentication** | 0 | 15 | 0% | Added nutrition phase management |
-| **Workout Logging** | 0 | 28 | 0% | Added RIR, plate calculator, quick start |
-| **Exercise Library** | 0 | 10 | 0% | **Reduced** (ExerciseDB API integration vs manual) |
-| **Analytics** | 0 | 15 | 0% | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
-| **Polish & Launch** | 0 | 18 | 0% | Added Sentry, compliance (GDPR), export |
-| **Total** | 23 | 117 | 20% | Phase 0.5: Audit corrections required ⚠️ |
+| Category             | Completed | Total | Progress | Notes                                                                               |
+| -------------------- | --------- | ----- | -------- | ----------------------------------------------------------------------------------- |
+| **Infrastructure**   | 21        | 21    | 100%     | ✅ NativeWind, Victory Native, ESLint, AsyncStorage                                 |
+| **Architecture**     | 2         | 10    | 20%      | ⚠️ CRITICAL: 8 audit corrections needed                                             |
+| **Authentication**   | 0         | 15    | 0%       | Added nutrition phase management                                                    |
+| **Workout Logging**  | 0         | 28    | 0%       | Added RIR, plate calculator, quick start                                            |
+| **Exercise Library** | 0         | 10    | 0%       | **Reduced** (ExerciseDB API integration vs manual)                                  |
+| **Analytics**        | 0         | 15    | 0%       | **ENHANCED** (load management, personalized 1RM, workout reports, weekly summaries) |
+| **Polish & Launch**  | 0         | 18    | 0%       | Added Sentry, compliance (GDPR), export                                             |
+| **Total**            | 23        | 117   | 20%      | Phase 0.5: Audit corrections required ⚠️                                            |
 
 ---
 
 ## 🎯 Current Focus
 
 **Week of January 2025** - Phase 0.5 Audit Corrections:
+
 - [ ] 0.5.9 **[CRITICAL]** User ID Persistence (4h)
 - [ ] 0.5.10 **[CRITICAL]** Zustand Persist (2h)
 - [ ] 0.5.11 **[CRITICAL]** Error Handling (3h)
@@ -81,11 +84,13 @@
 **23 tasks completed** across Phase 0 and 0.5.
 
 For detailed history of completed tasks, see Git commits:
+
 ```bash
 git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline
 ```
 
 Key milestones:
+
 - ✅ **Phase 0**: Expo setup, Supabase config, NativeWind migration, ESLint/Prettier
 - ✅ **Phase 0.5 (partial)**: expo-sqlite setup, architecture refactor, audit analysis
 
@@ -97,6 +102,7 @@ Key milestones:
 **Goal:** Establish offline-first architecture with expo-sqlite + Supabase sync
 
 **DECISION:** Using expo-sqlite (Expo Go compatible) instead of WatermelonDB
+
 - ✅ Keeps Expo Go workflow
 - ✅ Offline-first architecture
 - ✅ Migration path to WatermelonDB at 1000+ users
@@ -112,6 +118,7 @@ Key milestones:
   - See commit history for details
 
 - [ ] 0.5.2 **Implement database schema in Supabase** (M - 3-4h) `[NEXT]`
+
   ```
   Tasks:
   - Create SQL migration matching SQLite schema
@@ -130,6 +137,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
+
   ```
   Tasks:
   - npm install @shopify/flash-list
@@ -142,6 +150,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.4 **Install and configure expo-image** (S - 1h)
+
   ```
   Tasks:
   - Install expo-image
@@ -154,6 +163,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.5 **Setup Sentry for error monitoring** (M - 2h)
+
   ```
   Tasks:
   - Create Sentry account (free tier)
@@ -169,6 +179,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.6 **Install simple-statistics for analytics algorithms** (S - 30min)
+
   ```
   Tasks:
   - npm install simple-statistics
@@ -198,6 +209,7 @@ Key milestones:
 **Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
 
 - [ ] 0.5.9 **[CRITICAL] User ID Persistence** (M - 4h)
+
   ```
   Problem: User forgotten on app restart → data loss
   Impact if skipped: 🔴 Data loss in production
@@ -205,6 +217,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.10 **[CRITICAL] Zustand Persist Middleware** (M - 2h)
+
   ```
   Problem: Workout state lost on app crash/restart
   Impact if skipped: 🔴 Active workout lost on crash
@@ -212,6 +225,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.11 **[CRITICAL] Error Handling Layer** (M - 3h)
+
   ```
   Problem: No proper error handling → bad UX
   Impact if skipped: ⚠️ Poor UX, difficult debugging
@@ -219,6 +233,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.12 **[IMPORTANT] Repository Pattern** (L - 8h)
+
   ```
   Problem: Hard WatermelonDB migration
   Impact if skipped: ⚠️ 1 week refactor in Phase 3
@@ -227,6 +242,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.13 **[IMPORTANT] Sync Conflict Detection** (L - 8h)
+
   ```
   Problem: Data overwrite with "last write wins"
   Impact if skipped: 🔴 Data corruption multi-device
@@ -235,6 +251,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.14 **[IMPORTANT] Database Indexes** (M - 2h)
+
   ```
   Problem: Slow queries with 500+ workouts
   Impact if skipped: ⚠️ Slow performance
@@ -242,6 +259,7 @@ Key milestones:
   ```
 
 - [ ] 0.5.15 **[OPTIONAL] Chart Abstraction** (M - 3h)
+
   ```
   Problem: Hard Victory Native migration
   Impact if skipped: 📘 3h refactor Phase 3
@@ -249,10 +267,31 @@ Key milestones:
   ```
 
 - [ ] 0.5.16 **[OPTIONAL] Domain vs DB Types** (M - 4h)
+
   ```
   Problem: Type organization confusion
   Impact if skipped: 📘 Minor confusion
   See: AUDIT_FIXES.md → Correction #8
+  ```
+
+- [ ] 0.5.17 **Setup professional dev tools** (S - 30min) ✅ RECOMMENDED
+
+  ```
+  Tasks:
+  - Install and configure Husky + lint-staged
+  - Setup commitlint (enforce commit conventions)
+  - Create .editorconfig (consistent formatting)
+  - Create .github/dependabot.yml (automated security updates)
+  - Test pre-commit hooks
+
+  Impact: Prevents committing broken code, enforces conventions
+  Professional standard: Essential for portfolio projects
+
+  Files to create:
+  - .husky/pre-commit
+  - .commitlintrc.json
+  - .editorconfig
+  - .github/dependabot.yml
   ```
 
 ---
@@ -341,9 +380,27 @@ Key milestones:
   - Footer section (optional actions)
   - Pressable variant
 
-### 4. Development Tools & Setup
+### 4. Development Tools & Quality Assurance
 
-- [ ] 4.1 Setup development environment file (S - 30min)
+- [ ] 4.1 Setup CI/CD pipeline with GitHub Actions (M - 1.5h) ✅ RECOMMENDED
+
+  ```
+  Tasks:
+  - Create .github/workflows/quality-checks.yml
+  - Configure quality gates (type-check, lint, format-check)
+  - Add status badge to README.md
+  - Test workflow on PR
+  - Configure to run on push to main and all PRs
+
+  Impact: Catches errors before merge, professional standard
+  Reference: See PRD.md "Testing & QA Strategy"
+
+  Value: Even without tests, catches type/lint errors in CI
+  Future: Will run unit tests when added in Phase 3
+  ```
+
+- [ ] 4.2 Setup development environment file (S - 30min)
+
   ```
   Tasks:
   - Copy .env.example to .env
@@ -358,7 +415,8 @@ Key milestones:
   - EXERCISEDB_API_KEY (if using paid tier)
   ```
 
-- [ ] 4.2 Create useful TypeScript types (M - 2h) `[src/types/]`
+- [ ] 4.3 Create useful TypeScript types (M - 2h) `[src/types/]`
+
   ```
   Files to create:
   - src/types/database.ts (database tables interfaces including nutrition_phase)
@@ -369,6 +427,7 @@ Key milestones:
   ```
 
 - [ ] 4.3 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
+
   ```
   Features:
   - Current phase display (bulk/cut/maintenance)
@@ -390,6 +449,7 @@ Key milestones:
 ### 5. Workout Session Core
 
 - [ ] 5.1 Update workout session state management (M - 3h) `[src/stores/workoutStore.ts]`
+
   ```
   State to manage:
   - Current workout (in progress)
@@ -406,6 +466,7 @@ Key milestones:
   ```
 
 - [ ] 5.2 Design workout active screen (L - 8h) `[src/app/(tabs)/workout/active.tsx]` `[CRITICAL UX]`
+
   ```
   Features:
   - Exercise list (FlashList)
@@ -427,6 +488,7 @@ Key milestones:
   ```
 
 - [ ] 5.3 Implement rest timer with notifications (M - 4h) `[src/components/workout/RestTimer.tsx]`
+
   ```
   Features:
   - Auto-start after set completion (based on average rest time)
@@ -444,6 +506,7 @@ Key milestones:
   ```
 
 - [ ] 5.4 Create workout history screen (M - 4h) `[src/app/(tabs)/workout/history.tsx]`
+
   ```
   Features:
   - List of past workouts (FlashList, paginated)
@@ -472,6 +535,7 @@ Key milestones:
 ### 6. Exercise Selection & Management
 
 - [ ] 6.1 Create exercise selection modal (L - 6h) `[src/components/workout/ExerciseSelector.tsx]` `[CRITICAL UX]`
+
   ```
   Features:
   - Real-time search (debounced 300ms)
@@ -488,6 +552,7 @@ Key milestones:
   ```
 
 - [ ] 6.2 Implement search algorithm (M - 3h) `[src/utils/search.ts]`
+
   ```
   Search strategy:
   - Full-text search on exercise name, muscle groups
@@ -507,6 +572,7 @@ Key milestones:
 ### 7. Set Logging Interface
 
 - [ ] 7.1 Create set logging component (L - 6h) `[src/components/workout/SetLogger.tsx]` `[CRITICAL UX]`
+
   ```
   Design (minimize taps):
   - Pre-populated weight/reps from last set
@@ -519,6 +585,7 @@ Key milestones:
   ```
 
 - [ ] 7.2 Implement RPE tracking system (M - 3h) `[src/components/workout/RPESelector.tsx]`
+
   ```
   - Scale 1-10 (visual buttons)
   - Optional per-set
@@ -527,6 +594,7 @@ Key milestones:
   ```
 
 - [ ] 7.3 Implement RIR tracking (non-intrusive UX) (M - 3h) `[src/components/workout/RIRTracker.tsx]`
+
   ```
   Options (see TECHNICAL.md UX section):
   - Option A: End-of-workout prompt for all sets
@@ -537,6 +605,7 @@ Key milestones:
   ```
 
 - [ ] 7.4 Add set history display (M - 3h) `[src/components/workout/SetHistory.tsx]`
+
   ```
   Shows below current set input:
   - Last 3-5 sets for this exercise
@@ -557,6 +626,7 @@ Key milestones:
 ### 8. Workout Management Features
 
 - [ ] 8.1 Implement "Start Empty Workout" (S - 2h)
+
   ```
   - Create new workout in WatermelonDB
   - Navigate to active workout screen
@@ -564,6 +634,7 @@ Key milestones:
   ```
 
 - [ ] 8.2 Implement "Repeat Last Workout" (M - 3h)
+
   ```
   - Fetch last workout for selected exercise or full workout
   - Pre-populate exercises and target sets
@@ -572,6 +643,7 @@ Key milestones:
   ```
 
 - [ ] 8.3 Create workout templates (L - 6h) `[src/app/(tabs)/workout/templates.tsx]`
+
   ```
   - Save current workout as template
   - Name and describe template
@@ -583,6 +655,7 @@ Key milestones:
   ```
 
 - [ ] 8.4 Implement workout notes (S - 2h) `[src/components/workout/NotesInput.tsx]`
+
   ```
   - Text area for workout notes
   - Saved to workouts.notes field
@@ -591,6 +664,7 @@ Key milestones:
   ```
 
 - [ ] 8.5 Add workout duration timer (S - 2h) `[src/components/workout/WorkoutTimer.tsx]`
+
   ```
   - Start when workout starts (workouts.started_at)
   - Display in header (MM:SS format)
@@ -599,6 +673,7 @@ Key milestones:
   ```
 
 - [ ] 8.6 **Implement Plate Calculator** (M - 4h) `[src/utils/plateCalculator.ts + Modal]` `[ESSENTIAL FEATURE]`
+
   ```
   Feature:
   - Small button/icon next to weight input
@@ -620,14 +695,49 @@ Key milestones:
 
 ---
 
-## 📋 Phase 3: Exercise Library (0/10)
+## 📋 Phase 3: Exercise Library & Testing (0/12)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
 
+### 8. Automated Testing Setup
+
+- [ ] 8.1 **Setup Jest and React Native Testing Library** (M - 2h)
+
+  ```
+  Tasks:
+  - npm install --save-dev jest @testing-library/react-native @testing-library/jest-native
+  - Configure jest.config.js
+  - Setup test utilities and custom matchers
+  - Create __tests__ directories structure
+  - Add npm scripts: "test", "test:watch", "test:coverage"
+
+  Reference: See PRD.md "Testing & QA Strategy"
+  Impact: Foundation for all unit/integration tests
+  ```
+
+- [ ] 8.2 **Write unit tests for critical features** (L - 6h)
+
+  ```
+  Priority areas (60% coverage target):
+  - src/utils/calculations/__tests__/ (1RM, volume, plate calculator)
+  - src/utils/validators/__tests__/ (form validation, weight/reps)
+  - src/utils/formatters/__tests__/ (weight, date, duration formatting)
+  - src/services/database/__tests__/ (CRUD operations, sync logic)
+
+  Test count target: 30-40 tests covering critical paths
+  Focus: Data integrity, calculation accuracy, edge cases
+
+  Files to create:
+  - src/utils/calculations/__tests__/oneRepMax.test.ts
+  - src/utils/validators/__tests__/workout.test.ts
+  - src/services/database/__tests__/workouts.test.ts
+  ```
+
 ### 9. ExerciseDB API Integration
 
 - [ ] 9.1 **Integrate ExerciseDB API and seed Supabase** (L - 6h) `[CRITICAL TIME SAVER]`
+
   ```
   Tasks:
   - Sign up for ExerciseDB on RapidAPI (free tier or paid)
@@ -645,6 +755,7 @@ Key milestones:
   ```
 
 - [ ] 9.2 Design exercise list screen (M - 4h) `[src/app/(tabs)/exercises/index.tsx]`
+
   ```
   Features:
   - FlashList for performance (500+ items)
@@ -671,6 +782,7 @@ Key milestones:
 ### 10. Custom Exercises & Management
 
 - [ ] 10.1 Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
+
   ```
   Form:
   - Exercise name (required)
@@ -688,6 +800,7 @@ Key milestones:
   ```
 
 - [ ] 10.2 Add exercise images/videos (optional for custom) (M - 3h)
+
   ```
   - Upload to Supabase Storage
   - Image picker (expo-image-picker)
@@ -697,6 +810,7 @@ Key milestones:
   ```
 
 - [ ] 10.3 Create exercise filters (M - 3h) `[src/components/exercises/FilterPanel.tsx]`
+
   ```
   Filters:
   - Muscle group: Chest, Back, Shoulders, Legs, Arms, Core, Full body
@@ -715,6 +829,7 @@ Key milestones:
 ### 11. Exercise History & Analytics
 
 - [ ] 11.1 Show exercise history (M - 4h) `[src/components/exercises/ExerciseHistory.tsx]`
+
   ```
   For selected exercise, show:
   - Chart: Weight progression over time (Victory Native)
@@ -744,6 +859,7 @@ Key milestones:
 ### 12. Progress Dashboard
 
 - [ ] 12.1 Create analytics dashboard (L - 6h) `[src/app/(tabs)/analytics/index.tsx]`
+
   ```
   Sections:
   - Weekly volume chart (bar chart - Victory Native)
@@ -757,6 +873,7 @@ Key milestones:
   ```
 
 - [ ] 12.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
+
   ```
   Calculations (see TECHNICAL.md Analytics section):
   - Total volume: Σ (sets × reps × weight) - exclude warmup sets
@@ -783,6 +900,7 @@ Key milestones:
 ### 13. Advanced Analytics (Science-Based)
 
 - [ ] 13.1 **Implement context-aware plateau detection** (M - 5h) `[src/lib/analytics/plateau.ts]` `[CRITICAL]`
+
   ```
   Algorithm (see TECHNICAL.md):
   - Use Mann-Kendall trend test (simple-statistics library)
@@ -798,6 +916,7 @@ Key milestones:
   ```
 
 - [ ] 13.2 Implement load management system (M - 4h) `[src/lib/analytics/loadManagement.ts]` `[NEW - CRITICAL]`
+
   ```
   Metrics from sports science literature:
   - Acute Load: Sum of volume (last 7 days)
@@ -812,6 +931,7 @@ Key milestones:
   ```
 
 - [ ] 13.3 Implement personalized 1RM with RIR adjustment (M - 3h) `[src/lib/analytics/personalized1RM.ts]` `[NEW]`
+
   ```
   Enhancement over basic formulas:
   - Calculate base 1RM (avg of Epley, Brzycki, Lombardi)
@@ -824,6 +944,7 @@ Key milestones:
   ```
 
 - [ ] 13.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
+
   ```
   Analysis:
   - Volume per muscle group (pie chart)
@@ -848,6 +969,7 @@ Key milestones:
 ### 14. Performance Feedback & Reports
 
 - [ ] 14.1 **Create post-workout report system** (L - 6h) `[src/components/analytics/WorkoutReport.tsx]` `[NEW - CRITICAL]`
+
   ```
   Displayed immediately after "End Workout":
   - Performance Score (1-10) based on:
@@ -867,6 +989,7 @@ Key milestones:
   ```
 
 - [ ] 14.2 **Create weekly summary system** (L - 5h) `[src/components/analytics/WeeklySummary.tsx]` `[NEW]`
+
   ```
   Generated every Monday morning (background task):
   - Volume trends (by muscle group, vs previous week)
@@ -880,6 +1003,7 @@ Key milestones:
   ```
 
 - [ ] 14.3 Add context-aware weight suggestions (M - 4h) `[src/lib/suggestions/weightSuggestions.ts]`
+
   ```
   Science-based rules (NOT AI):
   - If last RIR = 0-1 AND nutrition = bulk → "+2.5kg"
@@ -902,6 +1026,7 @@ Key milestones:
 ### 15. Performance Optimization
 
 - [ ] 15.1 Optimize bundle size (M - 3h)
+
   ```
   - Run react-native-bundle-visualizer
   - Identify large dependencies
@@ -912,6 +1037,7 @@ Key milestones:
   ```
 
 - [ ] 15.2 Improve cold start time (M - 3h)
+
   ```
   - Profile app launch with Sentry Performance
   - Defer non-critical initialization
@@ -921,6 +1047,7 @@ Key milestones:
   ```
 
 - [ ] 15.3 Add offline functionality verification (M - 2h)
+
   ```
   Test scenarios:
   - Start workout offline → Log sets → Go online → Verify sync
@@ -936,6 +1063,7 @@ Key milestones:
 ### 16. Security & Compliance `[REQUIRED FOR APP STORE]`
 
 - [ ] 16.1 **Create Privacy Policy** (M - 3h) `[REQUIRED]`
+
   ```
   Must include:
   - What data is collected (email, workouts, performance metrics)
@@ -949,6 +1077,7 @@ Key milestones:
   ```
 
 - [ ] 16.2 **Create Terms of Service** (M - 2h) `[REQUIRED]`
+
   ```
   Must include:
   - Liability disclaimers (NOT medical advice)
@@ -961,6 +1090,7 @@ Key milestones:
   ```
 
 - [ ] 16.3 **Implement data deletion flow** (M - 3h) `[GDPR REQUIRED]`
+
   ```
   Feature in Profile/Settings:
   - "Delete My Account" button (destructive action)
@@ -974,6 +1104,7 @@ Key milestones:
   ```
 
 - [ ] 16.4 **Implement data export** (M - 3h) `[GDPR REQUIRED]`
+
   ```
   Feature in Profile/Settings:
   - "Export My Data" button
@@ -991,6 +1122,7 @@ Key milestones:
 ### 17. Monitoring & Analytics
 
 - [ ] 17.1 **Setup user analytics** (M - 3h) `[PostHog or Mixpanel]`
+
   ```
   Track events:
   - User registration
@@ -1009,6 +1141,7 @@ Key milestones:
   ```
 
 - [ ] 17.2 **Verify Sentry monitoring** (S - 1h)
+
   ```
   Test:
   - Error reporting (throw test error)
@@ -1022,6 +1155,7 @@ Key milestones:
   ```
 
 - [ ] 17.3 Setup performance monitoring (M - 2h)
+
   ```
   Monitor with Sentry:
   - Screen load times (target <500ms)
@@ -1038,6 +1172,7 @@ Key milestones:
 ### 18. Beta Launch Preparation
 
 - [ ] 18.1 Create onboarding flow (M - 4h) `[src/app/(onboarding)/]`
+
   ```
   Screens:
   - Welcome screen
@@ -1053,6 +1188,7 @@ Key milestones:
   ```
 
 - [ ] 18.2 Add user feedback system (M - 3h)
+
   ```
   Options:
   - In-app feedback form
@@ -1066,6 +1202,7 @@ Key milestones:
   ```
 
 - [ ] 18.3 Prepare beta release (M - 4h)
+
   ```
   Tasks:
   - Create app icon (512×512, 1024×1024 versions)
@@ -1082,6 +1219,7 @@ Key milestones:
   ```
 
 - [ ] 18.4 Write beta testing guide (S - 1h)
+
   ```
   Document for beta testers:
   - How to install (TestFlight/Play Store link)
@@ -1092,6 +1230,7 @@ Key milestones:
   ```
 
 - [ ] 18.5 App Store compliance checklist (M - 2h)
+
   ```
   iOS:
   - Privacy manifest (iOS 17+)
@@ -1113,21 +1252,26 @@ Key milestones:
 ## 📝 Task Management Guidelines
 
 ### Task Size Estimates
+
 - **S** (Small): 1-2 hours
 - **M** (Medium): 3-6 hours
 - **L** (Large): 1-2 days
 
 ### Priority Levels
+
 - **CRITICAL**: Blocking other tasks, must be done first
 - **HIGH**: Core MVP features
 - **MEDIUM**: Important but can be deferred
 - **LOW**: Nice-to-have, post-MVP
 
 ### File Path Conventions
+
 File paths in brackets `[path/to/file.tsx]` indicate where to create or modify code.
 
 ### Dependencies
+
 Tasks are ordered chronologically within phases. Some tasks have dependencies:
+
 - Phase 0.5 must be completed before Phase 1
 - Database schema (0.5.2) must be done before any data-related features
 - WatermelonDB setup (0.5.1) must be done before using database

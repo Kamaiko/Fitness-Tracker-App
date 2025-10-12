@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    # Group all dependencies into a single PR for easier review
+    groups:
+      dependencies:
+        patterns:
+          - "*"

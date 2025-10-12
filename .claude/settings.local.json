@@ -19,7 +19,8 @@
       "Bash(done)",
       "Bash(grep:*)",
       "Bash(cat:*)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

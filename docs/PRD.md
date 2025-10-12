@@ -32,12 +32,14 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Primary goal:** Validate product-market fit with 500+ active users within 6 months of MVP launch.
 
 **Secondary goals:**
+
 - Achieve <0.5% crash rate and <2s cold start time for production-quality user experience
 - Build foundation for freemium monetization model ($6.99/month) post-MVP
 - Establish technical architecture that scales to 10,000+ users without major refactoring
 - Create comprehensive exercise library through ExerciseDB integration, saving 190 hours of manual work
 
 **Success criteria:**
+
 - Users complete 80%+ of started workouts (low abandonment rate)
 - Average 4+ workouts logged per user per week
 - 60%+ weekly retention rate after 4 weeks
@@ -46,12 +48,14 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### User goals
 
 **Primary user goals:**
+
 - Log workouts quickly (1-2 taps per set) with guaranteed data reliability
 - Track progressive overload through context-aware metrics (weight, volume, intensity, fatigue)
 - Detect training plateaus early using statistical analysis
 - Understand progression in context of nutrition phase (bulk/cut/maintenance) and training variables
 
 **Secondary user goals:**
+
 - Understand which muscle groups need more volume for balanced development
 - Calculate required plates for target weight (essential gym utility)
 - Manage rest periods with background timer and notifications
@@ -60,6 +64,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### Non-goals
 
 **Explicitly excluded from MVP:**
+
 - AI-based recommendations (no training data at launch; use rule-based suggestions)
 - Energy readiness score (requires wearable integration for HRV/sleep data)
 - Social features, workout sharing, or community elements
@@ -75,6 +80,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### Primary persona: Serious bodybuilder
 
 **Demographics:**
+
 - Age: 22-45 years old
 - Gender: All genders
 - Experience: Intermediate to advanced lifters (2+ years consistent training)
@@ -82,6 +88,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Primary goal: Hypertrophy and progressive overload
 
 **Behaviors:**
+
 - Tracks every set with precision (weight, reps, perceived difficulty, context)
 - Plans workouts in advance or follows structured programs
 - Adjusts training expectations based on nutrition phase (bulk, cut, or maintenance)
@@ -89,6 +96,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Values context-aware analytics that explain why performance changes
 
 **Pain points:**
+
 - Current apps show raw numbers without context (no nutrition phase awareness, exercise order impact, fatigue modeling)
 - No RIR/RPE tracking or intelligent analytics based on proximity to failure
 - Analytics are basic: only show 1RM/weight charts without trends, regressions, or plateau alerts
@@ -97,6 +105,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Difficult to identify plateaus without manual analysis or understand WHY they happen
 
 **Needs from the product:**
+
 - Quick set logging with context tracking (RIR, exercise position, rest periods)
 - Science-based analytics: statistical plateau detection (Mann-Kendall), load management (acute/chronic ratios), personalized 1RM with RIR adjustment
 - Nutrition phase tracking to contextualize performance (bulk/cut/maintenance)
@@ -107,12 +116,14 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### Secondary persona: Strength athlete
 
 **Demographics:**
+
 - Age: 25-50 years old
 - Experience: Advanced lifters, competitive powerlifters or Olympic weightlifters
 - Training frequency: 3-5 highly structured workouts per week
 - Primary goal: Strength gains and peaking for competitions
 
 **Behaviors:**
+
 - Follows periodized training programs with precise loading schemes
 - Tracks 1RM progression and training percentages
 - Uses RPE/RIR scales for autoregulation (adjust daily based on readiness)
@@ -120,6 +131,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Reviews training logs to identify weak points and adjust programming
 
 **Pain points:**
+
 - Basic 1RM formulas don't account for RIR or individual response curves
 - Difficult to track RPE/RIR trends and relate them to performance outcomes
 - No fatigue modeling (acute vs chronic load ratios)
@@ -127,6 +139,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Existing apps don't contextualize performance within training phases
 
 **Needs from the product:**
+
 - Personalized 1RM calculations adjusted by RIR and historical accuracy
 - RPE/RIR tracking with trends and fatigue indicators
 - Load management metrics (acute/chronic load, fatigue ratio, overtraining alerts)
@@ -150,6 +163,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** 1 (Weeks 4-5)
 
 **Requirements:**
+
 - Email/password authentication via Supabase Auth with JWT tokens
 - User registration with email verification
 - Password reset flow via email
@@ -158,6 +172,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Row-Level Security policies ensuring users only access their own data
 
 **Acceptance criteria:**
+
 - User can register with email and password (minimum 8 characters)
 - User receives verification email and can verify account
 - User can log in and session persists across app restarts
@@ -171,6 +186,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** 0.5 (Week 3)
 
 **Requirements:**
+
 - WatermelonDB local SQLite database for all workout data (offline-first architecture)
 - Automatic bidirectional sync with Supabase when internet available
 - Conflict resolution using "last write wins" strategy
@@ -178,6 +194,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Workout data persists locally with guaranteed reliability
 
 **Acceptance criteria:**
+
 - User can log entire workout offline without interruption
 - Data automatically syncs to Supabase when connection restored
 - Sync indicator shows pending/syncing/synced states clearly
@@ -191,6 +208,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** 2 (Weeks 6-8)
 
 **Requirements:**
+
 - Start workout from empty template or repeat last workout
 - Add exercises via search/filter interface (search 1,300+ exercises locally)
 - Log sets with weight, reps, and optional RPE/RIR
@@ -203,6 +221,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Edit or delete past workouts from history
 
 **Acceptance criteria:**
+
 - User can start workout with maximum 2 taps
 - Logging a set requires maximum 2 taps when using auto-filled values
 - Plate calculator accurately displays Olympic bar (20kg/45lbs) and standard bar (15kg) configurations
@@ -217,6 +236,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** 3 (Weeks 9-10)
 
 **Requirements:**
+
 - Pre-seeded library of 1,300+ exercises from ExerciseDB API
 - Exercise details: name, category, muscle groups, equipment, instructions, GIF demonstration
 - Real-time search with 300ms debounce (searches local database, no API calls)
@@ -226,6 +246,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Exercise history showing past performance (weight progression, volume, PRs)
 
 **Acceptance criteria:**
+
 - Search returns results in <300ms for local database queries
 - FlashList renders 500+ exercise library smoothly at 60fps on mid-range Android devices
 - Exercise GIFs load from cache in <200ms using expo-image
@@ -239,6 +260,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** 4 (Weeks 11-12)
 
 **Requirements:**
+
 - **Context-aware metrics:** Nutrition phase tracking (bulk/cut/maintenance), exercise order impact, rest time analysis, set type classification (warmup/working/drop set)
 - **Load management:** Acute Load (7-day volume), Chronic Load (28-day average), Fatigue Ratio (AL/CL), overtraining alerts
 - **Advanced analytics:** Personalized 1RM adjusted by RIR and historical accuracy, plateau detection (Mann-Kendall test), regression analysis with trend lines
@@ -247,6 +269,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - **Progression visualization:** Multi-exercise comparisons, rolling metrics, phase-based analysis (mesocycle tracking)
 
 **Acceptance criteria:**
+
 - Nutrition phase contextualization: "Performance stable in cut is expected, not a plateau"
 - Personalized 1RM uses RIR data: "100kg × 8 @ RIR2 = higher e1RM than 105kg × 6 @ RIR0"
 - Fatigue ratio alerts: "AL/CL = 1.5 → Consider deload this week"
@@ -261,6 +284,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Phase:** Multiple phases
 
 **Requirements:**
+
 - Rest timer with background execution, notifications, and quick actions (+15s, Done)
 - Plate calculator modal accessible from weight input field
 - Superset/circuit support via exercise grouping
@@ -272,6 +296,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Dark theme optimized for gym lighting with high contrast
 
 **Acceptance criteria:**
+
 - Rest timer sends notification when complete even if app killed by system
 - Plate calculator supports user-configurable available plates in settings
 - Supersets display grouped exercises with clear visual indicators
@@ -287,11 +312,13 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### Entry points
 
 **Unauthenticated users:**
+
 - App launch → Login screen
 - "Create account" link → Registration screen
 - "Forgot password" link → Password reset flow
 
 **Authenticated users:**
+
 - App launch → Home/Workout tab (if active workout exists, show resume option)
 - Bottom tab navigation: Workout | Exercises | Analytics | Profile
 - Deep links (post-MVP): Workout detail, exercise detail, analytics chart
@@ -303,6 +330,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Scenario:** User arrives at gym and wants to start leg day workout.
 
 **Steps:**
+
 1. User opens app → Home/Workout tab displays "Start Workout" button
 2. User taps "Start Workout" → Modal shows options: "Empty Workout" or "Repeat Last"
 3. User selects "Repeat Last" → App loads previous leg workout with all exercises
@@ -317,6 +345,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 12. Summary screen shows volume, duration, PRs achieved
 
 **Success criteria:**
+
 - Total time to log typical 5-exercise, 20-set workout: <3 minutes of interaction time
 - Zero data loss even if WiFi unavailable entire workout
 - Rest timer continues running during phone lock or app switching
@@ -326,6 +355,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Scenario:** User wants to add Romanian Deadlifts but cannot remember exact name.
 
 **Steps:**
+
 1. During active workout, user taps "Add Exercise" button
 2. Exercise selector modal opens with search bar focused
 3. User types "romanian" → Real-time results filter to matching exercises (<300ms)
@@ -335,6 +365,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 7. User logs first set → Future workouts will auto-fill from this baseline
 
 **Success criteria:**
+
 - Search returns results in <300ms for 1,300+ exercise database
 - Exercise GIFs load from cache instantly (expo-image caching)
 - No network requests during search (all data local)
@@ -344,6 +375,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Scenario:** User suspects bench press progress has stalled.
 
 **Steps:**
+
 1. User navigates to Analytics tab
 2. Dashboard shows weekly volume chart, recent PRs, plateau alerts
 3. Alert badge indicates "Bench Press: Potential Plateau Detected"
@@ -357,6 +389,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 7. User navigates to workout templates, adjusts Push Day template to add 2 sets
 
 **Success criteria:**
+
 - Plateau detection uses Mann-Kendall test with minimum 4 weeks of data
 - Charts render smoothly with zoom/pan gestures for detailed analysis
 - Suggestions are actionable and based on validated training principles
@@ -364,17 +397,20 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### Advanced features
 
 **Workout templates:**
+
 - Save current workout as reusable template with name and description
 - Template stores exercise order, target sets/reps, superset grouping
 - Start workout from template with all exercises pre-populated
 - Edit templates to adjust exercises or targets
 
 **Data export (GDPR compliance):**
+
 - Export all user data as structured JSON file
 - Includes profile, workouts, exercises, sets, analytics history
 - Share via system share sheet or email
 
 **Account management:**
+
 - Delete account with cascade deletion of all data
 - Change email address with re-verification
 - Update password with current password confirmation
@@ -383,17 +419,20 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 ### UI and UX highlights
 
 **Dark theme for gym environment:**
+
 - Deep black background (#0A0A0A) reduces eye strain in bright gym lighting
 - High contrast text (#e2e8f0) for readability on treadmill or from distance
 - 8px grid system ensures consistent spacing across all screens
 
 **Mobile-first design patterns:**
+
 - Large tap targets (44×44pt minimum) for sweaty hands or gloves
 - One-handed mode support for phone usage on bench
 - Landscape orientation support for video watching during rest
 - Haptic feedback on critical actions (set completion, PR achieved)
 
 **Performance optimizations:**
+
 - FlashList for all long lists (54% FPS improvement vs FlatList)
 - expo-image for aggressive GIF caching (1,300+ exercise images)
 - Skeleton screens during initial load (<2s cold start target)
@@ -416,18 +455,21 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 ### User-centric metrics
 
 **Engagement:**
+
 - Average workouts logged per user per week: Target 4+ (serious lifters train 4-6x/week)
 - Workout completion rate: Target 80%+ (started → completed with "End Workout")
 - Average sets logged per workout: Target 15-25 sets (typical bodybuilding session)
 - Session duration: Target 60-90 minutes (actual workout time)
 
 **Retention:**
+
 - Day 1 retention: Target 80% (user completes onboarding and logs first workout)
 - Week 1 retention: Target 70% (user logs 3+ workouts in first week)
 - Week 4 retention: Target 60% (user establishes habit, logs 12+ workouts)
 - Month 3 retention: Target 40% (product-market fit indicator)
 
 **Feature adoption:**
+
 - Rest timer usage: Target 70%+ of workouts use timer
 - Plate calculator usage: Target 50%+ of workouts access calculator
 - RPE/RIR tracking: Target 40%+ of users enable tracking
@@ -436,17 +478,20 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 ### Business metrics
 
 **Growth (MVP Phase - 6 months):**
+
 - Total registered users: Target 2,000 users
 - Weekly active users: Target 500 users (25% of registered base)
 - Monthly active users: Target 800 users (40% of registered base)
 - Viral coefficient: Target 0.3 (each user refers 0.3 new users organically)
 
 **Engagement quality:**
+
 - Average lifetime workouts per user: Target 50+ workouts (12+ weeks of consistent training)
 - Exercises logged per user: Target 300+ sets lifetime
 - Data export requests: <5% (low indicates users trust app, not migrating away)
 
 **Monetization readiness (Post-MVP):**
+
 - Users hitting 30-day history limit: Target 40% (indicates need for Pro upgrade)
 - Template usage: Target 30% (Pro feature candidate)
 - Advanced analytics views: Target 25% (Pro feature candidate)
@@ -454,6 +499,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 ### Technical metrics
 
 **Performance:**
+
 - Cold start time: <2 seconds (app launch → first interactive screen)
 - Set logging latency: <50ms (tap checkmark → set saved to database)
 - Exercise search latency: <300ms (keystroke → results displayed)
@@ -461,6 +507,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Screen transition animations: 60fps consistently
 
 **Reliability:**
+
 - Crash rate: <0.5% crash-free sessions (industry standard: 99.5%+)
 - ANR rate (Android): <1% (Application Not Responding errors)
 - Data loss incidents: 0% (zero tolerance due to offline-first architecture)
@@ -468,6 +515,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - API error rate: <2% (Supabase API calls when online)
 
 **Infrastructure:**
+
 - Database query time (95th percentile): <200ms
 - WatermelonDB sync duration: <5 seconds for typical user dataset (100 workouts)
 - Bundle size: <10MB (initial download)
@@ -481,6 +529,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 ### Integration points
 
 **Supabase (Backend-as-a-Service):**
+
 - PostgreSQL database for cloud storage and cross-device sync
 - Supabase Auth for JWT-based authentication with Row-Level Security
 - Supabase Storage for future user-uploaded exercise images/videos
@@ -488,6 +537,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Real-time sync protocol with WatermelonDB for offline-first architecture
 
 **ExerciseDB API:**
+
 - One-time seed operation: Fetch 1,300+ exercises from ExerciseDB v2 API
 - Transform exercise data to match internal schema (exercises table)
 - Bulk insert to Supabase, sync to WatermelonDB local database
@@ -495,6 +545,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Mark exercises as is_custom = false to distinguish from user-created exercises
 
 **Sentry (Error Monitoring):**
+
 - Production-only error tracking and crash reporting
 - Performance monitoring: screen load times, API latency, database queries
 - User context attachment (user ID, session ID, no PII)
@@ -502,6 +553,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Free tier supports 5,000 errors/month (sufficient for MVP)
 
 **Expo services:**
+
 - Expo Go for development testing (QR code workflow)
 - EAS Build for production iOS and Android builds
 - Expo Notifications for rest timer push notifications
@@ -513,6 +565,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 **Three-tier storage architecture:**
 
 **Tier 1 - WatermelonDB (Local SQLite):**
+
 - Purpose: Offline-first relational data (workouts, exercises, sets)
 - Tables: users, exercises, workouts, workout_exercises, exercise_sets
 - Sync: Bidirectional sync with Supabase using WatermelonDB sync protocol
@@ -520,6 +573,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Encryption: Optional SQLCipher encryption for sensitive data
 
 **Tier 2 - MMKV (Local Key-Value):**
+
 - Purpose: Local-only settings and preferences (no sync to cloud)
 - Data: Auth tokens, user preferences, favorites, onboarding state
 - Performance: 30x faster than AsyncStorage, synchronous API
@@ -527,12 +581,14 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - Size: <1MB typical usage
 
 **Tier 3 - Zustand (In-Memory State):**
+
 - Purpose: Temporary UI state during app session
 - Data: Active workout state, form inputs, navigation state
 - Persistence: Selected slices persisted to MMKV via middleware
 - Reset: State cleared on app close (except persisted slices)
 
 **Data privacy compliance:**
+
 - GDPR: Data export (JSON), deletion (cascade via foreign keys), consent tracking
 - CCPA: User data access requests, opt-out of analytics
 - App Store Privacy Manifest (iOS 17+): Declare required reason APIs
@@ -540,6 +596,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 - No PII in logs: User identified by UUID in Sentry, never email/name
 
 **Row-Level Security policies:**
+
 ```sql
 -- Users can only access their own workouts
 CREATE POLICY "Users see own workouts"
@@ -556,6 +613,7 @@ CREATE POLICY "Exercises are public"
 ### Scalability and performance
 
 **Database scaling strategy:**
+
 - Supabase free tier: 500MB database, 50K monthly active users (sufficient for MVP)
 - WatermelonDB local storage: <50MB per user for 2 years of workout data
 - Pagination: Load 20 workouts at a time, lazy load older history
@@ -563,6 +621,7 @@ CREATE POLICY "Exercises are public"
 - Aggregations: Pre-calculate weekly/monthly volume in background jobs (post-MVP)
 
 **Mobile performance optimizations:**
+
 - FlashList for all lists: 54% FPS improvement, 82% CPU reduction vs FlatList
 - expo-image caching: Aggressive disk cache for 1,300 exercise GIFs
 - Lazy loading: Components loaded on-demand (React.lazy, code splitting)
@@ -570,38 +629,84 @@ CREATE POLICY "Exercises are public"
 - Bundle optimization: <10MB initial bundle, code splitting for analytics charts
 
 **Offline-first architecture benefits:**
+
 - Zero network latency during workout logging (all writes to local database)
 - Works in airplane mode, basement gyms, poor WiFi environments
 - Sync queue batches changes, syncs when connection available
-- Conflict resolution: Last write wins with _changed timestamp
+- Conflict resolution: Last write wins with \_changed timestamp
 - Data integrity: Foreign key constraints in both SQLite and PostgreSQL
 
 ### Potential technical challenges
 
 **Challenge 1: WatermelonDB sync complexity**
+
 - Risk: Sync protocol requires 4-6 hours setup, complex debugging
 - Mitigation: Follow official Supabase + WatermelonDB guide, implement comprehensive logging
 - Contingency: If sync fails, fall back to manual Supabase queries with optimistic UI updates (loses offline-first guarantee)
 
 **Challenge 2: Android low-end device performance**
+
 - Risk: Mid-range Android devices (2-3 year old) struggle with 60fps animations
 - Mitigation: FlashList for lists, expo-image for caching, aggressive memoization
 - Testing: Test on Samsung Galaxy A52 (representative mid-range device from 2021)
 
 **Challenge 3: Background rest timer reliability**
+
 - Risk: iOS/Android may kill background timer to save battery
 - Mitigation: Use expo-background-fetch for background execution, local notifications
 - Fallback: If timer killed, show "Timer may have stopped" warning when app reopened
 
 **Challenge 4: ExerciseDB API rate limits**
+
 - Risk: Free tier may have rate limits for 1,300+ exercise fetch
 - Mitigation: One-time seed operation, cache all data locally, no runtime calls
 - Contingency: Paid tier ($9.99/month) or split seed operation into batches
 
 **Challenge 5: Chart performance with large datasets**
+
 - Risk: Rendering 1,000+ data points (2 years of daily workouts) may lag
 - Mitigation: Victory Native optimized for large datasets, downsample data for long time ranges
 - Optimization: Show last 3 months by default, "View All" loads full dataset
+
+---
+
+## Testing & quality assurance strategy
+
+### Manual testing (continuous throughout MVP)
+
+- **Platform testing:** Android via Expo Go during development
+- **User acceptance testing:** Developer self-testing each feature after implementation
+- **Beta testing:** Phase 5 (internal TestFlight/Play Store testing before public launch)
+
+### Automated testing (Phase 3+)
+
+- **Unit tests:** Core business logic (calculations, validators, formatters) - Phase 3
+- **Integration tests:** Database operations, Supabase sync - Phase 3+
+- **Test framework:** Jest + React Native Testing Library
+- **Coverage target:** 60%+ for critical paths (workout CRUD, sync logic, analytics calculations)
+- **Strategy:** Start with highest-risk areas (data persistence, sync conflicts, 1RM calculations)
+
+### CI/CD pipeline (Phase 1 end)
+
+- **Setup:** GitHub Actions workflow
+- **Quality gates:** TypeScript type-check, ESLint, Prettier format-check
+- **Automated checks:** Run on every push/PR to prevent broken commits reaching main
+- **Test execution:** Run unit/integration tests when they exist (Phase 3+)
+- **Value:** Catches errors before merge even if pre-commit hooks bypassed
+
+### Pre-commit hooks (Phase 0.5 - immediate)
+
+- **Tools:** Husky + lint-staged + commitlint
+- **Checks:** Type-check, lint, format on staged files only
+- **Commit convention:** Enforce conventional commits (feat/fix/docs/refactor/test/chore)
+- **Value:** Prevents committing broken code, maintains clean git history
+
+### Quality standards
+
+- **Type safety:** TypeScript strict mode, no `any` types
+- **Code quality:** ESLint rules enforced, Prettier formatting
+- **Error handling:** Sentry monitoring in production (Phase 0.5)
+- **Performance:** <2s cold start, 60fps interactions on mid-range Android
 
 ---
 
@@ -616,6 +721,7 @@ CREATE POLICY "Exercises are public"
 ### Phase breakdown
 
 **Phase 0: Foundation Setup (Weeks 1-2) - COMPLETED**
+
 - Expo SDK 54 project initialization with TypeScript strict mode
 - Supabase project creation and client configuration
 - MMKV storage setup with encryption
@@ -624,6 +730,7 @@ CREATE POLICY "Exercises are public"
 - Expo Router navigation structure
 
 **Phase 0.5: Architecture and Database (Week 3) - IN PROGRESS**
+
 - WatermelonDB setup with Supabase sync protocol (4-6 hours)
 - Database schema implementation (5 tables: users, exercises, workouts, workout_exercises, exercise_sets)
 - FlashList installation and configuration
@@ -632,6 +739,7 @@ CREATE POLICY "Exercises are public"
 - simple-statistics library for analytics algorithms
 
 **Phase 1: Authentication and Foundation (Weeks 4-5)**
+
 - Login, registration, password reset screens
 - Supabase Auth integration with JWT session management
 - Form validation utilities (email format, password strength)
@@ -640,6 +748,7 @@ CREATE POLICY "Exercises are public"
 - TypeScript type definitions for database schema
 
 **Phase 2: Workout Logging (Weeks 6-8)**
+
 - Workout session state management with auto-save to WatermelonDB
 - Active workout screen with set logger (1-2 tap workflow)
 - Rest timer with background execution and notifications
@@ -650,6 +759,7 @@ CREATE POLICY "Exercises are public"
 - Workout templates (save, edit, start from template)
 
 **Phase 3: Exercise Library (Weeks 9-10)**
+
 - ExerciseDB API integration and Supabase seed operation
 - Exercise list screen with FlashList and real-time search
 - Exercise detail screen with GIF, instructions, personal history
@@ -658,6 +768,7 @@ CREATE POLICY "Exercises are public"
 - Favorites system with MMKV persistence
 
 **Phase 4: Analytics and Smart Features (Weeks 11-12)**
+
 - Analytics dashboard with Victory Native charts
 - Volume tracking by week, month, muscle group
 - Strength progression charts with trend lines
@@ -667,6 +778,7 @@ CREATE POLICY "Exercises are public"
 - Rule-based weight suggestions (non-AI)
 
 **Phase 5: Polish and Beta Launch (Weeks 13-14)**
+
 - Performance optimization (bundle size, cold start, memory)
 - Privacy Policy and Terms of Service creation
 - Data export (GDPR compliance) and account deletion
@@ -678,18 +790,22 @@ CREATE POLICY "Exercises are public"
 ### Critical path dependencies
 
 **Blockers for Phase 1:**
+
 - Phase 0.5 WatermelonDB setup must complete before any data-related features
 - Database schema implementation must finalize before UI development
 
 **Blockers for Phase 2:**
+
 - Phase 1 authentication must complete (workout data tied to user_id)
 - Exercise selection requires Phase 3 ExerciseDB seed (can work with minimal seed data)
 
 **Blockers for Phase 4:**
+
 - Requires workout data from Phase 2 (analytics calculate on existing workouts)
 - simple-statistics library from Phase 0.5 for plateau detection
 
 **Parallel work opportunities:**
+
 - UI components (Phase 1) can develop alongside database work (Phase 0.5)
 - Analytics algorithms (Phase 4) can develop and test with mock data
 - Exercise library frontend (Phase 3) can develop while ExerciseDB seed runs
@@ -701,6 +817,7 @@ CREATE POLICY "Exercises are public"
 ### Authentication and account management
 
 **US-001: User registration**
+
 - As a new user, I want to create an account with email and password so that my workout data is saved and accessible across devices.
 - Acceptance criteria:
   - Registration form validates email format and requires password ≥8 characters
@@ -709,6 +826,7 @@ CREATE POLICY "Exercises are public"
   - User redirected to onboarding flow after successful registration
 
 **US-002: User login**
+
 - As a returning user, I want to log in with my credentials so that I can access my workout history.
 - Acceptance criteria:
   - Login form accepts email and password with validation
@@ -718,6 +836,7 @@ CREATE POLICY "Exercises are public"
   - User redirected to Home/Workout tab after successful login
 
 **US-003: Password reset**
+
 - As a user who forgot my password, I want to reset it via email so that I can regain access to my account.
 - Acceptance criteria:
   - Reset flow sends email with secure reset link from Supabase
@@ -727,6 +846,7 @@ CREATE POLICY "Exercises are public"
   - Clear success message displayed after reset
 
 **US-004: Account deletion**
+
 - As a user concerned about privacy, I want to permanently delete my account and all associated data.
 - Acceptance criteria:
   - "Delete Account" button in Profile/Settings with destructive styling
@@ -736,6 +856,7 @@ CREATE POLICY "Exercises are public"
   - User logged out and redirected to login screen
 
 **US-005: Data export**
+
 - As a user, I want to export all my workout data as a file for backup or analysis purposes.
 - Acceptance criteria:
   - "Export My Data" button in Profile/Settings
@@ -747,6 +868,7 @@ CREATE POLICY "Exercises are public"
 ### Workout logging
 
 **US-006: Start empty workout**
+
 - As a user, I want to start a new workout without any pre-filled exercises so that I can create a spontaneous training session.
 - Acceptance criteria:
   - "Start Workout" button on Home/Workout tab
@@ -756,6 +878,7 @@ CREATE POLICY "Exercises are public"
   - Workout saves to database without internet connection
 
 **US-007: Repeat last workout**
+
 - As a user, I want to quickly load my previous workout with all exercises pre-populated so that I can save time and ensure consistency.
 - Acceptance criteria:
   - "Repeat Last Workout" option when starting workout
@@ -766,6 +889,7 @@ CREATE POLICY "Exercises are public"
   - User can modify exercises before or during workout
 
 **US-008: Log a set**
+
 - As a user, I want to log a set with weight and reps in 1-2 taps so that I can quickly return to my workout.
 - Acceptance criteria:
   - Weight and reps input fields pre-filled from last set or last workout
@@ -776,6 +900,7 @@ CREATE POLICY "Exercises are public"
   - Set history shows last 3-5 sets from previous workouts below input
 
 **US-009: Track RPE**
+
 - As a user, I want to optionally log RPE (Rate of Perceived Exertion) for each set to track intensity and manage fatigue.
 - Acceptance criteria:
   - RPE selector with 1-10 scale visible as optional buttons
@@ -785,6 +910,7 @@ CREATE POLICY "Exercises are public"
   - Setting toggle in Profile/Settings to enable/disable RPE tracking
 
 **US-010: Track RIR**
+
 - As a user, I want to log RIR (Reps in Reserve) to gauge proximity to failure without making RPE calculations.
 - Acceptance criteria:
   - RIR selector with 0-5 scale (0=failure, 5=very easy)
@@ -794,6 +920,7 @@ CREATE POLICY "Exercises are public"
   - Analytics can display RIR trends over time for progressive overload analysis
 
 **US-011: Use rest timer**
+
 - As a user, I want an automatic rest timer that runs in the background and notifies me when rest is complete.
 - Acceptance criteria:
   - Timer auto-starts after set completion with duration from historical average (default 90 seconds)
@@ -804,6 +931,7 @@ CREATE POLICY "Exercises are public"
   - User can skip timer, add time, or manually start/stop via UI controls
 
 **US-012: Use plate calculator**
+
 - As a user, I want to see which plates to load on each side of the barbell for my target weight.
 - Acceptance criteria:
   - Small calculator icon next to weight input field
@@ -814,6 +942,7 @@ CREATE POLICY "Exercises are public"
   - Calculator accounts for bar weight correctly
 
 **US-013: Add exercise to workout**
+
 - As a user, I want to add exercises to my active workout by searching the exercise library.
 - Acceptance criteria:
   - "Add Exercise" button during active workout
@@ -824,6 +953,7 @@ CREATE POLICY "Exercises are public"
   - Tapping exercise adds to workout, closes modal, shows set logging interface
 
 **US-014: Complete workout**
+
 - As a user, I want to finish my workout and review a summary of my session.
 - Acceptance criteria:
   - "End Workout" button in active workout screen header
@@ -834,6 +964,7 @@ CREATE POLICY "Exercises are public"
   - Workout immediately saved to WatermelonDB, queued for Supabase sync
 
 **US-015: View workout history**
+
 - As a user, I want to see a list of my past workouts sorted by date so that I can review my training consistency.
 - Acceptance criteria:
   - History screen displays workouts in reverse chronological order (newest first)
@@ -844,6 +975,7 @@ CREATE POLICY "Exercises are public"
   - History loads in <1 second using WatermelonDB indexed query
 
 **US-016: Edit past workout**
+
 - As a user, I want to edit a previously logged workout to correct mistakes or add missing sets.
 - Acceptance criteria:
   - "Edit" button in workout detail screen
@@ -855,6 +987,7 @@ CREATE POLICY "Exercises are public"
 ### Exercise library
 
 **US-017: Search exercises**
+
 - As a user, I want to search for exercises by name or muscle group so that I can quickly find what I need.
 - Acceptance criteria:
   - Search bar with placeholder "Search 1,300+ exercises..."
@@ -865,6 +998,7 @@ CREATE POLICY "Exercises are public"
   - Search returns results from local WatermelonDB (no API calls)
 
 **US-018: Filter exercises**
+
 - As a user, I want to filter exercises by muscle group, equipment, and difficulty to narrow down options.
 - Acceptance criteria:
   - Filter button opens bottom sheet modal with filter options
@@ -875,6 +1009,7 @@ CREATE POLICY "Exercises are public"
   - Filters apply immediately to exercise list with FlashList re-render
 
 **US-019: View exercise details**
+
 - As a user, I want to view detailed information about an exercise including instructions and demonstration.
 - Acceptance criteria:
   - Tapping exercise in library opens detail screen
@@ -884,6 +1019,7 @@ CREATE POLICY "Exercises are public"
   - GIF loads from expo-image cache in <200ms
 
 **US-020: Create custom exercise**
+
 - As a user, I want to create my own exercises for movements not in the library so that I can track specialized training.
 - Acceptance criteria:
   - "Create Custom Exercise" button in exercise library
@@ -894,6 +1030,7 @@ CREATE POLICY "Exercises are public"
   - Custom exercises appear in search/filter alongside ExerciseDB exercises
 
 **US-021: Favorite exercises**
+
 - As a user, I want to mark exercises as favorites so that I can quickly access my most-used movements.
 - Acceptance criteria:
   - Star icon in exercise list items and detail screen
@@ -906,6 +1043,7 @@ CREATE POLICY "Exercises are public"
 ### Analytics and progression
 
 **US-022: View analytics dashboard**
+
 - As a user, I want to see an overview of my training progress with charts and key metrics.
 - Acceptance criteria:
   - Analytics tab displays dashboard with sections: weekly volume chart (bar chart), strength progression (line chart for selected exercises), workout frequency (calendar heatmap), personal records (list with badges), body part volume distribution (pie chart)
@@ -914,6 +1052,7 @@ CREATE POLICY "Exercises are public"
   - Tapping chart sections navigates to detailed views
 
 **US-023: Track volume progression**
+
 - As a user, I want to see my weekly and monthly training volume to ensure I am progressively overloading.
 - Acceptance criteria:
   - Volume calculation: Σ (sets × reps × weight) per week/month
@@ -923,6 +1062,7 @@ CREATE POLICY "Exercises are public"
   - Breakdown by muscle group available (toggle between total and per-muscle-group)
 
 **US-024: Analyze strength progression**
+
 - As a user, I want to see charts showing my strength gains over time for specific exercises.
 - Acceptance criteria:
   - Select up to 3 exercises to compare on same chart
@@ -933,6 +1073,7 @@ CREATE POLICY "Exercises are public"
   - Zoom/pan gestures supported for detailed inspection
 
 **US-025: Detect plateaus**
+
 - As a user, I want the app to notify me when my progress has stalled so that I can adjust my training.
 - Acceptance criteria:
   - Plateau detection runs Mann-Kendall statistical test on 4-8 week rolling window
@@ -943,6 +1084,7 @@ CREATE POLICY "Exercises are public"
   - Plateau detection requires minimum 4 weeks of consistent data (2+ workouts/week)
 
 **US-026: View personal records**
+
 - As a user, I want to see my personal bests for each exercise so that I can celebrate achievements.
 - Acceptance criteria:
   - Personal records tracked per exercise: max weight, max reps, max volume (sets × reps × weight), estimated 1RM
@@ -952,6 +1094,7 @@ CREATE POLICY "Exercises are public"
   - Records sync across devices via Supabase
 
 **US-027: Calculate estimated 1RM**
+
 - As a user, I want to see my estimated 1-rep max for exercises even if I never test it directly.
 - Acceptance criteria:
   - 1RM calculated using average of three validated formulas: Epley [weight × (1 + reps/30)], Brzycki [weight × (36 / (37 - reps))], Lombardi [weight × reps^0.1]
@@ -960,6 +1103,7 @@ CREATE POLICY "Exercises are public"
   - Historical 1RM progression chart shows trend over time
 
 **US-028: Analyze volume distribution**
+
 - As a user, I want to see how my training volume is distributed across muscle groups to ensure balanced development.
 - Acceptance criteria:
   - Pie chart or horizontal bar chart showing volume % per muscle group (Chest, Back, Shoulders, Legs, Arms, Core)
@@ -970,6 +1114,7 @@ CREATE POLICY "Exercises are public"
 ### Settings and preferences
 
 **US-029: Configure unit preferences**
+
 - As a user, I want to set my preferred units (kg/lbs, km/miles) so that all data displays in my preferred system.
 - Acceptance criteria:
   - Settings screen with toggles: Weight (kg/lbs), Distance (km/miles)
@@ -978,6 +1123,7 @@ CREATE POLICY "Exercises are public"
   - Syncs across devices via user profile sync
 
 **US-030: Configure rest timer defaults**
+
 - As a user, I want to set default rest timer durations for different exercise types so that the timer auto-starts with appropriate times.
 - Acceptance criteria:
   - Settings for: Compound exercises (default 180s), Isolation exercises (default 90s), Cardio (default 60s)
@@ -985,6 +1131,7 @@ CREATE POLICY "Exercises are public"
   - Settings save to MMKV for instant access during workouts
 
 **US-031: Configure plate calculator**
+
 - As a user, I want to customize which plates are available at my gym so that the plate calculator shows accurate recommendations.
 - Acceptance criteria:
   - Settings screen lists standard plates: 25kg, 20kg, 15kg, 10kg, 5kg, 2.5kg, 1.25kg (or lbs equivalents)
@@ -993,6 +1140,7 @@ CREATE POLICY "Exercises are public"
   - Settings save to MMKV, immediately reflected in plate calculator
 
 **US-032: Manage data and privacy**
+
 - As a user, I want control over my data including export, deletion, and privacy settings.
 - Acceptance criteria:
   - Data section in settings with options: "Export My Data" (JSON file), "Delete My Account" (destructive action with confirmation), "Privacy Policy" (opens web view or in-app text), "Terms of Service" (opens web view or in-app text)
@@ -1002,6 +1150,7 @@ CREATE POLICY "Exercises are public"
 ### Onboarding and help
 
 **US-033: Complete onboarding**
+
 - As a new user, I want to be guided through initial setup so that the app is configured to my preferences.
 - Acceptance criteria:
   - Onboarding flow shows on first launch only (tracked in MMKV)
@@ -1011,6 +1160,7 @@ CREATE POLICY "Exercises are public"
   - User redirected to Home/Workout tab after completion
 
 **US-034: Access help documentation**
+
 - As a user, I want to access help articles or FAQs when I have questions about features.
 - Acceptance criteria:
   - Help section in Profile/Settings with topics: "How to log a workout", "Understanding RPE and RIR", "Reading analytics charts", "Plate calculator guide", "Offline mode explained"
@@ -1018,6 +1168,7 @@ CREATE POLICY "Exercises are public"
   - "Contact Support" button opens email client with pre-filled subject
 
 **US-035: Provide feedback**
+
 - As a user, I want to report bugs or request features so that the app can improve.
 - Acceptance criteria:
   - Feedback form in Profile/Settings with fields: Type (Bug Report, Feature Request, General Feedback), Description (text area), Screenshot (optional attachment)
