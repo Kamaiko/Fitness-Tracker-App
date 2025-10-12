@@ -76,30 +76,18 @@
 
 ---
 
-## ✅ Completed Tasks (23)
+## 📜 Completed Tasks History
 
-### Phase 0: Infrastructure & Setup
-- [x] 0.1 Create Expo SDK 54 project with TypeScript
-- [x] 0.2 Configure package.json with scripts
-- [x] 0.3 Enable TypeScript strict mode
-- [x] 0.4 Configure Expo Router for navigation
-- [x] 0.5 Create Supabase project and get credentials
-- [x] 0.6 Configure Supabase client in React Native
-- [x] 0.7 Setup AsyncStorage with abstraction (→ MMKV in Phase 3)
-- [x] 0.8 Create Zustand stores (auth, workout)
-- [x] 0.9 Create centralized color constants (src/constants/colors.ts)
-- [x] 0.10 Create initial home screen
-- [x] 0.11 **Document architectural decisions (TECHNICAL.md updated)**
-- [x] 0.12 **Migrate to NativeWind v4 (tailwind.config.js, metro.config.js, babel.config.js, global.css)**
-- [x] 0.13 **Refactor all screens with NativeWind (home 268→124 lines, 54% reduction)**
-- [x] 0.14 **Switch from react-native-chart-kit to Victory Native v41**
-- [x] 0.15 **Create example Victory Native chart component**
-- [x] 0.16 **Update ADR-004 (AsyncStorage → MMKV strategy)**
-- [x] 0.17 **Update ADR-005 (NativeWind decision finalized)**
-- [x] 0.18 **Update ADR-009 (WatermelonDB Phase 3 timeline)**
-- [x] 0.19 **Setup ESLint + Prettier with React/TypeScript rules**
-- [x] 0.20 **Configure Supabase auth persistence with AsyncStorage**
-- [x] 0.21 **Add npm scripts: lint, lint:fix, format, format:check**
+**23 tasks completed** across Phase 0 and 0.5.
+
+For detailed history of completed tasks, see Git commits:
+```bash
+git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline
+```
+
+Key milestones:
+- ✅ **Phase 0**: Expo setup, Supabase config, NativeWind migration, ESLint/Prettier
+- ✅ **Phase 0.5 (partial)**: expo-sqlite setup, architecture refactor, audit analysis
 
 ---
 
@@ -117,33 +105,11 @@
 
 ### 0.5. Database & Storage Architecture
 
-- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) `[COMPLETED]`
-  ```
-  ✅ Completed tasks:
-  - Installed expo-sqlite (Expo Go compatible)
-  - Created SQLite database setup (src/services/database/db.ts)
-  - Implemented database schema (5 tables)
-  - Created TypeScript types (src/services/database/types.ts)
-  - Implemented CRUD operations (src/services/database/workouts.ts)
-  - Created Supabase sync service (src/services/database/sync.ts)
-  - Documented architecture (src/services/database/README.md)
-  - Updated app layout to initialize database
-
-  Files created:
-  - src/services/database/db.ts (SQLite initialization + schema)
-  - src/services/database/types.ts (TypeScript types)
-  - src/services/database/workouts.ts (CRUD operations)
-  - src/services/database/sync.ts (Supabase sync ~200 lines)
-  - src/services/database/index.ts (exports)
-  - src/services/database/README.md (documentation)
-  - src/services/database/__tests__/example.ts (usage examples)
-
-  Benefits:
-  - 100% Expo Go compatible
-  - Offline-first working
-  - Type-safe operations
-  - Clean migration path to WatermelonDB later
-  ```
+- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
+  - expo-sqlite database service implemented
+  - 5 tables schema created
+  - CRUD operations + Supabase sync
+  - See commit history for details
 
 - [ ] 0.5.2 **Implement database schema in Supabase** (M - 3-4h) `[NEXT]`
   ```
@@ -217,24 +183,15 @@
   - src/utils/analytics/loadManagement.ts (acute/chronic, fatigue ratio)
   ```
 
-- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) `[COMPLETED]`
-  ```
-  ✅ Completed tasks:
-  - Created barrel exports (index.ts) for all modules
-  - Reorganized stores into subdirectories
-  - Removed duplicate folders
-  - Standardized absolute imports
-  - Added ARCHITECTURE.md documentation
-  - Type-check passes successfully
-  ```
+- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
+  - Barrel exports, stores reorganization
+  - ARCHITECTURE.md created
+  - See commit: "refactor(architecture): optimize modular structure"
 
-- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) `[COMPLETED]`
-  ```
-  ✅ Completed tasks:
-  - Comprehensive architecture audit
-  - Identified 8 problems (3 critical, 3 important, 2 improvements)
-  - Created AUDIT_FIXES.md with detailed guide
-  ```
+- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
+  - 8 problems identified (3 critical)
+  - AUDIT_FIXES.md created
+  - See commit: "docs(audit): add comprehensive corrections guide"
 
 ### 0.5. Audit Corrections (0/8) 🔴 CRITICAL - DO BEFORE PHASE 1
 
