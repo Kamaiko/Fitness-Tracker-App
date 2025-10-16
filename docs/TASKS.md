@@ -116,6 +116,64 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
+### ⚠️ IMPORTANT Pre-Flight Checklist (DO FIRST)
+
+**Before starting migration, verify:**
+
+1. ✅ **Git status clean** - Commit or stash all changes
+2. ✅ **Backup current state** - Create git branch `backup/pre-migration`
+3. ✅ **EAS account created** - https://expo.dev/signup (free tier)
+4. ✅ **Supabase project ready** - Have URL and anon key in .env
+5. ✅ **Internet connection stable** - EAS Build needs ~15-20 min cloud build
+6. ✅ **Android device/emulator available** - For testing dev build
+7. ✅ **~2GB free disk space** - For native dependencies
+
+**Commands to run BEFORE migration:**
+
+```bash
+# 1. Backup current state
+git checkout -b backup/pre-migration
+git add -A && git commit -m "chore: backup before dev build migration"
+git checkout master
+
+# 2. Verify environment
+cat .env  # Check EXPO_PUBLIC_SUPABASE_URL and KEY are set
+eas whoami  # Verify EAS login (or run: eas login)
+
+# 3. Clean install (fresh start)
+rm -rf node_modules package-lock.json
+npm install
+npm run type-check  # Verify no errors
+```
+
+**Recovery Plan (if migration fails):**
+
+```bash
+# Restore backup
+git checkout backup/pre-migration
+npm install
+npm start  # Back to Expo Go
+```
+
+---
+
+### 📋 Migration Order (Follow Strictly)
+
+**DO NOT skip tasks or change order** - Dependencies matter!
+
+1. ✅ Task 0.5bis.1 → EAS Setup (MUST BE FIRST)
+2. ✅ Task 0.5bis.2 → eas.json config
+3. ✅ Task 0.5bis.3 → Build dev client (15-20 min wait)
+4. ✅ Task 0.5bis.4 → WatermelonDB install
+5. ✅ Task 0.5bis.5 → WatermelonDB models/schema
+6. ✅ Task 0.5bis.6 → Migrate database ops
+7. ✅ Task 0.5bis.7 → MMKV install + migrate
+8. ✅ Task 0.5bis.8 → Victory Native install
+9. ✅ Task 0.5bis.9 → Supabase schema + sync
+10. ✅ Task 0.5bis.10 → Test & verify everything works
+
+---
+
 ### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
 
 ```
@@ -313,6 +371,49 @@ Success criteria:
 - All core features work
 - Ready for Phase 1 development
 ```
+
+---
+
+### ✅ Migration Complete Checklist
+
+**After all 10 tasks complete, verify:**
+
+1. ✅ **Dev build installed on device** - App launches without Expo Go
+2. ✅ **WatermelonDB working** - Can create/read workouts
+3. ✅ **MMKV working** - Settings persist after app restart
+4. ✅ **Sync working** - Data appears in Supabase dashboard
+5. ✅ **Hot reload working** - Code changes refresh instantly
+6. ✅ **No TypeScript errors** - `npm run type-check` passes
+7. ✅ **Git committed** - Migration changes committed to master
+
+**Next Steps (After Migration):**
+
+```bash
+# 1. Commit migration
+git add -A
+git commit -m "feat(infrastructure): migrate to development build with WatermelonDB + MMKV + Victory Native"
+git push origin master
+
+# 2. Delete backup branch (if everything works)
+git branch -D backup/pre-migration
+
+# 3. Update progress tracking
+# Mark Phase 0.5 Bis tasks as complete in TASKS.md
+
+# 4. Move to Phase 0.5 audit corrections
+# See Phase 0.5.D (8 critical corrections)
+```
+
+**Important Notes:**
+
+- **Daily development workflow unchanged** - Still use `npm start` + QR scan
+- **Rebuild only needed for native changes** - JS/TS changes still use hot reload
+- **EAS Build commands:**
+  - `eas build --profile development --platform android` - Rebuild dev client
+  - `eas build --profile production --platform android` - Production build (later)
+- **Documentation updated:** README.md, ARCHITECTURE.md, TECHNICAL.md already reflect new stack
+
+**Estimated Total Time:** 4-6 hours (including build wait times)
 
 ---
 
