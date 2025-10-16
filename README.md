@@ -5,7 +5,8 @@
 **Science-based fitness tracking with intelligent analytics**
 
 [![Expo SDK](https://img.shields.io/badge/Expo-54.0.12-000020?style=flat&logo=expo)](https://expo.dev)
-[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat&logo=react)](https://react.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.82.0-61DAFB?style=flat&logo=react)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
 [![NativeWind](https://img.shields.io/badge/NativeWind-v4-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
@@ -26,8 +27,9 @@ _⚠️ Placeholder UI_
 ### Prerequisites
 
 - **Node.js** 18+ and **npm** 9+
-- **Expo Go** app ([iOS](https://apps.apple.com/app/expo-go/id982107779) | [Android](https://play.google.com/store/apps/details?id=host.exp.exponent))
+- **Expo account** (free tier) - [Sign up here](https://expo.dev/signup)
 - **Supabase account** (free tier) - [Sign up here](https://supabase.com/dashboard/sign-up)
+- **EAS CLI** for building development builds
 
 ### Installation (5 minutes)
 
@@ -52,12 +54,23 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 # In Supabase Dashboard → SQL Editor → Run:
 # (Copy schema from docs/DATABASE.md or use migration files)
 
-# 5. Start development server
+# 5. Install EAS CLI and login
+npm install -g eas-cli
+eas login
+
+# 6. Build development build (first time only, ~15-20 minutes)
+eas build --profile development --platform android
+# OR for iOS: eas build --profile development --platform ios
+
+# 7. Install the dev build on your device (scan QR from EAS Build)
+
+# 8. Start development server
 npm start
 
-# 6. Open Expo Go on your phone
-# Scan the QR code displayed in terminal
+# 9. Scan QR code with your development build app
 ```
+
+**Note:** Development build is required (not Expo Go) because this project uses native modules (WatermelonDB, MMKV, Victory Native).
 
 ### Project Documentation
 
@@ -99,20 +112,21 @@ npm start
 
 | Layer         | Category     | Technologies                                          |
 | ------------- | ------------ | ----------------------------------------------------- |
-| **Frontend**  | Framework    | Expo SDK 54 + React Native 0.81 + TypeScript 5.9      |
+| **Frontend**  | Framework    | Expo SDK 54 + React Native 0.82 + TypeScript 5.9      |
 |               | Navigation   | Expo Router 6                                         |
-|               | Styling      | NativeWind v4 (Tailwind CSS)                          |
+|               | Styling      | NativeWind v4 (Tailwind CSS 3.4)                      |
 |               | State        | Zustand 5.0 + React Query 5.90                        |
-|               | **Database** | **expo-sqlite** (offline-first) + Supabase sync       |
-|               | Preferences  | AsyncStorage (auth, settings)                         |
-|               | UI           | FlashList + expo-image + react-native-chart-kit       |
+|               | **Database** | **WatermelonDB** (offline-first, reactive) + Supabase |
+|               | Storage      | **MMKV** (10-30x faster than AsyncStorage, encrypted) |
+|               | UI           | FlashList + expo-image + **Victory Native**           |
 | **Backend**   | Platform     | Supabase (PostgreSQL + Auth + Storage + Real-time)    |
 | **External**  | Services     | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
 | **Analytics** | Libraries    | simple-statistics (Mann-Kendall, regressions)         |
 | **Testing**   | Framework    | Jest + React Native Testing Library                   |
+| **Build**     | Tool         | EAS Build (Development Build required)                |
 
-**Current Phase:** 0.5 - **100% Expo Go compatible** (offline-first with expo-sqlite)
-**Future optimization:** Consider WatermelonDB + MMKV + Victory Native at 1000+ users if needed
+**Current Phase:** 0.5 - **Development Build with native modules** (WatermelonDB, MMKV, Victory Native)
+**Migration Status:** In progress - migrating from Expo Go stack to Development Build stack
 
 ---
 
@@ -124,44 +138,25 @@ npm start
 
 ## 🚀 Architecture Notes
 
-### Current Implementation
+### Current Implementation (MVP Strategy)
 
-**Database:** expo-sqlite with Supabase sync (offline-first, fully functional)
-**Sync Strategy:** Last-write-wins (timestamp-based) - simple and reliable for single-user MVP
-**Storage:** AsyncStorage for preferences and auth tokens
-**Performance:** Optimized for 500-1000 workouts without indexes
+**Database:** WatermelonDB (offline-first, reactive queries) with Supabase sync
+**Sync Strategy:** WatermelonDB built-in sync protocol (optimized, conflict resolution)
+**Storage:** MMKV (10-30x faster than AsyncStorage, native encryption)
+**Charts:** Victory Native (advanced gestures, Skia rendering)
+**Performance:** Optimized for 2000+ workouts with reactive queries and indexes
 
-### Planned Enhancements (Post-MVP)
+### Why Development Build from Day 1?
 
-These optimizations will be implemented **only if production metrics indicate need** (1000+ users):
+Instead of migrating later (costly refactor), we're building with production-grade tools from the start:
 
-**Database: expo-sqlite → WatermelonDB**
+1. **WatermelonDB** - Better than expo-sqlite for scalability and reactive UI
+2. **MMKV** - 10-30x faster storage with encryption (vs AsyncStorage)
+3. **Victory Native** - Professional charts with gestures (vs basic charts)
+4. **No future migration** - Avoid 1-2 weeks of refactoring later
 
-- **Trigger:** Query performance >200ms at p95 OR sync failures >2%
-- **Benefits:** Reactive queries (.observe()), optimized sync protocol, better scalability
-- **Requirements:** Development Build (native SQLite optimizations)
-- **Effort:** 2-3 days (abstraction layer already exists)
+**Trade-off:** Slower iteration (rebuild for native changes) but better architecture for MVP scale.
 
-**Storage: AsyncStorage → MMKV**
-
-- **Trigger:** Storage performance bottleneck OR encryption requirements
-- **Benefits:** 10-30x faster read/write, synchronous API, built-in encryption
-- **Requirements:** Development Build (native C++ module)
-- **Effort:** 2-4 hours (simple migration)
-
-**Charts: react-native-chart-kit → Victory Native**
-
-- **Trigger:** User requests for advanced interactions OR multi-line charts (>3 series)
-- **Benefits:** Advanced gestures (zoom/pan), smooth animations, Skia rendering
-- **Requirements:** Development Build (react-native-skia)
-- **Effort:** 3-6 hours (chart abstraction ready)
-
-**Database Indexes:**
-
-- **Trigger:** 500+ workouts per user
-- **Benefits:** Faster queries on large datasets
-- **Effort:** 2-4 hours
-
-**Migration Strategy:** Conservative, metric-driven approach. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed triggers and decision framework.
+**Migration Plan:** See [docs/TASKS.md](docs/TASKS.md) Phase 0.5 Bis for migration steps.
 
 ---

@@ -199,18 +199,17 @@ export function useActiveWorkout() {
 
 ```
 services/
-├── database/         # SQLite database (expo-sqlite)
-│   ├── db.ts         # Schema & initialization
-│   ├── types.ts      # Database types (colocated)
-│   ├── workouts.ts   # CRUD operations
-│   ├── sync.ts       # Supabase sync
-│   ├── __tests__/    # Usage examples
-│   └── index.ts      # Barrel exports
+├── database/         # WatermelonDB database
+│   └── watermelon/   # WatermelonDB setup
+│       ├── schema.ts # Database schema
+│       ├── sync.ts   # Supabase sync protocol
+│       ├── index.ts  # Database instance
+│       └── __tests__/# Usage examples
 ├── supabase/         # Supabase client
 │   ├── client.ts
 │   └── index.ts
-├── storage/          # AsyncStorage abstraction
-│   ├── storage.ts
+├── storage/          # MMKV encrypted storage
+│   ├── mmkvStorage.ts
 │   └── index.ts
 ├── api/              # External APIs (ExerciseDB)
 ├── analytics/        # Analytics calculations
@@ -228,21 +227,20 @@ services/
 **Example**:
 
 ```typescript
-// services/database/workouts.ts
-import { getDatabase } from './db';
-import type { CreateWorkout, Workout } from './types';
+// services/database/watermelon/workouts.ts
+import { database } from './index';
+import { Workout } from '@/models';
+import type { CreateWorkout } from './types';
 
 export async function createWorkout(data: CreateWorkout): Promise<Workout> {
-  const db = getDatabase();
-  const id = generateId();
+  const workout = await database.write(async () => {
+    return await database.collections.get<Workout>('workouts').create((workout) => {
+      workout.userId = data.user_id;
+      workout.startedAt = data.started_at;
+    });
+  });
 
-  await db.runAsync(`INSERT INTO workouts (id, user_id, started_at) VALUES (?, ?, ?)`, [
-    id,
-    data.user_id,
-    data.started_at,
-  ]);
-
-  return getWorkoutById(id);
+  return workout;
 }
 ```
 
@@ -453,7 +451,7 @@ INSERT INTO exercise_sets (weight, reps, ...) VALUES (?, ?, ...);
 └─────────────────────────────────────────┘
             ↓
 ┌─────────────────────────────────────────┐
-│  Local Database (expo-sqlite)           │  ← Persistent
+│  Local Database (WatermelonDB)          │  ← Persistent
 │  - Workouts, exercises, sets           │
 └─────────────────────────────────────────┘
             ↓
@@ -467,7 +465,7 @@ INSERT INTO exercise_sets (weight, reps, ...) VALUES (?, ?, ...);
 
 - **React State**: Component-specific UI (modals, dropdowns)
 - **Zustand**: Cross-component state (auth, active workout)
-- **expo-sqlite**: Persisted data (all workouts, exercises)
+- **WatermelonDB**: Persisted data (all workouts, exercises)
 - **Supabase**: Cloud backup & multi-device sync
 
 ---
@@ -527,79 +525,13 @@ src/
 
 ---
 
-## 🚀 Post-MVP Performance Optimizations
+## 🚀 Development Build Strategy
 
-### Optimization Strategy (Conservative, Metric-Driven)
+**Decision:** Using Development Build (WatermelonDB, MMKV, Victory Native) from Day 1.
 
-**Context:** Current stack (expo-sqlite, AsyncStorage, react-native-chart-kit) is designed for MVP scale while maintaining 100% Expo Go compatibility. The following optimizations may be considered post-MVP IF performance metrics indicate bottlenecks.
+**Rationale:** Production-ready architecture from start, avoiding costly future migration (1-2 weeks saved).
 
-**Decision Framework:**
-
-1. **Measure** performance metrics (query times, storage latency, user complaints)
-2. **Analyze** if current stack is bottleneck vs other factors
-3. **Evaluate** cost-benefit of Development Build complexity
-4. **Decide** only if data clearly justifies investment
-5. **Implement** with phased rollout and thorough testing
-6. **Validate** improvements match expectations
-
----
-
-### Potential Optimizations (Development Build Required)
-
-**1. Database: expo-sqlite → WatermelonDB**
-
-- **Trigger conditions:**
-  - 1000+ active users AND
-  - Query performance degradation (>200ms at 95th percentile) OR
-  - Sync issues at scale (failed syncs >2%)
-- **Benefits:** Reactive queries, optimized sync protocol, better performance
-- **Requirements:** Development Build (native SQLite optimizations)
-- **Migration effort:** 2-3 days (abstraction layer exists in codebase)
-- **Risks:** Increased complexity, native build workflow, longer iteration cycles
-
-**2. Storage: AsyncStorage → MMKV**
-
-- **Trigger conditions:**
-  - 1000+ users AND
-  - Storage operations become measurable bottleneck OR
-  - User complaints about settings/preferences lag
-- **Benefits:** 10-30x faster read/write, synchronous API, built-in encryption
-- **Requirements:** Development Build (native C++ module)
-- **Migration effort:** 2-4 hours (abstraction layer ready)
-- **Risks:** Low (simple API, well-tested library)
-
-**3. Charts: react-native-chart-kit → Victory Native**
-
-- **Trigger conditions:**
-  - User feature requests for advanced interactions OR
-  - Performance issues with 1000+ data points OR
-  - Need for multi-line comparisons (>3 exercises)
-- **Benefits:** Advanced gestures (zoom/pan), better animations, Skia rendering
-- **Requirements:** Development Build (react-native-skia)
-- **Migration effort:** 3-6 hours (chart abstraction exists)
-- **Risks:** More dependencies, larger bundle size, Skia complexity
-
----
-
-### Development Build Considerations
-
-Creating a **Development Build** (custom native build via EAS Build or local) replaces Expo Go workflow with native Xcode/Android Studio builds.
-
-**Trade-offs:**
-
-- ✅ Unlocks native modules (WatermelonDB, MMKV, Victory Native/Skia)
-- ❌ Increases iteration time (rebuild required for native changes)
-- ❌ Adds complexity (native dependency management, platform configs)
-- ❌ Requires Mac for iOS builds (or EAS Build cloud service)
-
-**Only pursue Development Build when:**
-
-- MVP has validated product-market fit (500-1000+ users)
-- User base justifies optimization investment
-- Performance data proves need (not speculation)
-- Team ready for increased complexity
-
-**Current status:** No migration planned. MVP stack sufficient for target scale. Will revisit based on production metrics post-launch.
+**See:** [ADR-012 in TECHNICAL.md](./TECHNICAL.md#adr-012-development-build-strategy) for complete decision rationale.
 
 ---
 
@@ -614,13 +546,15 @@ Creating a **Development Build** (custom native build via EAS Build or local) re
 
 **Stack utilisé:**
 
-- React Native 0.81.4
+- React Native 0.82.0
 - Expo SDK 54
 - TypeScript 5.9
 - Zustand 5.0
-- expo-sqlite 16.0
+- WatermelonDB (offline-first)
+- MMKV (encrypted storage)
+- Victory Native (charts)
 - Supabase (PostgreSQL + Auth)
-- NativeWind v4 (Tailwind CSS)
+- NativeWind v4 (Tailwind CSS 3.4)
 
 ---
 
@@ -632,9 +566,10 @@ Creating a **Development Build** (custom native build via EAS Build or local) re
 - [x] Barrel exports (index.ts)
 - [x] Absolute imports (@/)
 - [x] Type safety (TypeScript strict)
-- [x] Database service (expo-sqlite)
 - [x] Supabase integration
 - [x] Store organization (Zustand)
+- [ ] WatermelonDB models & schema (Phase 0.5 Bis)
+- [ ] MMKV storage service (Phase 0.5 Bis)
 - [ ] Component library (Phase 1)
 - [ ] Hooks library (Phase 1)
 - [ ] Utils library (Phase 2)
@@ -642,4 +577,4 @@ Creating a **Development Build** (custom native build via EAS Build or local) re
 
 ---
 
-**Status**: ✅ Architecture modulaire optimisée - Prête pour Phase 1
+**Status**: ✅ Architecture modulaire optimisée - Prête pour Phase 0.5 Bis (Dev Build Migration)

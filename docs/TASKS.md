@@ -92,15 +92,233 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### What's Next (Critical Path)
 
-- 🎯 **Phase 0.5:** Critical audit corrections (user persistence, error handling, Zustand persist)
+- 🚀 **Phase 0.5 Bis:** Development Build Migration (WatermelonDB, MMKV, Victory Native) ← **NEXT SESSION**
+- 🎯 **Phase 0.5:** Critical audit corrections (adapted for WatermelonDB)
 - 🎯 **Phase 1:** Authentication + CI/CD + Performance libraries
 - 🎯 **Phase 2:** Workout logging core features
 
 ---
 
-## 🎯 Current Focus
+## 🚀 Phase 0.5 Bis: Development Build Migration (0/10) ⭐ NEXT SESSION
 
-**Week of January 2025** - Phase 0.5 Audit Corrections:
+**Timeline:** Next session (Tomorrow) | **Priority:** CRITICAL
+**Goal:** Migrate from Expo Go to Development Build with production-ready stack
+
+**Progress:** 0/10 tasks | **Estimated Time:** 4-6 hours total
+
+**Stack Migration:**
+
+- expo-sqlite → WatermelonDB (reactive, offline-first)
+- AsyncStorage → MMKV (encrypted, 10-30x faster)
+- react-native-chart-kit → Victory Native (professional charts)
+
+**Why Now:** Avoid costly 1-2 week migration later. Production-ready architecture from Day 1.
+
+---
+
+### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
+
+```
+Tasks:
+- Create free Expo account at https://expo.dev/signup
+- Install EAS CLI: npm install -g eas-cli
+- Login: eas login
+- Link project: eas init
+- Verify setup: eas whoami
+
+Status: Ready for cloud builds
+```
+
+### 0.5bis.2 **Create eas.json Configuration** (S - 30min)
+
+```
+File: eas.json (create at project root)
+
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
+
+Purpose: Development build config for EAS cloud builds
+```
+
+### 0.5bis.3 **Build Development Build (Android & iOS)** (M - 45min)
+
+```
+Commands:
+- eas build --profile development --platform android  (~15-20 min)
+- eas build --profile development --platform ios      (~15-20 min)
+
+Action:
+- Run builds in parallel (cloud handles it)
+- Wait for completion (EAS shows progress)
+- Download APK/IPA or scan QR to install on device
+- Test that dev build launches successfully
+
+Note: This is ONE-TIME setup. Daily development won't need rebuilds.
+```
+
+### 0.5bis.4 **Install WatermelonDB + Dependencies** (M - 1h)
+
+```
+Packages:
+- npm install @nozbe/watermelondb
+- npm install @nozbe/with-observables  (for React integration)
+
+Configuration:
+- Update metro.config.js for WatermelonDB transformer
+- Add babel plugins to babel.config.js
+- No native rebuild needed yet (just JS config)
+
+Test:
+- npm run type-check (verify no errors)
+- App should still compile (no breaking changes yet)
+```
+
+### 0.5bis.5 **Create WatermelonDB Models & Schema** (L - 2h)
+
+```
+Files to create (see DATABASE.md for complete examples):
+- src/models/Workout.ts
+- src/models/Exercise.ts
+- src/models/WorkoutExercise.ts
+- src/models/ExerciseSet.ts
+- src/services/database/watermelon/schema.ts
+- src/services/database/watermelon/index.ts (database instance)
+
+Tasks:
+- Define models with @field, @date, @relation decorators
+- Create schema matching Supabase tables
+- Setup database instance
+- Export from services/database/index.ts
+
+Reference: See DATABASE.md § WatermelonDB Schema
+```
+
+### 0.5bis.6 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
+
+```
+Tasks:
+- Replace src/services/database/db.ts expo-sqlite code
+- Rewrite CRUD operations for WatermelonDB API
+- Update createWorkout, logSet, etc. to use database.write()
+- Add reactive queries with .observe()
+- Keep same function signatures (minimal breaking changes)
+
+Files to update:
+- src/services/database/workouts.ts (or create watermelon/workouts.ts)
+- src/hooks/workout/* (use reactive queries)
+
+Test:
+- Verify basic CRUD works
+- Check reactive queries update UI automatically
+```
+
+### 0.5bis.7 **Install MMKV + Migrate Storage** (M - 45min)
+
+```
+Package:
+- npm install react-native-mmkv
+
+Files to create:
+- src/services/storage/mmkvStorage.ts (MMKV wrapper)
+
+Tasks:
+- Create MMKV instance with encryption key
+- Migrate authStorage from AsyncStorage to MMKV
+- Update stores to use MMKV for persistence
+- Keep same API (getItem, setItem, removeItem)
+
+Migration:
+- Read existing AsyncStorage data
+- Write to MMKV
+- Clear AsyncStorage
+- Update all imports to use mmkvStorage
+
+Reference: See TECHNICAL.md ADR-009
+```
+
+### 0.5bis.8 **Install Victory Native + Migrate Charts** (M - 1h)
+
+```
+Packages:
+- npm install victory-native
+- npm install react-native-svg react-native-skia
+
+Files to create:
+- src/components/charts/LineChart.tsx (Victory Native)
+- src/components/charts/BarChart.tsx
+
+Tasks:
+- Wrap Victory components with dark theme
+- Replace any existing react-native-chart-kit usage
+- Test chart rendering with sample data
+
+Note: Charts implementation happens in Phase 4
+This is just setup + basic components
+```
+
+### 0.5bis.9 **Create Supabase Schema & Sync Functions** (L - 1.5h)
+
+```
+Files to create:
+- supabase/migrations/001_initial_schema.sql
+- src/services/database/watermelon/sync.ts
+
+Tasks:
+- Create Supabase tables matching WatermelonDB schema
+- Add RLS policies (users see only their data)
+- Create pull_changes() PostgreSQL function
+- Create push_changes() PostgreSQL function
+- Implement sync() function in sync.ts
+- Test sync with sample data
+
+Reference: See DATABASE.md § Supabase Sync
+```
+
+### 0.5bis.10 **Test & Verify Development Build** (M - 45min)
+
+```
+Tests:
+✅ App launches with dev build
+✅ WatermelonDB creates/reads/updates data
+✅ Reactive queries update UI automatically
+✅ MMKV stores and retrieves auth tokens
+✅ Supabase sync works (create → sync → verify in Supabase dashboard)
+✅ Charts render correctly (basic test)
+✅ No TypeScript errors (npm run type-check)
+✅ Hot reload works normally
+
+Troubleshooting:
+- If errors: Check metro bundler logs
+- If crash: Check native logs (adb logcat or Xcode)
+- If sync fails: Check Supabase dashboard → SQL Editor
+
+Success criteria:
+- Dev build runs smoothly
+- All core features work
+- Ready for Phase 1 development
+```
+
+---
+
+## 🎯 Current Focus (After Migration)
+
+**Week of January 2025** - Phase 0.5 Audit Corrections (Adapted for WatermelonDB):
 
 - [ ] 0.5.9 **[CRITICAL]** User ID Persistence (4h)
 - [ ] 0.5.10 **[CRITICAL]** Zustand Persist (2h)

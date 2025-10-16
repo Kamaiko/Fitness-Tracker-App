@@ -20,7 +20,10 @@
       "Bash(grep:*)",
       "Bash(cat:*)",
       "Bash(xargs ls:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []

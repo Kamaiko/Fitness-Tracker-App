@@ -14,14 +14,15 @@
   - [ADR-001: Expo SDK vs Bare React Native](#adr-001-expo-sdk-vs-bare-react-native)
   - [ADR-002: Supabase vs Firebase vs AWS Amplify](#adr-002-supabase-vs-firebase-vs-aws-amplify)
   - [ADR-003: TypeScript Strict Mode](#adr-003-typescript-strict-mode)
-  - [ADR-004: Database Strategy - expo-sqlite](#adr-004-database-strategy---expo-sqlite)
+  - [ADR-004: Database Strategy - WatermelonDB](#adr-004-database-strategy---watermelondb)
   - [ADR-005: Navigation with Expo Router](#adr-005-navigation-with-expo-router)
   - [ADR-006: State Management - Zustand + React Query](#adr-006-state-management---zustand--react-query)
   - [ADR-007: Styling with NativeWind](#adr-007-styling-with-nativewind)
   - [ADR-008: Testing Strategy](#adr-008-testing-strategy)
-  - [ADR-009: Storage Strategy - AsyncStorage](#adr-009-storage-strategy---asyncstorage)
+  - [ADR-009: Storage Strategy - MMKV](#adr-009-storage-strategy---mmkv)
   - [ADR-010: Performance Libraries](#adr-010-performance-libraries)
-  - [ADR-011: Charts Library - react-native-chart-kit](#adr-011-charts-library---react-native-chart-kit)
+  - [ADR-011: Charts Library - Victory Native](#adr-011-charts-library---victory-native)
+  - [ADR-012: Development Build Strategy](#adr-012-development-build-strategy)
 - [📁 Project Structure](#-project-structure)
 - [🎨 Design System](#-design-system)
 - [🗄️ Database Schema](#️-database-schema)
@@ -47,15 +48,15 @@
 - **Type-Safe:** TypeScript strict mode throughout
 - **Simple & Pragmatic:** Choose simplicity over complexity
 
-### Key Decision: expo-sqlite + Supabase Sync
+### Key Decision: WatermelonDB + Supabase Sync
 
-**Why expo-sqlite instead of WatermelonDB:**
+**Why WatermelonDB from Day 1:**
 
-- ✅ **Expo Go Compatible** - No Dev Client required
+- ✅ **Production-Ready Architecture** - No costly migration later
 - ✅ **Offline-First** - CRITICAL priority from PRD
-- ✅ **Learning Opportunity** - Understand sync logic
-- ✅ **Performance** - Sufficient for <1000 users
-- ✅ **Migration Path** - Easy upgrade to WatermelonDB when needed
+- ✅ **Reactive Queries** - Auto-update UI on data changes
+- ✅ **Performance** - Optimized for 2000+ workouts
+- ✅ **Built-in Sync** - Robust conflict resolution vs manual sync
 
 ### Storage Stack
 
@@ -72,33 +73,34 @@
               │
               ▼
 ┌─────────────────────────────────────────┐
-│    EXPO-SQLITE (offline-first)          │
+│    WATERMELONDB (offline-first)         │
 │    - Workouts, exercises, sets          │
-│    - Instant save, no network wait      │
-│    - Flag: synced (0 or 1)             │
+│    - Reactive queries, instant save     │
+│    - Built-in sync protocol             │
 └─────────────┬───────────────────────────┘
               │
-              ▼ (background sync)
+              ▼ (automatic sync)
 ┌─────────────────────────────────────────┐
 │    SUPABASE (cloud backup)              │
 │    - PostgreSQL + Row Level Security    │
-│    - Conflict: last write wins          │
+│    - Conflict: smart merge resolution   │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
-│    ASYNCSTORAGE (preferences only)      │
+│    MMKV (preferences + tokens)          │
 │    - Auth tokens, user settings         │
+│    - Encrypted, 10-30x faster           │
 └─────────────────────────────────────────┘
 ```
 
 **Component Rationale:**
 
-| Component        | Role               | Why This Choice                             |
-| ---------------- | ------------------ | ------------------------------------------- |
-| **expo-sqlite**  | Main database      | Expo Go + Offline-first + Performance       |
-| **AsyncStorage** | Simple prefs       | Already installed + Sufficient for settings |
-| **Supabase**     | Cloud sync         | No custom backend + RLS + Realtime          |
-| **Zustand**      | Temporary UI state | Minimal (1KB) + Simple + TypeScript         |
+| Component        | Role               | Why This Choice                                       |
+| ---------------- | ------------------ | ----------------------------------------------------- |
+| **WatermelonDB** | Main database      | Reactive queries + Auto sync + Production performance |
+| **MMKV**         | Key-value storage  | Encrypted + 10-30x faster than AsyncStorage           |
+| **Supabase**     | Cloud sync         | No custom backend + RLS + Realtime                    |
+| **Zustand**      | Temporary UI state | Minimal (1KB) + Simple + TypeScript                   |
 
 ### Data Flow: Logging a Set
 
@@ -109,35 +111,34 @@
 2. ZUSTAND update (instant UI)
    └─> workoutStore.addSet({ weight: 100, reps: 8 })
 
-3. EXPO-SQLITE save (instant, <10ms)
-   └─> await logSet(workoutExerciseId, setNumber, data)
-   └─> INSERT INTO exercise_sets ... synced = 0
+3. WATERMELONDB save (instant, <5ms)
+   └─> await exerciseSet.create({ weight: 100, reps: 8 })
+   └─> Reactive query auto-updates UI
 
-4. UI shows success ✅ (no waiting!)
+4. UI shows success ✅ (instant, reactive!)
 
-5. BACKGROUND SYNC (non-blocking)
-   └─> autoSync()
-       ├─> Get unsynced sets (synced = 0)
-       ├─> Batch 50 sets at a time
-       ├─> supabase.from('exercise_sets').upsert(batch)
-       └─> UPDATE exercise_sets SET synced = 1
+5. AUTOMATIC SYNC (WatermelonDB built-in)
+   └─> synchronize({ pullChanges, pushChanges })
+       ├─> Pull remote changes (smart merge)
+       ├─> Push local changes (batch upload)
+       └─> Resolve conflicts automatically
 ```
 
-**User Experience:** <10ms (instant), Sync: 1-3s (invisible)
+**User Experience:** <5ms (instant), Sync: 1-2s (invisible, automatic)
 
 ---
 
 ## 📦 Technology Stack
 
-**Frontend:** Expo SDK 54 + React Native 0.81 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS) | Zustand 5 + React Query 5.90 | expo-sqlite (offline-first) + AsyncStorage | FlashList + expo-image + react-native-chart-kit
+**Frontend:** Expo SDK 54 + React Native 0.82 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS 3.4) | Zustand 5 + React Query 5.90 | WatermelonDB (offline-first) + MMKV | FlashList + expo-image + Victory Native
 
 **Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime)
 
 **External:** ExerciseDB API (1,300+ exercises) | Sentry (monitoring) | RevenueCat (future subscriptions)
 
-**Dev Tools:** Metro bundler | ESLint + Prettier + Husky + lint-staged + Commitlint | Jest + React Native Testing Library
+**Dev Tools:** EAS Build (Development Build) | Metro bundler | ESLint + Prettier + Husky + lint-staged + Commitlint | Jest + React Native Testing Library
 
-**Current Phase:** Phase 0.5 - 100% Expo Go compatible (offline-first with expo-sqlite)
+**Current Phase:** Phase 0.5 - Development Build (WatermelonDB, MMKV, Victory Native native modules)
 
 ---
 
@@ -179,52 +180,67 @@
 
 ---
 
-### ADR-004: expo-sqlite for Offline-First Storage (Phase 0.5+)
+### ADR-004: WatermelonDB for Offline-First Storage (Phase 0.5+)
 
-**Decision:** expo-sqlite with manual Supabase sync (Phase 0.5+), migrate to WatermelonDB at 1000+ users
+**Decision:** WatermelonDB with Supabase sync from Day 1 (Development Build required)
 
-**Current Implementation (Phase 0.5):**
+**Implementation (Phase 0.5+):**
 
-- `src/services/database/` - SQLite with type-safe CRUD + sync
+- `src/models/` - WatermelonDB models (Workout, Exercise, WorkoutExercise, ExerciseSet)
+- `src/services/database/watermelon/` - Database setup, schema, sync protocol
 - Used for: workouts, exercises, sets (offline-first relational data)
-- ✅ Expo Go compatible (expo-sqlite is built-in)
-- ✅ Excellent performance (native SQLite)
-- ✅ Manual sync with Supabase (~200 lines code)
+- ⚠️ Requires Development Build (native SQLite module)
+- ✅ Production-ready performance (optimized for 2000+ workouts)
+- ✅ Reactive queries (auto-update UI on data changes)
+- ✅ Built-in sync protocol (~20 lines vs 200 lines manual)
 
 **Storage Architecture:**
-| Storage | Speed | Use Case | Phase | Expo Go |
-|---------|-------|----------|-------|---------|
-| **expo-sqlite** | Fast | Workouts, exercises, sets | 0.5+ | ✅ |
-| **AsyncStorage** | Slow | Auth tokens, preferences | 0+ | ✅ |
-| **WatermelonDB** | Fast | Replace expo-sqlite (auto sync) | 3+ | ❌ |
-| **MMKV** | Fast | Replace AsyncStorage (encrypted) | 3+ | ❌ |
+| Storage | Speed | Use Case | Phase | Dev Build |
+| ---------------- | ---------- | ------------------------- | ----- | --------- |
+| **WatermelonDB** | Very Fast | Workouts, exercises, sets | 0.5+ | ✅ |
+| **MMKV** | Very Fast | Auth tokens, preferences | 0.5+ | ✅ |
+| **Zustand** | Instant | Temporary UI state | 0+ | ❌ |
 
-**Why expo-sqlite Now:**
+**Why WatermelonDB from Day 1:**
 
 - ✅ Offline-first required (CRITICAL priority in PRD)
-- ✅ Expo Go compatible (no Dev Client needed yet)
-- ✅ Learning opportunity (understand sync logic)
-- ✅ Performance sufficient for <1000 users
-- ✅ Migration path clear when needed
+- ✅ Production architecture (no migration needed later)
+- ✅ Reactive queries (better DX, less boilerplate)
+- ✅ Built-in sync (robust conflict resolution)
+- ✅ Performance optimized for scale (2000+ workouts)
+- ⚠️ Requires Development Build (acceptable trade-off)
 
-**Migration to WatermelonDB (When 1000+ users OR performance issues):**
+**Sync Protocol:**
 
+```typescript
+// WatermelonDB sync (~20 lines vs 200 lines manual)
+await synchronize({
+  database,
+  pullChanges: async ({ lastPulledAt }) => {
+    const { data } = await supabase.rpc('pull_changes', { lastPulledAt });
+    return { changes: data.changes, timestamp: data.timestamp };
+  },
+  pushChanges: async ({ changes }) => {
+    await supabase.rpc('push_changes', { changes });
+  },
+});
 ```
-Current: expo-sqlite + manual sync (200 lines)
-Future:  WatermelonDB + auto sync (20 lines)
 
-Migration time: 2-3 days
-Benefits: Reactive queries, better conflict resolution, auto sync
-```
+**Benefits:**
+
+- Automatic conflict resolution (smart merge)
+- Reactive queries (`.observe()` auto-updates UI)
+- Lazy loading (only load what's needed)
+- Batch operations (optimized performance)
 
 **Trade-offs:**
 
-- ⚠️ Manual sync code (vs WatermelonDB auto sync)
-- ⚠️ Simple conflict resolution (last write wins vs smart merge)
-- ✅ Full control and understanding
-- ✅ No Dev Client required
+- ⚠️ Requires Development Build (can't use Expo Go)
+- ⚠️ Initial setup complexity (3-4h vs 1h expo-sqlite)
+- ✅ No future migration needed (production-ready from day 1)
+- ✅ Better architecture for MVP scale
 
-**Status:** ✅ Implemented (expo-sqlite + sync) | 📋 Future (WatermelonDB migration when scaling)
+**Status:** 📋 Planned for Phase 0.5 Bis migration
 
 ---
 
@@ -288,56 +304,75 @@ Benefits: Reactive queries, better conflict resolution, auto sync
 
 ---
 
-### ADR-009: WatermelonDB + Hybrid Storage Strategy (Phase 3)
+### ADR-009: MMKV for Encrypted Storage (Phase 0.5+)
 
-**Decision:** WatermelonDB (SQLite) with Supabase sync + MMKV + Zustand hybrid
+**Decision:** MMKV for key-value storage (auth tokens, user preferences) from Day 1
 
-**Context:** Zero data loss requirement; instant UI responsiveness critical during workouts; true offline-first architecture needed
+**Implementation:**
 
-**Current Phase (0-2) - Simplified:**
+- `src/services/storage/mmkvStorage.ts` - MMKV wrapper with TypeScript safety
+- Used for: Auth tokens, user settings, app preferences
+- ⚠️ Requires Development Build (native C++ module)
+- ✅ 10-30x faster than AsyncStorage
+- ✅ Native encryption (secure by default)
+- ✅ Synchronous API (instant reads)
 
-- AsyncStorage only (Expo Go compatible)
-- No native modules
-- Sufficient for MVP UI/UX development
+**Why MMKV from Day 1:**
 
-**Phase 3 Architecture (Dev Client Required):**
+- ✅ Security first (encrypted auth tokens)
+- ✅ Performance (instant settings load vs AsyncStorage delay)
+- ✅ Production-ready (no migration needed)
+- ✅ Small API surface (easy to learn)
+- ⚠️ Requires Development Build (acceptable trade-off)
 
-| Layer            | Purpose                             | Examples                  | Performance         | Native Module |
-| ---------------- | ----------------------------------- | ------------------------- | ------------------- | ------------- |
-| **WatermelonDB** | Relational data (syncs to Supabase) | Workouts, exercises, sets | 20x > AsyncStorage  | ✅ SQLite     |
-| **MMKV**         | Local-only key-value                | Auth tokens, preferences  | 30x > AsyncStorage  | ✅ C++        |
-| **Zustand**      | Temporary UI state                  | `isWorkoutActive`, forms  | In-memory (instant) | ❌            |
+**Storage Strategy:**
 
-**Phase 3 Data Flow:**
+| Layer            | Purpose                             | Examples                  | Performance        | Native Module |
+| ---------------- | ----------------------------------- | ------------------------- | ------------------ | ------------- |
+| **WatermelonDB** | Relational data (syncs to Supabase) | Workouts, exercises, sets | 20x > AsyncStorage | ✅ SQLite     |
+| **MMKV**         | Key-value data (local only)         | Auth tokens, preferences  | 30x > AsyncStorage | ✅ C++        |
+| **Zustand**      | Temporary UI state                  | `isWorkoutActive`, forms  | In-memory          | ❌            |
+
+**Data Flow:**
 
 ```
-User Input → Zustand → WatermelonDB → Supabase (when online)
-                ↓
-              MMKV (persist selected Zustand slices)
+Auth tokens, settings → MMKV (encrypted, instant)
+Workouts, exercises   → WatermelonDB (reactive, synced)
+Active workout state  → Zustand (in-memory, temporary)
 ```
 
 **Benefits:**
 
-- Zero latency during workouts (no network waits)
-- Guaranteed data reliability
-- Automatic conflict resolution
-- Each tool optimized for specific use case
+- Encrypted by default (secure auth tokens)
+- Synchronous API (instant reads, no async overhead)
+- Tiny bundle size (<100KB)
+- Cross-platform (iOS, Android, Web support)
 
 **Trade-offs:**
 
-- Requires Dev Client (native build)
-- 3 storage layers (complexity)
-- 4-6 hour initial setup
-- Learning curve for sync protocol
+- ⚠️ Requires Development Build
+- ⚠️ Key-value only (not for relational data)
+- ✅ Better security and performance than AsyncStorage
 
-**Migration Timeline:**
+**Implementation Example:**
 
-- **Phase 0-2:** AsyncStorage only
-- **Phase 3 Week 1:** Create Dev Client + install WatermelonDB
-- **Phase 3 Week 2:** Implement sync protocol
-- **Phase 3 Week 3:** Migrate existing data from AsyncStorage
+```typescript
+// src/services/storage/mmkvStorage.ts
+import { MMKV } from 'react-native-mmkv';
 
-**Status:** 📋 Planned for Phase 3
+export const storage = new MMKV({
+  id: 'halterofit-storage',
+  encryptionKey: process.env.MMKV_ENCRYPTION_KEY,
+});
+
+export const authStorage = {
+  getToken: () => storage.getString('authToken'),
+  setToken: (token: string) => storage.set('authToken', token),
+  clearToken: () => storage.delete('authToken'),
+};
+```
+
+**Status:** 📋 Planned for Phase 0.5 Bis migration
 
 ---
 
@@ -364,40 +399,169 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 
 ---
 
-### ADR-011: Charts Strategy - react-native-chart-kit
+### ADR-011: Charts Strategy - Victory Native
 
-**Decision:** Use react-native-chart-kit for MVP (Phase 0-5)
+**Decision:** Use Victory Native from Day 1 (Development Build required)
 
-**Current Implementation (Expo Go):**
+**Implementation:**
 
-- **Library:** react-native-chart-kit
-- **Rationale:**
-  - ✅ Pure JavaScript + react-native-svg (100% Expo Go compatible)
-  - ✅ Sufficient for MVP analytics (line, bar, pie charts)
-  - ✅ No native modules required
-  - ✅ Battle-tested, stable, maintained
-  - ✅ Covers all MVP chart needs
-- **Limitations:** Basic zoom/pan, limited multi-line (2-3 max), basic customization
+- **Library:** Victory Native v41 (Skia-based rendering)
+- `src/components/charts/` - Reusable chart components (LineChart, BarChart, ProgressChart)
+- Used for: Volume analytics, progression graphs, 1RM tracking
+- ⚠️ Requires Development Build (react-native-skia native module)
+- ✅ Production-grade performance (1000+ data points, smooth)
+- ✅ Advanced gestures (zoom, pan, crosshairs)
+- ✅ Fully customizable (theme integration)
 
-**Future Considerations (Post-MVP, if needed):**
+**Why Victory Native from Day 1:**
 
-- **Alternative:** Victory Native v41 (Skia-based) or recharts-native
-- **When to consider:**
-  - If users demand advanced features (multi-line comparisons, complex interactions)
-  - If performance becomes an issue with 1000+ data points
-  - If willing to migrate to Dev Client/native build
-- **Migration effort:** ~3h (abstraction layer exists in codebase)
+- ✅ Professional UX (smooth gestures, animations)
+- ✅ Performance (Skia rendering, 60fps with 1000+ points)
+- ✅ Flexible (multi-line charts, custom tooltips)
+- ✅ Well-maintained (Formidable Labs)
+- ⚠️ Requires Development Build (acceptable trade-off)
+
+**Features Used in MVP:**
+
+- **Line Charts:** Progression tracking (volume over time, 1RM progression)
+- **Bar Charts:** Weekly volume comparison
+- **Custom Tooltips:** Show exact values on tap
+- **Zoom/Pan:** Explore historical data (3 months+)
+- **Themeable:** Integrated with dark theme
+
+**Implementation Example:**
+
+```typescript
+// src/components/charts/VolumeLineChart.tsx
+import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
+
+<VictoryChart theme={darkTheme}>
+  <VictoryAxis />
+  <VictoryLine
+    data={volumeData}
+    x="date"
+    y="volume"
+    interpolation="monotoneX"
+    style={{ data: { stroke: theme.colors.primary } }}
+  />
+</VictoryChart>;
+```
+
+**Benefits:**
+
+- Skia rendering (native performance)
+- Advanced gestures (zoom, pan, crosshairs)
+- Fully themeable (matches app design)
+- Multi-line support (compare exercises)
+- Animation support (smooth transitions)
 
 **Trade-offs:**
 
-- Current: Limited features but maintains Expo Go simplicity
-- Future: Better features but requires native build (complexity increase)
+- ⚠️ Requires Development Build
+- ⚠️ Larger bundle size (+200KB vs react-native-chart-kit)
+- ✅ Production-ready from day 1 (no migration needed)
+- ✅ Better UX for analytics-focused app
 
-**Status:** ✅ Implemented with react-native-chart-kit (Phase 0.5)
+**Status:** 📋 Planned for Phase 0.5 Bis migration
 
 ---
 
-### ADR-012: ExerciseDB API Integration
+### ADR-012: Development Build Strategy
+
+**Decision:** Use Development Build (EAS Build) from Day 1 instead of Expo Go
+
+**Rationale:**
+
+Instead of starting with Expo Go and migrating later (costly 1-2 week refactor), we're building with production-grade architecture from the start:
+
+**Why Development Build from Day 1:**
+
+- ✅ WatermelonDB (reactive database, better than expo-sqlite)
+- ✅ MMKV (10-30x faster + encrypted vs AsyncStorage)
+- ✅ Victory Native (professional charts vs basic charts)
+- ✅ No future migration (avoid 1-2 weeks refactoring later)
+- ✅ Production-ready architecture for MVP scale
+
+**Trade-offs:**
+
+| Aspect             | Expo Go                   | Development Build                            |
+| ------------------ | ------------------------- | -------------------------------------------- |
+| **Setup Time**     | 5 minutes                 | ~3-4 hours (one-time)                        |
+| **Iteration**      | Instant (scan QR)         | ~15-20 min rebuild (only for native changes) |
+| **Native Modules** | Limited (Expo SDK only)   | Any module (WatermelonDB, MMKV, Victory)     |
+| **Performance**    | Good                      | Production-optimized                         |
+| **Future Work**    | 1-2 week migration needed | Already production-ready                     |
+
+**Daily Development Workflow:**
+
+```bash
+# ONE-TIME SETUP (3-4 hours)
+npm install
+eas build --profile development --platform android  # ~15-20 min
+# Install dev build on device (scan QR from EAS)
+
+# DAILY DEVELOPMENT (same as Expo Go!)
+npm start
+# Scan QR with dev build app
+# Hot reload works normally ✅
+
+# ONLY rebuild if:
+# - Installing new native module (rare, ~1-2x/week max)
+# - Changing app.json native config (rare)
+```
+
+**Development Build Workflow:**
+
+1. **Create EAS account** (free tier: unlimited dev builds)
+2. **Configure eas.json** (development, preview, production profiles)
+3. **Build dev client** (iOS + Android, ~15-20 min each)
+4. **Install on device** (scan QR code from EAS dashboard)
+5. **Develop normally** (npm start, hot reload works)
+
+**Rebuild triggers** (rare, ~1-2x per week):
+
+- ❌ Code changes (JS/TS) → NO rebuild needed (hot reload)
+- ❌ Style changes → NO rebuild needed
+- ❌ Component changes → NO rebuild needed
+- ✅ New native module → YES, rebuild (15-20 min)
+- ✅ app.json native config → YES, rebuild
+
+**EAS Build Configuration:**
+
+```json
+// eas.json
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "ios": {
+        "simulator": false
+      }
+    }
+  }
+}
+```
+
+**Cost Analysis:**
+
+| Option                | Upfront Cost | Future Cost | Total     |
+| --------------------- | ------------ | ----------- | --------- |
+| **Expo Go → Migrate** | 1 hour       | 1-2 weeks   | ~80 hours |
+| **Dev Build Day 1**   | 4 hours      | 0 hours     | 4 hours   |
+
+**Savings:** ~76 hours by avoiding future migration
+
+**Status:** 📋 Planned for Phase 0.5 Bis (next session)
+
+---
+
+### ADR-013: ExerciseDB API Integration
 
 **Decision:** Seed exercise library from ExerciseDB API (1,300+ exercises)
 
@@ -411,7 +575,7 @@ User Input → Zustand → WatermelonDB → Supabase (when online)
 
 ```typescript
 // One-time seed: ExerciseDB → Supabase → WatermelonDB
-// Runtime: No API calls (local-only search/filtering)
+// Runtime: No API calls (local WatermelonDB search/filtering)
 ```
 
 **Data Ownership:** Seeded to our Supabase (full control), users add custom exercises
@@ -438,12 +602,23 @@ src/
 ├── services/                     # External services
 │   ├── supabase/
 │   │   └── client.ts             # Supabase client
-│   └── storage/
-│       └── mmkv.ts               # MMKV wrapper
+│   ├── storage/
+│   │   └── mmkvStorage.ts        # MMKV wrapper
+│   └── database/
+│       └── watermelon/           # WatermelonDB setup
+│           ├── schema.ts         # Database schema
+│           ├── sync.ts           # Sync protocol
+│           └── index.ts          # Database instance
 │
 ├── stores/                       # Zustand stores
 │   ├── authStore.ts              # Auth state
 │   └── workoutStore.ts           # Workout state
+│
+├── models/                       # WatermelonDB models
+│   ├── Workout.ts                # Workout model
+│   ├── Exercise.ts               # Exercise model
+│   ├── WorkoutExercise.ts        # Workout-exercise join
+│   └── ExerciseSet.ts            # Set model
 │
 └── theme/                        # Design system
     ├── index.ts                  # Re-exports
@@ -959,16 +1134,16 @@ function detectPlateauWithContext(exerciseHistory, user) {
 **Authentication:**
 
 - Supabase Auth (JWT tokens, auto-refresh)
-- MMKV encrypted storage (tokens, session)
+- MMKV encrypted storage (tokens, session data)
 - Future: Biometric (Face ID/Touch ID)
 
 **Security Layers:**
 
-| Layer        | Implementation                     | Protection                                         |
-| ------------ | ---------------------------------- | -------------------------------------------------- |
-| **Database** | RLS policies                       | Users see only their data (`auth.uid() = user_id`) |
-| **Local**    | MMKV encrypted, SQLCipher optional | Tokens never plain text                            |
-| **Network**  | HTTPS (TLS 1.3)                    | Future: Certificate pinning                        |
+| Layer        | Implementation                               | Protection                                         |
+| ------------ | -------------------------------------------- | -------------------------------------------------- |
+| **Database** | RLS policies                                 | Users see only their data (`auth.uid() = user_id`) |
+| **Local**    | MMKV encrypted (native), WatermelonDB SQLite | Tokens encrypted, data isolated per user           |
+| **Network**  | HTTPS (TLS 1.3)                              | Future: Certificate pinning                        |
 
 **Row Level Security Example:**
 
@@ -1037,7 +1212,7 @@ Sentry.init({
 ```typescript
 async function deleteUserAccount() {
   await supabase.auth.admin.deleteUser(userId); // Cascades via foreign keys
-  await database.unsafeResetDatabase(); // WatermelonDB
+  await database.write(async () => await database.unsafeResetDatabase()); // WatermelonDB
   storage.clearAll(); // MMKV
 }
 ```
@@ -1177,7 +1352,7 @@ _→ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow_
 
 ## 📚 Resources
 
-**Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [Zustand](https://docs.pmnd.rs/zustand) | [React Query](https://tanstack.com/query/latest) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
+**Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [MMKV](https://github.com/mrousavy/react-native-mmkv) | [Zustand](https://docs.pmnd.rs/zustand) | [React Query](https://tanstack.com/query/latest) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
 
 **APIs:** [ExerciseDB](https://v2.exercisedb.io/docs) | [Sentry](https://docs.sentry.io/platforms/react-native/) | [RevenueCat](https://www.revenuecat.com/docs)
 
@@ -1187,4 +1362,4 @@ _→ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow_
 
 ---
 
-**Last Updated:** October 2025
+**Last Updated:** October 2025 (Updated for Development Build strategy)
