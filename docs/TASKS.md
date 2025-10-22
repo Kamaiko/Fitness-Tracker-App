@@ -36,7 +36,7 @@ IDs are flexible to accommodate project evolution.
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (4/15 tasks) ← YOU ARE HERE
+Phase 0.5: Architecture & Foundation (4/15 tasks)
    ├─ Database setup ✅
    ├─ Dev tools setup ✅
    ├─ Architecture refactor ✅
@@ -455,7 +455,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## Phase 0.5: Architecture & Foundation (4/15) ⭐ CRITICAL
+## Phase 0.5: Architecture & Foundation (4/15)
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
 **Goal:** Complete infrastructure setup and critical corrections before Phase 1
@@ -550,7 +550,9 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-### 0.5.D Critical Corrections (0/8) 🔴 BLOCKERS FOR PHASE 1
+### 0.5.D Critical Corrections (0/8)
+
+**Goal:** Blocking issues that must complete before Phase 1
 
 **Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
 

@@ -352,8 +352,11 @@ grep "- \[" docs/TASKS.md | grep -v "\[x\]"
 ❌ Remove task IDs completely
 ❌ Remove `**description**` bold formatting
 ❌ Mix completed tasks using `[x ]` (with space after x)
+❌ Use header-based tasks `### ID **Task**` instead of checkboxes
 
 **Note:** These changes would also break human readability, so very unlikely.
+
+**For complete format requirements, see [tasks-format.md](./tasks-format.md)**
 
 ---
 

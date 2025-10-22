@@ -1,61 +1,20 @@
 # Task Tracker Agent
 
-> **Purpose**: Automatically detect and update task completion in TASKS.md
+> **Purpose**: Execute atomic updates to TASKS.md when tasks complete
 > **Version**: 1.0
-> **Last Updated**: Auto-maintained by git hooks
+> **References**: [smart-detector.md](../lib/smart-detector.md), [tasks-format.md](../lib/tasks-format.md)
 
 ---
 
 ## 🎯 Core Responsibilities
 
-1. **Detection**: Listen for task completion indicators (hybrid approach)
-2. **Confirmation**: Always ask user before modifying documentation
-3. **Atomic Updates**: Execute 4-step update process consistently
-4. **Phase Detection**: Trigger phase-manager when phase completes
-5. **Batch Management**: Queue rapid updates, commit on PreCompact
+1. **Execute Updates**: Apply 4-step atomic update process to TASKS.md
+2. **Enforce Format**: Follow strict format rules from [tasks-format.md](../lib/tasks-format.md)
+3. **Verify Changes**: Read files after editing to confirm correctness
+4. **Coordinate**: Trigger phase-manager when phase completes
+5. **Batch Management**: Queue rapid updates, flush on PreCompact
 
----
-
-## 🔍 Detection Strategy
-
-### Smart Action-Based Detection
-
-Detection is now fully automated via **smart-detector.md** (triggered by PreCompact hook).
-
-**How it works:**
-1. PostToolUse hook tracks all your actions to `.actions.json`
-2. PreCompact hook analyzes actions against TASKS.md
-3. Matches tasks with >70% confidence based on your Edit/Write/Bash commands
-4. Presents batch confirmation for detected tasks
-
-**Manual fallback:** You can still explicitly mark checkboxes via Edit tool.
-
-### Fallback: Direct Checkbox Edit
-
-Monitor your own Edit tool calls for checkbox changes:
-
-**Pattern to detect:**
-```
-old_string: "- [ ] 0.5bis.3"
-new_string: "- [x] 0.5bis.3"
-```
-
-**Logic:**
-```typescript
-if (editToolCall.old_string.includes("- [ ]") &&
-    editToolCall.new_string.includes("- [x]")) {
-  taskId = extractTaskId(editToolCall.old_string)
-  // TRIGGER DETECTED
-}
-```
-
-### Detection Decision Matrix
-
-| Scenario | Detection Method | Confidence | Action |
-|----------|------------------|------------|--------|
-| Action-based match (>70%) | smart-detector | HIGH | Confirm → Update |
-| You edited checkbox `[ ]→[x]` | Direct edit | VERY HIGH | Confirm → Update |
-| Action-based match (<70%) | smart-detector | LOW | Ignore |
+**Detection is handled by**: [smart-detector.md](../lib/smart-detector.md) (not this agent)
 
 ---
 
@@ -63,34 +22,11 @@ if (editToolCall.old_string.includes("- [ ]") &&
 
 **ALWAYS confirm before updating**, even with high confidence.
 
-### Confirmation Message Format
-
-**Template:**
+**Message template:**
 ```
-I detected you completed task {taskId}: "{taskDescription}".
-Should I update TASKS.md with the following changes?
-
-1. Mark checkbox [x] for task {taskId}
-2. Update progress counter: {current}/{total} → {current+1}/{total}
-3. Update badge color and percentage
-4. Sync progress to README.md
-
-[YES] → Proceed with updates
-[NO] → Ignore this detection
-```
-
-**Example:**
-```
-I detected you completed task 0.5bis.3: "Create eas.json Configuration".
-Should I update TASKS.md with the following changes?
-
-1. Mark checkbox [x] for task 0.5bis.3
-2. Update progress counter: 6/96 → 7/96
-3. Update badge: 6% red → 7% red
-4. Sync progress to README.md
-
-[YES] → Proceed with updates
-[NO] → Ignore this detection
+Detected task {taskId} complete: "{description}".
+Update TASKS.md? (checkbox, counter, badge, README sync)
+[YES/NO]
 ```
 
 ---
@@ -569,99 +505,6 @@ Before deploying this agent, verify:
 - [ ] Error handling gracefully aborts on failure
 - [ ] Commit messages follow convention
 - [ ] README.md sync works correctly
-
----
-
-## 📚 Example Usage Scenarios
-
-### Scenario 1: Single Task Completion
-
-**User:** "I just completed task 0.5bis.3"
-
-**Agent Response:**
-```
-I detected you completed task 0.5bis.3: "Create eas.json Configuration".
-Should I update TASKS.md with the following changes?
-
-1. Mark checkbox [x] for task 0.5bis.3
-2. Update progress counter: 6/96 → 7/96
-3. Update badge: 6% red → 7% red
-4. Sync progress to README.md
-
-[YES] → Proceed
-```
-
-**After confirmation:**
-```
-✅ Updated TASKS.md:
-- Marked task 0.5bis.3 complete
-- Progress: 7/96 (7%)
-- Badge: red
-
-✅ Synced to README.md
-
-📝 Committed: docs(tasks): mark task 0.5bis.3 complete (7/96)
-```
-
----
-
-### Scenario 2: Rapid Batch Updates
-
-**User completes 3 tasks in quick succession (<10 min apart)**
-
-**Agent Response (after each):**
-```
-I detected you completed task 0.5bis.1. Queuing for batch update (1 pending).
-I detected you completed task 0.5bis.2. Queuing for batch update (2 pending).
-I detected you completed task 0.5bis.3. Queuing for batch update (3 pending).
-```
-
-**PreCompact hook triggers:**
-```
-Flushing 3 pending task updates...
-
-✅ Updated TASKS.md:
-- Marked tasks 0.5bis.1, 0.5bis.2, 0.5bis.3 complete
-- Progress: 9/96 (9%)
-- Badge: red
-
-✅ Synced to README.md
-
-📝 Committed: docs(tasks): mark 3 tasks complete (9/96)
-
-- Task 0.5bis.1: Setup EAS Build Account
-- Task 0.5bis.2: Create eas.json Configuration
-- Task 0.5bis.3: Build Development Build
-```
-
----
-
-### Scenario 3: Phase Completion
-
-**User completes last task in phase**
-
-**Agent Response:**
-```
-I detected you completed task 0.5bis.10: "Test & Verify Development Build".
-Should I update TASKS.md?
-
-[YES] → Proceed
-```
-
-**After update:**
-```
-✅ Updated TASKS.md for task 0.5bis.10
-
-🎉 Phase 0.5 Bis is now complete! (10/10 tasks)
-
-I've automatically updated:
-- ✅ Roadmap (marked phase complete, moved YOU ARE HERE)
-- ✅ NEXT SESSION section (now pointing to Phase 0.5)
-
-📝 Committed: docs(tasks): mark Phase 0.5 Bis complete and prepare Phase 0.5
-
-Next steps: Start Phase 0.5 - Architecture & Foundation
-```
 
 ---
 
