@@ -8,17 +8,17 @@
 
 ## 📖 Table of Contents
 
-1. [📊 Current Status](#-current-status)
-2. [🗺️ Development Roadmap](#️-development-roadmap)
-3. [🚀 Phase 0.5 Bis: Development Build Migration](#-phase-05-bis-development-build-migration-010--next-session) ⭐ **NEXT SESSION**
-4. [🎯 Current Focus (After Migration)](#-current-focus-after-migration)
-5. [📋 Phase 0.5: Architecture & Foundation](#-phase-05-architecture--foundation-415--critical)
-6. [📋 Phase 1: Authentication & Foundation](#-phase-1-authentication--foundation-014)
-7. [📋 Phase 2: Workout Logging](#-phase-2-workout-logging-028)
-8. [📋 Phase 3: Exercise Library & Testing](#-phase-3-exercise-library--testing-012)
-9. [📋 Phase 4: Analytics & Smart Features](#-phase-4-analytics--smart-features-015)
-10. [📋 Phase 5: Polish, Monitoring & Beta Launch](#-phase-5-polish-monitoring--beta-launch-018)
-11. [🔄 How to Use This File](#-how-to-use-this-file)
+1. [📊 Current Status](#current-status)
+2. [🗺️ Development Roadmap](#development-roadmap)
+3. [🚀 Phase 0.5 Bis: Development Build Migration](#phase-05-bis-development-build-migration-010--next-session) ⭐ **NEXT SESSION**
+4. [🎯 Current Focus (After Migration)](#current-focus-after-migration)
+5. [📋 Phase 0.5: Architecture & Foundation](#phase-05-architecture--foundation-415--critical)
+6. [📋 Phase 1: Authentication & Foundation](#phase-1-authentication--foundation-014)
+7. [📋 Phase 2: Workout Logging](#phase-2-workout-logging-028)
+8. [📋 Phase 3: Exercise Library & Testing](#phase-3-exercise-library--testing-012)
+9. [📋 Phase 4: Analytics & Smart Features](#phase-4-analytics--smart-features-015)
+10. [📋 Phase 5: Polish, Monitoring & Beta Launch](#phase-5-polish-monitoring--beta-launch-018)
+11. [🔄 How to Use This File](#how-to-use-this-file)
 
 ---
 
@@ -26,8 +26,8 @@
 
 **For Daily Development:**
 
-1. Check [📊 Current Status](#-current-status) to see overall progress
-2. Find your current phase in [🗺️ Development Roadmap](#️-development-roadmap)
+1. Check [📊 Current Status](#current-status) to see overall progress
+2. Find your current phase in [🗺️ Development Roadmap](#development-roadmap)
 3. Go to that phase section and pick the next uncompleted `[ ]` task
 4. Complete the task
 5. Mark it as `[x]` when done
@@ -35,7 +35,7 @@
 
 **For AI Assistants:**
 
-- **START HERE**: Read [🚀 Phase 0.5 Bis](#-phase-05-bis-development-build-migration-010--next-session) for next session tasks
+- **START HERE**: Read [🚀 Phase 0.5 Bis](#phase-05-bis-development-build-migration-010--next-session) for next session tasks
 - Follow tasks in strict order (dependencies matter!)
 - Use Pre-Flight Checklist before starting
 - Mark tasks complete `[x]` as you go
