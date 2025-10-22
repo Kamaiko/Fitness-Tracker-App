@@ -4,8 +4,8 @@
 
 ## 📑 Table of Contents
 
-- [📐 Architecture Overview](#-architecture-overview)
-- [📦 Technology Stack](#-technology-stack)
+- [📐 Architecture Overview](#architecture-overview)
+- [📦 Technology Stack](#technology-stack)
 - [🏛️ Architecture Decisions (ADRs)](#️-architecture-decisions-adrs)
   - [ADR-001: Expo SDK vs Bare React Native](#adr-001-expo-sdk-vs-bare-react-native)
   - [ADR-002: Supabase vs Firebase vs AWS Amplify](#adr-002-supabase-vs-firebase-vs-aws-amplify)
@@ -19,18 +19,18 @@
   - [ADR-010: Performance Libraries](#adr-010-performance-libraries)
   - [ADR-011: Charts Library - Victory Native](#adr-011-charts-library---victory-native)
   - [ADR-012: Development Build Strategy](#adr-012-development-build-strategy)
-- [📁 Project Structure](#-project-structure)
-- [🎨 Design System](#-design-system)
+- [📁 Project Structure](#project-structure)
+- [🎨 Design System](#design-system)
 - [🗄️ Database Schema](#️-database-schema)
-- [📊 Analytics & Algorithms](#-analytics--algorithms)
-- [💰 Business Model & Monetization](#-business-model--monetization-strategy)
-- [🔐 Security & Monitoring](#-security--monitoring)
-- [⚡ Performance Guidelines](#-performance-guidelines)
-- [📋 Coding Standards](#-coding-standards)
-- [🔧 Development Workflow](#-development-workflow)
-- [🚀 Deployment](#-deployment)
-- [🎨 UX Best Practices](#-ux-best-practices-from-strong-hevy-jefit)
-- [📚 Resources](#-resources)
+- [📊 Analytics & Algorithms](#analytics--algorithms)
+- [💰 Business Model & Monetization](#business-model--monetization-strategy)
+- [🔐 Security & Monitoring](#security--monitoring)
+- [⚡ Performance Guidelines](#performance-guidelines)
+- [📋 Coding Standards](#coding-standards)
+- [🔧 Development Workflow](#development-workflow)
+- [🚀 Deployment](#deployment)
+- [🎨 UX Best Practices](#ux-best-practices-from-strong-hevy-jefit)
+- [📚 Resources](#resources)
 
 ---
 

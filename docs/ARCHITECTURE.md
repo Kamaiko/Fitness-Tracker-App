@@ -4,8 +4,8 @@
 
 ## 📑 Table des Matières
 
-- [📐 Vue d'Ensemble](#-vue-densemble)
-- [📂 Structure Détaillée](#-structure-détaillée)
+- [📐 Vue d'Ensemble](#vue-densemble)
+- [📂 Structure Détaillée](#structure-détaillée)
   - [1. `/app` - Navigation (Expo Router)](#1-app---navigation-expo-router)
   - [2. `/components` - UI Components](#2-components---ui-components)
   - [3. `/hooks` - Custom React Hooks](#3-hooks---custom-react-hooks)
@@ -14,12 +14,12 @@
   - [6. `/types` - TypeScript Definitions](#6-types---typescript-definitions)
   - [7. `/utils` - Pure Utility Functions](#7-utils---pure-utility-functions)
   - [8. `/constants` - App-wide Constants](#8-constants---app-wide-constants)
-- [🔄 Data Flow](#-data-flow)
-- [📦 Import Patterns](#-import-patterns)
-- [🧪 Testing Strategy (Future)](#-testing-strategy-future)
-- [🚀 Post-MVP Performance Optimizations](#-post-mvp-performance-optimizations)
-- [📚 Références](#-références)
-- [✅ Architecture Checklist](#-architecture-checklist)
+- [🔄 Data Flow](#data-flow)
+- [📦 Import Patterns](#import-patterns)
+- [🧪 Testing Strategy (Future)](#testing-strategy-future)
+- [🚀 Post-MVP Performance Optimizations](#post-mvp-performance-optimizations)
+- [📚 Références](#références)
+- [✅ Architecture Checklist](#architecture-checklist)
 
 ---
 
