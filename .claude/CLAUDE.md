@@ -53,91 +53,47 @@ Is this first session on project?
 
 **CRITICAL**: Be ULTRA-PRECISE with documentation updates.
 
-#### 📍 Precision Rules
-
-**NEVER say vague things like:**
-❌ "I'll update the documentation"
-❌ "Let me update TASKS.md"
-❌ "I'll add this to the docs"
-
-**ALWAYS specify EXACTLY:**
-✅ Which file (full path)
-✅ Which section (exact heading or line number)
-✅ What change (add/remove/replace)
-✅ Show the exact edit
-
-**Example of PRECISE documentation update:**
-
-```markdown
-I will update:
-📄 File: README.md
-📍 Section: ## 🎯 Current Status (line 100)
-✏️ Change: Replace progress "6/96 tasks (6%)" with "16/96 tasks (17%)"
-
-Before:
-**Progress:** 6/96 tasks (6%) | **Phase:** 0.5 Bis
-
-After:
-**Progress:** 16/96 tasks (17%) | **Phase:** 1
-```
-
-#### ✅ DO Update (with precision):
-
-**Always specify:** File path, section/line, exact change (before/after)
+**Always specify:**
+✅ File path (exact)
+✅ Section/line number (verified by reading file first)
+✅ Exact change (before/after)
 
 **Example:**
 
 ```markdown
 📄 File: docs/TASKS.md
 📍 Section: Phase 0.5 Bis, Task 1 (line 195)
-✏️ Change: Mark task checkbox [x]
+✏️ Change: Mark checkbox [x]
 
-Before: - [ ] 0.5bis.1 Setup EAS Build Account & CLI
-After: - [x] 0.5bis.1 Setup EAS Build Account & CLI
+Before: - [ ] 0.5bis.1 Setup EAS Build Account
+After: - [x] 0.5bis.1 Setup EAS Build Account
 ```
 
-**→ Complete workflows**: See [DOC_AUTOMATION_SYSTEM.md § Automatic Update Workflows](DOC_AUTOMATION_SYSTEM.md#automatic-update-workflows)
+**4-step process:**
 
-#### ❌ NEVER Duplicate:
+1. Read file first (verify content)
+2. Announce exact changes (file, line, before/after)
+3. Execute with Edit tool (exact strings)
+4. Verify change applied (read again)
 
-See [DOC_AUTOMATION_SYSTEM.md § Primary Source Matrix](DOC_AUTOMATION_SYSTEM.md#primary-source-matrix) for complete ownership rules.
+**Never duplicate info across docs** - see [Primary Source Matrix](DOC_AUTOMATION_SYSTEM.md#primary-source-matrix)
+
+**Complete workflows**: [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md)
 
 ---
 
 ## 📋 Commit Convention
 
-### Format
+Suivre les règles **commitlint** (conventional commits):
 
 ```
 <type>(<scope>): <description>
-
-[optional body]
 ```
 
-### Types
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+**Scopes communs**: `workout`, `exercises`, `analytics`, `auth`, `db`, `ui`, `config`
 
-- `feat`: Nouvelle fonctionnalité
-- `fix`: Correction de bug
-- `docs`: Documentation seulement
-- `style`: Formatage (spaces, virgules)
-- `refactor`: Refactoring (ni feat ni fix)
-- `test`: Tests
-- `chore`: Maintenance (build, deps, config)
-
-### Scopes (common)
-
-- `workout`, `exercises`, `analytics`, `auth`
-- `db`, `ui`, `config`
-
-### Examples
-
-```bash
-feat(workout): add RPE tracking to set logger
-fix(analytics): correct volume calculation for compound exercises
-docs(readme): update installation instructions for dev build
-refactor(lib): extract 1RM calculations to separate module
-chore(deps): update React Native to 0.82.0
-```
+**Exemple**: `feat(workout): add RPE tracking to set logger`
 
 ---
 
@@ -146,144 +102,28 @@ chore(deps): update React Native to 0.82.0
 1. **NEVER mention "Claude" or "AI" in commits**
 2. **NEVER add AI signatures in commits**
 3. Use professional, simple commit messages
-4. **NEVER duplicate info across docs**
-5. **ALWAYS update docs when tasks complete**
-6. **ALWAYS run `npm run type-check` before commit**
+4. **ALWAYS update docs when tasks complete**
+5. **ALWAYS run `npm run type-check` before commit**
 
 ---
 
-## 🔍 Pre-Update Verification (MANDATORY)
+## 🔄 Session End Checklist
 
-**BEFORE making ANY documentation change:**
-
-### Step 1: Read Current State
+Before ending session:
 
 ```bash
-# ALWAYS read the file first to verify current content
-Read(file_path="docs/TASKS.md", limit=100)
-
-# Verify line numbers are correct
-# Verify section exists
-# Verify content matches expectation
-```
-
-### Step 2: Announce EXACT Changes
-
-```markdown
-I will make the following changes:
-
-📄 File: docs/TASKS.md
-📍 Location: Line 195 (verified by reading file)
-✏️ Current content:
-
-- [ ] 0.5bis.3 **Build Development Build**
-
-✏️ New content:
-
-- [x] 0.5bis.3 **Build Development Build**
-
-✏️ Tool: Edit(file_path, old_string, new_string)
-```
-
-### Step 3: Execute with Exact Strings
-
-```typescript
-// Use EXACT strings from verification step
-Edit({
-  file_path: 'docs/TASKS.md',
-  old_string: '- [ ] 0.5bis.3 **Build Development Build**',
-  new_string: '- [x] 0.5bis.3 **Build Development Build**',
-});
-```
-
-### Step 4: Verify Change Applied
-
-```bash
-# Read file again to confirm change
-Read(file_path="docs/TASKS.md", offset=190, limit=10)
-
-# Confirm change is present
-✅ "- [x] 0.5bis.3 **Build Development Build**"
-```
-
-**NEVER skip verification steps!**
-
----
-
-## 🔄 Session End Checklist (AUTOMATED)
-
-**Complete automation details**: See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md)
-
-Before ending session, follow this 5-phase automated workflow:
-
-### Phase 1: Detect Triggers
-
-Check which events occurred during this session:
-
-```bash
-[ ] TASK_COMPLETE - Any task from TASKS.md completed?
-[ ] PHASE_COMPLETE - All tasks in current phase finished?
-[ ] BUG_FIXED - Bug solved and solution documented?
-[ ] TECH_DECISION - Architectural decision made?
-[ ] SCHEMA_CHANGE - Database schema modified?
-[ ] FEATURE_ADDED - New feature implementation complete?
-```
-
-**→ Trigger descriptions and detection rules**: See DOC_AUTOMATION_SYSTEM.md § Trigger Types
-
-### Phase 2: Generate Update Plan
-
-For each detected trigger, determine exact updates needed.
-
-**→ Complete workflows for each trigger**: See DOC_AUTOMATION_SYSTEM.md § Automatic Update Workflows
-
-**Quick reference**:
-
-- TASK_COMPLETE → 4 updates (checkbox, counter, badge, README sync)
-- PHASE_COMPLETE → 5 updates (mark complete, move marker, update status)
-- BUG_FIXED → Add to TROUBLESHOOTING.md with structured format
-- TECH_DECISION → Add ADR to TECHNICAL.md
-- SCHEMA_CHANGE → Update DATABASE.md + TECHNICAL.md
-- FEATURE_ADDED → Update relevant docs (README, ARCHITECTURE, DATABASE)
-
-### Phase 3: Execute Updates
-
-Use 4-step verification process (detailed in § Pre-Update Verification):
-
-```bash
-1. Read current state (verify content and line numbers)
-2. Announce EXACT changes (file, section, line, before/after)
-3. Execute with exact strings (Edit tool)
-4. Verify change applied (Read again)
-```
-
-**CRITICAL**: Follow precision rules from § Documentation Update Protocol
-
-### Phase 4: Commit Documentation
-
-Create atomic commit with conventional message:
-
-```bash
-git commit -m "docs: update progress after completing task X"
-git commit -m "docs: mark Phase X complete and prepare Phase Y"
-git commit -m "docs(troubleshooting): add solution for [issue]"
-git commit -m "docs(technical): add ADR-XXX [decision]"
-```
-
-### Phase 5: Manual Verification
-
-```bash
+[ ] Detect triggers (task complete, phase complete, bug fixed, etc.)
+[ ] Update docs using 4-step process (see § Documentation Update Protocol)
+[ ] Commit with conventional message
 [ ] npm run type-check ✅
-[ ] git status clean OR meaningful WIP commit
-[ ] TASKS.md has "⭐ NEXT SESSION" marker (verified by reading file)
-[ ] All doc updates committed in single atomic commit
+[ ] Verify "⭐ NEXT SESSION" marker in TASKS.md
 ```
+
+**Complete automation workflow**: [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md)
 
 ---
 
 ## 📚 Documentation Map
-
-**DO NOT duplicate content here** - just reference the docs.
 
 | File                     | Purpose                         | When to Update                     |
 | ------------------------ | ------------------------------- | ---------------------------------- |
