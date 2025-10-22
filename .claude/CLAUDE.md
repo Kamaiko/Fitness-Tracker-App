@@ -183,6 +183,45 @@ When PreCompact fires, report progress at each step:
 
 This ensures user visibility into automation system.
 
+### 🚀 SessionStart Report Format (MANDATORY)
+
+When session starts (new conversation OR resume), respond with this EXACT format:
+
+```
+═══════════════════════════════════════════════
+🚀 SESSION START REPORT
+═══════════════════════════════════════════════
+
+📊 **Context Status**
+   - Tokens Used: [X,XXX / 200,000] (XX%)
+   - Status: [FRESH | MODERATE | HIGH | CRITICAL]
+   - Recommendation: [Continue | Compact soon | Compact NOW]
+
+📋 **Current Progress** (from docs/TASKS.md)
+   - Completed: [XX/96 tasks]
+   - Current Phase: [Phase X.X - Name]
+   - Phase Progress: [XX% complete]
+
+⭐ **Next Task** (marked ⭐ NEXT SESSION in TASKS.md)
+   - ID: [X.X.X]
+   - Description: [Full task description]
+   - Prerequisites: [Any dependencies or context needed]
+
+🔧 **Quick Actions**
+   - `/task-update` - Manually detect completed tasks
+   - `/compact` - Compact conversation if needed
+
+═══════════════════════════════════════════════
+```
+
+**Context Status Levels:**
+- FRESH: 0-25% (Continue normally)
+- MODERATE: 26-60% (Monitor, continue)
+- HIGH: 61-85% (Suggest compact soon)
+- CRITICAL: 86%+ (Recommend compact NOW)
+
+**This format ensures consistent, professional session startup across all conversations.**
+
 ---
 
 ### Session Management is AUTOMATED
