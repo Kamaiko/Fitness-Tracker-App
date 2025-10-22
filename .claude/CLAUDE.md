@@ -150,6 +150,28 @@ git push origin master      # Push to remote
 
 ## 🤖 Automation System
 
+### ⚠️ CRITICAL: PreCompact Workflow Protocol
+
+When PreCompact hook fires (context ~18000 tokens), you MUST:
+
+1. **STOP current work immediately**
+2. **READ** the hook message instructions carefully
+3. **EXECUTE** smart-detector.md algorithm EXACTLY
+4. **REPORT** detected tasks to user
+5. **WAIT** for user confirmation
+6. **IF YES** → READ task-tracker.md IMMEDIATELY (do NOT skip)
+7. **EXECUTE** 4-step atomic update WITHOUT DEVIATION
+8. **VALIDATE** format before reporting complete
+
+**DO NOT:**
+- Skip reading task-tracker.md after YES
+- Improvise update process
+- Forget validation steps
+
+**This protocol ensures 95%+ reliability.**
+
+---
+
 ### Session Management is AUTOMATED
 
 Python hooks (`.claude/hooks/*.py`) handle session lifecycle:

@@ -155,6 +155,42 @@ Replace: **Progress:** ![](https://img.shields.io/badge/Progress-7%25-red) 7/96 
 
 ---
 
+### Step 5: Validate Format (Before Commit)
+
+Run validation commands to ensure format compliance:
+
+```bash
+# Check 1: No space after x in completed tasks
+grep -E "^- \[x \]" docs/TASKS.md
+# Expected: EMPTY (if not → fix manually)
+
+# Check 2: Progress counter matches actual count
+actual=$(grep -c "^- \[x\]" docs/TASKS.md)
+reported=$(grep -oP '\d+(?=/96 tasks)' docs/TASKS.md | head -1)
+echo "Actual: $actual, Reported: $reported"
+# Expected: Match (if not → recalculate)
+
+# Check 3: No emoji in phase headers
+grep -E "^##\s+Phase.*[⭐🔴⚠️←]" docs/TASKS.md
+# Expected: EMPTY (if not → remove emoji)
+
+# Check 4: TASKS.md and README.md sync
+tasks_progress=$(grep -oP '\d+(?=/96 tasks)' docs/TASKS.md | head -1)
+readme_progress=$(grep -oP '\d+(?=/96 tasks)' README.md | head -1)
+echo "TASKS: $tasks_progress, README: $readme_progress"
+# Expected: Match (if not → sync)
+```
+
+**If validation fails:**
+- Report issues to user
+- Do NOT commit until fixed
+- Offer to auto-fix simple issues (space after x, counter mismatch)
+
+**Verification successful:**
+Report: "✅ Format validation passed - safe to commit"
+
+---
+
 ## 📦 Batch Mode vs Immediate Mode
 
 ### Decision Logic
