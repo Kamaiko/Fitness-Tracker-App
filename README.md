@@ -24,72 +24,39 @@ _⚠️ Placeholder UI_
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- **Node.js** 18+ and **npm** 9+
-- **Expo account** (free tier) - [Sign up here](https://expo.dev/signup)
-- **Supabase account** (free tier) - [Sign up here](https://supabase.com/dashboard/sign-up)
-- **EAS CLI** for building development builds
-
-### Installation (5 minutes)
-
 ```bash
 # 1. Clone and install
-git clone https://github.com/yourusername/halterofit.git
-cd halterofit
+git clone https://github.com/Kamaiko/HalteroFit.git
+cd HalteroFit
 npm install
 
-# 2. Create Supabase project
-# Go to https://supabase.com/dashboard
-# Create new project → Copy URL and anon key
-
-# 3. Configure environment
-cp .env.example .env
-
-# Edit .env and add your credentials:
-EXPO_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-
-# 4. Setup database schema
-# In Supabase Dashboard → SQL Editor → Run:
-# (Copy schema from docs/DATABASE.md or use migration files)
-
-# 5. Install EAS CLI and login
-npm install -g eas-cli
-eas login
-
-# 6. Build development build (first time only, ~15-20 minutes)
-eas build --profile development --platform android
-# OR for iOS: eas build --profile development --platform ios
-
-# 7. Install the dev build on your device (scan QR from EAS Build)
-
-# 8. Start development server
-npm start
-
-# 9. Scan QR code with your development build app
+# 2. Configure environment & build (first time setup)
+# See CONTRIBUTING.md for complete setup guide (~15-20 min)
 ```
 
-**Note:** Development build is required (not Expo Go) because this project uses native modules (WatermelonDB, MMKV, Victory Native).
+**⚠️ Note:** This project requires **Development Build** (not Expo Go) due to native modules (WatermelonDB, MMKV, Victory Native).
 
-### Project Documentation
+---
 
-| Document                                    | Description                                          |
-| ------------------------------------------- | ---------------------------------------------------- |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Code organization, patterns, folder structure        |
-| **[DATABASE.md](docs/DATABASE.md)**         | Database setup, schema, CRUD operations              |
-| **[TASKS.md](docs/TASKS.md)**               | Development roadmap (96 tasks across 6 phases)       |
-| **[AUDIT_FIXES.md](docs/AUDIT_FIXES.md)**   | 8 critical corrections blocking Phase 1              |
-| **[PRD.md](docs/PRD.md)**                   | Product requirements, user stories, success metrics  |
-| **[TECHNICAL.md](docs/TECHNICAL.md)**       | Architecture Decision Records (ADRs), tech decisions |
-| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** | Development workflow, commit conventions, style      |
+## 📚 Documentation
 
-### Next Steps After Setup
+**Choose the right document for your need:**
 
-1. **Explore codebase**: Start with `src/app/(tabs)/index.tsx` (Home screen)
-2. **Review architecture**: Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-3. **Check roadmap**: See [docs/TASKS.md](docs/TASKS.md) for current phase
-4. **Critical fixes**: Review [docs/AUDIT_FIXES.md](docs/AUDIT_FIXES.md) before Phase 1
+| Document                                             | When to Read                  | Purpose                                       |
+| ---------------------------------------------------- | ----------------------------- | --------------------------------------------- |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐       | Setup & daily development     | Complete setup guide, workflow, commands      |
+| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks           | Roadmap (96 tasks across 6 phases)            |
+| **[AUDIT_FIXES.md](docs/AUDIT_FIXES.md)** 🔧         | After Phase 0.5 Bis migration | 4 critical corrections (post-migration guide) |
+| **[DATABASE.md](docs/DATABASE.md)** 💾               | Working with data/database    | WatermelonDB setup, schema, CRUD operations   |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️       | Understanding code structure  | Folder organization, patterns, imports        |
+| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓             | Understanding tech decisions  | Architecture Decision Records (ADRs)          |
+| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘 | When something breaks         | Common issues & solutions                     |
+| **[PRD.md](docs/PRD.md)** 📄                         | Understanding product vision  | Requirements, user stories, success metrics   |
+
+**Quick Navigation:**
+
+- 🎯 **Current Phase:** 0.5 Bis - Development Build Migration → [TASKS.md § Phase 0.5 Bis](docs/TASKS.md#-phase-05-bis-development-build-migration-010--next-session)
+- 🚀 **Next Steps:** See [CONTRIBUTING.md § Daily Development](docs/CONTRIBUTING.md#️-development-workflow) for workflow
 
 ---
 
@@ -132,31 +99,24 @@ npm start
 
 ## 🎯 Current Status
 
-**Version:** 0.2.0 | **Progress:** 6% (6/96 tasks) | **Phase:** 0.5 - Critical corrections
+**Version:** 0.2.0 | **Progress:** 6/96 tasks (6%) | **Phase:** 0.5 Bis - Development Build Migration
 
 ---
 
-## 🚀 Architecture Notes
+## 🚀 Key Architecture Decisions
 
-### Current Implementation (MVP Strategy)
+**Why Development Build from Day 1?**
 
-**Database:** WatermelonDB (offline-first, reactive queries) with Supabase sync
-**Sync Strategy:** WatermelonDB built-in sync protocol (optimized, conflict resolution)
-**Storage:** MMKV (10-30x faster than AsyncStorage, native encryption)
-**Charts:** Victory Native (advanced gestures, Skia rendering)
-**Performance:** Optimized for 2000+ workouts with reactive queries and indexes
+We're building with production-grade tools from the start to avoid costly refactoring later:
 
-### Why Development Build from Day 1?
+| Choice             | Why                                                      | Alternative            |
+| ------------------ | -------------------------------------------------------- | ---------------------- |
+| **WatermelonDB**   | Offline-first + Reactive queries + Built-in sync         | expo-sqlite            |
+| **MMKV**           | 10-30x faster + Native encryption                        | AsyncStorage           |
+| **Victory Native** | Professional charts + Skia rendering + Advanced gestures | react-native-chart-kit |
 
-Instead of migrating later (costly refactor), we're building with production-grade tools from the start:
+**Trade-off:** Requires Development Build (vs Expo Go) but gains production-ready architecture.
 
-1. **WatermelonDB** - Better than expo-sqlite for scalability and reactive UI
-2. **MMKV** - 10-30x faster storage with encryption (vs AsyncStorage)
-3. **Victory Native** - Professional charts with gestures (vs basic charts)
-4. **No future migration** - Avoid 1-2 weeks of refactoring later
-
-**Trade-off:** Slower iteration (rebuild for native changes) but better architecture for MVP scale.
-
-**Migration Plan:** See [docs/TASKS.md](docs/TASKS.md) Phase 0.5 Bis for migration steps.
+**→ See [TECHNICAL.md](docs/TECHNICAL.md) for complete Architecture Decision Records (ADRs)**
 
 ---

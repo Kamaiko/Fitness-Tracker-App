@@ -1,8 +1,65 @@
 # 🔧 Troubleshooting Guide
 
-Common issues and solutions for Halterofit development.
+Common issues and solutions for Halterofit development with **Development Build** stack.
 
-> **Note:** This document will grow as we encounter and fix issues. Add new problems here as you solve them!
+> **Stack**: WatermelonDB + MMKV + Victory Native (Development Build required)
+> **Note:** This document covers issues specific to our Development Build architecture.
+
+---
+
+## 📖 Quick Navigation
+
+**By Severity:**
+
+- 🔴 [Critical Issues](#-critical-issues-app-wont-start) - App won't start
+- 🟡 [Important Issues](#-important-issues-feature-broken) - Feature broken
+- 🟢 [Minor Issues](#-minor-issues-cosmetic) - Cosmetic issues
+
+**By Component:**
+
+- [Expo & Metro](#-expo--metro-bundler-issues)
+- [Development Build](#-development-build-issues)
+- [WatermelonDB](#-watermelondb-issues)
+- [MMKV Storage](#-mmkv-storage-issues)
+- [Styling & UI](#-styling--ui-issues)
+- [TypeScript](#-typescript-errors)
+
+---
+
+## 🔴 Critical Issues (App Won't Start)
+
+### Development Build Not Installed
+
+**Symptoms:**
+
+- Can't find the dev build app on device
+- QR code opens Expo Go instead
+- App icon is Expo Go logo
+
+**Cause:**
+
+- Haven't built/installed Development Build yet
+- Using Expo Go (incompatible with native modules)
+
+**Solutions:**
+
+```bash
+# 1. Build Development Build (first time, ~15-20 min)
+eas build --profile development --platform android
+# OR for iOS: eas build --profile development --platform ios
+
+# 2. Install on device
+# Scan QR code from EAS Build dashboard
+# OR download APK/IPA directly
+
+# 3. Verify installation
+# Check app icon - should NOT be Expo Go icon
+```
+
+**Prevention:**
+
+- This project requires Development Build (WatermelonDB, MMKV, Victory Native)
+- Cannot use Expo Go
 
 ---
 
@@ -11,6 +68,7 @@ Common issues and solutions for Halterofit development.
 ### Metro Bundler Won't Start
 
 **Symptoms:**
+
 - `npm start` fails
 - Port already in use error
 - Metro bundler shows errors
@@ -43,6 +101,7 @@ npx expo start -c --clear
 ### App Won't Load / White Screen
 
 **Symptoms:**
+
 - White screen on device
 - "Unable to connect" error
 - App opens but crashes immediately
@@ -67,6 +126,7 @@ npx expo start -c
 ```
 
 **Checklist:**
+
 - [ ] Computer and phone on same WiFi network
 - [ ] No VPN blocking connection
 - [ ] Firewall not blocking port 8081
@@ -77,6 +137,7 @@ npx expo start -c
 ### "Invariant Violation" or Module Import Errors
 
 **Symptoms:**
+
 - `Invariant Violation: Module AppRegistry is not a registered callable module`
 - Import errors for newly installed packages
 
@@ -97,126 +158,207 @@ npm install
 
 ---
 
-## 💾 Database Issues
+## 💾 WatermelonDB Issues
 
-### "Database is Locked" Error
+### "Cannot Find Model" or Collection Errors
 
 **Symptoms:**
-- `Error: database is locked`
-- Operations hanging
-- App freezes on database operations
+
+- `Error: Cannot find model 'workouts'`
+- `Collection 'workouts' not found`
+- App crashes on database operations
 
 **Causes:**
-- Multiple database connections open
-- Transaction not completed
-- App crashed mid-operation
+
+- Model not registered in database instance
+- Schema mismatch
+- Import path incorrect
 
 **Solutions:**
 
 ```typescript
-// 1. Always close database connections
-const db = getDatabase();
-// ... do operations
-await db.closeAsync(); // Important!
+// 1. Verify models are registered
+// In src/services/database/watermelon/index.ts
+import { Workout, Exercise, WorkoutExercise, ExerciseSet } from '@/models';
 
-// 2. Use transactions properly
-try {
-  await db.execAsync('BEGIN');
-  // ... operations
-  await db.execAsync('COMMIT');
-} catch (error) {
-  await db.execAsync('ROLLBACK');
-  throw error;
-}
+const database = new Database({
+  adapter,
+  modelClasses: [
+    Workout, // ✅ Must be registered
+    Exercise,
+    WorkoutExercise,
+    ExerciseSet,
+  ],
+});
 
-// 3. Restart app if locked
-// Kill app completely, reopen
+// 2. Check import paths
+// ❌ Wrong
+import { Workout } from '../models/Workout';
+
+// ✅ Correct
+import { Workout } from '@/models';
+
+// 3. Verify schema matches models
+// Check src/services/database/watermelon/schema.ts
 ```
-
-**Prevention:**
-- Use the database service functions (don't create manual connections)
-- Always wrap multi-step operations in transactions
-- Never keep connections open longer than needed
 
 ---
 
-### Database Schema Outdated
+### WatermelonDB Schema Outdated
 
 **Symptoms:**
+
 - `no such column` errors
 - Type errors on database operations
 - Missing tables or fields
 
 **Cause:**
-- Schema changed but old database still exists
+
+- Schema version changed but old database still exists
 
 **Solutions:**
 
 ```bash
-# Option 1: Delete app data (iOS/Android)
+# Option 1: Delete app data (recommended)
 # Uninstall app from device, reinstall
 
-# Option 2: Manual reset (development only!)
-# Add this code temporarily in app/_layout.tsx:
-import { resetDatabase } from '@/services/database';
+# Option 2: Clear WatermelonDB cache (dev only)
+import { database } from '@/services/database/watermelon';
 
-useEffect(() => {
-  resetDatabase().then(() => {
-    console.log('Database reset!');
-  });
-}, []);
-
-# Then remove the code and reload
+await database.write(async () => {
+  await database.unsafeResetDatabase();
+});
 ```
 
-**⚠️ WARNING:** `resetDatabase()` deletes ALL data. Use only in development!
+**⚠️ WARNING:** `unsafeResetDatabase()` deletes ALL data. Use only in development!
 
 ---
 
-### Query Returns `null` or Empty Array
+### Query Returns `undefined` or Empty Array
 
 **Symptoms:**
-- `getWorkoutById()` returns `null`
-- `getUserWorkouts()` returns `[]`
+
+- `workout.observe()` returns empty
+- `database.collections.get('workouts').find(id)` throws
 - Data exists but queries fail
 
 **Common Causes:**
 
 ```typescript
 // 1. Wrong user_id (user not authenticated)
-const userId = await getPersistedUserId();
+const userId = getPersistedUserId();
 if (!userId) {
-  // User not logged in!
   console.log('User not authenticated');
 }
 
-// 2. Wrong data type
-await db.runAsync('SELECT * FROM workouts WHERE id = ?', [123]);
-// ❌ id is TEXT, not number
-
-await db.runAsync('SELECT * FROM workouts WHERE id = ?', ['123']);
-// ✅ Correct
-
-// 3. Checking wrong field
-const workout = await getWorkoutById('abc');
-if (!workout) {
-  // Workout doesn't exist OR query failed
-  console.log('Workout not found or error');
+// 2. Using find() for non-existent records
+try {
+  const workout = await workoutsCollection.find('invalid-id');
+  // ❌ Throws if not found
+} catch (error) {
+  console.log('Workout not found');
 }
+
+// ✅ Better: Use query
+const workouts = await workoutsCollection.query(Q.where('id', 'some-id')).fetch();
+if (workouts.length === 0) {
+  console.log('Workout not found');
+}
+
+// 3. Reactive queries not updating
+// Make sure you're using .observe()
+const workouts = workoutsCollection.query().observe(); // ✅ Returns Observable
 ```
 
 **Debugging:**
 
 ```typescript
-// Enable query logging
-const db = getDatabase();
-db.addChangeListener((event) => {
-  console.log('DB Change:', event);
-});
+// Check total records
+const total = await database.collections.get('workouts').query().fetchCount();
+console.log('Total workouts:', total);
 
-// Check if data exists
-const all = await db.getAllAsync('SELECT * FROM workouts');
-console.log('Total workouts:', all.length);
+// Enable WatermelonDB logging
+import { Database } from '@nozbe/watermelondb';
+Database.setLogLevel('verbose');
+```
+
+---
+
+## 🔐 MMKV Storage Issues
+
+### "MMKV Not Found" or Native Module Error
+
+**Symptoms:**
+
+- `Error: MMKV native module not found`
+- App crashes when accessing storage
+- `mmkvStorage.get()` throws error
+
+**Cause:**
+
+- Development Build not installed (using Expo Go)
+- Native module not linked
+
+**Solutions:**
+
+```bash
+# 1. Verify you're using Development Build (NOT Expo Go)
+# Check app icon - should NOT be Expo Go icon
+
+# 2. Rebuild Development Build
+eas build --profile development --platform android
+# Wait for build, install new version
+
+# 3. Clear cache and restart
+npm start -- --clear
+```
+
+**Prevention:**
+
+- MMKV requires Development Build - cannot use Expo Go
+- Always use Development Build for this project
+
+---
+
+### Storage Data Not Persisting
+
+**Symptoms:**
+
+- `mmkvStorage.set()` works but data lost after restart
+- `mmkvStorage.get()` returns null after app reload
+
+**Causes:**
+
+- Wrong key name
+- Data not being set correctly
+- Zustand persist middleware not configured
+
+**Solutions:**
+
+```typescript
+// 1. Verify data is set
+mmkvStorage.set('test-key', 'test-value');
+const value = mmkvStorage.get('test-key');
+console.log('Value:', value); // Should be 'test-value'
+
+// 2. Check Zustand persist config
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { zustandMMKVStorage } from '@/services/storage';
+
+export const useStore = create(
+  persist(
+    (set) => ({
+      /* state */
+    }),
+    {
+      name: 'my-storage',
+      storage: createJSONStorage(() => zustandMMKVStorage), // ✅ Correct
+    }
+  )
+);
+
+// 3. Verify encryption key (optional)
+// Check src/services/storage/mmkvStorage.ts
 ```
 
 ---
@@ -226,6 +368,7 @@ console.log('Total workouts:', all.length);
 ### Tailwind Classes Not Working
 
 **Symptoms:**
+
 - `className="..."` has no effect
 - Styles not applied
 - Layout broken
@@ -269,11 +412,13 @@ import '../../global.css';
 ### Colors Not Matching / Theme Issues
 
 **Symptoms:**
+
 - Colors look wrong
 - Chart colors don't match theme
 - Inconsistent styling
 
 **Cause:**
+
 - `src/constants/colors.ts` not matching `tailwind.config.js`
 
 **Solution:**
@@ -283,7 +428,7 @@ import '../../global.css';
 export const Colors = {
   primary: {
     DEFAULT: '#4299e1', // MUST match tailwind.config.js
-  }
+  },
 };
 
 // tailwind.config.js
@@ -293,14 +438,15 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#4299e1', // MUST match Colors.ts
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 };
 ```
 
 **Check:**
+
 - [ ] Colors match between `colors.ts` and `tailwind.config.js`
 - [ ] Using `Colors` not `COLORS` (naming changed)
 - [ ] Importing from `@/constants` not `@/constants/colors`
@@ -312,10 +458,12 @@ module.exports = {
 ### User Lost on App Restart
 
 **Symptoms:**
+
 - User logged in, app restart → logged out
 - `useAuthStore.getState().user` is `null` after reload
 
 **Cause:**
+
 - Zustand not persisted (will be fixed in Correction #2)
 - AsyncStorage not saving user
 
@@ -330,6 +478,7 @@ console.log('Persisted user ID:', userId);
 ```
 
 **Permanent Fix:**
+
 - See [AUDIT_FIXES.md](./AUDIT_FIXES.md) → Correction #1 & #2
 
 ---
@@ -337,6 +486,7 @@ console.log('Persisted user ID:', userId);
 ### Supabase "Invalid API Key" Error
 
 **Symptoms:**
+
 - `Supabase client error: Invalid API key`
 - Auth operations fail
 
@@ -382,6 +532,7 @@ EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 ### "Cannot Find Module" After npm install
 
 **Symptoms:**
+
 - `Error: Cannot find module 'some-package'`
 - Package installed but not found
 
@@ -405,6 +556,7 @@ npx expo start -c
 ### Peer Dependency Warnings
 
 **Symptoms:**
+
 - `npm install` shows peer dependency warnings
 - Different React versions
 
@@ -425,6 +577,7 @@ npm install --legacy-peer-deps
 ### "Cannot find name" or Import Errors
 
 **Symptoms:**
+
 - TypeScript can't find imports
 - `Cannot find name 'Colors'`
 - VSCode shows red squiggles
@@ -470,6 +623,7 @@ npm run type-check
 ### App Slow / Laggy
 
 **Symptoms:**
+
 - UI feels sluggish
 - Animations choppy
 - Long loading times
@@ -494,6 +648,7 @@ console.log('Query took:', Date.now() - start, 'ms');
 ```
 
 **Common Causes:**
+
 - Slow database queries (missing indexes → see Correction #6)
 - Too many re-renders
 - Large lists without FlashList
@@ -517,19 +672,23 @@ When you encounter and fix a new issue:
 ### Issue Name
 
 **Symptoms:**
+
 - What you see/experience
 
 **Cause:**
+
 - Why it happens
 
 **Solutions:**
 [bash/typescript code blocks]
 
 **Prevention:**
+
 - How to avoid in future
 ```
 
 3. **Commit the change:**
+
 ```bash
 git add docs/TROUBLESHOOTING.md
 git commit -m "docs(troubleshooting): add solution for [issue]"
@@ -542,6 +701,7 @@ git commit -m "docs(troubleshooting): add solution for [issue]"
 If issue not listed here:
 
 1. **Check Git commits** for similar fixes:
+
    ```bash
    git log --grep="fix" --oneline
    ```

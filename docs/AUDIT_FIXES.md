@@ -7,6 +7,25 @@
 
 ---
 
+## ⚡ TL;DR - Quick Summary
+
+**4 corrections à faire APRÈS migration Development Build:**
+
+| #   | Correction          | Impact si non fait                       | Temps | Priorité  |
+| --- | ------------------- | ---------------------------------------- | ----- | --------- |
+| 1   | User ID Persistence | 🔴 Data loss, RGPD violation             | 2.5h  | CRITICAL  |
+| 2   | Zustand Persist     | 🔴 Workout lost on crash                 | 2.5h  | CRITICAL  |
+| 3   | Error Handling      | ⚠️ Poor UX, difficult debugging          | 3h    | IMPORTANT |
+| 4   | Chart Abstraction   | 📘 3h refactor if changing chart library | 3h    | OPTIONAL  |
+
+**Total Critical:** 8h | **Recommended:** 11h | **Optimal:** 11h
+
+**Corrections #4-#8 de l'audit original sont OBSOLÈTES** - WatermelonDB les résout nativement (Repository pattern, sync conflicts, indexes, domain types).
+
+**→ START HERE:** [Correction #1: User ID Persistence](#correction-1-user-id-persistence-)
+
+---
+
 ## 📍 Où en sommes-nous?
 
 ### ✅ Ce qui fonctionne bien
