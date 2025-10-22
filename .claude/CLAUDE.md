@@ -354,9 +354,9 @@ Read(file_path="docs/TASKS.md", offset=190, limit=10)
 
 ## 🔄 Session End Checklist (AUTOMATED)
 
-**See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md) for complete automation details.**
+**Complete automation details**: See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md)
 
-Before ending session, automatically detect triggers and execute documentation updates:
+Before ending session, follow this 5-phase automated workflow:
 
 ### Phase 1: Detect Triggers
 
@@ -371,100 +371,44 @@ Check which events occurred during this session:
 [ ] FEATURE_ADDED - New feature implementation complete?
 ```
 
+**→ Trigger descriptions and detection rules**: See DOC_AUTOMATION_SYSTEM.md § Trigger Types
+
 ### Phase 2: Generate Update Plan
 
-For each detected trigger, generate precise updates:
+For each detected trigger, determine exact updates needed.
 
-**TASK_COMPLETE Trigger:**
-```markdown
-Automatic updates:
-1. docs/TASKS.md → Mark checkbox [x] (exact line)
-2. docs/TASKS.md → Increment progress counter (line 56)
-3. docs/TASKS.md → Update badge % (line 5)
-4. README.md → Sync progress (line 102)
+**→ Complete workflows for each trigger**: See DOC_AUTOMATION_SYSTEM.md § Automatic Update Workflows
+
+**Quick reference**:
+- TASK_COMPLETE → 4 updates (checkbox, counter, badge, README sync)
+- PHASE_COMPLETE → 5 updates (mark complete, move marker, update status)
+- BUG_FIXED → Add to TROUBLESHOOTING.md with structured format
+- TECH_DECISION → Add ADR to TECHNICAL.md
+- SCHEMA_CHANGE → Update DATABASE.md + TECHNICAL.md
+- FEATURE_ADDED → Update relevant docs (README, ARCHITECTURE, DATABASE)
+
+### Phase 3: Execute Updates
+
+Use 4-step verification process (detailed in § Pre-Update Verification):
+
+```bash
+1. Read current state (verify content and line numbers)
+2. Announce EXACT changes (file, section, line, before/after)
+3. Execute with exact strings (Edit tool)
+4. Verify change applied (Read again)
 ```
 
-**PHASE_COMPLETE Trigger:**
-```markdown
-Automatic updates:
-1. docs/TASKS.md → Mark phase complete (add ✅)
-2. docs/TASKS.md → Move "YOU ARE HERE" marker
-3. docs/TASKS.md → Add "⭐ NEXT SESSION" to next phase
-4. README.md → Update current phase (line 102)
-5. docs/TECHNICAL.md → Update status header (line 5)
-```
-
-**BUG_FIXED Trigger:**
-```markdown
-Automatic updates:
-1. docs/TROUBLESHOOTING.md → Add new section under appropriate category
-   Format:
-   ### [Bug Title]
-   **Symptoms:** [Auto-extracted from error]
-   **Cause:** [Root cause]
-   **Solution:** [Code/commands used]
-```
-
-**TECH_DECISION Trigger:**
-```markdown
-Automatic updates:
-1. docs/TECHNICAL.md → Add ADR-XXX after last ADR
-   Format:
-   ### ADR-XXX: [Decision Name]
-   **Decision:** [What was decided]
-   **Rationale:** [Why this choice]
-   **Trade-offs:** [Pros/cons]
-   **Status:** ✅ Implemented
-```
-
-**SCHEMA_CHANGE Trigger:**
-```markdown
-Automatic updates:
-1. docs/DATABASE.md → Update schema definition (relevant table)
-2. docs/TECHNICAL.md → Update schema reference (if needed)
-```
-
-**FEATURE_ADDED Trigger:**
-```markdown
-Automatic updates:
-1. README.md → Add to features list (if user-facing)
-2. docs/ARCHITECTURE.md → Document new pattern (if architectural)
-3. docs/DATABASE.md → Add usage example (if DB-related)
-```
-
-### Phase 3: Execute Updates (4-Step Process)
-
-For each update in the plan:
-
-```typescript
-// Step 1: Read current state
-Read(file_path, offset, limit);
-
-// Step 2: Verify expected content
-assert(current.includes(expectedContent));
-
-// Step 3: Make precise edit
-Edit({
-  file_path,
-  old_string: exactCurrentString,
-  new_string: exactNewString
-});
-
-// Step 4: Verify change applied
-Read(file_path, offset, limit);
-assert(updated.includes(newContent));
-```
+**CRITICAL**: Follow precision rules from § Documentation Update Protocol
 
 ### Phase 4: Commit Documentation
 
-Atomic commit with conventional message:
+Create atomic commit with conventional message:
 
 ```bash
-# Examples:
-git commit -m "docs: update progress after completing task 0.5bis.3"
-git commit -m "docs: mark Phase 0.5 Bis complete and prepare Phase 1"
-git commit -m "docs(troubleshooting): add solution for WatermelonDB sync error"
-git commit -m "docs(technical): add ADR-013 ExerciseDB integration"
+git commit -m "docs: update progress after completing task X"
+git commit -m "docs: mark Phase X complete and prepare Phase Y"
+git commit -m "docs(troubleshooting): add solution for [issue]"
+git commit -m "docs(technical): add ADR-XXX [decision]"
 ```
 
 ### Phase 5: Manual Verification
@@ -472,7 +416,7 @@ git commit -m "docs(technical): add ADR-013 ExerciseDB integration"
 ```bash
 [ ] npm run type-check ✅
 [ ] git status clean OR meaningful WIP commit
-[ ] TASKS.md has "⭐ NEXT SESSION" marker (verified)
+[ ] TASKS.md has "⭐ NEXT SESSION" marker (verified by reading file)
 [ ] All doc updates committed in single atomic commit
 ```
 
