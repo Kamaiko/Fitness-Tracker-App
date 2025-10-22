@@ -9,18 +9,18 @@ Common issues and solutions for Halterofit development with **Development Build*
 
 ## 📑 Table of Contents
 
-- [📖 Quick Navigation](#-quick-navigation)
-- [🔴 Critical Issues (App Won't Start)](#-critical-issues-app-wont-start)
-- [📱 Expo & Metro Bundler Issues](#-expo--metro-bundler-issues)
-- [💾 WatermelonDB Issues](#-watermelondb-issues)
-- [🔐 MMKV Storage Issues](#-mmkv-storage-issues)
-- [🎨 Styling & UI Issues](#-styling--ui-issues)
-- [🔐 Authentication Issues](#-authentication-issues)
-- [📦 npm / Dependency Issues](#-npm--dependency-issues)
-- [🐛 TypeScript Errors](#-typescript-errors)
-- [🚀 Performance Issues](#-performance-issues)
-- [📝 Adding New Issues to This Guide](#-adding-new-issues-to-this-guide)
-- [🆘 Still Stuck?](#-still-stuck)
+- [📖 Quick Navigation](#quick-navigation)
+- [🔴 Critical Issues (App Won't Start)](#critical-issues-app-wont-start)
+- [📱 Expo & Metro Bundler Issues](#expo--metro-bundler-issues)
+- [💾 WatermelonDB Issues](#watermelondb-issues)
+- [🔐 MMKV Storage Issues](#mmkv-storage-issues)
+- [🎨 Styling & UI Issues](#styling--ui-issues)
+- [🔐 Authentication Issues](#authentication-issues)
+- [📦 npm / Dependency Issues](#npm--dependency-issues)
+- [🐛 TypeScript Errors](#typescript-errors)
+- [🚀 Performance Issues](#performance-issues)
+- [📝 Adding New Issues to This Guide](#adding-new-issues-to-this-guide)
+- [🆘 Still Stuck?](#still-stuck)
 
 ---
 
@@ -28,18 +28,18 @@ Common issues and solutions for Halterofit development with **Development Build*
 
 **By Severity:**
 
-- 🔴 [Critical Issues](#-critical-issues-app-wont-start) - App won't start
-- 🟡 [Important Issues](#-important-issues-feature-broken) - Feature broken
-- 🟢 [Minor Issues](#-minor-issues-cosmetic) - Cosmetic issues
+- 🔴 [Critical Issues](#critical-issues-app-wont-start) - App won't start
+- 🟡 [Important Issues](#important-issues-feature-broken) - Feature broken
+- 🟢 [Minor Issues](#minor-issues-cosmetic) - Cosmetic issues
 
 **By Component:**
 
-- [Expo & Metro](#-expo--metro-bundler-issues)
-- [Development Build](#-development-build-issues)
-- [WatermelonDB](#-watermelondb-issues)
-- [MMKV Storage](#-mmkv-storage-issues)
-- [Styling & UI](#-styling--ui-issues)
-- [TypeScript](#-typescript-errors)
+- [Expo & Metro](#expo--metro-bundler-issues)
+- [Development Build](#development-build-issues)
+- [WatermelonDB](#watermelondb-issues)
+- [MMKV Storage](#mmkv-storage-issues)
+- [Styling & UI](#styling--ui-issues)
+- [TypeScript](#typescript-errors)
 
 ---
 

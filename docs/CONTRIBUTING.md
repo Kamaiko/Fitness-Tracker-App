@@ -6,13 +6,13 @@ Welcome to Halterofit! This guide will help you set up the project and start con
 
 ## 📑 Table of Contents
 
-- [🚀 Quick Start](#-quick-start)
-- [🛠️ Development Workflow](#️-development-workflow)
-- [📋 Pre-Commit Checklist](#-pre-commit-checklist)
-- [📚 Documentation](#-documentation)
-- [🎨 Coding Standards](#-coding-standards)
-- [🐛 Common Issues](#-common-issues)
-- [📝 Commands](#-commands)
+- [🚀 Quick Start](#quick-start)
+- [🛠️ Development Workflow](#development-workflow)
+- [📋 Pre-Commit Checklist](#pre-commit-checklist)
+- [📚 Documentation](#documentation)
+- [🎨 Coding Standards](#coding-standards)
+- [🐛 Common Issues](#common-issues)
+- [📝 Commands](#commands)
 
 ---
 
