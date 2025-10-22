@@ -1,11 +1,13 @@
 # 🦾 Halterofit - Intelligent Bodybuilding Platform
-*Plan de Développement MVP-First Strategy*
+
+_Plan de Développement MVP-First Strategy_
 
 > **MVP-First Approach** : Ce document présente notre stratégie de développement en phases, en commençant par un MVP solide pour valider le marché, puis en évoluant vers la plateforme complète.
 
 ---
 
 ## 📋 Table des Matières
+
 1. [Vision et Objectifs Long Terme](#-vision-et-objectifs-long-terme)
 2. [MVP Strategy & Focus](#-mvp-strategy--focus)
 3. [Public Cible](#-public-cible)
@@ -23,9 +25,11 @@
 ## 🎯 Vision et Objectifs Long Terme
 
 ### Mission Statement
+
 **"Révolutionner l'entraînement en musculation grâce à l'intelligence artificielle et l'analyse de données avancée, pour maximiser les gains de chaque athlète."**
 
 ### Problèmes Résolus (Vision Complète)
+
 - **Stagnation**: 80% des pratiquants abandonnent après 6 mois à cause des plateaux
 - **Overtraining**: Manque de signaux objectifs pour détecter la surcharge
 - **Personnalisation**: Programs one-size-fits-all qui ignorent l'individualité
@@ -33,9 +37,11 @@
 - **Data Fragmentation**: Données éparpillées (nutrition, training, récupération)
 
 ### Vision à Long Terme
+
 Devenir la référence mondiale pour l'optimisation de performance en bodybuilding, combinant science du sport moderne et besoins réels des athlètes sérieux.
 
 ### Différenciateurs Clés (Avantage Concurrentiel)
+
 1. **Intelligence Prédictive**: Anticipe plateaux et overtraining avant qu'ils surviennent
 2. **Enhanced-Friendly**: Seule app à reconnaître et optimiser pour enhanced athletes
 3. **RPE Analytics**: Système d'effort perçu le plus avancé du marché
@@ -47,25 +53,31 @@ Devenir la référence mondiale pour l'optimisation de performance en bodybuildi
 ## 🚀 MVP Strategy & Focus
 
 ### Philosophy MVP-First
+
 Notre approche phased permet de **valider le marché rapidement** tout en construisant les fondations pour les features avancées futures.
 
 ### MVP Core Value Proposition
+
 **"Le seul fitness tracker qui comprend vraiment les bodybuilders sérieux"**
 
 #### Pourquoi MVP d'abord ?
+
 1. **Validation rapide** : Tester l'adéquation produit-marché en 3 mois
 2. **Learning acceleré** : Feedback réel d'utilisateurs pour orienter Phase 2
 3. **Ressources limitées** : Focus sur l'exécution plutôt que sur la sur-ingénierie
 4. **Competitive advantage** : Time-to-market rapide avant que la concurrence réagisse
 
 #### MVP Success Criteria
+
 - **100 beta users** actifs après 3 mois
 - **50% D7 retention** (industry benchmark: 25%)
 - **NPS > 40** (satisfaction utilisateur)
 - **3.5 workouts/semaine** par utilisateur actif
 
 ### MVP Scope Discipline
+
 **✅ In Scope (MVP)**
+
 - Smart workout logging avec RPE
 - Exercise library (500+ exercices)
 - Basic analytics avec trends
@@ -74,6 +86,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - Energy readiness score
 
 **❌ Out of Scope (Phase 2)**
+
 - Voice commands
 - Social features
 - Enhanced athlete tracking
@@ -81,6 +94,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - Body composition analysis
 
 **🔮 Future Vision (Phase 3)**
+
 - Full AI coaching platform
 - Enhanced athlete ecosystem
 - Coaching marketplace
@@ -93,6 +107,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 ### MVP Target: Focus Personas Prioritaires
 
 #### **Primary MVP Target: "Alex - Serious Natural Lifter"** ⭐
+
 - **Âge**: 20-35 ans
 - **Expérience**: 2-5 années d'entraînement sérieux
 - **Statut**: Natural, orienté data
@@ -106,6 +121,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - **MVP Value**: "Enfin une app qui comprend la musculation sérieuse"
 
 #### **Secondary MVP Target: "Sarah - Natural Competitor"**
+
 - **Âge**: 22-30 ans
 - **Expérience**: Compétitrice bikini/physique
 - **Statut**: Natural + drug tested
@@ -118,6 +134,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - **MVP Value**: "Analytics qui comprennent la preparation competition"
 
 #### **Future Target: "Marcus - Enhanced Bodybuilder"** (Phase 2)
+
 - **Âge**: 25-35 ans
 - **Expérience**: 5+ années d'entraînement sérieux
 - **Statut**: Enhanced (TRT/cycles)
@@ -130,11 +147,13 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - **Future Value**: "La seule app enhanced-friendly au monde"
 
 ### MVP Market Segments Strategy
+
 - **MVP Focus (80%)**: Serious natural lifters + competitors
 - **Phase 2 Expansion (60%)**: Enhanced bodybuilders (différenciateur clé)
 - **Phase 3 (10%)**: Powerlifters/strongmen, general fitness evolution
 
 ### MVP User Acquisition Strategy
+
 1. **Reddit Communities**: r/naturalbodybuilding, r/powerlifting
 2. **YouTube Partnerships**: Evidence-based fitness channels
 3. **Instagram**: Natural bodybuilding influencers
@@ -147,29 +166,34 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 ### Concurrents Directs
 
 #### JeFit
+
 **Forces**: Base d'exercices massive, interface propre
 **Faiblesses**: Analytics basiques, pas d'IA, généraliste
 **Part de marché**: ~2M utilisateurs
 **Pricing**: Freemium 6.99$/mois
 
 #### Strong (iOS)
+
 **Forces**: UX excellente, sync rapide
 **Faiblesses**: iOS only, pas d'analytics avancés
 **Part de marché**: ~500K utilisateurs
 **Pricing**: One-time 4.99$
 
 #### Hevy
+
 **Forces**: Interface moderne, analytics correctes
 **Faiblesses**: Pas d'IA prédictive, programs limités
 **Part de marché**: ~1M utilisateurs
 **Pricing**: Freemium 8.99$/mois
 
 ### Concurrents Indirects
+
 - **MyFitnessPal**: Nutrition (pas training)
 - **Whoop**: Recovery (pas strength)
 - **TrainerRoad**: Cyclisme (excellentes analytics)
 
 ### Opportunités de Différenciation
+
 1. **Niche Focus**: Bodybuilding vs fitness général
 2. **Enhanced Market**: Marché non-adressé de 10M+ athlètes
 3. **Predictive AI**: Technologie supérieure aux concurrents
@@ -181,16 +205,18 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 
 > **MVP Timeline** : 12 semaines (voir [MVP_ROADMAP.md](docs/MVP_ROADMAP.md) pour détails sprint par sprint)
 
-### 1. Smart Workout Logger 🏋️ *(MVP Core)*
+### 1. Smart Workout Logger 🏋️ _(MVP Core)_
 
 #### Interface de Logging MVP
+
 - **Quick Entry**: Tap pour log sets, interface optimisée gym
 - **Auto-Timer**: Rest periods adaptatifs selon exercice et RPE
 - **Offline-First**: Fonctionne sans connexion (essentiel gym)
 - **Exercise Library**: 500+ exercices avec instructions (Phase 1)
 - **Gesture Controls**: Swipe pour ajuster poids, tap pour increment
 
-#### RPE Tracking System ⭐ *(Différenciateur MVP)*
+#### RPE Tracking System ⭐ _(Différenciateur MVP)_
+
 - **Scale 1-10**: Plus intuitive pour MVP que 1-100
 - **Visual Feedback**: Interface claire avec couleurs RPE
 - **Quick Selection**: Tap rapide pour RPE après chaque set
@@ -198,30 +224,34 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - **Pattern Alerts**: "RPE élevé 3 sets de suite, considérer repos"
 
 #### Session Analytics MVP
+
 - **Volume Tracking**: Sets × reps × poids par muscle group
 - **Basic Intensity**: RPE moyen, max par exercice
 - **Time Tracking**: Durée totale, temps par exercice
 - **Session Notes**: Notes rapides post-workout
 - **PR Detection**: Highlight automatique des records personnels
 
-### 2. Performance Analytics 📊 *(MVP Intelligence)*
+### 2. Performance Analytics 📊 _(MVP Intelligence)_
 
 #### Basic Trend Analysis
+
 - **Strength Progression**: Graphiques simples par exercice
 - **Volume Trends**: Progression weekly/monthly
 - **RPE Patterns**: Trends de difficulté par période
 - **Workout Frequency**: Consistency tracking
 - **Export Data**: CSV pour analyse externe
 
-#### Plateau Detection Engine 🚨 *(MVP Différenciateur)*
+#### Plateau Detection Engine 🚨 _(MVP Différenciateur)_
+
 - **Auto-Detection**: Stagnation >3 semaines identifiée automatiquement
 - **Confidence Score**: Probabilité statistique de plateau réel
 - **Breaking Suggestions**: Protocols basés sur science (volume, technique, deload)
 - **Progress Alerts**: "Aucun progrès sur Bench Press depuis 3 semaines"
 
-### 3. Energy Readiness Score 🎯 *(MVP Innovation)*
+### 3. Energy Readiness Score 🎯 _(MVP Innovation)_
 
 #### Questionnaire Rapide (30 secondes)
+
 - **Sleep Quality**: 1-10 avec durée optionnelle
 - **Energy Level**: Comment tu te sens aujourd'hui
 - **Motivation**: Mental readiness pour training
@@ -229,6 +259,7 @@ Notre approche phased permet de **valider le marché rapidement** tout en constr
 - **Stress Level**: Impact vie personnelle/travail
 
 #### Score & Recommendations
+
 ```typescript
 interface ReadinessScore {
   overall: number; // 0-100
@@ -239,14 +270,16 @@ interface ReadinessScore {
 ```
 
 **Adaptive Suggestions MVP**:
+
 - **Green (80-100)**: "Go hard, excellente journée pour PRs"
 - **Yellow (60-79)**: "Session normale, maintenir qualité"
 - **Orange (40-59)**: "Session légère, focus technique"
 - **Red (<40)**: "Repos ou récupération active recommandé"
 
-### 4. Exercise Library & Programs 📚 *(MVP Foundation)*
+### 4. Exercise Library & Programs 📚 _(MVP Foundation)_
 
 #### Exercise Database MVP
+
 - **500+ Exercices**: Focus bodybuilding + powerlifting basics
 - **Search & Filter**: Par muscle group, équipement, difficulté
 - **Instructions**: Texte clair + tips de technique
@@ -254,6 +287,7 @@ interface ReadinessScore {
 - **Recently Used**: Smart suggestions basées sur historique
 
 #### Basic Program Templates
+
 - **Push/Pull/Legs**: Version 3,4,5,6 jours
 - **Upper/Lower**: 2x et 3x par semaine
 - **Full Body**: Pour débutants
@@ -279,9 +313,11 @@ interface ReadinessScore {
 ### Phase 2: Intelligence & Social (Mois 4-6)
 
 #### 1. Advanced Program Builder 🧠
+
 - **Auto-Periodization**: Linear, block, daily undulating, conjugate
 - **Template Library Étendue**: 20+ programs scientifiques
 - **Volume Guidelines Intelligentes**:
+
 ```typescript
 interface VolumeGuidelines {
   muscleGroup: string;
@@ -290,11 +326,12 @@ interface VolumeGuidelines {
     intermediate: [number, number];
     advanced: [number, number];
   };
-  frequency: { minimum: number; optimal: number; maximum: number; };
+  frequency: { minimum: number; optimal: number; maximum: number };
 }
 ```
 
 #### 2. Advanced Analytics & Voice Commands 🎤
+
 - **Voice Logging**: "15 reps à 225 pounds"
 - **RPE Heatmaps**: Patterns de fatigue visuels
 - **Advanced Visualizations**: Strength curves, comparative analysis
@@ -302,6 +339,7 @@ interface VolumeGuidelines {
 - **Predictive Analytics**: Modèle SRA (Stimulus-Recovery-Adaptation)
 
 #### 3. Social Features & Community 👥
+
 - **Training Partners**: Shared workouts, motivation
 - **Leaderboards**: Anonymous competitive elements
 - **Progress Sharing**: Privacy-controlled achievements
@@ -309,8 +347,10 @@ interface VolumeGuidelines {
 
 ### Phase 3: Enhanced & AI Platform (Mois 7+)
 
-#### 1. Enhanced Athlete Ecosystem 💊 *(Différenciateur Unique)*
+#### 1. Enhanced Athlete Ecosystem 💊 _(Différenciateur Unique)_
+
 **Discrete Cycle Tracking**:
+
 - **Phase Tracking**: Natural, Cruise, Blast, PCT
 - **Compound Logging**: Anonymized statistical database
 - **Performance Correlation**: Dosage vs gains analysis
@@ -318,31 +358,37 @@ interface VolumeGuidelines {
 - **Privacy & Security**: End-to-end encryption, legal compliance
 
 #### 2. AI Coaching Platform 🤖
+
 - **Plateau Breaking Engine**: Advanced algorithmic protocols
 - **Personalized Programming**: AI-generated workouts
 - **Recovery Optimization**: Multi-source integration (Whoop, Oura, etc.)
 - **Performance Prediction**: 3-6-12 month projections
 
 #### 3. Body Composition & Advanced Analytics 📸
+
 - **Photo Progress Tracking**: AI-powered BF% estimation
 - **Muscle Gain Visualization**: Change highlighting
 - **Timeline Projections**: "Future you" predictions
 - **Supplement Stack Optimizer**: Evidence-based recommendations
 
 #### 4. Platform Ecosystem 🌐
+
 - **Coaching Marketplace**: Expert-created programs
 - **Research Contribution**: Anonymous data for science
 - **API Access**: Third-party integrations
 - **Enterprise Features**: Gym chain partnerships
 
 #### Privacy & Security
+
 - **End-to-End Encryption**: Données sensibles chiffrées
 - **Anonymous Analytics**: Agrégation sans identification
 - **Legal Compliance**: Recherche scientifique framework
 - **User Control**: Delete data permanently option
 
 ### 2. Plateau Breaking Protocol Engine
+
 #### Detection Algorithm
+
 ```typescript
 interface PlateauDetection {
   exercise: string;
@@ -357,11 +403,12 @@ enum PlateauCause {
   FREQUENCY_TOO_LOW,
   TECHNIQUE_DEGRADATION,
   RECOVERY_INADEQUATE,
-  MOTIVATION_DECLINE
+  MOTIVATION_DECLINE,
 }
 ```
 
 #### Breaking Protocols
+
 - **Volume Waves**: Planned overreaching cycles
 - **Technique Variations**: Movement pattern changes
 - **Intensity Methods**: Cluster sets, rest-pause, drop sets
@@ -369,7 +416,9 @@ enum PlateauCause {
 - **Deload Strategies**: Complete rest vs active recovery
 
 ### 3. Body Composition Prediction
+
 #### Photo Analysis
+
 - **Progress Tracking**: Side-by-side comparisons
 - **BF% Estimation**: AI trained sur DEXA correlations
 - **Muscle Gain Visualization**: Highlighting changes
@@ -377,6 +426,7 @@ enum PlateauCause {
 - **Privacy Options**: Local storage only option
 
 #### Prediction Engine
+
 - **Timeline Projections**: 3,6,12 month physique
 - **Program Impact**: Visual différence entre programs
 - **Nutrition Scenarios**: Bulk vs cut vs recomp
@@ -384,7 +434,9 @@ enum PlateauCause {
 - **Motivation Tool**: Daily "future you" reminder
 
 ### 4. Supplement Stack Optimizer
+
 #### Database Scientifique
+
 - **Evidence Ratings**: Meta-analyses > RCTs > studies
 - **Dosage Recommendations**: Efficacité vs sécurité
 - **Timing Protocols**: Pre/post/throughout day
@@ -392,6 +444,7 @@ enum PlateauCause {
 - **Cost-Effectiveness**: $/gram protein, $/performance unit
 
 #### Personalized Stacks
+
 ```typescript
 interface SupplementRecommendation {
   goal: Goal; // Strength, size, recovery, health
@@ -410,7 +463,9 @@ interface SupplementRecommendation {
 ```
 
 ### 5. Recovery Optimization Suite
+
 #### Multi-Source Integration
+
 - **Wearables**: Whoop, Oura, Garmin HRV
 - **Sleep Tracking**: Duration, phases, efficiency
 - **Stress Markers**: Cortisol patterns, life events
@@ -418,6 +473,7 @@ interface SupplementRecommendation {
 - **Environmental**: Temperature, light exposure
 
 #### Recovery Recommendations
+
 - **Sleep Optimization**: Timing, environment, supplements
 - **Stress Management**: Meditation, breathing techniques
 - **Active Recovery**: Low-intensity activities
@@ -429,6 +485,7 @@ interface SupplementRecommendation {
 ## 🏗️ Architecture Technique
 
 ### Frontend Stack
+
 ```typescript
 // Core Technologies
 React 18 (Concurrent Features)
@@ -458,6 +515,7 @@ PWA Features (Push Notifications)
 ```
 
 ### Backend Architecture
+
 ```yaml
 # Supabase as Backend-as-a-Service
 Database: PostgreSQL 15+
@@ -480,6 +538,7 @@ Analytics: PostHog (Privacy-Focused)
 ```
 
 ### Data Flow Architecture
+
 ```mermaid
 graph TD
     A[User Input] --> B[React Components]
@@ -494,6 +553,7 @@ graph TD
 ```
 
 ### Security Considerations
+
 - **Authentication**: Multi-factor avec recovery
 - **Authorization**: Role-based access control
 - **Data Encryption**: Sensitive data at rest
@@ -507,6 +567,7 @@ graph TD
 ### Core Entities
 
 #### Users Table
+
 ```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -538,6 +599,7 @@ CREATE TABLE users (
 ```
 
 #### Workouts Table
+
 ```sql
 CREATE TABLE workouts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -568,6 +630,7 @@ CREATE TABLE workouts (
 ```
 
 #### Exercises Table
+
 ```sql
 CREATE TABLE exercises (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -593,6 +656,7 @@ CREATE TABLE exercises (
 ```
 
 #### Exercise_Sets Table
+
 ```sql
 CREATE TABLE exercise_sets (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -622,6 +686,7 @@ CREATE TABLE exercise_sets (
 ```
 
 #### Programs Table
+
 ```sql
 CREATE TABLE programs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -651,6 +716,7 @@ CREATE TABLE programs (
 ### Analytics Tables
 
 #### Performance_Metrics Table
+
 ```sql
 CREATE TABLE performance_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -682,6 +748,7 @@ CREATE TABLE performance_metrics (
 ```
 
 #### Plateau_Detection Table
+
 ```sql
 CREATE TABLE plateau_detections (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -709,6 +776,7 @@ CREATE TABLE plateau_detections (
 ### Enhanced Athlete Tables (Encrypted)
 
 #### Cycle_Logs Table
+
 ```sql
 CREATE TABLE cycle_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -734,6 +802,7 @@ CREATE TABLE cycle_logs (
 ## 🎨 Design System et UX
 
 ### Design Principles
+
 1. **Data-First**: Les métriques sont la priorité visuelle
 2. **Dark Mode Native**: Optimisé pour late-night gym sessions
 3. **One-Handed Operation**: Interface accessible en workout
@@ -741,16 +810,17 @@ CREATE TABLE cycle_logs (
 5. **Scientific Credibility**: Design professionnel, pas flashy
 
 ### Color Palette
+
 ```scss
 // Primary Colors
-$iron-blue: #1a365d;      // Main brand color
-$steel-gray: #4a5568;     // Secondary elements
-$platinum: #e2e8f0;       // Light accents
+$iron-blue: #1a365d; // Main brand color
+$steel-gray: #4a5568; // Secondary elements
+$platinum: #e2e8f0; // Light accents
 
 // Accent Colors
-$growth-green: #38a169;   // Positive metrics
-$warning-amber: #d69e2e;  // Caution alerts
-$danger-red: #e53e3e;     // Critical alerts
+$growth-green: #38a169; // Positive metrics
+$warning-amber: #d69e2e; // Caution alerts
+$danger-red: #e53e3e; // Critical alerts
 
 // Data Visualization
 $chart-primary: #4299e1;
@@ -764,24 +834,26 @@ $dark-text: #e2e8f0;
 ```
 
 ### Typography Scale
+
 ```scss
 // Font Family
 $font-primary: 'Inter', system-ui, sans-serif;
 $font-mono: 'JetBrains Mono', monospace;
 
 // Scale (Modular Scale 1.25)
-$text-xs: 0.75rem;   // 12px - Small labels
-$text-sm: 0.875rem;  // 14px - Body text
-$text-base: 1rem;    // 16px - Default
-$text-lg: 1.125rem;  // 18px - Subheadings
-$text-xl: 1.25rem;   // 20px - Card titles
-$text-2xl: 1.5rem;   // 24px - Page headers
+$text-xs: 0.75rem; // 12px - Small labels
+$text-sm: 0.875rem; // 14px - Body text
+$text-base: 1rem; // 16px - Default
+$text-lg: 1.125rem; // 18px - Subheadings
+$text-xl: 1.25rem; // 20px - Card titles
+$text-2xl: 1.5rem; // 24px - Page headers
 $text-3xl: 1.875rem; // 30px - Dashboard metrics
 ```
 
 ### Component Hierarchy
 
 #### Layout Components
+
 - **Shell**: Main app container avec navigation
 - **Sidebar**: Desktop navigation (collapsible)
 - **TopBar**: Mobile navigation + quick actions
@@ -789,6 +861,7 @@ $text-3xl: 1.875rem; // 30px - Dashboard metrics
 - **FloatingAction**: Quick workout start button
 
 #### Input Components
+
 ```typescript
 interface QuickSetInput {
   weight: number;
@@ -806,6 +879,7 @@ interface RPESlider {
 ```
 
 #### Visualization Components
+
 ```typescript
 interface PerformanceChart {
   data: MetricData[];
@@ -824,6 +898,7 @@ interface ProgressHeatmap {
 ### User Flow Mapping
 
 #### Core Flow: Log Workout
+
 1. **Start Session**
    - Quick start (last program) vs Select program
    - Readiness questionnaire (30s)
@@ -841,6 +916,7 @@ interface ProgressHeatmap {
    - Next session preview
 
 #### Advanced Flow: Program Creation
+
 1. **Template Selection**
    - Browse scientifically-backed templates
    - Customization wizard (experience, goals, equipment)
@@ -857,6 +933,7 @@ interface ProgressHeatmap {
    - Autoregulation rules
 
 ### Mobile-First Considerations
+
 - **Thumb-Friendly Zones**: Critical actions in bottom 1/3
 - **Swipe Gestures**: Quick navigation entre exercises
 - **Voice Input**: "225 for 8 reps" while hands busy
@@ -868,9 +945,11 @@ interface ProgressHeatmap {
 ## 🗓️ Roadmap de Développement
 
 ### Phase 1: Foundation (Mois 1-2)
+
 **Objectif**: MVP fonctionnel avec core features
 
 #### Semaine 1-2: Setup & Architecture
+
 - [ ] **Project Setup**
   - Create React + TypeScript project avec Vite
   - Configure Tailwind CSS + Headless UI
@@ -884,6 +963,7 @@ interface ProgressHeatmap {
   - Seed exercise database (500+ exercises)
 
 #### Semaine 3-4: Core Logging
+
 - [ ] **Workout Logger**
   - Exercise selection interface
   - Set logging avec weight/reps/RPE
@@ -897,6 +977,7 @@ interface ProgressHeatmap {
   - Weekly/monthly summary views
 
 #### Semaine 5-6: User Management
+
 - [ ] **Authentication & Profile**
   - Email/password registration
   - User profile management
@@ -910,6 +991,7 @@ interface ProgressHeatmap {
   - Basic privacy controls
 
 #### Semaine 7-8: Polish & Testing
+
 - [ ] **UI/UX Refinement**
   - Dark mode implementation
   - Responsive design testing
@@ -923,9 +1005,11 @@ interface ProgressHeatmap {
   - Bug fixes et performance tuning
 
 ### Phase 2: Intelligence (Mois 3-4)
+
 **Objectif**: Analytics avancés et recommandations intelligentes
 
 #### Semaine 9-10: Advanced Analytics
+
 - [ ] **Performance Detection**
   - Plateau detection algorithm
   - Trend analysis implementation
@@ -939,6 +1023,7 @@ interface ProgressHeatmap {
   - Historical readiness correlation
 
 #### Semaine 11-12: Program Intelligence
+
 - [ ] **Program Builder**
   - Template library (PPL, U/L, Bro Split)
   - Volume recommendation engine
@@ -952,6 +1037,7 @@ interface ProgressHeatmap {
   - Program adaptation based on performance
 
 #### Semaine 13-14: Visualization Upgrade
+
 - [ ] **Advanced Charts**
   - Interactive performance dashboards
   - Muscle group analysis
@@ -965,6 +1051,7 @@ interface ProgressHeatmap {
   - Recovery optimization suggestions
 
 #### Semaine 15-16: Beta Testing
+
 - [ ] **User Testing**
   - Recruit beta users from target demographics
   - Gather feedback on core workflows
@@ -972,9 +1059,11 @@ interface ProgressHeatmap {
   - Iterate on user interface based on feedback
 
 ### Phase 3: Advanced Features (Mois 5-6)
+
 **Objectif**: Fonctionnalités différenciatrices et monétisation
 
 #### Semaine 17-18: Enhanced Features
+
 - [ ] **Cycle Analytics** (Enhanced Athletes)
   - Encrypted data storage
   - Cycle tracking interface
@@ -988,6 +1077,7 @@ interface ProgressHeatmap {
   - Transformation predictions
 
 #### Semaine 19-20: Supplement Integration
+
 - [ ] **Supplement Database**
   - Evidence-based supplement database
   - Personalized stack recommendations
@@ -1001,6 +1091,7 @@ interface ProgressHeatmap {
   - Recovery recommendations
 
 #### Semaine 21-22: Social Features
+
 - [ ] **Community Features**
   - User profiles et achievements
   - Progress sharing (privacy-controlled)
@@ -1014,6 +1105,7 @@ interface ProgressHeatmap {
   - Educational resources
 
 #### Semaine 23-24: Launch Preparation
+
 - [ ] **Monetization Implementation**
   - Subscription management (Stripe)
   - Freemium feature gating
@@ -1029,18 +1121,21 @@ interface ProgressHeatmap {
 ### Milestones et KPIs
 
 #### Phase 1 Success Metrics
+
 - [ ] 100% core workout flow completion
 - [ ] <2 second loading times on 3G
 - [ ] 95% uptime during beta testing
 - [ ] 50+ beta users completing 10+ workouts
 
 #### Phase 2 Success Metrics
+
 - [ ] 80% plateau detection accuracy
 - [ ] 90% user satisfaction avec readiness scores
 - [ ] 30% improvement in user retention
 - [ ] 5+ scientific references validated
 
 #### Phase 3 Success Metrics
+
 - [ ] 100 paying users within 30 days
 - [ ] $5K monthly recurring revenue
 - [ ] 85% user retention après 3 mois
@@ -1053,9 +1148,11 @@ interface ProgressHeatmap {
 ### Modèle Freemium Détaillé
 
 #### Tier Gratuit: "Iron Starter"
+
 **Objectif**: Hook users avec core functionality, demonstrate value
 
 **Fonctionnalités Incluses**:
+
 - Workout logging (illimité)
 - Basic analytics (3 mois d'historique)
 - Exercise library (accès complet)
@@ -1063,15 +1160,18 @@ interface ProgressHeatmap {
 - Mobile app (iOS/Android)
 
 **Limitations**:
+
 - Pas d'analytics avancés (plateau detection, etc.)
 - Pas d'export de données
 - Support communautaire seulement
 - Publicités discrètes (supplements, equipment)
 
 #### Tier Pro: "Iron Pro" - 9.99$/mois
+
 **Objectif**: Serious lifters qui veulent optimization
 
 **Fonctionnalités Premium**:
+
 - Analytics avancés (plateau detection, fatigue analysis)
 - Readiness scoring avec recommendations
 - Program builder avec periodization
@@ -1084,6 +1184,7 @@ interface ProgressHeatmap {
 **Objectif**: Enhanced athletes et competitors
 
 **Fonctionnalités Elite**:
+
 - Toutes les fonctionnalités Pro
 - Enhanced athlete features (cycle tracking)
 - Body composition analysis
@@ -1095,6 +1196,7 @@ interface ProgressHeatmap {
 ### Revenue Projections
 
 #### Year 1 Targets
+
 ```
 Month 1-3:   100 Free users
 Month 4-6:   500 Free, 50 Pro users = $500 MRR
@@ -1103,6 +1205,7 @@ Month 10-12: 2,500 Free, 300 Pro, 50 Elite = $4,000 MRR
 ```
 
 #### Year 2-3 Projections
+
 ```
 Year 2: 10,000 Free, 1,000 Pro, 200 Elite = $14,000 MRR
 Year 3: 25,000 Free, 2,500 Pro, 500 Elite = $35,000 MRR
@@ -1111,16 +1214,19 @@ Year 3: 25,000 Free, 2,500 Pro, 500 Elite = $35,000 MRR
 ### Revenue Streams Secondaires
 
 #### Affiliate Marketing (Projected 20% of revenue)
+
 - **Supplements**: Optimum Nutrition, Dymatize, etc. (5-10% commission)
 - **Equipment**: Rogue, REP Fitness partenariats (3-8% commission)
 - **Books**: Scientific literature recommendations (Amazon affiliate)
 
 #### Program Marketplace (Projected 15% of revenue)
+
 - **Expert Programs**: 70/30 split avec coaches reconnus
 - **Certification Programs**: Partenariat avec organisations
 - **Custom Coaching**: Platform fee sur coaching services
 
 #### Data Insights (Future opportunity)
+
 - **Anonymous Research**: Aggregate data pour recherche
 - **Industry Reports**: Trends reports pour fitness industry
 - **API Access**: Developers building sur notre data
@@ -1128,12 +1234,14 @@ Year 3: 25,000 Free, 2,500 Pro, 500 Elite = $35,000 MRR
 ### Pricing Strategy Rationale
 
 #### Competitive Analysis
+
 - JeFit Pro: $6.99/mois (underpriced, basic features)
 - MyFitnessPal Premium: $9.99/mois (nutrition focus)
 - Whoop: $30/mois (hardware included)
 - **Notre positionnement**: Premium pricing pour premium value
 
 #### Value Proposition
+
 - **$9.99/mois = $0.33/day**
 - Équivalent à 1 scoop de protéine
 - ROI: 10% improvement in results = massive value
@@ -1146,6 +1254,7 @@ Year 3: 25,000 Free, 2,500 Pro, 500 Elite = $35,000 MRR
 ### Métriques Produit (Product-Market Fit)
 
 #### Engagement Metrics
+
 ```typescript
 interface EngagementMetrics {
   // Core Usage
@@ -1166,12 +1275,14 @@ interface EngagementMetrics {
 ```
 
 #### Retention Benchmarks
+
 - **Day 1**: 80% (excellent onboarding)
 - **Day 7**: 60% (habit formation critical)
 - **Day 30**: 40% (strong product-market fit)
 - **Day 90**: 25% (long-term viability)
 
 #### Quality Indicators
+
 - **Net Promoter Score**: Target >50 (excellent for B2C)
 - **App Store Rating**: Target >4.5 stars
 - **Support Ticket Volume**: <2% users per month
@@ -1180,6 +1291,7 @@ interface EngagementMetrics {
 ### Métriques Business
 
 #### Revenue Metrics
+
 ```typescript
 interface RevenueMetrics {
   monthlyRecurringRevenue: number;
@@ -1196,6 +1308,7 @@ interface RevenueMetrics {
 ```
 
 #### Growth Metrics
+
 - **User Acquisition Cost**: Target <$20 through organic
 - **Payback Period**: Target <6 months
 - **Organic Growth Rate**: Target >15% monthly
@@ -1204,12 +1317,14 @@ interface RevenueMetrics {
 ### Métriques Techniques
 
 #### Performance KPIs
+
 - **App Load Time**: <2 seconds on 3G
 - **API Response Time**: <200ms for critical endpoints
 - **Uptime**: 99.9% availability
 - **Crash Rate**: <0.1% sessions
 
 #### Data Quality Metrics
+
 - **Workout Completion Rate**: >95%
 - **Data Accuracy**: User-reported vs calculated metrics
 - **Analytics Confidence**: Plateau detection accuracy >80%
@@ -1217,6 +1332,7 @@ interface RevenueMetrics {
 ### Success Milestones
 
 #### 6 Months Post-Launch
+
 - [ ] 2,000 registered users
 - [ ] 500 active weekly users
 - [ ] $5,000 MRR
@@ -1224,6 +1340,7 @@ interface RevenueMetrics {
 - [ ] Break-even sur operational costs
 
 #### 12 Months Post-Launch
+
 - [ ] 10,000 registered users
 - [ ] 2,000 active weekly users
 - [ ] $15,000 MRR
@@ -1231,6 +1348,7 @@ interface RevenueMetrics {
 - [ ] Profitability avec salary pour founder
 
 #### 24 Months Post-Launch
+
 - [ ] 50,000 registered users
 - [ ] 8,000 active weekly users
 - [ ] $50,000 MRR
@@ -1244,20 +1362,24 @@ interface RevenueMetrics {
 ### Risques Techniques
 
 #### Scalabilité Database
+
 **Risque**: Performance degradation avec large datasets
 **Impact**: High - User experience suffers
 **Probabilité**: Medium
 **Mitigation**:
+
 - Implement database indexing strategy
 - Use read replicas pour analytics queries
 - Migrate to dedicated infrastructure if needed
 - Monitor query performance proactively
 
 #### Data Loss/Corruption
+
 **Risque**: User data lost ou corrupted
 **Impact**: Critical - Loss of user trust
 **Probabilité**: Low
 **Mitigation**:
+
 - Daily automated backups avec point-in-time recovery
 - Multi-region data replication
 - Comprehensive data validation
@@ -1266,20 +1388,24 @@ interface RevenueMetrics {
 ### Risques Marché
 
 #### Concurrent Response
+
 **Risque**: JeFit/Strong copy nos features
 **Impact**: Medium - Market share erosion
 **Probabilité**: High
 **Mitigation**:
+
 - Focus on execution speed over feature quantity
 - Build network effects (social features)
 - Establish brand loyalty through superior UX
 - Patent key algorithmic innovations
 
 #### Market Size Overestimation
+
 **Risque**: Enhanced athlete market smaller than projected
 **Impact**: High - Revenue projections missed
 **Probabilité**: Medium
 **Mitigation**:
+
 - Expand to natural bodybuilders early
 - Diversify into powerlifting/strongman
 - International expansion strategy
@@ -1288,20 +1414,24 @@ interface RevenueMetrics {
 ### Risques Réglementaires
 
 #### Enhanced Athlete Legal Issues
+
 **Risque**: Legal challenges regarding PED tracking
 **Impact**: Critical - App shutdown
 **Probabilité**: Low
 **Mitigation**:
+
 - Legal consultation before launch
 - Anonymous data collection only
 - Research framework compliance
 - Clear terms of service protection
 
 #### Data Privacy Regulations
+
 **Risque**: GDPR/CCPA compliance failures
 **Impact**: Medium - Fines and restrictions
 **Probabilité**: Medium
 **Mitigation**:
+
 - Privacy-by-design architecture
 - Regular compliance audits
 - User data control features
@@ -1310,20 +1440,24 @@ interface RevenueMetrics {
 ### Risques Opérationnels
 
 #### Single Founder Risk
+
 **Risque**: Burnout ou incapacité du founder
 **Impact**: Critical - Project abandonment
 **Probabilité**: Medium
 **Mitigation**:
+
 - Document all processes et decisions
 - Build advisory board early
 - Hire co-founder when revenue allows
 - Maintain work-life balance
 
 #### Funding Shortfall
+
 **Risque**: Run out of money before profitability
 **Impact**: Critical - Project shutdown
 **Probabilité**: Medium
 **Mitigation**:
+
 - Bootstrap as long as possible
 - Multiple funding option exploration
 - Revenue-first growth strategy
@@ -1349,6 +1483,7 @@ interface RiskMetric {
 ### Stack Technique Complet
 
 #### Frontend Development
+
 ```json
 {
   "dependencies": {
@@ -1369,6 +1504,7 @@ interface RiskMetric {
 ```
 
 #### Supabase Configuration
+
 ```sql
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -1383,6 +1519,7 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ```
 
 #### Development Tools
+
 - **IDE**: VS Code avec TypeScript, Tailwind extensions
 - **Version Control**: Git avec conventional commits
 - **Testing**: Jest + React Testing Library
@@ -1392,18 +1529,21 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Ressources d'Apprentissage
 
 #### Documentation Technique
+
 - [React 18 Documentation](https://react.dev/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Supabase Documentation](https://supabase.com/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 #### Fitness/Science References
+
 - **Muscle Hypertrophy**: Schoenfeld, B. J. (2010). The mechanisms of muscle hypertrophy
 - **Volume Landmarks**: Schoenfeld et al. (2017). Dose-response relationship
 - **RPE Research**: Helms et al. (2016). Application of RPE-based training
 - **Recovery Science**: Kellmann & Beckmann (2018). Sport, Recovery and Performance
 
 #### Business Development
+
 - **Product Management**: "Inspired" by Marty Cagan
 - **Growth Strategy**: "Traction" by Gabriel Weinberg
 - **Metrics**: "Lean Analytics" by Alistair Croll
@@ -1412,6 +1552,7 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Actions Immédiates (Prochaines 48h)
 
 #### Setup Phase
+
 - [ ] **Environment Setup**
   - Install Node.js 18+ et npm
   - Create new React project avec Vite
@@ -1425,6 +1566,7 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
   - Create initial database schema
 
 #### Research Phase
+
 - [ ] **Market Research**
   - Download et analyser JeFit, Strong, Hevy
   - Create feature comparison spreadsheet
@@ -1440,18 +1582,21 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Validation Experiments
 
 #### Week 1: Market Validation
+
 - Create landing page avec value proposition
 - Setup email capture pour waitlist
 - Share dans relevant communities (Reddit r/bodybuilding)
 - Target: 100 email signups
 
 #### Week 2: Feature Validation
+
 - Create mockups des core workflows
 - User interviews avec 10 target users
 - Validate RPE tracking approach
 - Confirm plateau detection value proposition
 
 #### Week 3: Technical Validation
+
 - Build minimal workout logger
 - Test avec 5 beta users
 - Measure completion rates et pain points
@@ -1460,12 +1605,14 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Support et Communauté
 
 #### Development Community
+
 - **Discord**: React, TypeScript, Supabase communities
 - **Reddit**: r/reactjs, r/typescript, r/entrepreneur
 - **Stack Overflow**: Tag questions appropriately
 - **GitHub**: Open source similar projects pour inspiration
 
 #### Fitness Industry Connections
+
 - **Coaches**: Reach out to evidence-based coaches
 - **Athletes**: Build relationships with competitive bodybuilders
 - **Scientists**: Connect with exercise physiology researchers
@@ -1478,24 +1625,30 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Décisions Architecture Importantes
 
 #### State Management Choice: Zustand vs Redux
+
 **Décision**: Zustand
 **Rationale**:
+
 - Moins de boilerplate code
 - Better TypeScript integration
 - Easier testing et debugging
 - Sufficient pour app complexity
 
 #### Database Choice: Supabase vs Custom Backend
+
 **Décision**: Supabase
 **Rationale**:
+
 - Faster time to market
 - Built-in auth et real-time
 - PostgreSQL avec full SQL capabilities
 - Easier scaling dans early stages
 
 #### Monorepo vs Separate Repos
+
 **Décision**: Single repo initially
 **Rationale**:
+
 - Simpler development workflow
 - Easier code sharing between components
 - Can refactor later if needed
@@ -1503,6 +1656,7 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ### Code Style Guidelines
 
 #### Naming Conventions
+
 ```typescript
 // Components: PascalCase
 export const WorkoutLogger: React.FC = () => {};
@@ -1525,6 +1679,7 @@ interface WorkoutData {
 ```
 
 #### File Organization
+
 ```
 src/
 ├── components/
@@ -1542,12 +1697,14 @@ src/
 ### Performance Considerations
 
 #### Bundle Size Optimization
+
 - Lazy load analytics components
 - Tree-shake unused Chart.js components
 - Optimize image assets
 - Code splitting par route
 
 #### Database Query Optimization
+
 - Index frequently queried columns
 - Use database views pour complex analytics
 - Implement query result caching
@@ -1555,9 +1712,9 @@ src/
 
 ---
 
-*Dernière mise à jour: 2024-12-XX*
-*Version: 1.0*
-*Status: En développement actif*
+_Dernière mise à jour: 2024-12-XX_
+_Version: 1.0_
+_Status: En développement actif_
 
 ---
 

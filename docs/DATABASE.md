@@ -200,12 +200,7 @@ import { Q } from '@nozbe/watermelondb';
 
 // Get last completed workout
 const lastWorkout = await workoutsCollection
-  .query(
-    Q.where('user_id', userId),
-    Q.where('completed_at', Q.notEq(null)),
-    Q.sortBy('started_at', Q.desc),
-    Q.take(1)
-  )
+  .query(Q.where('user_id', userId), Q.where('completed_at', Q.notEq(null)), Q.sortBy('started_at', Q.desc), Q.take(1))
   .fetch()
   .then((workouts) => workouts[0]);
 

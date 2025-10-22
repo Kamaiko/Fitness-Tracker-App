@@ -1,9 +1,11 @@
 # 🏗️ Architecture Technique - Halterofit
+
 **Documentation technique détaillée**
 
 ---
 
 ## 📋 Table des Matières
+
 1. [Vue d'Ensemble](#-vue-densemble)
 2. [Architecture Frontend](#-architecture-frontend)
 3. [Architecture Backend](#-architecture-backend)
@@ -19,6 +21,7 @@
 ## 🎯 Vue d'Ensemble
 
 ### Architecture Philosophy
+
 - **Mobile-First** : Optimisé pour l'expérience mobile
 - **Offline-First** : Fonctionne sans connexion internet
 - **Performance-First** : <2s cold start, 60fps animations
@@ -30,23 +33,23 @@
 ```typescript
 interface TechStack {
   frontend: {
-    framework: "React Native 0.72+";
-    runtime: "Expo SDK 49+";
-    language: "TypeScript 5.0+ (strict mode)";
-    bundler: "Metro (Expo optimized)";
+    framework: 'React Native 0.72+';
+    runtime: 'Expo SDK 49+';
+    language: 'TypeScript 5.0+ (strict mode)';
+    bundler: 'Metro (Expo optimized)';
   };
   backend: {
-    platform: "Supabase (PostgreSQL + Edge Functions)";
-    database: "PostgreSQL 15+";
-    auth: "Supabase Auth (JWT + RLS)";
-    storage: "Supabase Storage";
-    realtime: "WebSocket subscriptions";
+    platform: 'Supabase (PostgreSQL + Edge Functions)';
+    database: 'PostgreSQL 15+';
+    auth: 'Supabase Auth (JWT + RLS)';
+    storage: 'Supabase Storage';
+    realtime: 'WebSocket subscriptions';
   };
   devops: {
-    hosting: "Expo EAS (mobile) + Vercel (web)";
-    ci_cd: "GitHub Actions";
-    monitoring: "Sentry + PostHog";
-    testing: "Jest + Detox + Cypress";
+    hosting: 'Expo EAS (mobile) + Vercel (web)';
+    ci_cd: 'GitHub Actions';
+    monitoring: 'Sentry + PostHog';
+    testing: 'Jest + Detox + Cypress';
   };
 }
 ```
@@ -117,6 +120,7 @@ src/
 ### State Management Strategy
 
 #### Global State (Zustand)
+
 ```typescript
 // stores/workoutStore.ts
 interface WorkoutState {
@@ -171,30 +175,28 @@ const useWorkoutStore = create<WorkoutState>((set, get) => ({
 
   addSet: (exerciseId, set) => {
     set((state) => ({
-      currentWorkout: state.currentWorkout ? {
-        ...state.currentWorkout,
-        exercises: state.currentWorkout.exercises.map(ex =>
-          ex.id === exerciseId
-            ? { ...ex, sets: [...ex.sets, set] }
-            : ex
-        ),
-      } : null,
+      currentWorkout: state.currentWorkout
+        ? {
+            ...state.currentWorkout,
+            exercises: state.currentWorkout.exercises.map((ex) =>
+              ex.id === exerciseId ? { ...ex, sets: [...ex.sets, set] } : ex
+            ),
+          }
+        : null,
     }));
   },
 }));
 ```
 
 #### Server State (React Query)
+
 ```typescript
 // hooks/useWorkouts.ts
 export const useWorkouts = (userId: string) => {
   return useQuery({
     queryKey: ['workouts', userId],
-    queryFn: () => supabase
-      .from('workouts')
-      .select('*, exercise_sets(*)')
-      .eq('user_id', userId)
-      .order('date', { ascending: false }),
+    queryFn: () =>
+      supabase.from('workouts').select('*, exercise_sets(*)').eq('user_id', userId).order('date', { ascending: false }),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };
@@ -203,8 +205,7 @@ export const useCreateWorkout = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (workout: CreateWorkoutInput) =>
-      supabase.from('workouts').insert(workout),
+    mutationFn: (workout: CreateWorkoutInput) => supabase.from('workouts').insert(workout),
     onSuccess: () => {
       queryClient.invalidateQueries(['workouts']);
     },
@@ -215,6 +216,7 @@ export const useCreateWorkout = () => {
 ### Offline Strategy
 
 #### Local Storage with SQLite
+
 ```typescript
 // services/offline.ts
 import * as SQLite from 'expo-sqlite';
@@ -223,7 +225,7 @@ const db = SQLite.openDatabase('halterofit.db');
 
 // Initialize offline database
 export const initOfflineDB = () => {
-  db.transaction(tx => {
+  db.transaction((tx) => {
     tx.executeSql(`
       CREATE TABLE IF NOT EXISTS offline_workouts (
         id TEXT PRIMARY KEY,
@@ -237,39 +239,33 @@ export const initOfflineDB = () => {
 
 // Save workout offline
 export const saveWorkoutOffline = (workout: Workout) => {
-  db.transaction(tx => {
-    tx.executeSql(
-      'INSERT INTO offline_workouts (id, data, created_at) VALUES (?, ?, ?)',
-      [workout.id, JSON.stringify(workout), Date.now()]
-    );
+  db.transaction((tx) => {
+    tx.executeSql('INSERT INTO offline_workouts (id, data, created_at) VALUES (?, ?, ?)', [
+      workout.id,
+      JSON.stringify(workout),
+      Date.now(),
+    ]);
   });
 };
 
 // Sync when online
 export const syncOfflineData = async () => {
   return new Promise((resolve, reject) => {
-    db.transaction(tx => {
-      tx.executeSql(
-        'SELECT * FROM offline_workouts WHERE synced = 0',
-        [],
-        async (_, { rows }) => {
-          for (let i = 0; i < rows.length; i++) {
-            const item = rows.item(i);
-            try {
-              await supabase.from('workouts').insert(JSON.parse(item.data));
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM offline_workouts WHERE synced = 0', [], async (_, { rows }) => {
+        for (let i = 0; i < rows.length; i++) {
+          const item = rows.item(i);
+          try {
+            await supabase.from('workouts').insert(JSON.parse(item.data));
 
-              // Mark as synced
-              tx.executeSql(
-                'UPDATE offline_workouts SET synced = 1 WHERE id = ?',
-                [item.id]
-              );
-            } catch (error) {
-              console.error('Sync failed:', error);
-            }
+            // Mark as synced
+            tx.executeSql('UPDATE offline_workouts SET synced = 1 WHERE id = ?', [item.id]);
+          } catch (error) {
+            console.error('Sync failed:', error);
           }
-          resolve(true);
         }
-      );
+        resolve(true);
+      });
     });
   });
 };
@@ -282,6 +278,7 @@ export const syncOfflineData = async () => {
 ### Supabase Configuration
 
 #### Database Schema
+
 ```sql
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -297,6 +294,7 @@ CREATE TYPE set_type AS ENUM ('warmup', 'working', 'drop', 'cluster', 'rest_paus
 ```
 
 #### Row Level Security Policies
+
 ```sql
 -- Users can only access their own data
 CREATE POLICY "Users can view own profile" ON users
@@ -321,9 +319,10 @@ CREATE POLICY "Users can manage own exercise sets" ON exercise_sets
 ```
 
 #### Edge Functions (Deno)
+
 ```typescript
 // supabase/functions/calculate-analytics/index.ts
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
@@ -337,10 +336,7 @@ serve(async (req) => {
   }
 
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    const supabase = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
 
     const { userId, period } = await req.json();
 
@@ -354,15 +350,12 @@ serve(async (req) => {
 
     const analytics = calculateVolumeProgression(workouts);
 
-    return new Response(
-      JSON.stringify(analytics),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
-    );
+    return new Response(JSON.stringify(analytics), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 },
-    );
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 400,
+    });
   }
 });
 
@@ -371,11 +364,11 @@ function calculateVolumeProgression(workouts: any[]) {
   const weeklyVolume = {};
   const muscleGroupVolume = {};
 
-  workouts.forEach(workout => {
+  workouts.forEach((workout) => {
     const week = getWeekOfYear(workout.date);
     if (!weeklyVolume[week]) weeklyVolume[week] = 0;
 
-    workout.exercise_sets.forEach(set => {
+    workout.exercise_sets.forEach((set) => {
       const volume = set.weight_kg * set.reps;
       weeklyVolume[week] += volume;
 
@@ -395,12 +388,10 @@ function calculateVolumeProgression(workouts: any[]) {
 ```
 
 ### Real-time Features
+
 ```typescript
 // services/realtime.ts
-export const subscribeToWorkoutUpdates = (
-  userId: string,
-  onUpdate: (payload: any) => void
-) => {
+export const subscribeToWorkoutUpdates = (userId: string, onUpdate: (payload: any) => void) => {
   return supabase
     .channel('workout_updates')
     .on(
@@ -417,10 +408,7 @@ export const subscribeToWorkoutUpdates = (
 };
 
 // Real-time training partner updates (Phase 2)
-export const subscribeToPartnerWorkout = (
-  partnerId: string,
-  onUpdate: (workout: Workout) => void
-) => {
+export const subscribeToPartnerWorkout = (partnerId: string, onUpdate: (workout: Workout) => void) => {
   return supabase
     .channel(`partner_${partnerId}`)
     .on(
@@ -830,6 +818,7 @@ CREATE TRIGGER trigger_calculate_1rm
 ### Authentication & Authorization
 
 #### JWT Token Management
+
 ```typescript
 // services/auth.ts
 export class AuthService {
@@ -859,7 +848,7 @@ export class AuthService {
 
   private setupTokenRefresh(session: Session) {
     const expiresIn = session.expires_in * 1000; // Convert to milliseconds
-    const refreshTime = expiresIn - (5 * 60 * 1000); // Refresh 5 minutes before expiry
+    const refreshTime = expiresIn - 5 * 60 * 1000; // Refresh 5 minutes before expiry
 
     this.refreshTimer = setTimeout(async () => {
       await this.refreshSession();
@@ -889,6 +878,7 @@ export class AuthService {
 ```
 
 #### Row Level Security Implementation
+
 ```sql
 -- Advanced RLS for enhanced features
 CREATE POLICY "Enhanced athletes can access cycle data" ON cycle_logs
@@ -917,6 +907,7 @@ CREATE POLICY "Shared workouts visible to partners" ON workouts
 ### Data Encryption
 
 #### Sensitive Data Encryption
+
 ```typescript
 // utils/encryption.ts
 import CryptoJS from 'crypto-js';
@@ -959,6 +950,7 @@ export const saveCycleData = async (cycleData: CycleData) => {
 ### API Security
 
 #### Rate Limiting
+
 ```typescript
 // supabase/functions/rate-limiter/index.ts
 const rateLimiter = new Map<string, { count: number; resetTime: number }>();
@@ -988,6 +980,7 @@ export const checkRateLimit = (userId: string, limit: number = 100, windowMs: nu
 ### Frontend Optimization
 
 #### Bundle Optimization
+
 ```javascript
 // metro.config.js
 const { getDefaultConfig } = require('expo/metro-config');
@@ -1010,6 +1003,7 @@ module.exports = config;
 ```
 
 #### Component Optimization
+
 ```typescript
 // components/workout/ExerciseCard.tsx
 import React, { memo, useCallback } from 'react';
@@ -1039,6 +1033,7 @@ ExerciseCard.displayName = 'ExerciseCard';
 ```
 
 #### Lazy Loading Strategy
+
 ```typescript
 // app/(tabs)/analytics/index.tsx
 import React, { Suspense } from 'react';
@@ -1066,6 +1061,7 @@ export default function AnalyticsScreen() {
 ### Backend Performance
 
 #### Database Query Optimization
+
 ```sql
 -- Materialized view for expensive analytics
 CREATE MATERIALIZED VIEW user_progress_summary AS
@@ -1093,6 +1089,7 @@ SELECT cron.schedule('refresh-progress', '0 2 * * *', 'SELECT refresh_progress_s
 ```
 
 #### Caching Strategy
+
 ```typescript
 // services/cache.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -1125,10 +1122,7 @@ export class CacheService {
       expiresAt: Date.now() + ttl,
     };
 
-    await AsyncStorage.setItem(
-      this.CACHE_PREFIX + key,
-      JSON.stringify(cacheItem)
-    );
+    await AsyncStorage.setItem(this.CACHE_PREFIX + key, JSON.stringify(cacheItem));
   }
 
   static async remove(key: string): Promise<void> {
@@ -1145,10 +1139,7 @@ export const getWorkouts = async (userId: string): Promise<Workout[]> => {
   if (cached) return cached;
 
   // Fetch from API
-  const { data } = await supabase
-    .from('workouts')
-    .select('*')
-    .eq('user_id', userId);
+  const { data } = await supabase.from('workouts').select('*').eq('user_id', userId);
 
   // Cache the result
   await CacheService.set(cacheKey, data, 10 * 60 * 1000); // 10 minutes
@@ -1164,6 +1155,7 @@ export const getWorkouts = async (userId: string): Promise<Workout[]> => {
 ### Environment Configuration
 
 #### Environment Variables
+
 ```bash
 # .env.production
 EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -1179,6 +1171,7 @@ EXPO_PUBLIC_APP_ENV=development
 ```
 
 #### EAS Build Configuration
+
 ```json
 // eas.json
 {
@@ -1225,6 +1218,7 @@ EXPO_PUBLIC_APP_ENV=development
 ### CI/CD Pipeline
 
 #### GitHub Actions Workflow
+
 ```yaml
 # .github/workflows/build-and-deploy.yml
 name: Build and Deploy
@@ -1314,6 +1308,7 @@ jobs:
 ## 📊 Monitoring
 
 ### Error Tracking with Sentry
+
 ```typescript
 // services/monitoring.ts
 import * as Sentry from 'sentry-expo';
@@ -1343,6 +1338,7 @@ export const logPerformance = (operation: string, duration: number) => {
 ```
 
 ### Analytics with PostHog
+
 ```typescript
 // services/analytics.ts
 import PostHog from 'posthog-react-native';
@@ -1423,6 +1419,7 @@ export const trackPlateauDetected = (exercise: string, confidence: number) => {
 ### Migration Strategy
 
 #### Database Migration Plan
+
 ```typescript
 // migrations/001_add_enhanced_features.sql
 -- Phase 2 additions
@@ -1450,6 +1447,7 @@ CREATE TABLE IF NOT EXISTS training_partners (
 ```
 
 #### Service Decomposition
+
 ```typescript
 // Phase 2: Add Python analytics service
 interface AnalyticsService {
@@ -1471,6 +1469,6 @@ interface ServiceRegistry {
 
 ---
 
-*Dernière mise à jour: 2025-01-XX*
-*Version: Architecture 1.0*
-*Status: Ready for implementation*
+_Dernière mise à jour: 2025-01-XX_
+_Version: Architecture 1.0_
+_Status: Ready for implementation_

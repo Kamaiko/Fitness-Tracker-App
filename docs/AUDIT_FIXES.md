@@ -157,12 +157,7 @@ export function clearPersistedUser(): void {
  * Auth Service - Main Export
  */
 
-export {
-  persistUser,
-  getPersistedUserId,
-  getPersistedUserEmail,
-  clearPersistedUser,
-} from './authPersistence';
+export { persistUser, getPersistedUserId, getPersistedUserEmail, clearPersistedUser } from './authPersistence';
 ```
 
 #### Étape 2: Modifier authStore pour utiliser persistence (1h)
@@ -474,12 +469,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { zustandMMKVStorage } from '@/services/storage';
 import { supabase } from '@/services/supabase';
-import {
-  persistUser,
-  clearPersistedUser,
-  getPersistedUserId,
-  getPersistedUserEmail,
-} from '@/services/auth';
+import { persistUser, clearPersistedUser, getPersistedUserId, getPersistedUserEmail } from '@/services/auth';
 
 export interface User {
   id: string;
@@ -709,10 +699,7 @@ import { Workout } from '@/models';
  * @throws {AuthError} Si user pas connecté
  * @throws {DatabaseError} Si erreur WatermelonDB
  */
-export async function createWorkout(data: {
-  started_at: number;
-  title?: string;
-}): Promise<Workout> {
+export async function createWorkout(data: { started_at: number; title?: string }): Promise<Workout> {
   // 1. Valider auth
   const userId = getPersistedUserId();
   if (!userId) {
