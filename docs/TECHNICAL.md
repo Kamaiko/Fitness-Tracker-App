@@ -691,40 +691,6 @@ function detectPlateauWithContext(exerciseHistory, user) {
 
 ---
 
-## 💰 Business Model & Monetization Strategy
-
-**Current:** All features free (MVP focus on product-market fit)
-
-### Future Freemium Model (Post-MVP)
-
-| Tier     | Price        | Features                                                                   |
-| -------- | ------------ | -------------------------------------------------------------------------- |
-| **Free** | $0           | Unlimited logging, 30-day history, basic analytics, ExerciseDB library     |
-| **Pro**  | **$6.99/mo** | Unlimited history, plateau detection, volume analytics, templates, ad-free |
-
-**Competitive Positioning:**
-
-| App            | Price        | Positioning                              |
-| -------------- | ------------ | ---------------------------------------- |
-| Strong         | $5.99/mo     | Established leader                       |
-| Hevy           | $8.99/mo     | AI features                              |
-| JEFIT          | $12.99/mo    | Feature-rich                             |
-| **Halterofit** | **$6.99/mo** | **Offline-first + scientific analytics** |
-
-**Implementation:**
-
-- RevenueCat (iOS/Android/Web subscriptions)
-- Schema ready: `users.subscription_tier`, `subscription_expires_at`
-- Feature flags: `user.subscription_tier === 'pro'`
-
-**Alternative Revenue (Phase 3+):**
-
-- Coaching marketplace (10-15% commission)
-- Affiliate marketing (supplements, equipment)
-- One-time purchases (workout programs)
-
----
-
 ## 🔐 Security & Monitoring
 
 ### Authentication & Data Protection
@@ -893,13 +859,7 @@ return JSON.stringify({ user, workouts, exercises, exported_at });
 
 ## 🔧 Development Workflow
 
-**Commits:** `<type>(<scope>): <description>` (feat/fix/docs/style/refactor/test/chore)
-
-**Branches:** master (production), feature/_, fix/_, docs/\*
-
-**Review:** TypeScript compiles, no console.log, follows standards, uses theme, proper errors
-
-_→ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow_
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventions, branches, review process).
 
 ---
 
