@@ -7,6 +7,22 @@
 
 ---
 
+## 📑 Table of Contents
+
+- [Product overview](#product-overview)
+- [Goals](#goals)
+- [User personas](#user-personas)
+- [Functional requirements](#functional-requirements)
+- [User experience](#user-experience)
+- [Narrative](#narrative)
+- [Success metrics](#success-metrics)
+- [Technical considerations](#technical-considerations)
+- [Testing & quality assurance strategy](#testing--quality-assurance-strategy)
+- [Milestones and sequencing](#milestones-and-sequencing)
+- [User stories](#user-stories)
+
+---
+
 ## Product overview
 
 ### Document purpose

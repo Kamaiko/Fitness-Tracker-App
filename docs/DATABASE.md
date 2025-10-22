@@ -5,6 +5,20 @@
 
 ---
 
+## 📑 Table of Contents
+
+- [📂 Database Service Files](#-database-service-files)
+- [🔄 How It Works](#-how-it-works)
+- [💡 Usage Examples](#-usage-examples)
+- [🗄️ WatermelonDB Schema](#️-watermelondb-schema)
+- [🔄 Supabase Sync](#-supabase-sync)
+- [⚡ Performance](#-performance)
+- [🐛 Debugging](#-debugging)
+- [✅ Advantages](#-advantages)
+- [📚 Resources](#-resources)
+
+---
+
 ## 📂 Database Service Files
 
 ```
