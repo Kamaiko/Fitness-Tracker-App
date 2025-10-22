@@ -1,9 +1,5 @@
 # 🏗️ Architecture - Halterofit
 
-> **Status**: Phase 0.5 - Database & Foundation Setup
-> **Last Updated**: 2025-01-11
-> **Architecture Pattern**: Feature-Sliced Design (Simplified)
-
 ---
 
 ## 📑 Table des Matières
@@ -525,56 +521,13 @@ src/
 
 ---
 
-## 🚀 Development Build Strategy
+## 🚀 Post-MVP Performance Optimizations
 
-**Decision:** Using Development Build (WatermelonDB, MMKV, Victory Native) from Day 1.
+**Planned optimizations** (Phase 5+):
 
-**Rationale:** Production-ready architecture from start, avoiding costly future migration (1-2 weeks saved).
+- Code splitting & lazy loading
+- Image optimization & caching
+- Memoization strategies
+- Bundle size analysis
 
-**See:** [ADR-012 in TECHNICAL.md](./TECHNICAL.md#adr-012-development-build-strategy) for complete decision rationale.
-
----
-
-## 📚 Références
-
-**Architecture inspirée de:**
-
-- [Feature-Sliced Design](https://feature-sliced.design/)
-- [Expo Router File-Based Routing](https://docs.expo.dev/router/introduction/)
-- [Bulletproof React](https://github.com/alan2207/bulletproof-react)
-- [React Native Boilerplate](https://github.com/thecodingmachine/react-native-boilerplate)
-
-**Stack utilisé:**
-
-- React Native 0.82.0
-- Expo SDK 54
-- TypeScript 5.9
-- Zustand 5.0
-- WatermelonDB (offline-first)
-- MMKV (encrypted storage)
-- Victory Native (charts)
-- Supabase (PostgreSQL + Auth)
-- NativeWind v4 (Tailwind CSS 3.4)
-
----
-
-## ✅ Architecture Checklist
-
-**Phase 0.5 (Current)**:
-
-- [x] Modular folder structure
-- [x] Barrel exports (index.ts)
-- [x] Absolute imports (@/)
-- [x] Type safety (TypeScript strict)
-- [x] Supabase integration
-- [x] Store organization (Zustand)
-- [ ] WatermelonDB models & schema (Phase 0.5 Bis)
-- [ ] MMKV storage service (Phase 0.5 Bis)
-- [ ] Component library (Phase 1)
-- [ ] Hooks library (Phase 1)
-- [ ] Utils library (Phase 2)
-- [ ] Test setup (Pre-production)
-
----
-
-**Status**: ✅ Architecture modulaire optimisée - Prête pour Phase 0.5 Bis (Dev Build Migration)
+**See:** [TECHNICAL.md § Performance Guidelines](./TECHNICAL.md#-performance-guidelines) for details.

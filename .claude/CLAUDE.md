@@ -97,16 +97,6 @@ Suivre les règles **commitlint** (conventional commits):
 
 ---
 
-## 🚫 Critical Rules
-
-1. **NEVER mention "Claude" or "AI" in commits**
-2. **NEVER add AI signatures in commits**
-3. Use professional, simple commit messages
-4. **ALWAYS update docs when tasks complete**
-5. **ALWAYS run `npm run type-check` before commit**
-
----
-
 ## 🔄 Session End Checklist
 
 Before ending session:
@@ -140,35 +130,8 @@ Before ending session:
 
 ---
 
-## 🛠️ Quick Commands
-
-**Daily Development:**
-
-```bash
-npm start                 # Start dev server
-npm start -- --clear      # Clear cache + start
-npm run type-check        # TypeScript validation
-```
-
-**Building (only when adding native modules):**
-
-```bash
-eas build --profile development --platform android
-eas build --profile development --platform ios
-```
-
----
-
 ## 🎓 Pro Tips
 
-1. **Start every session** by reading README.md § Current Status
-2. **Find current work** in TASKS.md (look for ⭐ NEXT SESSION)
-3. **Update docs as you go**, not at the end
-4. **Use git grep** to find where info is documented before adding duplicate
-5. **When in doubt**, check the Documentation Map table above
-6. **ALWAYS verify line numbers** by reading file first
-7. **Show BEFORE/AFTER** for every doc change
-
----
-
-**Remember**: Documentation updates must be ULTRA-PRECISE. See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md) for complete workflows.
+1. **Update docs as you go**, not at the end
+2. **Use git grep** to find where info is documented before adding duplicate
+3. **When in doubt**, check the Documentation Map table above

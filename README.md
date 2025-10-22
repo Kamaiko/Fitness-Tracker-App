@@ -92,9 +92,6 @@ npm install
 | **Testing**   | Framework    | Jest + React Native Testing Library                   |
 | **Build**     | Tool         | EAS Build (Development Build required)                |
 
-**Current Phase:** 0.5 - **Development Build with native modules** (WatermelonDB, MMKV, Victory Native)
-**Migration Status:** In progress - migrating from Expo Go stack to Development Build stack
-
 ---
 
 ## 🎯 Current Status
