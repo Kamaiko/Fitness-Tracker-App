@@ -126,15 +126,7 @@
 
 ## 📦 Technology Stack
 
-**Frontend:** Expo SDK 54 + React Native 0.82 + TypeScript 5.9 (strict) | Expo Router 6 | NativeWind v4 (Tailwind CSS 3.4) | Zustand 5 + React Query 5.90 | WatermelonDB (offline-first) + MMKV | FlashList + expo-image + Victory Native
-
-**Backend:** Supabase (PostgreSQL + Auth JWT/RLS + Storage + Realtime)
-
-**External:** ExerciseDB API (1,300+ exercises) | Sentry (monitoring) | RevenueCat (future subscriptions)
-
-**Dev Tools:** EAS Build (Development Build) | Metro bundler | ESLint + Prettier + Husky + lint-staged + Commitlint | Jest + React Native Testing Library
-
-**Current Phase:** Phase 0.5 - Development Build (WatermelonDB, MMKV, Victory Native native modules)
+See [README.md § Tech Stack](../README.md#️-tech-stack) for complete stack details.
 
 ---
 
@@ -586,122 +578,15 @@ npm start
 
 ## 📁 Project Structure
 
-### Current Structure (v0.1.0)
-
-```
-src/
-├── app/                          # Expo Router screens
-│   ├── _layout.tsx               # Root layout (StatusBar + Stack)
-│   ├── index.tsx                 # Home screen (minimal)
-│   └── +not-found.tsx            # 404 error screen
-│
-├── services/                     # External services
-│   ├── supabase/
-│   │   └── client.ts             # Supabase client
-│   ├── storage/
-│   │   └── mmkvStorage.ts        # MMKV wrapper
-│   └── database/
-│       └── watermelon/           # WatermelonDB setup
-│           ├── schema.ts         # Database schema
-│           ├── sync.ts           # Sync protocol
-│           └── index.ts          # Database instance
-│
-├── stores/                       # Zustand stores
-│   ├── authStore.ts              # Auth state
-│   └── workoutStore.ts           # Workout state
-│
-├── models/                       # WatermelonDB models
-│   ├── Workout.ts                # Workout model
-│   ├── Exercise.ts               # Exercise model
-│   ├── WorkoutExercise.ts        # Workout-exercise join
-│   └── ExerciseSet.ts            # Set model
-│
-└── theme/                        # Design system
-    ├── index.ts                  # Re-exports
-    ├── colors.ts                 # Dark theme palette
-    ├── spacing.ts                # 8px grid
-    └── typography.ts             # Modular scale
-```
-
-### Future Structure (Post-MVP)
-
-```
-src/
-├── app/
-│   ├── (tabs)/                   # Tab navigation
-│   ├── (auth)/                   # Auth screens
-│   └── (modals)/                 # Modals
-│
-├── components/                   # Reusable components
-│   ├── ui/                       # Base UI (Button, Input, Card)
-│   ├── workout/                  # Workout components
-│   └── analytics/                # Analytics components
-│
-├── hooks/                        # Custom hooks
-├── utils/                        # Utilities
-└── types/                        # TypeScript types
-```
-
-### Naming Conventions
-
-- **Files:** PascalCase for components (`Button.tsx`), camelCase for utilities (`validation.ts`)
-- **Components:** PascalCase (`HomeScreen`, `SetLogger`)
-- **Functions:** camelCase (`calculateVolume`, `formatWeight`)
-- **Constants:** UPPER_SNAKE_CASE (`MAX_RPE`, `DEFAULT_TIMER`)
-- **Types/Interfaces:** PascalCase (`User`, `WorkoutSession`)
+See [ARCHITECTURE.md § Structure Détaillée](./ARCHITECTURE.md#-structure-détaillée) for complete folder organization.
 
 ---
 
 ## 🎨 Design System
 
-**Dark Theme (configured in `tailwind.config.js`):**
+See `tailwind.config.js` for complete theme configuration (colors, spacing, typography).
 
-- Backgrounds: `bg-background` (#0A0A0A), `bg-background-surface` (#1A1A1A), `bg-background-elevated` (#2A2A2A)
-- Primary: `bg-primary` (#4299e1), `bg-primary-dark`, `bg-primary-light`
-- Semantic: `text-success`, `text-warning`, `text-danger`, `text-info`
-- Text: `text-foreground` (primary), `text-foreground-secondary`, `text-foreground-tertiary`
-
-**Spacing (8px grid in Tailwind):**
-
-```tsx
-className = 'p-xs'; // padding: 4px
-className = 'p-sm'; // padding: 8px
-className = 'p-md'; // padding: 16px
-className = 'p-lg'; // padding: 24px
-className = 'p-xl'; // padding: 32px
-className = 'p-2xl'; // padding: 48px
-className = 'p-3xl'; // padding: 64px
-```
-
-**Typography (Tailwind + custom scale):**
-
-```tsx
-className = 'text-xs'; // 12px
-className = 'text-sm'; // 14px
-className = 'text-base'; // 16px
-className = 'text-lg'; // 20px
-className = 'text-xl'; // 24px
-className = 'text-2xl'; // 28px
-className = 'text-3xl'; // 32px
-className = 'text-4xl'; // 36px
-```
-
-**Example Usage:**
-
-```tsx
-// BEFORE (StyleSheet)
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#1A1A1A', padding: 16 }
-});
-<View style={styles.container}>
-
-// AFTER (NativeWind)
-<View className="flex-1 bg-background-surface p-md">
-```
-
-**Result:** 60% less code, 2-3x faster development, easier maintenance
-
-_→ See `tailwind.config.js` for complete config_
+**Quick reference**: Dark theme, 8px spacing grid, NativeWind v4 (Tailwind CSS 3.4)
 
 ---
 
