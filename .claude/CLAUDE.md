@@ -352,28 +352,128 @@ Read(file_path="docs/TASKS.md", offset=190, limit=10)
 
 ---
 
-## 🔄 Session End Checklist
+## 🔄 Session End Checklist (AUTOMATED)
 
-Before ending session:
+**See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md) for complete automation details.**
+
+Before ending session, automatically detect triggers and execute documentation updates:
+
+### Phase 1: Detect Triggers
+
+Check which events occurred during this session:
 
 ```bash
-# 1. Mark completed tasks in TASKS.md
-[ ] Tasks marked [x] (with EXACT line verification)
+[ ] TASK_COMPLETE - Any task from TASKS.md completed?
+[ ] PHASE_COMPLETE - All tasks in current phase finished?
+[ ] BUG_FIXED - Bug solved and solution documented?
+[ ] TECH_DECISION - Architectural decision made?
+[ ] SCHEMA_CHANGE - Database schema modified?
+[ ] FEATURE_ADDED - New feature implementation complete?
+```
 
-# 2. Update status if phase changed
-[ ] README.md § Current Status updated (with EXACT line verification)
+### Phase 2: Generate Update Plan
 
-# 3. Type check passes
+For each detected trigger, generate precise updates:
+
+**TASK_COMPLETE Trigger:**
+```markdown
+Automatic updates:
+1. docs/TASKS.md → Mark checkbox [x] (exact line)
+2. docs/TASKS.md → Increment progress counter (line 56)
+3. docs/TASKS.md → Update badge % (line 5)
+4. README.md → Sync progress (line 102)
+```
+
+**PHASE_COMPLETE Trigger:**
+```markdown
+Automatic updates:
+1. docs/TASKS.md → Mark phase complete (add ✅)
+2. docs/TASKS.md → Move "YOU ARE HERE" marker
+3. docs/TASKS.md → Add "⭐ NEXT SESSION" to next phase
+4. README.md → Update current phase (line 102)
+5. docs/TECHNICAL.md → Update status header (line 5)
+```
+
+**BUG_FIXED Trigger:**
+```markdown
+Automatic updates:
+1. docs/TROUBLESHOOTING.md → Add new section under appropriate category
+   Format:
+   ### [Bug Title]
+   **Symptoms:** [Auto-extracted from error]
+   **Cause:** [Root cause]
+   **Solution:** [Code/commands used]
+```
+
+**TECH_DECISION Trigger:**
+```markdown
+Automatic updates:
+1. docs/TECHNICAL.md → Add ADR-XXX after last ADR
+   Format:
+   ### ADR-XXX: [Decision Name]
+   **Decision:** [What was decided]
+   **Rationale:** [Why this choice]
+   **Trade-offs:** [Pros/cons]
+   **Status:** ✅ Implemented
+```
+
+**SCHEMA_CHANGE Trigger:**
+```markdown
+Automatic updates:
+1. docs/DATABASE.md → Update schema definition (relevant table)
+2. docs/TECHNICAL.md → Update schema reference (if needed)
+```
+
+**FEATURE_ADDED Trigger:**
+```markdown
+Automatic updates:
+1. README.md → Add to features list (if user-facing)
+2. docs/ARCHITECTURE.md → Document new pattern (if architectural)
+3. docs/DATABASE.md → Add usage example (if DB-related)
+```
+
+### Phase 3: Execute Updates (4-Step Process)
+
+For each update in the plan:
+
+```typescript
+// Step 1: Read current state
+Read(file_path, offset, limit);
+
+// Step 2: Verify expected content
+assert(current.includes(expectedContent));
+
+// Step 3: Make precise edit
+Edit({
+  file_path,
+  old_string: exactCurrentString,
+  new_string: exactNewString
+});
+
+// Step 4: Verify change applied
+Read(file_path, offset, limit);
+assert(updated.includes(newContent));
+```
+
+### Phase 4: Commit Documentation
+
+Atomic commit with conventional message:
+
+```bash
+# Examples:
+git commit -m "docs: update progress after completing task 0.5bis.3"
+git commit -m "docs: mark Phase 0.5 Bis complete and prepare Phase 1"
+git commit -m "docs(troubleshooting): add solution for WatermelonDB sync error"
+git commit -m "docs(technical): add ADR-013 ExerciseDB integration"
+```
+
+### Phase 5: Manual Verification
+
+```bash
 [ ] npm run type-check ✅
-
-# 4. Committed work
 [ ] git status clean OR meaningful WIP commit
-
-# 5. Next session prepared
-[ ] TASKS.md has clear "⭐ NEXT SESSION" marker (verified by reading file)
-
-# 6. Documentation changes committed
-[ ] All doc updates in single commit with detailed message
+[ ] TASKS.md has "⭐ NEXT SESSION" marker (verified)
+[ ] All doc updates committed in single atomic commit
 ```
 
 ---
@@ -382,17 +482,18 @@ Before ending session:
 
 **DO NOT duplicate content here** - just reference the docs.
 
-| File                | Purpose                          | When to Update                     |
-| ------------------- | -------------------------------- | ---------------------------------- |
-| README.md           | Project overview, status, stack  | Phase change, version bump         |
-| CONTRIBUTING.md     | Setup guide, workflow            | Stack change, new commands         |
-| TASKS.md            | Roadmap (96 tasks, 6 phases)     | Task completion, phase progress    |
-| AUDIT_FIXES.md      | Post-migration corrections       | Correction completion              |
-| DATABASE.md         | WatermelonDB guide, schema       | Schema change, new CRUD operation  |
-| ARCHITECTURE.md     | Code structure, patterns         | New pattern, folder restructure    |
-| TECHNICAL.md        | ADRs, tech decisions             | New tech decision, algorithm added |
-| TROUBLESHOOTING.md  | Bug solutions                    | New issue solved                   |
-| PRD.md              | Product requirements             | Rarely (feature scope change)      |
+| File                    | Purpose                          | When to Update                     |
+| ----------------------- | -------------------------------- | ---------------------------------- |
+| README.md               | Project overview, status, stack  | Phase change, version bump         |
+| CONTRIBUTING.md         | Setup guide, workflow            | Stack change, new commands         |
+| TASKS.md                | Roadmap (96 tasks, 6 phases)     | Task completion, phase progress    |
+| AUDIT_FIXES.md          | Post-migration corrections       | Correction completion              |
+| DATABASE.md             | WatermelonDB guide, schema       | Schema change, new CRUD operation  |
+| ARCHITECTURE.md         | Code structure, patterns         | New pattern, folder restructure    |
+| TECHNICAL.md            | ADRs, tech decisions             | New tech decision, algorithm added |
+| TROUBLESHOOTING.md      | Bug solutions                    | New issue solved                   |
+| PRD.md                  | Product requirements             | Rarely (feature scope change)      |
+| DOC_AUTOMATION_SYSTEM.md| Trigger-based doc update system  | System refinement (rare)           |
 
 ---
 
