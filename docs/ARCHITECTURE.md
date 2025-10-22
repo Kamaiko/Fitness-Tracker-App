@@ -2,10 +2,10 @@
 
 ---
 
-## Table des Matières
+## Table of Contents
 
-- [📐 Vue d'Ensemble](#vue-densemble)
-- [📂 Structure Détaillée](#structure-détaillée)
+- [📐 Overview](#overview)
+- [📂 Detailed Structure](#detailed-structure)
   - [1. `/app` - Navigation (Expo Router)](#1-app---navigation-expo-router)
   - [2. `/components` - UI Components](#2-components---ui-components)
   - [3. `/hooks` - Custom React Hooks](#3-hooks---custom-react-hooks)
@@ -18,14 +18,14 @@
 - [📦 Import Patterns](#import-patterns)
 - [🧪 Testing Strategy (Future)](#testing-strategy-future)
 - [🚀 Post-MVP Performance Optimizations](#post-mvp-performance-optimizations)
-- [📚 Références](#références)
+- [📚 References](#references)
 - [✅ Architecture Checklist](#architecture-checklist)
 
 ---
 
-## Vue d'Ensemble
+## Overview
 
-Halterofit utilise une **architecture modulaire scalable** inspirée des meilleures pratiques React Native/Expo:
+Halterofit uses a **scalable modular architecture** inspired by React Native/Expo best practices:
 
 ```
 src/
@@ -39,17 +39,17 @@ src/
 └── constants/        # 🎨 App-wide Constants
 ```
 
-### Principes Architecturaux
+### Architectural Principles
 
-1. **Separation of Concerns**: Chaque layer a une responsabilité claire
-2. **Feature Organization**: Components/hooks organisés par feature
-3. **Colocation**: Types colocalisés avec leur implémentation
-4. **Barrel Exports**: index.ts pour imports propres
-5. **Type Safety**: TypeScript strict mode partout
+1. **Separation of Concerns**: Each layer has a clear responsibility
+2. **Feature Organization**: Components/hooks organized by feature
+3. **Colocation**: Types colocated with their implementation
+4. **Barrel Exports**: index.ts for clean imports
+5. **Type Safety**: TypeScript strict mode everywhere
 
 ---
 
-## Structure Détaillée
+## Detailed Structure
 
 ### 1. `/app` - Navigation (Expo Router)
 
