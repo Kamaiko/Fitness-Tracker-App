@@ -112,27 +112,23 @@ Replace: **Progress:** ![](https://img.shields.io/badge/Progress-7%25-red) 7/96 
 
 ---
 
-### Step 3: Update "NEXT SESSION" Section
+### Step 3: Update NEXT SESSION Section
 
-**Location:** Section `## ⭐ NEXT SESSION` (~line 99-110)
+**Location:** Section `## ⭐ NEXT SESSION` (~line 100)
 
-**Update status line:**
-```
-File: docs/TASKS.md
-Find: **Status:** 0/10 tasks completed in this phase
-Replace: **Status:** {count}/10 tasks completed in this phase
-```
-
-**Count calculation:**
+**Update if task completed was the "Next Task":**
 ```typescript
-// Count completed tasks in current phase
-phase = "0.5 Bis"
-completedInPhase = countCompletedTasksInPhase(phase)
-totalInPhase = countTotalTasksInPhase(phase)
+// Only update if we just completed the task marked as [NEXT]
+if (completedTaskId === nextTaskInSession) {
+  // Find new next task (first incomplete in phase)
+  newNextTask = findFirstIncompleteTaskInPhase(currentPhase)
+
+  // Update NEXT SESSION to point to new task
+  updateNextSessionPointer(newNextTask)
+}
 ```
 
-**If task is NOT in current phase:**
-- Skip this step (only update for current phase tasks)
+**Skip if:** Completed task was not the current "Next Task"
 
 ---
 
@@ -269,24 +265,22 @@ function checkPhaseCompletion(taskId) {
 
 **When phase completes:**
 
-1. **Update roadmap ASCII art**
-   - Add ✅ to completed phase
-   - Move "YOU ARE HERE" to next phase
+1. **Update roadmap** (add ✅ to completed phase)
 
 2. **Update NEXT SESSION section**
    - Change current phase to next phase
-   - Update next task to first task of next phase
+   - Point to first task of next phase
    - Update status counter
 
 3. **Notify user**
 ```
-🎉 Phase {phase} is now complete! ({completed}/{total} tasks)
+🎉 Phase {phase} complete! ({completed}/{total} tasks)
 
-I've automatically updated:
-- ✅ Roadmap (marked phase complete, moved YOU ARE HERE)
-- ✅ NEXT SESSION section (now pointing to Phase {nextPhase})
+Updated:
+- ✅ Roadmap (marked phase complete)
+- ✅ NEXT SESSION (now Phase {nextPhase})
 
-Next steps: Start Phase {nextPhase} - {nextPhaseTitle}
+Next: {nextPhase} - {nextPhaseTitle}
 ```
 
 4. **Commit**

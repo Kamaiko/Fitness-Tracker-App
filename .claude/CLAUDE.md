@@ -84,7 +84,7 @@ Before ending session:
 [ ] Update docs using 4-step process (see § Documentation Update Protocol)
 [ ] Commit with conventional message
 [ ] npm run type-check ✅
-[ ] Verify "⭐ NEXT SESSION" marker in TASKS.md
+[ ] Verify NEXT SESSION section in TASKS.md accurate
 ```
 
 **Automation:** SessionEnd hook (`.claude/hooks/session-end.json`) verifies documentation consistency automatically.
