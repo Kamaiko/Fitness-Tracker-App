@@ -145,13 +145,7 @@ git push origin feature/task-description
 
 ## 📚 Documentation
 
-- **[README.md](../README.md)** - Project overview & quick start
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Code organization & folder structure
-- **[DATABASE.md](DATABASE.md)** - WatermelonDB setup, schema, CRUD operations
-- **[TASKS.md](TASKS.md)** - Development roadmap (96 tasks across 6 phases)
-- **[TECHNICAL.md](TECHNICAL.md)** - Architecture Decision Records (ADRs)
-- **[AUDIT_FIXES.md](AUDIT_FIXES.md)** - Critical corrections to implement
-- **[PRD.md](PRD.md)** - Product requirements & user stories
+See [README.md § Documentation](../README.md#-documentation) for complete documentation index.
 
 ---
 
@@ -285,31 +279,6 @@ npm start
 
 ---
 
-## 🔧 Tech Stack
-
-| Layer          | Technology                                         |
-| -------------- | -------------------------------------------------- |
-| **Frontend**   | Expo SDK 54 + React Native 0.82 + TypeScript 5.9   |
-| **Navigation** | Expo Router 6                                      |
-| **Styling**    | NativeWind v4 (Tailwind CSS 3.4)                   |
-| **State**      | Zustand 5.0 + React Query 5.90                     |
-| **Database**   | WatermelonDB (offline-first, reactive)             |
-| **Storage**    | MMKV (10-30x faster than AsyncStorage, encrypted)  |
-| **UI**         | FlashList + expo-image + Victory Native            |
-| **Backend**    | Supabase (PostgreSQL + Auth + Storage + Real-time) |
-| **Build**      | EAS Build (Development Build required)             |
-
-**Current Phase:** 0.5 Bis - Development Build Migration
-
----
-
-## 🚦 Getting Help
-
-- Check [docs/](./docs) folder for comprehensive documentation
-- Review [TECHNICAL.md](TECHNICAL.md) for architecture decisions
-- Check [AUDIT_FIXES.md](AUDIT_FIXES.md) for known issues
-- Read [DATABASE.md](DATABASE.md) for WatermelonDB usage
-
----
-
 **Happy Coding! 🚀**
+
+**Tech Stack & Architecture**: See [README.md](../README.md#️-tech-stack) for complete stack details.

@@ -1,9 +1,5 @@
 # 🏗️ Technical Documentation
 
-**Last Updated:** January 2025
-**Version:** 0.2.0
-**Status:** Phase 0.5 - Foundation
-
 ---
 
 ## 📑 Table of Contents
