@@ -115,8 +115,4 @@ We're building with production-grade tools from the start to avoid costly refact
 | **MMKV**           | 10-30x faster + Native encryption                        | AsyncStorage           |
 | **Victory Native** | Professional charts + Skia rendering + Advanced gestures | react-native-chart-kit |
 
-**Trade-off:** Requires Development Build (vs Expo Go) but gains production-ready architecture.
-
-**→ See [TECHNICAL.md](docs/TECHNICAL.md) for complete Architecture Decision Records (ADRs)**
-
 ---
