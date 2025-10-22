@@ -1,8 +1,8 @@
 {
   "commands": [
     {
-      "command": "Please review the conversation and check if any tasks were completed during this session. If you detect completed tasks that haven't been updated in TASKS.md yet, follow the task-tracker agent protocol (.claude/agents/task-tracker.md) to update documentation. This is a PreCompact hook - batch any pending updates and commit them now before compaction.",
-      "description": "Flush pending task updates before compaction"
+      "command": "Follow smart-detector protocol (.claude/lib/smart-detector.md) to detect completed tasks by analyzing my actions and TASKS.md. Also check for French keywords like 'documenter', 'mettre à jour TASKS', etc. Batch any detected tasks and confirm before updating.",
+      "description": "Smart task detection on PreCompact"
     }
   ]
 }

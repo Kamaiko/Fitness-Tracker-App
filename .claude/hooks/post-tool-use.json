@@ -1,0 +1,8 @@
+{
+  "commands": [
+    {
+      "command": "echo \"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"target\\\":\\\"$TOOL_TARGET\\\",\\\"time\\\":$(date +%s)}\" >> .claude/.actions.json",
+      "description": "Track Claude's actions for smart task detection"
+    }
+  ]
+}

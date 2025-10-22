@@ -18,27 +18,39 @@
 
 ## 🔍 Detection Strategy (Hybrid Approach)
 
-### Method 1: Conversation Keywords
+### Method 1: Conversation Keywords (Bilingual)
 
-Monitor user messages and your own responses for completion indicators:
+Monitor user messages and your own responses for completion indicators in **French or English**:
 
-**Explicit completion statements:**
+**French keywords (style naturel):**
+- "documentez" / "documenter"
+- "mettre à jour TASKS"
+- "mettre à jour la documentation"
+- "update TASKS.md"
+- "marquer X complete"
+- "X est fait"
+- "terminé X"
+
+**English keywords:**
+- "update tasks"
+- "mark task X complete"
+- "document task X"
 - "completed task X"
 - "finished task X"
-- "done with task X"
-- "task X is complete"
-- "marked task X as complete"
+- "done with X"
 
 **Task ID patterns to match:**
 - `0.5bis.1` (phase.task format)
 - `0.5.A.1` (phase.section.task format)
 - `1.1`, `2.3`, etc. (simple phase.task)
 
+**Detection is case-insensitive and works in both languages.**
+
 **Example detection:**
 ```
-User: "I just completed task 0.5bis.3"
-→ TRIGGER DETECTED
-→ Extract: taskId = "0.5bis.3"
+User: "Documentez les tâches svp"
+→ TRIGGER DETECTED (French keyword)
+→ Analyze recent work to determine which task
 → Proceed to confirmation
 ```
 
