@@ -7,6 +7,23 @@ Common issues and solutions for Halterofit development with **Development Build*
 
 ---
 
+## 📑 Table of Contents
+
+- [📖 Quick Navigation](#-quick-navigation)
+- [🔴 Critical Issues (App Won't Start)](#-critical-issues-app-wont-start)
+- [📱 Expo & Metro Bundler Issues](#-expo--metro-bundler-issues)
+- [💾 WatermelonDB Issues](#-watermelondb-issues)
+- [🔐 MMKV Storage Issues](#-mmkv-storage-issues)
+- [🎨 Styling & UI Issues](#-styling--ui-issues)
+- [🔐 Authentication Issues](#-authentication-issues)
+- [📦 npm / Dependency Issues](#-npm--dependency-issues)
+- [🐛 TypeScript Errors](#-typescript-errors)
+- [🚀 Performance Issues](#-performance-issues)
+- [📝 Adding New Issues to This Guide](#-adding-new-issues-to-this-guide)
+- [🆘 Still Stuck?](#-still-stuck)
+
+---
+
 ## 📖 Quick Navigation
 
 **By Severity:**
