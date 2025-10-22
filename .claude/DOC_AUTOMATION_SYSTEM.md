@@ -8,6 +8,7 @@
 ## 🎯 Philosophy
 
 **Problem**: Manual documentation updates are:
+
 - Time-consuming (5-10 min per session)
 - Error-prone (easy to forget)
 - Inconsistent (different formats)
@@ -33,27 +34,32 @@ Code Event → Trigger → Automatic Doc Update → Commit
 ## Documentation Updates (Automatic)
 
 ### Update 1: Mark task complete
+
 📄 File: docs/TASKS.md
 📍 Section: Current phase, specific task
 ✏️ Action: Change [ ] to [x]
 
 ### Update 2: Increment progress counter
+
 📄 File: docs/TASKS.md
 📍 Section: ## 📊 Current Status (line ~56)
 ✏️ Action: Increment "X completed / 96 total tasks"
 
 ### Update 3: Update progress badge
+
 📄 File: docs/TASKS.md
 📍 Section: Top of file (line 5)
 ✏️ Action: Calculate new percentage, update badge
 
 ### Update 4: Sync to README.md
+
 📄 File: README.md
 📍 Section: ## 🎯 Current Status (line ~102)
 ✏️ Action: Update "X/96 tasks (Y%)"
 ```
 
 **Implementation**:
+
 ```typescript
 // WHEN: After completing ANY task
 function onTaskComplete(taskId: string) {
@@ -61,11 +67,11 @@ function onTaskComplete(taskId: string) {
     { file: 'docs/TASKS.md', action: 'mark_checkbox', taskId },
     { file: 'docs/TASKS.md', action: 'increment_progress' },
     { file: 'docs/TASKS.md', action: 'update_badge' },
-    { file: 'README.md', action: 'sync_progress' }
+    { file: 'README.md', action: 'sync_progress' },
   ];
 
   executeDocUpdates(updates);
-  commitDocs("docs: update progress after completing task " + taskId);
+  commitDocs('docs: update progress after completing task ' + taskId);
 }
 ```
 
@@ -81,37 +87,43 @@ function onTaskComplete(taskId: string) {
 ## Documentation Updates (Automatic)
 
 ### Update 1: Mark phase complete in roadmap
+
 📄 File: docs/TASKS.md
 📍 Section: ## 🗺️ Development Roadmap (line ~58)
 ✏️ Action: Add ✅ COMPLETE marker
 
 ### Update 2: Move "YOU ARE HERE" marker
+
 📄 File: docs/TASKS.md
 📍 Section: Roadmap diagram
 ✏️ Action: Move to next phase
 
 ### Update 3: Add "NEXT SESSION" to next phase
+
 📄 File: docs/TASKS.md
 📍 Section: Next phase heading
 ✏️ Action: Add ⭐ NEXT SESSION marker
 
 ### Update 4: Update current status
+
 📄 File: README.md
 📍 Section: ## 🎯 Current Status (line 102)
 ✏️ Action: Update "Phase: X.X - Name"
 
 ### Update 5: Update TECHNICAL.md header
+
 📄 File: docs/TECHNICAL.md
 📍 Section: Top header (line 3-5)
 ✏️ Action: Update **Status:** Phase X
 ```
 
 **Detection Logic**:
+
 ```typescript
 // WHEN: Checking if phase is complete
 function detectPhaseComplete(phase: string) {
   const tasks = getTasksForPhase(phase);
-  const completed = tasks.filter(t => t.checked).length;
+  const completed = tasks.filter((t) => t.checked).length;
 
   if (completed === tasks.length) {
     onPhaseComplete(phase);
@@ -131,6 +143,7 @@ function detectPhaseComplete(phase: string) {
 ## Documentation Updates (Automatic)
 
 ### Update: Add to TROUBLESHOOTING.md
+
 📄 File: docs/TROUBLESHOOTING.md
 📍 Section: Under appropriate category (by component)
 ✏️ Action: Add new section
@@ -138,9 +151,11 @@ function detectPhaseComplete(phase: string) {
 ### [Bug Title]
 
 **Symptoms:**
+
 - [Auto-extracted from error]
 
 **Cause:**
+
 - [Root cause explanation]
 
 **Solution:**
@@ -148,18 +163,19 @@ function detectPhaseComplete(phase: string) {
 ```
 
 **Implementation**:
+
 ```typescript
 // WHEN: After fixing a bug
-function onBugFixed(bug: { title, symptoms, cause, solution }) {
+function onBugFixed(bug: { title; symptoms; cause; solution }) {
   const category = detectCategory(bug); // WatermelonDB, MMKV, Metro, etc.
 
   addToTroubleshooting({
     file: 'docs/TROUBLESHOOTING.md',
     category,
-    content: formatBugSection(bug)
+    content: formatBugSection(bug),
   });
 
-  commitDocs("docs(troubleshooting): add solution for " + bug.title);
+  commitDocs('docs(troubleshooting): add solution for ' + bug.title);
 }
 ```
 
@@ -175,6 +191,7 @@ function onBugFixed(bug: { title, symptoms, cause, solution }) {
 ## Documentation Updates (Automatic)
 
 ### Update: Add ADR to TECHNICAL.md
+
 📄 File: docs/TECHNICAL.md
 📍 Section: After last ADR
 ✏️ Action: Add new ADR section
@@ -191,6 +208,7 @@ function onBugFixed(bug: { title, symptoms, cause, solution }) {
 ```
 
 **Implementation**:
+
 ```typescript
 // WHEN: Making a tech decision
 function onTechDecision(decision: ADR) {
@@ -199,10 +217,10 @@ function onTechDecision(decision: ADR) {
   addADR({
     file: 'docs/TECHNICAL.md',
     number: adrNumber,
-    content: formatADR(decision)
+    content: formatADR(decision),
   });
 
-  commitDocs("docs(technical): add ADR-" + adrNumber + " " + decision.name);
+  commitDocs('docs(technical): add ADR-' + adrNumber + ' ' + decision.name);
 }
 ```
 
@@ -218,11 +236,13 @@ function onTechDecision(decision: ADR) {
 ## Documentation Updates (Automatic)
 
 ### Update: Sync schema in DATABASE.md
+
 📄 File: docs/DATABASE.md
 📍 Section: Relevant table section
 ✏️ Action: Update schema definition
 
 ### Update: Sync schema in TECHNICAL.md
+
 📄 File: docs/TECHNICAL.md
 📍 Section: ## 🗄️ Database Schema
 ✏️ Action: Update schema reference
@@ -240,16 +260,19 @@ function onTechDecision(decision: ADR) {
 ## Documentation Updates (Automatic)
 
 ### Update 1: Add to README features list
+
 📄 File: README.md
 📍 Section: ## 🎯 What Makes Halterofit Different
 ✏️ Action: Add feature if user-facing
 
 ### Update 2: Update ARCHITECTURE.md if needed
+
 📄 File: docs/ARCHITECTURE.md
 📍 Section: Relevant pattern section
 ✏️ Action: Document new pattern/component
 
 ### Update 3: Add usage example to DATABASE.md
+
 📄 File: docs/DATABASE.md
 📍 Section: ## 💡 Usage Examples
 ✏️ Action: Add real-world example if DB-related
@@ -260,6 +283,7 @@ function onTechDecision(decision: ADR) {
 ## 🔄 Automatic Update Workflow
 
 ### Step 1: Detect Trigger
+
 ```typescript
 // Claude automatically detects:
 if (taskCompleted) trigger = 'TASK_COMPLETE';
@@ -271,12 +295,14 @@ if (featureAdded) trigger = 'FEATURE_ADDED';
 ```
 
 ### Step 2: Generate Update Plan
+
 ```typescript
 const updatePlan = generateUpdatesForTrigger(trigger, context);
 // Returns precise list of files/sections/changes
 ```
 
 ### Step 3: Execute Updates
+
 ```typescript
 for (const update of updatePlan) {
   // 1. Read current state
@@ -289,7 +315,7 @@ for (const update of updatePlan) {
   Edit({
     file_path: update.file,
     old_string: update.oldContent,
-    new_string: update.newContent
+    new_string: update.newContent,
   });
 
   // 4. Verify change applied
@@ -299,6 +325,7 @@ for (const update of updatePlan) {
 ```
 
 ### Step 4: Commit with Convention
+
 ```typescript
 commitDocs(generateCommitMessage(trigger, updates));
 // Examples:
@@ -310,26 +337,33 @@ commitDocs(generateCommitMessage(trigger, updates));
 
 ---
 
-## 📊 Single Source of Truth Matrix
+## 📊 Primary Source Matrix
 
 **Prevents duplication by defining ownership:**
 
-| Information | Owner File | Sync To | Update Frequency |
-|-------------|-----------|---------|------------------|
-| **Current Phase** | README.md § Current Status | TECHNICAL.md header | Phase change |
-| **Progress (X/96)** | README.md § Current Status | TASKS.md § Current Status | Task complete |
-| **Task List** | TASKS.md | NOWHERE | Never duplicate |
-| **Tech Stack** | README.md § Tech Stack | NOWHERE | Stack change |
-| **Setup Guide** | CONTRIBUTING.md | NOWHERE | Stack change |
-| **ADRs** | TECHNICAL.md | NOWHERE | New decision |
-| **Database Schema** | DATABASE.md | TECHNICAL.md (reference only) | Schema change |
-| **Troubleshooting** | TROUBLESHOOTING.md | NOWHERE | Bug fixed |
+**Terminology:**
+
+- **Primary Source** (authoritative, write here first)
+- **Synchronized Mirror** (auto-updated copy, never write directly)
+- **Reference** (link only, no duplication)
+
+| Information         | Owner File                 | Sync To                       | Update Frequency |
+| ------------------- | -------------------------- | ----------------------------- | ---------------- |
+| **Current Phase**   | README.md § Current Status | TECHNICAL.md header           | Phase change     |
+| **Progress (X/96)** | README.md § Current Status | TASKS.md § Current Status     | Task complete    |
+| **Task List**       | TASKS.md                   | NOWHERE                       | Never duplicate  |
+| **Tech Stack**      | README.md § Tech Stack     | NOWHERE                       | Stack change     |
+| **Setup Guide**     | CONTRIBUTING.md            | NOWHERE                       | Stack change     |
+| **ADRs**            | TECHNICAL.md               | NOWHERE                       | New decision     |
+| **Database Schema** | DATABASE.md                | TECHNICAL.md (reference only) | Schema change    |
+| **Troubleshooting** | TROUBLESHOOTING.md         | NOWHERE                       | Bug fixed        |
 
 **Rules:**
-- ✅ One owner per piece of information
-- ✅ Sync to other files ONLY if absolutely necessary
-- ✅ Use references (links) instead of duplication when possible
-- ❌ Never duplicate changing information
+
+- ✅ One Primary Source per piece of information
+- ✅ Mirrors must be auto-synchronized (never manually updated)
+- ✅ Use References (links) instead of Mirrors when possible
+- ❌ Never duplicate changing information manually
 
 ---
 
@@ -345,7 +379,7 @@ updates = [
   'docs/TASKS.md → Mark checkbox [x]',
   'docs/TASKS.md → Increment counter',
   'docs/TASKS.md → Update badge %',
-  'README.md → Sync progress'
+  'README.md → Sync progress',
 ];
 
 // Execute all or none (atomic)
@@ -362,7 +396,7 @@ updates = [
   '2. docs/TASKS.md → Move YOU ARE HERE',
   '3. docs/TASKS.md → Add NEXT SESSION',
   '4. README.md → Update current phase',
-  '5. docs/TECHNICAL.md → Update status'
+  '5. docs/TECHNICAL.md → Update status',
 ];
 
 // Order matters for consistency
@@ -396,142 +430,6 @@ updates = [
 ✅ Update DATABASE.md if schema changed
 ✅ Add usage example if user-facing
 ```
-
----
-
-## 🚀 Implementation in CLAUDE.md
-
-**Add to Session End Checklist**:
-
-```markdown
-## 🔄 Session End Checklist (AUTOMATED)
-
-Before ending session, Claude AUTOMATICALLY:
-
-### Phase 1: Detect Triggers
-[ ] Check if any tasks completed → Trigger TASK_COMPLETE
-[ ] Check if phase finished → Trigger PHASE_COMPLETE
-[ ] Check if bugs fixed → Trigger BUG_FIXED
-[ ] Check if tech decisions made → Trigger TECH_DECISION
-[ ] Check if schema changed → Trigger SCHEMA_CHANGE
-[ ] Check if features added → Trigger FEATURE_ADDED
-
-### Phase 2: Generate Update Plan
-[ ] For each trigger, generate precise updates
-[ ] Show update plan to user (transparency)
-
-### Phase 3: Execute Updates
-[ ] For each update:
-    [ ] Read current state (verify)
-    [ ] Make precise edit (exact strings)
-    [ ] Verify change applied (read again)
-
-### Phase 4: Commit Documentation
-[ ] Atomic commit with all doc updates
-[ ] Conventional message: "docs: [trigger-based message]"
-[ ] Push to remote
-
-### Phase 5: Prepare Next Session
-[ ] Verify "⭐ NEXT SESSION" marker is set
-[ ] Update CLAUDE.md if needed
-```
-
----
-
-## 📖 Example Session (Automated)
-
-**User completes task 0.5bis.3**:
-
-```markdown
-✅ Task 0.5bis.3 complete: Build Development Build
-
-## Automatic Documentation Updates
-
-Trigger detected: TASK_COMPLETE
-
-### Updates to execute:
-
-1. docs/TASKS.md (line 195):
-   - [ ] 0.5bis.3 Build Development Build
-   → [x] 0.5bis.3 Build Development Build ✅
-
-2. docs/TASKS.md (line 56):
-   "6 completed" → "7 completed"
-
-3. docs/TASKS.md (line 5):
-   Badge 6% → 7%
-
-4. README.md (line 102):
-   "6/96 tasks (6%)" → "7/96 tasks (7%)"
-
-Executing updates... ✅
-Committing... ✅
-
-Commit: "docs: update progress after completing task 0.5bis.3"
-```
-
-**User finishes Phase 0.5 Bis**:
-
-```markdown
-🎉 Phase 0.5 Bis complete!
-
-## Automatic Documentation Updates
-
-Trigger detected: PHASE_COMPLETE
-
-### Updates to execute:
-
-1. docs/TASKS.md (line 61):
-   Add "✅ COMPLETE" to Phase 0.5 Bis
-
-2. docs/TASKS.md (line 62):
-   Move "← YOU ARE HERE" to Phase 1
-
-3. docs/TASKS.md (line 520):
-   Add "⭐ NEXT SESSION" to Phase 1
-
-4. README.md (line 102):
-   "Phase: 0.5 Bis" → "Phase: 1 - Authentication"
-
-5. docs/TECHNICAL.md (line 5):
-   **Status:** Phase 0.5 → Phase 1
-
-Executing updates... ✅
-Committing... ✅
-
-Commit: "docs: mark Phase 0.5 Bis complete and prepare Phase 1"
-```
-
----
-
-## 🎓 Benefits
-
-**Before (Manual)**:
-- ❌ 5-10 min per session updating docs
-- ❌ Easy to forget (inconsistent)
-- ❌ Different formats each time
-- ❌ Boring repetitive work
-
-**After (Automated)**:
-- ✅ 0 min manual work (automatic)
-- ✅ Never forgotten (trigger-based)
-- ✅ Consistent format (conventions)
-- ✅ Claude focuses on coding
-
-**Time Savings**:
-- 5-10 min saved per session
-- ~96 sessions (96 tasks)
-- **Total saved: 8-16 hours** 🎉
-
----
-
-## ✅ Action Items
-
-1. Add this system to CLAUDE.md
-2. Create trigger detection logic
-3. Create update plan generator
-4. Test with next task completion
-5. Refine based on real usage
 
 ---
 

@@ -10,7 +10,7 @@
 
 ### 1. Read Project Status (15 seconds)
 
-**Single Source of Truth**: `README.md` section "Current Status"
+**Primary Source**: `README.md` section "Current Status"
 
 ```bash
 # Current info is ALWAYS in README.md:
@@ -39,15 +39,15 @@ Is this first session on project?
 
 **Key files by scenario:**
 
-| Scenario                        | Read This Document       | Section                |
-| ------------------------------- | ------------------------ | ---------------------- |
-| New to project                  | CONTRIBUTING.md          | Complete guide         |
-| Daily development               | TASKS.md                 | Current phase section  |
-| Database work                   | DATABASE.md              | Relevant operation     |
-| Fixing bugs                     | TROUBLESHOOTING.md       | By component/symptom   |
-| Understanding tech decisions    | TECHNICAL.md             | Specific ADR           |
-| Post-migration corrections      | AUDIT_FIXES.md           | TL;DR → Correction #N  |
-| Code structure questions        | ARCHITECTURE.md          | Relevant pattern       |
+| Scenario                     | Read This Document | Section               |
+| ---------------------------- | ------------------ | --------------------- |
+| New to project               | CONTRIBUTING.md    | Complete guide        |
+| Daily development            | TASKS.md           | Current phase section |
+| Database work                | DATABASE.md        | Relevant operation    |
+| Fixing bugs                  | TROUBLESHOOTING.md | By component/symptom  |
+| Understanding tech decisions | TECHNICAL.md       | Specific ADR          |
+| Post-migration corrections   | AUDIT_FIXES.md     | TL;DR → Correction #N |
+| Code structure questions     | ARCHITECTURE.md    | Relevant pattern      |
 
 ### 3. Documentation Update Protocol (MANDATORY)
 
@@ -83,182 +83,31 @@ After:
 
 #### ✅ DO Update (with precision):
 
-**When completing a task:**
+**Always specify:** File path, section/line, exact change (before/after)
+
+**Example:**
+
 ```markdown
 📄 File: docs/TASKS.md
-📍 Section: Phase X, Task Y (line N)
+📍 Section: Phase 0.5 Bis, Task 1 (line 195)
 ✏️ Change: Mark task checkbox [x]
 
-Example:
-- [ ] 0.5bis.1 Setup EAS Build Account & CLI
-→
-- [x] 0.5bis.1 Setup EAS Build Account & CLI
+Before: - [ ] 0.5bis.1 Setup EAS Build Account & CLI
+After: - [x] 0.5bis.1 Setup EAS Build Account & CLI
 ```
 
-**When phase changes:**
-```markdown
-📄 File 1: README.md
-📍 Section: ## 🎯 Current Status (line ~100)
-✏️ Changes:
-  1. Update Progress: "6/96" → "16/96" (17%)
-  2. Update Phase: "0.5 Bis" → "1"
-
-📄 File 2: docs/TASKS.md
-📍 Section: ## 📊 Current Status (line ~52)
-✏️ Changes:
-  1. Update Progress badge: 6% → 17%
-  2. Update "YOU ARE HERE" marker from Phase 0.5 to Phase 1
-
-📄 File 3: docs/TASKS.md
-📍 Section: Phase 1 heading (line ~520)
-✏️ Change: Add "⭐ NEXT SESSION" marker
-```
-
-**When adding a solved bug:**
-```markdown
-📄 File: docs/TROUBLESHOOTING.md
-📍 Section: After line N (under appropriate category)
-✏️ Action: Add new subsection
-
-### [Bug Title]
-
-**Symptoms:**
-- [Description]
-
-**Cause:**
-- [Root cause]
-
-**Solution:**
-[Code/commands]
-```
+**→ Complete workflows**: See [DOC_AUTOMATION_SYSTEM.md § Automatic Update Workflows](DOC_AUTOMATION_SYSTEM.md#automatic-update-workflows)
 
 #### ❌ NEVER Duplicate:
 
-- **Status/Progress** → Only in README.md § Current Status + TASKS.md § Current Status
-- **Tech Stack** → Only in README.md § Tech Stack table
-- **Setup Instructions** → Only in CONTRIBUTING.md
-- **Phase Details** → Only in TASKS.md
-- **ADRs** → Only in TECHNICAL.md
-
-#### 🎯 Update Workflow Template
-
-**Use this template EVERY TIME you update docs:**
-
-```markdown
-## Documentation Updates Required
-
-### Update 1: [Description]
-📄 **File**: [path/to/file.md]
-📍 **Section**: [Section Name] (line X-Y)
-✏️ **Action**: [add/remove/replace]
-📝 **Content**:
-```
-[exact content to add/replace]
-```
-
-### Update 2: [Description]
-[repeat structure]
-
----
-**Total files affected**: N
-**Estimated time**: X minutes
-```
-
-#### 🔄 Common Update Scenarios
-
-**Scenario 1: Task Completed**
-```markdown
-## Documentation Updates Required
-
-### Update 1: Mark task complete
-📄 **File**: docs/TASKS.md
-📍 **Section**: Phase 0.5 Bis, Task 0.5bis.3 (line ~195)
-✏️ **Action**: Replace checkbox
-📝 **Content**:
-BEFORE: - [ ] 0.5bis.3 **Build Development Build**
-AFTER:  - [x] 0.5bis.3 **Build Development Build**
-
-### Update 2: Update progress counter
-📄 **File**: docs/TASKS.md
-📍 **Section**: ## 📊 Current Status (line 54)
-✏️ **Action**: Replace progress numbers
-📝 **Content**:
-BEFORE: **Total:** 6 completed / 96 total tasks
-AFTER:  **Total:** 7 completed / 96 total tasks
-
-### Update 3: Update progress badge
-📄 **File**: docs/TASKS.md
-📍 **Section**: Top of file (line 5)
-✏️ **Action**: Replace badge percentage
-📝 **Content**:
-BEFORE: ![](https://img.shields.io/badge/Progress-6%25-red)
-AFTER:  ![](https://img.shields.io/badge/Progress-7%25-red)
-```
-
-**Scenario 2: Phase Completed**
-```markdown
-## Documentation Updates Required
-
-### Update 1: Update current status
-📄 **File**: README.md
-📍 **Section**: ## 🎯 Current Status (line 100)
-✏️ **Action**: Replace entire section
-📝 **Content**:
-**Version:** 0.2.0 | **Progress:** 16/96 tasks (17%) | **Phase:** 1 - Authentication
-
-### Update 2: Move "YOU ARE HERE" marker
-📄 **File**: docs/TASKS.md
-📍 **Section**: Roadmap diagram (line 61)
-✏️ **Action**: Replace marker
-📝 **Content**:
-BEFORE:
-Phase 0.5: Architecture & Foundation (15/15 tasks)
-Phase 1: Authentication & Foundation (0/14 tasks) ← YOU ARE HERE
-
-AFTER:
-Phase 0.5: Architecture & Foundation (15/15 tasks) ✅
-Phase 1: Authentication & Foundation (0/14 tasks) ← YOU ARE HERE
-
-### Update 3: Update "NEXT SESSION" marker
-📄 **File**: docs/TASKS.md
-📍 **Section**: Phase 1 heading (line ~520)
-✏️ **Action**: Add marker
-📝 **Content**:
-## 📋 Phase 1: Authentication & Foundation (0/14) ⭐ NEXT SESSION
-```
-
-**Scenario 3: New Feature Added**
-```markdown
-## Documentation Updates Required
-
-### Update 1: Add to TROUBLESHOOTING.md
-📄 **File**: docs/TROUBLESHOOTING.md
-📍 **Section**: After ## WatermelonDB Issues (line ~122)
-✏️ **Action**: Add new subsection
-📝 **Content**:
-### "Sync Failed" Error
-
-**Symptoms:**
-- Sync returns error
-- Changes not appearing in Supabase
-
-**Solutions:**
-[code block]
-
-### Update 2: Add ADR to TECHNICAL.md
-📄 **File**: docs/TECHNICAL.md
-📍 **Section**: After ADR-012 (line ~XXX)
-✏️ **Action**: Add new ADR section
-📝 **Content**:
-### ADR-013: Sync Error Handling Strategy
-[complete ADR]
-```
+See [DOC_AUTOMATION_SYSTEM.md § Primary Source Matrix](DOC_AUTOMATION_SYSTEM.md#primary-source-matrix) for complete ownership rules.
 
 ---
 
 ## 📋 Commit Convention
 
 ### Format
+
 ```
 <type>(<scope>): <description>
 
@@ -266,6 +115,7 @@ Phase 1: Authentication & Foundation (0/14 tasks) ← YOU ARE HERE
 ```
 
 ### Types
+
 - `feat`: Nouvelle fonctionnalité
 - `fix`: Correction de bug
 - `docs`: Documentation seulement
@@ -275,10 +125,12 @@ Phase 1: Authentication & Foundation (0/14 tasks) ← YOU ARE HERE
 - `chore`: Maintenance (build, deps, config)
 
 ### Scopes (common)
+
 - `workout`, `exercises`, `analytics`, `auth`
 - `db`, `ui`, `config`
 
 ### Examples
+
 ```bash
 feat(workout): add RPE tracking to set logger
 fix(analytics): correct volume calculation for compound exercises
@@ -305,6 +157,7 @@ chore(deps): update React Native to 0.82.0
 **BEFORE making ANY documentation change:**
 
 ### Step 1: Read Current State
+
 ```bash
 # ALWAYS read the file first to verify current content
 Read(file_path="docs/TASKS.md", limit=100)
@@ -315,31 +168,36 @@ Read(file_path="docs/TASKS.md", limit=100)
 ```
 
 ### Step 2: Announce EXACT Changes
+
 ```markdown
 I will make the following changes:
 
 📄 File: docs/TASKS.md
 📍 Location: Line 195 (verified by reading file)
 ✏️ Current content:
+
 - [ ] 0.5bis.3 **Build Development Build**
 
 ✏️ New content:
+
 - [x] 0.5bis.3 **Build Development Build**
 
 ✏️ Tool: Edit(file_path, old_string, new_string)
 ```
 
 ### Step 3: Execute with Exact Strings
+
 ```typescript
 // Use EXACT strings from verification step
 Edit({
-  file_path: "docs/TASKS.md",
-  old_string: "- [ ] 0.5bis.3 **Build Development Build**",
-  new_string: "- [x] 0.5bis.3 **Build Development Build**"
-})
+  file_path: 'docs/TASKS.md',
+  old_string: '- [ ] 0.5bis.3 **Build Development Build**',
+  new_string: '- [x] 0.5bis.3 **Build Development Build**',
+});
 ```
 
 ### Step 4: Verify Change Applied
+
 ```bash
 # Read file again to confirm change
 Read(file_path="docs/TASKS.md", offset=190, limit=10)
@@ -380,6 +238,7 @@ For each detected trigger, determine exact updates needed.
 **→ Complete workflows for each trigger**: See DOC_AUTOMATION_SYSTEM.md § Automatic Update Workflows
 
 **Quick reference**:
+
 - TASK_COMPLETE → 4 updates (checkbox, counter, badge, README sync)
 - PHASE_COMPLETE → 5 updates (mark complete, move marker, update status)
 - BUG_FIXED → Add to TROUBLESHOOTING.md with structured format
@@ -426,24 +285,25 @@ git commit -m "docs(technical): add ADR-XXX [decision]"
 
 **DO NOT duplicate content here** - just reference the docs.
 
-| File                    | Purpose                          | When to Update                     |
-| ----------------------- | -------------------------------- | ---------------------------------- |
-| README.md               | Project overview, status, stack  | Phase change, version bump         |
-| CONTRIBUTING.md         | Setup guide, workflow            | Stack change, new commands         |
-| TASKS.md                | Roadmap (96 tasks, 6 phases)     | Task completion, phase progress    |
-| AUDIT_FIXES.md          | Post-migration corrections       | Correction completion              |
-| DATABASE.md             | WatermelonDB guide, schema       | Schema change, new CRUD operation  |
-| ARCHITECTURE.md         | Code structure, patterns         | New pattern, folder restructure    |
-| TECHNICAL.md            | ADRs, tech decisions             | New tech decision, algorithm added |
-| TROUBLESHOOTING.md      | Bug solutions                    | New issue solved                   |
-| PRD.md                  | Product requirements             | Rarely (feature scope change)      |
-| DOC_AUTOMATION_SYSTEM.md| Trigger-based doc update system  | System refinement (rare)           |
+| File                     | Purpose                         | When to Update                     |
+| ------------------------ | ------------------------------- | ---------------------------------- |
+| README.md                | Project overview, status, stack | Phase change, version bump         |
+| CONTRIBUTING.md          | Setup guide, workflow           | Stack change, new commands         |
+| TASKS.md                 | Roadmap (96 tasks, 6 phases)    | Task completion, phase progress    |
+| AUDIT_FIXES.md           | Post-migration corrections      | Correction completion              |
+| DATABASE.md              | WatermelonDB guide, schema      | Schema change, new CRUD operation  |
+| ARCHITECTURE.md          | Code structure, patterns        | New pattern, folder restructure    |
+| TECHNICAL.md             | ADRs, tech decisions            | New tech decision, algorithm added |
+| TROUBLESHOOTING.md       | Bug solutions                   | New issue solved                   |
+| PRD.md                   | Product requirements            | Rarely (feature scope change)      |
+| DOC_AUTOMATION_SYSTEM.md | Trigger-based doc update system | System refinement (rare)           |
 
 ---
 
 ## 🛠️ Quick Commands
 
 **Daily Development:**
+
 ```bash
 npm start                 # Start dev server
 npm start -- --clear      # Clear cache + start
@@ -451,35 +311,10 @@ npm run type-check        # TypeScript validation
 ```
 
 **Building (only when adding native modules):**
+
 ```bash
 eas build --profile development --platform android
 eas build --profile development --platform ios
-```
-
----
-
-## 💡 Smart Documentation Strategy
-
-**Instead of updating multiple docs, use this hierarchy:**
-
-1. **README.md** = Single source of truth for status
-2. **TASKS.md** = Single source of truth for roadmap
-3. **Other docs** = Reference README/TASKS, don't duplicate
-
-**Example of GOOD references:**
-```markdown
-<!-- In TECHNICAL.md -->
-**Current Phase**: See [README.md § Current Status](../README.md#-current-status)
-
-<!-- In CONTRIBUTING.md -->
-**Roadmap**: See [TASKS.md](TASKS.md) for complete task list
-```
-
-**Example of BAD duplication:**
-```markdown
-<!-- ❌ NEVER do this in multiple files -->
-**Current Phase**: 0.5 Bis - Development Build Migration
-**Progress**: 6/96 tasks (6%)
 ```
 
 ---
@@ -496,179 +331,4 @@ eas build --profile development --platform ios
 
 ---
 
-## 📖 Real Examples from This Project
-
-**Example 1: Marking Task Complete (CORRECT ✅)**
-
-```markdown
-## Documentation Update Plan
-
-### Update 1: Mark task 0.5bis.1 complete
-📄 **File**: docs/TASKS.md
-📍 **Section**: Phase 0.5 Bis (line ~177)
-✏️ **Action**: Mark checkbox [x]
-
-**Verification Step**:
-Read(file_path="docs/TASKS.md", offset=170, limit=20)
-
-**Current content** (verified):
-```
-### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
-
-- [ ] Create free Expo account at https://expo.dev/signup
-```
-
-**Change**:
-Edit({
-  old_string: "### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)",
-  new_string: "### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min) ✅"
-})
-```
-
-**Example 2: Updating Progress (CORRECT ✅)**
-
-```markdown
-## Documentation Update Plan
-
-### Update 1: Update progress in README.md
-📄 **File**: README.md
-📍 **Section**: ## 🎯 Current Status (line 100)
-✏️ **Action**: Replace progress stats
-
-**Verification Step**:
-Read(file_path="README.md", offset=95, limit=15)
-
-**Current content** (verified at line 102):
-**Version:** 0.2.0 | **Progress:** 6/96 tasks (6%) | **Phase:** 0.5 Bis
-
-**Change**:
-Edit({
-  old_string: "**Version:** 0.2.0 | **Progress:** 6/96 tasks (6%) | **Phase:** 0.5 Bis",
-  new_string: "**Version:** 0.2.0 | **Progress:** 10/96 tasks (10%) | **Phase:** 0.5 Bis"
-})
-
-### Update 2: Update progress in TASKS.md
-📄 **File**: docs/TASKS.md
-📍 **Section**: ## 📊 Current Status (line 52-56)
-✏️ **Action**: Replace total tasks counter
-
-**Verification Step**:
-Read(file_path="docs/TASKS.md", offset=50, limit=10)
-
-**Current content** (verified at line 56):
-**Total:** 6 completed / 96 total tasks
-
-**Change**:
-Edit({
-  old_string: "**Total:** 6 completed / 96 total tasks",
-  new_string: "**Total:** 10 completed / 96 total tasks"
-})
-```
-
-**Example 3: Phase Completion (CORRECT ✅)**
-
-```markdown
-## Documentation Update Plan
-
-### Update 1: Mark Phase 0.5 Bis complete
-📄 **File**: README.md
-📍 **Section**: ## 🎯 Current Status (line 102)
-✏️ **Action**: Update to Phase 1
-
-**Verification**:
-Read(file_path="README.md", offset=95, limit=15)
-
-**Change**:
-Edit({
-  old_string: "**Version:** 0.2.0 | **Progress:** 10/96 tasks (10%) | **Phase:** 0.5 Bis - Development Build Migration",
-  new_string: "**Version:** 0.2.0 | **Progress:** 16/96 tasks (17%) | **Phase:** 1 - Authentication"
-})
-
-### Update 2: Move "YOU ARE HERE" in TASKS.md
-📄 **File**: docs/TASKS.md
-📍 **Section**: Roadmap (line 61-73)
-✏️ **Action**: Replace roadmap section
-
-**Verification**:
-Read(file_path="docs/TASKS.md", offset=58, limit=20)
-
-**Current** (verified):
-Phase 0.5: Architecture & Foundation (4/15 tasks) ← YOU ARE HERE
-Phase 1: Authentication & Foundation (0/14 tasks)
-
-**Change**:
-Edit({
-  old_string: "Phase 0.5: Architecture & Foundation (4/15 tasks) ← YOU ARE HERE\n   ├─ Database setup ✅\n   ├─ Dev tools setup ✅\n   ├─ Architecture refactor ✅\n   ├─ Audit analysis ✅\n   └─ 8 CRITICAL corrections ⚠️ BLOCKERS\n        ↓\nPhase 1: Authentication & Foundation (0/14 tasks)",
-  new_string: "Phase 0.5: Architecture & Foundation (15/15 tasks) ✅ COMPLETE\n        ↓\nPhase 1: Authentication & Foundation (0/14 tasks) ← YOU ARE HERE"
-})
-
-### Update 3: Add "NEXT SESSION" marker to Phase 1
-📄 **File**: docs/TASKS.md
-📍 **Section**: Phase 1 heading (line ~520)
-✏️ **Action**: Add marker
-
-**Verification**:
-Read(file_path="docs/TASKS.md", offset=515, limit=10)
-
-**Current** (verified at line 520):
-## 📋 Phase 1: Authentication & Foundation (0/14)
-
-**Change**:
-Edit({
-  old_string: "## 📋 Phase 1: Authentication & Foundation (0/14)",
-  new_string: "## 📋 Phase 1: Authentication & Foundation (0/14) ⭐ NEXT SESSION"
-})
-```
-
----
-
-## ⚠️ Common Mistakes to Avoid
-
-**❌ WRONG - Vague update:**
-```
-"I'll update the progress in TASKS.md"
-```
-
-**✅ CORRECT - Precise update:**
-```markdown
-📄 File: docs/TASKS.md
-📍 Line 56 (verified by Read tool)
-✏️ Old: "**Total:** 6 completed / 96 total tasks"
-✏️ New: "**Total:** 7 completed / 96 total tasks"
-```
-
-**❌ WRONG - No verification:**
-```
-Edit(file="TASKS.md", old="Phase 0.5", new="Phase 1")
-```
-
-**✅ CORRECT - With verification:**
-```markdown
-1. Read(file="docs/TASKS.md", offset=50, limit=20)
-2. Verify line 56 contains expected text
-3. Edit with EXACT string from read
-4. Read again to confirm change
-```
-
-**❌ WRONG - Multiple changes in one edit:**
-```
-Edit({
-  old_string: "Phase 0.5 ... [100 lines] ... Phase 1",
-  new_string: "Phase 0.5 ... [100 lines changed] ... Phase 1"
-})
-```
-
-**✅ CORRECT - One focused change:**
-```markdown
-Update 1: Line 56
-Update 2: Line 102
-Update 3: Line 520
-(3 separate Edit calls)
-```
-
----
-
-**Remember**:
-- ✅ Read → Verify → Announce → Edit → Verify
-- ✅ One source of truth per piece of information
-- ✅ EXACT strings, EXACT line numbers, EXACT changes
+**Remember**: Documentation updates must be ULTRA-PRECISE. See [DOC_AUTOMATION_SYSTEM.md](DOC_AUTOMATION_SYSTEM.md) for complete workflows.
