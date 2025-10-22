@@ -1,0 +1,16 @@
+{
+  "commands": [
+    {
+      "matcher": "startup",
+      "command": "Bonjour! Je vais me familiariser avec l'état du projet. Laissez-moi lire TASKS.md pour identifier la prochaine tâche à travailler. IMPORTANT: Si le contexte utilisé dépasse 60-70%, je vais suggérer un compact manuel MAINTENANT pour éviter auto-compact mid-implémentation."
+    },
+    {
+      "matcher": "resume",
+      "command": "Session reprise détectée. Je vais rapidement vérifier TASKS.md pour voir où nous en sommes et continuer le travail en cours. Si contexte >60%, je suggère compact manuel."
+    },
+    {
+      "matcher": "clear",
+      "command": "Contexte vidé. Je vais lire TASKS.md section NEXT SESSION pour identifier la prochaine priorité et commencer fresh."
+    }
+  ]
+}

@@ -99,17 +99,17 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ## ⭐ NEXT SESSION
 
-**Current Phase:** 0.5 Bis - Development Build Migration
-**Next Task:** 0.5bis.1 Setup EAS Build Account & CLI
-**Status:** 0/10 tasks completed in this phase
+**Current Phase:** 0.5 - Architecture & Foundation
+**Next Task:** 0.5.2 Implement database schema in Supabase
+**Status:** 4/15 tasks completed in this phase (27%)
 
 **Quick Start:**
 
-1. Read Pre-Flight Checklist below
-2. Start with task 0.5bis.1 (follow strict order)
-3. Each task marks dependencies for next
+1. Migration complete! Phase 0.5 Bis (10/10 tasks) ✅
+2. Next: Create Supabase schema matching SQLite database
+3. File to create: `supabase/migrations/001_initial_schema.sql`
 
-See [Phase 0.5 Bis](#phase-05-bis-development-build-migration-010) for complete details.
+See [Phase 0.5.A Infrastructure Setup](#05a-infrastructure-setup-25-completed) for complete details.
 
 ---
 
@@ -207,18 +207,13 @@ npm start  # Back to Expo Go
 
 ---
 
-### 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
-
-```
-Tasks:
-- Create free Expo account at https://expo.dev/signup
-- Install EAS CLI: npm install -g eas-cli
-- Login: eas login
-- Link project: eas init
-- Verify setup: eas whoami
-
-Status: Ready for cloud builds
-```
+- [ ] 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
+  - Create free Expo account at https://expo.dev/signup
+  - Install EAS CLI: `npm install -g eas-cli`
+  - Login: `eas login`
+  - Link project: `eas init`
+  - Verify setup: `eas whoami`
+  - Status: Ready for cloud builds
 
 ### 0.5bis.2 **Create eas.json Configuration** (S - 30min)
 
@@ -247,21 +242,13 @@ File: eas.json (create at project root)
 Purpose: Development build config for EAS cloud builds
 ```
 
-### 0.5bis.3 **Build Development Build (Android & iOS)** (M - 45min)
-
-```
-Commands:
-- eas build --profile development --platform android  (~15-20 min)
-- eas build --profile development --platform ios      (~15-20 min)
-
-Action:
-- Run builds in parallel (cloud handles it)
-- Wait for completion (EAS shows progress)
-- Download APK/IPA or scan QR to install on device
-- Test that dev build launches successfully
-
-Note: This is ONE-TIME setup. Daily development won't need rebuilds.
-```
+- [ ] 0.5bis.3 **Build Development Build (Android & iOS)** (M - 45min)
+  - Command: `eas build --profile development --platform android` (~15-20 min)
+  - Command: `eas build --profile development --platform ios` (~15-20 min)
+  - Run builds in parallel (cloud handles it)
+  - Download APK/IPA or scan QR to install on device
+  - Test that dev build launches successfully
+  - Note: ONE-TIME setup, daily dev won't need rebuilds
 
 ### 0.5bis.4 **Install WatermelonDB + Dependencies** (M - 1h)
 

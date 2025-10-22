@@ -1,8 +1,8 @@
 {
   "commands": [
     {
-      "command": "echo \"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"target\\\":\\\"$TOOL_TARGET\\\",\\\"time\\\":$(date +%s)}\" >> .claude/.actions.json",
-      "description": "Track Claude's actions for smart task detection"
+      "command": "node -p \"JSON.stringify({tool:process.env.TOOL_NAME,target:process.env.TOOL_TARGET,time:Date.now()})\" >> .claude/.actions.json",
+      "description": "Track Claude's actions for smart task detection (cross-platform)"
     }
   ]
 }

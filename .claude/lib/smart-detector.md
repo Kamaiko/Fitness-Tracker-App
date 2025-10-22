@@ -18,8 +18,9 @@ function extractIncompleteTasks(tasksContent: string) {
   const lines = tasksContent.split('\n')
 
   for (const line of lines) {
-    // Match pattern: "- [ ] X.X.X **Description**"
-    const match = line.match(/- \[ \] ([\d\w.]+)\s+\*\*(.+?)\*\*/)
+    // Match pattern: "- [ ] X.X.X **Description**" (space after bracket = incomplete)
+    // Accepts both "- [ ]" and "- []" (some tasks use [] without space)
+    const match = line.match(/- \[\s?\] ([\d\w.]+)\s+\*\*(.+?)\*\*/)
 
     if (match) {
       tasks.push({
@@ -326,7 +327,7 @@ tail -10 .claude/.actions.json
 
 ```bash
 # Read TASKS.md and show incomplete tasks
-grep "- \[ \]" docs/TASKS.md
+grep "- \[" docs/TASKS.md | grep -v "\[x\]"
 
 # Check what would be detected
 # (execute smart-detector logic manually)
@@ -347,9 +348,10 @@ grep "- \[ \]" docs/TASKS.md
 
 ### What Would Break Detection:
 
-❌ Change checkbox format from `- [ ]` to something else
+❌ Change checkbox format from `- [ ]` or `- []` to something else
 ❌ Remove task IDs completely
-❌ Remove descriptions completely
+❌ Remove `**description**` bold formatting
+❌ Mix completed tasks using `[x ]` (with space after x)
 
 **Note:** These changes would also break human readability, so very unlikely.
 

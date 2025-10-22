@@ -16,45 +16,21 @@
 
 ---
 
-## 🔍 Detection Strategy (Hybrid Approach)
+## 🔍 Detection Strategy
 
-### Method 1: Conversation Keywords (Bilingual)
+### Smart Action-Based Detection
 
-Monitor user messages and your own responses for completion indicators in **French or English**:
+Detection is now fully automated via **smart-detector.md** (triggered by PreCompact hook).
 
-**French keywords (style naturel):**
-- "documentez" / "documenter"
-- "mettre à jour TASKS"
-- "mettre à jour la documentation"
-- "update TASKS.md"
-- "marquer X complete"
-- "X est fait"
-- "terminé X"
+**How it works:**
+1. PostToolUse hook tracks all your actions to `.actions.json`
+2. PreCompact hook analyzes actions against TASKS.md
+3. Matches tasks with >70% confidence based on your Edit/Write/Bash commands
+4. Presents batch confirmation for detected tasks
 
-**English keywords:**
-- "update tasks"
-- "mark task X complete"
-- "document task X"
-- "completed task X"
-- "finished task X"
-- "done with X"
+**Manual fallback:** You can still explicitly mark checkboxes via Edit tool.
 
-**Task ID patterns to match:**
-- `0.5bis.1` (phase.task format)
-- `0.5.A.1` (phase.section.task format)
-- `1.1`, `2.3`, etc. (simple phase.task)
-
-**Detection is case-insensitive and works in both languages.**
-
-**Example detection:**
-```
-User: "Documentez les tâches svp"
-→ TRIGGER DETECTED (French keyword)
-→ Analyze recent work to determine which task
-→ Proceed to confirmation
-```
-
-### Method 2: Edit Tool Changes
+### Fallback: Direct Checkbox Edit
 
 Monitor your own Edit tool calls for checkbox changes:
 
@@ -77,10 +53,9 @@ if (editToolCall.old_string.includes("- [ ]") &&
 
 | Scenario | Detection Method | Confidence | Action |
 |----------|------------------|------------|--------|
-| User says "completed task X" | Keywords | HIGH | Confirm → Update |
-| You edited checkbox `[ ]→[x]` | Edit tool | VERY HIGH | Confirm → Update |
-| User says "finished the feature" | Keywords | LOW | Ask which task |
-| No clear task ID | N/A | NONE | Ignore |
+| Action-based match (>70%) | smart-detector | HIGH | Confirm → Update |
+| You edited checkbox `[ ]→[x]` | Direct edit | VERY HIGH | Confirm → Update |
+| Action-based match (<70%) | smart-detector | LOW | Ignore |
 
 ---
 
@@ -167,12 +142,32 @@ else if (newPercentage >= 51 && newPercentage <= 75) color = "yellow"
 else if (newPercentage >= 76 && newPercentage <= 100) color = "green"
 ```
 
-**Update:**
+**Update ALGORITHM (version-safe):**
+```typescript
+// 1. Read line 5
+line5 = readFileLines('docs/TASKS.md')[4]  // 0-indexed
+
+// 2. Extract current values using regex (preserves version)
+const match = line5.match(/\*\*Progress:\*\* !\[\]\([^)]+Progress-(\d+)%25-(\w+)\) (\d+)\/(\d+) tasks/)
+const [_, currentPercent, currentColor, currentCompleted, total] = match
+
+// 3. Calculate new values
+newCompleted = parseInt(currentCompleted) + 1
+newPercentage = Math.round((newCompleted / parseInt(total)) * 100)
+newColor = calculateBadgeColor(newPercentage)
+
+// 4. Replace using regex (version-independent)
+old_string = `**Progress:** ![](https://img.shields.io/badge/Progress-${currentPercent}%25-${currentColor}) ${currentCompleted}/${total} tasks`
+new_string = `**Progress:** ![](https://img.shields.io/badge/Progress-${newPercentage}%25-${newColor}) ${newCompleted}/${total} tasks`
 ```
-File: docs/TASKS.md
-Find: **Version:** 0.2.0 | **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks | **Phase:** 0.5 Bis
-Replace: **Version:** 0.2.0 | **Progress:** ![](https://img.shields.io/badge/Progress-7%25-red) 7/96 tasks | **Phase:** 0.5 Bis
+
+**Example:**
 ```
+Find: **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks
+Replace: **Progress:** ![](https://img.shields.io/badge/Progress-7%25-red) 7/96 tasks
+```
+
+**Note:** Do NOT include version in find/replace - only match Progress section!
 
 **Verification:**
 - Read line 5 again
