@@ -25,9 +25,56 @@
       "Bash(gh pr merge:*)",
       "Bash(git pull:*)",
       "Bash(git filter-repo:*)",
-      "Bash(git filter-branch:*)"
+      "Bash(git filter-branch:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/post-tool-use.py"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/pre-compact.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/session-start.py"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/session-end.py"
+          }
+        ]
+      }
+    ]
   }
 }

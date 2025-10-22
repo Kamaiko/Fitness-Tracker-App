@@ -1,8 +1,0 @@
-{
-  "commands": [
-    {
-      "command": "Run session-end checks (.claude/agents/session-end.md): 1) Check uncommitted changes, 2) Verify TASKS.md ↔ README.md progress sync, 3) Validate format compliance. Report issues and suggest fixes. Keep under 60s.",
-      "description": "Documentation consistency verification"
-    }
-  ]
-}

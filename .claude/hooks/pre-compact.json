@@ -1,8 +1,0 @@
-{
-  "commands": [
-    {
-      "command": "SMART TASK DETECTION: 1) Read .claude/.actions.json (recent actions), 2) Read docs/TASKS.md incomplete tasks (pattern: `- [ ] ID **Desc**`), 3) Match actions against task descriptions using keyword extraction (see .claude/lib/smart-detector.md algorithm), 4) For matches >70% confidence, present batch confirmation: 'Detected task X.X complete (85% confidence). Update TASKS.md? [YES/NO]'. 5) If YES, call task-tracker agent to execute 4-step update.",
-      "description": "Automated task detection via action analysis"
-    }
-  ]
-}

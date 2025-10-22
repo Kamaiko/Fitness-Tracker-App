@@ -8,12 +8,14 @@
 
 ## 🎯 Session Startup (AUTOMATED)
 
-**Automated by SessionStart hook** (`.claude/hooks/session-start.json`)
+**Automated by SessionStart hook** (`.claude/hooks/session-start.py`)
 
-The hook automatically:
+The Python hook automatically:
 - Reads TASKS.md → NEXT SESSION section
 - Identifies next task to work on
 - Warns if context >60% (suggests manual compact to avoid mid-task interruption)
+
+**Requirements:** Python 3.11+ must be installed on your system.
 
 **You don't need to explicitly follow a manual protocol** - the hook handles it!
 
@@ -87,7 +89,9 @@ Before ending session:
 [ ] Verify NEXT SESSION section in TASKS.md accurate
 ```
 
-**Automation:** SessionEnd hook (`.claude/hooks/session-end.json`) verifies documentation consistency automatically.
+**Automation:** SessionEnd hook (`.claude/hooks/session-end.py`) verifies documentation consistency automatically.
+
+**System Requirements:** Python 3.11+ installed
 
 ---
 
@@ -117,19 +121,26 @@ Before ending session:
 
 ## 📂 .claude/ File Index
 
-**For complete architecture**, see [.claude/README.md](.claude/README.md)
-
 **Quick reference:**
 
-| File | Purpose | When to Read |
-|------|---------|--------------|
-| lib/tasks-format.md | Strict TASKS.md format rules | When updating TASKS.md |
-| lib/smart-detector.md | Detection algorithm | Understanding automation |
-| agents/task-tracker.md | Update execution logic | Modifying update process |
-| agents/session-end.md | Consistency checks | Understanding validation |
-| hooks/*.json | Event triggers | Debugging hook behavior |
+| File | Purpose | Format |
+|------|---------|--------|
+| hooks/post-tool-use.py | Log every Claude action | Python 3.11+ |
+| hooks/pre-compact.py | Trigger smart detection | Python 3.11+ |
+| hooks/session-start.py | Load context on startup | Python 3.11+ |
+| hooks/session-end.py | Verify consistency | Python 3.11+ |
+| lib/tasks-format.md | Strict format rules | Markdown |
+| lib/smart-detector.md | Detection algorithm | Markdown |
+| agents/task-tracker.md | Update execution | Markdown |
+| agents/session-end.md | Consistency checks | Markdown |
 
-**Coordination:**
-- hooks → trigger agents
-- agents → reference lib/ for rules
-- lib/ → single source of truth (no duplication)
+**Workflow:**
+```
+Action → post-tool-use.py → .actions.json
+  ↓
+PreCompact → pre-compact.py → Claude reads smart-detector.md
+  ↓
+Detection >70% → Confirmation → task-tracker.md → Update TASKS.md
+```
+
+**Requirements:** Python 3.11+ must be installed

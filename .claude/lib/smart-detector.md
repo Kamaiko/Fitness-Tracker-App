@@ -1,16 +1,17 @@
 # Smart Task Detector
 
 > **Purpose**: Detect completed tasks by analyzing Claude's actions against TASKS.md
-> **Version**: 1.0
-> **Trigger**: PreCompact hook
+> **Version**: 2.0 (simplified)
+> **Trigger**: PreCompact hook (`.claude/hooks/pre-compact.py`)
+> **References**: [tasks-format.md](./tasks-format.md)
 
 ---
 
 ## 🎯 Core Algorithm
 
-### Step 1: Parse Incomplete Tasks from TASKS.md
+### Step 1: Parse Incomplete Tasks
 
-**Read TASKS.md in real-time** (always current, no cache):
+**Read TASKS.md in real-time:**
 
 ```typescript
 function extractIncompleteTasks(tasksContent: string) {
@@ -18,14 +19,13 @@ function extractIncompleteTasks(tasksContent: string) {
   const lines = tasksContent.split('\n')
 
   for (const line of lines) {
-    // Match pattern: "- [ ] X.X.X **Description**" (space after bracket = incomplete)
-    // Accepts both "- [ ]" and "- []" (some tasks use [] without space)
+    // Match: "- [ ] ID **Description**"
     const match = line.match(/- \[\s?\] ([\d\w.]+)\s+\*\*(.+?)\*\*/)
 
     if (match) {
       tasks.push({
-        id: match[1],           // e.g., "0.5bis.1"
-        description: match[2],  // e.g., "Setup EAS Build Account & CLI"
+        id: match[1],           // e.g., "0.5.2"
+        description: match[2],  // e.g., "Implement database schema"
         fullLine: line
       })
     }
@@ -35,24 +35,18 @@ function extractIncompleteTasks(tasksContent: string) {
 }
 ```
 
-**Robustness:**
-- ✅ Works regardless of task order
-- ✅ Works regardless of sections added/removed
-- ✅ Works if IDs change (matches by description)
-- ✅ No dependency on line numbers
-
 ---
 
 ### Step 2: Load Recent Actions
 
 ```typescript
 function loadRecentActions(hours: number = 6) {
-  const actions = []
-  const cutoff = Date.now() - (hours * 60 * 60 * 1000)
-
-  // Read .claude/.actions.json (created by post-tool-use hook)
+  // Read .claude/.actions.json (created by post-tool-use.py)
   const actionsFile = readFile('.claude/.actions.json')
   const lines = actionsFile.split('\n').filter(l => l.trim())
+
+  const cutoff = Date.now() - (hours * 60 * 60 * 1000)
+  const actions = []
 
   for (const line of lines) {
     try {
@@ -61,8 +55,7 @@ function loadRecentActions(hours: number = 6) {
         actions.push(action)
       }
     } catch (e) {
-      // Skip malformed lines
-      continue
+      continue  // Skip malformed lines
     }
   }
 
@@ -70,12 +63,11 @@ function loadRecentActions(hours: number = 6) {
 }
 ```
 
-**Example `.actions.json` content:**
+**Example `.actions.json`:**
 ```json
-{"tool":"Bash","target":"npm install -g eas-cli","time":1736789123}
-{"tool":"Bash","target":"eas login","time":1736789234}
-{"tool":"Edit","target":"package.json","time":1736789345}
-{"tool":"Write","target":"eas.json","time":1736789456}
+{"tool":"Write","target":"supabase/migrations/001_initial.sql","time":1736789123}
+{"tool":"Edit","target":"src/models/Workout.ts","time":1736789234}
+{"tool":"Bash","target":"npm install @supabase/supabase-js","time":1736789345}
 ```
 
 ---
@@ -84,7 +76,7 @@ function loadRecentActions(hours: number = 6) {
 
 ```typescript
 function detectCompletedTasks() {
-  // 1. Get incomplete tasks from TASKS.md (real-time)
+  // 1. Get incomplete tasks
   const tasksContent = readFile('docs/TASKS.md')
   const tasks = extractIncompleteTasks(tasksContent)
 
@@ -96,12 +88,12 @@ function detectCompletedTasks() {
   for (const task of tasks) {
     const score = calculateMatchScore(task.description, actions)
 
-    if (score >= 0.7) {  // 70% confidence threshold
+    if (score >= 0.7) {  // 70% threshold
       matches.push({
         taskId: task.id,
         description: task.description,
         confidence: score,
-        source: 'action-tracking'
+        actions: actions.map(a => `${a.tool} ${a.target}`)
       })
     }
   }
@@ -110,7 +102,7 @@ function detectCompletedTasks() {
 }
 
 function calculateMatchScore(description: string, actions: Action[]): number {
-  // Extract keywords from description
+  // Extract keywords from task description
   const keywords = extractKeywords(description)
 
   // Convert actions to searchable text
@@ -132,13 +124,12 @@ function calculateMatchScore(description: string, actions: Action[]): number {
 }
 
 function extractKeywords(description: string): string[] {
-  // Common stop words to ignore
   const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'for', 'with', 'to', 'of', 'in', 'on', 'at']
 
   return description
     .toLowerCase()
     .replace(/[^\w\s]/g, ' ')  // Remove punctuation
-    .split(/\s+/)              // Split on whitespace
+    .split(/\s+/)
     .filter(word => word.length > 2)
     .filter(word => !stopWords.includes(word))
 }
@@ -148,218 +139,127 @@ function extractKeywords(description: string): string[] {
 
 ## 💡 Example Detection
 
-### Scenario: User works on task 0.5bis.1
+**Scenario:** Working on task 0.5.2 "Implement database schema in Supabase"
 
-**TASKS.md contains:**
+**TASKS.md:**
 ```markdown
-- [ ] 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
+- [ ] 0.5.2 **Implement database schema in Supabase** (M - 3h)
 ```
 
-**My actions during session:**
+**Actions during session:**
 ```json
-{"tool":"Bash","target":"npm install -g eas-cli","time":1736789123}
-{"tool":"Bash","target":"eas login","time":1736789234}
-{"tool":"Bash","target":"eas whoami","time":1736789345}
-{"tool":"Bash","target":"eas init","time":1736789456}
+{"tool":"Write","target":"supabase/migrations/001_initial.sql","time":...}
+{"tool":"Edit","target":"README.md","time":...}
+{"tool":"Bash","target":"supabase db reset","time":...}
 ```
 
-**Detection process:**
-
-1. **Extract keywords from description:**
-   - "Setup EAS Build Account & CLI"
-   - Keywords: `["setup", "eas", "build", "account", "cli"]`
-
-2. **Convert actions to text:**
-   - `"bash npm install -g eas-cli bash eas login bash eas whoami bash eas init"`
-
-3. **Count matches:**
-   - "setup" → ❌ not found (0)
-   - "eas" → ✅ found 4 times (1)
-   - "build" → ❌ not found (0)
-   - "account" → ❌ not found (0)
-   - "cli" → ✅ found 1 time (1)
-   - **Matches: 2/5 = 40%**
-
-4. **Enhanced matching with fuzzy logic:**
-   - Bash commands contain "eas" → high relevance
-   - Multiple "eas" commands → likely EAS-related task
-   - "eas-cli" contains both "eas" and "cli" → boost score
-   - **Enhanced score: 85%**
-
-5. **Result:**
-   - Score 85% > 70% threshold
-   - **Task 0.5bis.1 detected with 85% confidence!**
-
----
-
-## 🔄 Integration with Task Tracker
-
-### PreCompact Workflow
-
-```
-1. PreCompact hook triggered (every ~20 min or manual)
-
-2. Call smart-detector:
-   - Parse TASKS.md for incomplete tasks
-   - Load recent actions (.actions.json)
-   - Calculate match scores
-
-3. For each match with score > 70%:
-   - Add to .task-queue.json
-   - Log detection
-
-4. Present to user:
-   "📦 Détection automatique:
-    • Task 0.5bis.1 (85% confiance - action tracking)
-    • Task 0.5bis.2 (60% confiance - keywords)
-
-    Mettre à jour TASKS.md? [OUI/NON]"
-```
-
----
-
-## 🛡️ Robustness Features
-
-### 1. **Fail-Safe Parsing**
-
-```typescript
-try {
-  const tasks = extractIncompleteTasks(tasksContent)
-
-  if (tasks.length === 0) {
-    log('WARN', 'No tasks found - TASKS.md format may have changed')
-    // Fallback to keyword detection only
-    return detectFromKeywords()
-  }
-
-} catch (error) {
-  log('ERROR', 'Failed to parse TASKS.md', error)
-  // Graceful degradation
-  return []
-}
-```
-
-### 2. **Actions File Cleanup**
-
-```typescript
-// Auto-cleanup old actions (keep last 7 days only)
-function cleanupOldActions() {
-  const cutoff = Date.now() - (7 * 24 * 60 * 60 * 1000)
-  const actions = loadAllActions()
-
-  const recentActions = actions.filter(a => a.time >= cutoff)
-
-  // Overwrite file with recent actions only
-  writeFile('.claude/.actions.json',
-    recentActions.map(a => JSON.stringify(a)).join('\n')
-  )
-}
-```
-
-### 3. **Malformed Data Handling**
-
-```typescript
-// Skip malformed JSON lines gracefully
-for (const line of lines) {
-  try {
-    const action = JSON.parse(line)
-    actions.push(action)
-  } catch (e) {
-    // Log warning but continue
-    log('WARN', 'Skipped malformed action line', line)
-    continue
-  }
-}
-```
+**Detection:**
+1. Keywords: `["implement", "database", "schema", "supabase"]`
+2. Actions text: `"write supabase/migrations/001_initial.sql edit readme.md bash supabase db reset"`
+3. Matches:
+   - "implement" → ❌ not found (0)
+   - "database" → ❌ not found (0)
+   - "schema" → ❌ not found (0)
+   - "supabase" → ✅ found 2 times (1)
+4. Basic score: 1/4 = 25%
+5. **Enhanced:** "supabase" appears in filename + bash command → boost to 75%
+6. **Result:** 75% > 70% threshold → **DETECTED!**
 
 ---
 
 ## 📊 Configuration
 
-### Tunable Parameters
-
 ```typescript
 const CONFIG = {
-  // Confidence threshold (0-1)
-  CONFIDENCE_THRESHOLD: 0.7,  // 70%
-
-  // Action history window (hours)
-  ACTION_WINDOW_HOURS: 6,
-
-  // Actions retention (days)
-  ACTIONS_RETENTION_DAYS: 7,
-
-  // Keyword minimum length
+  CONFIDENCE_THRESHOLD: 0.7,      // 70%
+  ACTION_WINDOW_HOURS: 6,         // Last 6 hours
+  ACTIONS_RETENTION_DAYS: 7,      // Keep 7 days
   KEYWORD_MIN_LENGTH: 2,
-
-  // Stop words for keyword extraction
   STOP_WORDS: ['the', 'a', 'an', 'and', 'or', 'but', 'for', 'with', 'to', 'of', 'in', 'on', 'at']
 }
 ```
 
 ---
 
-## 🎯 Usage
+## 🔄 Workflow
 
-### Invoked by PreCompact Hook
-
-**PreCompact hook calls:**
-```bash
-# Read this file for logic reference
-# Then execute detection algorithm
-# Queue matches to .task-queue.json
+```
+1. Claude uses Edit/Write/Bash tools
+   ↓
+2. post-tool-use.py logs to .actions.json
+   ↓
+3. PreCompact hook fires (~20 min or manual /compact)
+   ↓
+4. pre-compact.py triggers detection
+   ↓
+5. Claude reads this file (smart-detector.md)
+   ↓
+6. Claude applies algorithm above
+   ↓
+7. Claude reports matches >70%
+   ↓
+8. User confirms YES/NO
+   ↓
+9. If YES → call task-tracker.md to update TASKS.md
 ```
 
-**No direct user invocation needed.**
+---
+
+## 🛡️ Error Handling
+
+**Fail-safe parsing:**
+```typescript
+try {
+  const tasks = extractIncompleteTasks(tasksContent)
+  if (tasks.length === 0) {
+    return []  // No incomplete tasks found
+  }
+} catch (error) {
+  return []  // Graceful degradation
+}
+```
+
+**Malformed actions:**
+```typescript
+for (const line of lines) {
+  try {
+    const action = JSON.parse(line)
+    actions.push(action)
+  } catch (e) {
+    continue  // Skip bad lines
+  }
+}
+```
 
 ---
 
 ## 🔍 Debugging
 
-### Check Recent Actions
-
 ```bash
-# View last 10 actions
+# View recent actions
 tail -10 .claude/.actions.json
-```
 
-### Test Detection Manually
-
-```bash
-# Read TASKS.md and show incomplete tasks
+# Check incomplete tasks
 grep "- \[" docs/TASKS.md | grep -v "\[x\]"
 
-# Check what would be detected
-# (execute smart-detector logic manually)
+# Count actions
+wc -l .claude/.actions.json
 ```
 
 ---
 
-## ✅ Scalability Guarantees
+## ✅ Format Requirements
 
-### What Can Change in TASKS.md:
+**See [tasks-format.md](./tasks-format.md) for complete rules.**
 
-✅ Add/remove phases
-✅ Reorder tasks
-✅ Change task IDs
-✅ Modify descriptions
-✅ Add/remove sections
-✅ Change numbering scheme
-
-### What Would Break Detection:
-
-❌ Change checkbox format from `- [ ]` or `- []` to something else
-❌ Remove task IDs completely
-❌ Remove `**description**` bold formatting
-❌ Mix completed tasks using `[x ]` (with space after x)
-❌ Use header-based tasks `### ID **Task**` instead of checkboxes
-
-**Note:** These changes would also break human readability, so very unlikely.
-
-**For complete format requirements, see [tasks-format.md](./tasks-format.md)**
+**Key requirements:**
+- Tasks MUST use checkbox format: `- [ ] ID **Desc**`
+- NO header-based tasks: `### ID **Task**`
+- Description MUST be bold: `**text**`
+- IDs can be flexible: `0.5.2`, `0.5bis.1`, etc.
 
 ---
 
-**Version:** 1.0
+**Version:** 2.0 (simplified)
 **Last Updated:** Auto-maintained
-**Maintained by:** Smart detection system (self-documenting)
+**Maintained by:** Smart detection system
