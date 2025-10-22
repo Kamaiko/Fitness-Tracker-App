@@ -112,3 +112,24 @@ Before ending session:
 1. **Update docs as you go**, not at the end
 2. **Use git grep** to find where info is documented before adding duplicate
 3. **When in doubt**, check the Documentation Map table above
+
+---
+
+## 📂 .claude/ File Index
+
+**For complete architecture**, see [.claude/README.md](.claude/README.md)
+
+**Quick reference:**
+
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| lib/tasks-format.md | Strict TASKS.md format rules | When updating TASKS.md |
+| lib/smart-detector.md | Detection algorithm | Understanding automation |
+| agents/task-tracker.md | Update execution logic | Modifying update process |
+| agents/session-end.md | Consistency checks | Understanding validation |
+| hooks/*.json | Event triggers | Debugging hook behavior |
+
+**Coordination:**
+- hooks → trigger agents
+- agents → reference lib/ for rules
+- lib/ → single source of truth (no duplication)

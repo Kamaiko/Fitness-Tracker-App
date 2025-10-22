@@ -10,18 +10,23 @@
 
 ```
 .claude/
-├── agents/                      # AI agents for automation
-│   ├── task-tracker.md         # Task completion detection & updates
-│   └── session-end.md          # Session-end consistency checks
-├── hooks/                       # Claude Code lifecycle hooks
-│   ├── pre-compact.json        # Runs before conversation compaction
-│   └── session-end.json        # Runs when session ends
-├── AUTOMATION_GUIDE.md         # User guide for automation system
-├── CLAUDE.md                   # Session startup protocol
-├── DOC_AUTOMATION_SYSTEM.md    # Automation system architecture
-├── README.md                   # This file
-└── settings.local.json         # Local Claude Code settings
+├── agents/                      # AI agents (execution logic)
+│   ├── task-tracker.md         # Execute TASKS.md updates (541 lines)
+│   └── session-end.md          # Verify documentation consistency (704 lines)
+├── hooks/                       # Lifecycle event triggers (40 lines total)
+│   ├── post-tool-use.json      # Log every Claude action
+│   ├── pre-compact.json        # Trigger smart task detection
+│   ├── session-end.json        # Verify consistency on exit
+│   └── session-start.json      # Auto-initialize session
+├── lib/                         # Reference documentation
+│   ├── smart-detector.md       # Detection algorithm (365 lines)
+│   └── tasks-format.md         # Strict format rules (206 lines)
+├── CLAUDE.md                   # Session startup guide (114 lines)
+├── README.md                   # This file - Architecture documentation
+└── settings.local.json         # Local settings (git-ignored)
 ```
+
+**Total:** ~2000 lines (optimized for minimal token usage)
 
 ---
 
@@ -45,112 +50,137 @@
 
 ---
 
-### Automation System
+### Library (Reference Documentation)
 
-**DOC_AUTOMATION_SYSTEM.md**
-- **Purpose**: Architecture documentation for automation triggers
-- **Read by**: Developers and Claude when designing agents
+**lib/tasks-format.md** (206 lines)
+- **Purpose**: Single source of truth for TASKS.md format rules
+- **Referenced by**: smart-detector, task-tracker, session-end
 - **Contains**:
-  - 6 trigger types (Task Complete, Phase Complete, etc.)
-  - Primary Source Matrix (prevents duplication)
-  - Update conventions
-  - Theoretical design (implemented in agents/)
+  - Strict checkbox format rules
+  - Phase/section header conventions
+  - Validation commands
+  - Complete examples (correct vs incorrect)
+- **Why separate**: DRY principle - referenced by all other files
 
-**AUTOMATION_GUIDE.md**
-- **Purpose**: End-user guide for documentation automation
-- **Read by**: You (the project owner)
-- **Contains**:
-  - How the system works
-  - Daily usage workflows
-  - Configuration options
-  - Troubleshooting guide
-  - FAQ
+**lib/smart-detector.md** (365 lines)
+- **Purpose**: Algorithm for detecting completed tasks via action analysis
+- **Triggered by**: PreCompact hook
+- **How it works**:
+  1. Reads `.actions.json` (tracked by post-tool-use hook)
+  2. Parses incomplete tasks from TASKS.md
+  3. Matches actions vs tasks (keyword extraction)
+  4. Returns matches >70% confidence
+- **Features**:
+  - Regex pattern: `/- \[\s?\] ([\d\w.]+)\s+\*\*(.+?)\*\*/`
+  - Keyword-based scoring
+  - Fallback to manual detection
 
 ---
 
-### Agents (Autonomous AI Assistants)
+### Agents (Execution Logic)
 
-**agents/task-tracker.md**
-- **Purpose**: Detects and processes task completions
-- **Triggers**:
-  - Conversation keywords ("completed task X")
-  - Edit tool checkbox changes (`[ ] → [x]`)
-- **Actions**:
-  1. Confirms with user
-  2. Marks checkbox in TASKS.md
-  3. Updates progress counter
-  4. Calculates badge color
-  5. Syncs to README.md
-  6. Commits with conventional message
+**agents/task-tracker.md** (541 lines)
+- **Purpose**: Execute atomic updates to TASKS.md/README.md
+- **Called by**: User confirmation after smart-detector match
+- **Actions** (4-step atomic):
+  1. Mark checkbox in TASKS.md
+  2. Update progress counter (version-safe algorithm)
+  3. Update NEXT SESSION section
+  4. Sync to README.md
 - **Features**:
-  - Batch mode (<10min apart)
-  - Immediate mode (>10min apart)
+  - Batch mode (<10min) vs immediate mode
   - Phase completion detection
-  - Error recovery with description search
+  - Error handling (abort if any step fails)
+  - Conventional commit messages
+- **References**: tasks-format.md, smart-detector.md
 
-**agents/session-end.md**
-- **Purpose**: Verifies documentation consistency at session end
-- **Triggers**: SessionEnd hook
+**agents/session-end.md** (704 lines)
+- **Purpose**: Verify documentation consistency at session end
+- **Triggered by**: SessionEnd hook
 - **Checks**:
   1. Uncommitted changes
   2. NEXT SESSION marker accuracy
-  3. YOU ARE HERE position in roadmap
-  4. Progress counter sync (TASKS.md vs README.md)
-  5. Checkbox count vs reported progress
+  3. Progress counter sync
+  4. Checkbox count validation
 - **Actions**:
-  - Generates session-end report
-  - Suggests fixes for detected issues
-  - Cannot block session termination (cleanup only)
+  - Generate consistency report
+  - Suggest fixes
+  - Cannot block termination
+- **References**: tasks-format.md
 
 ---
 
-### Hooks (Lifecycle Event Triggers)
+### Hooks (Lifecycle Triggers)
+
+**hooks/post-tool-use.json**
+- **Event**: After EVERY tool Claude uses (Edit, Write, Bash, etc.)
+- **Action**: Log action to `.claude/.actions.json`
+- **Format**: `{tool, target, time}`
+- **Purpose**: Feed data to smart-detector for task detection
 
 **hooks/pre-compact.json**
-- **Event**: PreCompact (before conversation compaction)
-- **Timing**: Auto at ~95% context capacity OR manual `/compact`
-- **Action**: Triggers task-tracker agent to flush pending updates
-- **Purpose**: Batch commit rapid task completions before context loss
+- **Event**: Before conversation compaction (~95% context)
+- **Action**: Trigger smart-detector algorithm
+- **Purpose**: Detect completed tasks, batch updates before context loss
+
+**hooks/session-start.json**
+- **Event**: Session startup (3 matchers: startup/resume/clear)
+- **Action**: Read TASKS.md NEXT SESSION, warn if context >60%
+- **Purpose**: Auto-initialize session, prevent mid-task compact
 
 **hooks/session-end.json**
-- **Event**: SessionEnd (when session terminates)
-- **Timing**: User closes session or types `/end`
-- **Action**: Triggers session-end agent for consistency checks
-- **Purpose**: Ensure clean documentation state for next session
+- **Event**: Session termination
+- **Action**: Trigger session-end agent
+- **Purpose**: Verify consistency, suggest commits
 
 ---
 
 ## 🔄 How It All Works Together
 
-### Normal Workflow
+### Action Tracking (Continuous)
 
 ```
-1. User completes task
-2. task-tracker.md detects completion
-3. Confirms with user
-4. Updates TASKS.md + README.md (atomic)
-5. Commits with conventional message
+1. Claude uses Edit/Write/Bash tool
+2. post-tool-use hook fires
+3. Logs to .claude/.actions.json
+   → {tool: "Edit", target: "src/models/Workout.ts", time: 1736789123}
 ```
 
-### Batch Workflow (Rapid Tasks)
+### Task Detection (Every ~20 min)
 
 ```
-1. User completes task 1 → Queued
-2. User completes task 2 → Queued
-3. User completes task 3 → Queued
-4. PreCompact hook fires
-5. task-tracker.md flushes queue
-6. All updates in single commit
+1. PreCompact hook fires (~95% context or manual)
+2. smart-detector.md reads:
+   - .claude/.actions.json (recent actions)
+   - docs/TASKS.md (incomplete tasks)
+3. Matches actions vs tasks (keyword extraction)
+4. Returns tasks with >70% confidence
+5. Presents to user: "Detected task 0.5.2 complete (85%). Update? [YES/NO]"
 ```
 
-### Session End Workflow
+### Task Update (User Confirms)
+
+```
+1. User confirms: YES
+2. task-tracker.md executes 4-step atomic update:
+   - Mark checkbox in TASKS.md
+   - Update progress counter
+   - Update NEXT SESSION
+   - Sync to README.md
+3. Commits with conventional message
+```
+
+### Session End (Cleanup)
 
 ```
 1. User ends session (/end or closes)
 2. SessionEnd hook fires
-3. session-end.md runs 5 checks
+3. session-end.md runs checks:
+   - Uncommitted changes?
+   - NEXT SESSION correct?
+   - Progress counters synced?
 4. Reports issues + suggests fixes
-5. Session ends (cannot be blocked)
+5. Session ends (non-blocking)
 ```
 
 ---
@@ -161,9 +191,9 @@
 
 | File | Responsibility |
 |------|----------------|
-| CLAUDE.md | Human-readable startup guide |
-| DOC_AUTOMATION_SYSTEM.md | Theoretical architecture |
-| agents/*.md | Actual implementation logic |
+| CLAUDE.md | Session startup guide |
+| lib/*.md | Reference documentation (format rules, algorithms) |
+| agents/*.md | Execution logic (updates, verification) |
 | hooks/*.json | Event trigger configuration |
 
 **Benefit**: Clear boundaries, easy to maintain
@@ -250,12 +280,12 @@ TOTAL_TASKS = 96  # Update when roadmap changes
 
 **No setup required!**
 
-The system is ready to use immediately. Just:
+The system is ready to use immediately. The automation works automatically:
 
-1. Read [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md)
-2. Start working on tasks
-3. Tell Claude when you complete tasks
-4. Confirm documentation updates
+1. Claude tracks your actions (post-tool-use hook)
+2. Every ~20min, smart-detector analyzes actions
+3. Detects completed tasks (>70% confidence)
+4. Asks for confirmation before updating
 
 ---
 
@@ -280,12 +310,12 @@ The system is ready to use immediately. Just:
 
 **Read in this order to understand the system:**
 
-1. **AUTOMATION_GUIDE.md** ← START HERE (user guide)
-2. **README.md** ← This file (directory structure)
-3. **DOC_AUTOMATION_SYSTEM.md** (theoretical architecture)
-4. **agents/task-tracker.md** (implementation details)
-5. **agents/session-end.md** (implementation details)
-6. **CLAUDE.md** (daily startup protocol)
+1. **README.md** ← START HERE (this file - architecture overview)
+2. **CLAUDE.md** ← Daily startup protocol
+3. **lib/tasks-format.md** ← Format rules reference
+4. **lib/smart-detector.md** ← Detection algorithm
+5. **agents/task-tracker.md** ← Update execution logic
+6. **agents/session-end.md** ← Consistency verification
 
 ---
 
@@ -375,10 +405,10 @@ Agents cannot:
 | Metric | Value |
 |--------|-------|
 | Files automated | 2 (TASKS.md, README.md) |
+| Library docs | 2 (tasks-format, smart-detector) |
 | Agents | 2 (task-tracker, session-end) |
-| Hooks | 2 (pre-compact, session-end) |
-| Triggers | 6 types (see DOC_AUTOMATION_SYSTEM.md) |
-| Checks | 5 (session-end verification) |
+| Hooks | 4 (post-tool-use, pre-compact, session-start, session-end) |
+| Checks | 4 (session-end verification) |
 | Update steps | 4 (atomic operation) |
 
 **Performance:**
@@ -397,11 +427,11 @@ Agents cannot:
 
 ### For Users
 
-1. ✅ **Be explicit** with task IDs in conversation
-2. ✅ **Review session-end reports** before closing
-3. ✅ **Let batch mode work** (don't manual commit rapid tasks)
+1. ✅ **Let automation work** (actions tracked automatically)
+2. ✅ **Confirm detections** when prompted
+3. ✅ **Review session-end reports** before closing
 4. ✅ **Trust atomic updates** (consistency guaranteed)
-5. ✅ **Read AUTOMATION_GUIDE.md** for complete workflows
+5. ✅ **Manual compact at 70%** to avoid mid-task interruption
 
 ### For Developers
 
@@ -439,8 +469,8 @@ Agents cannot:
 
 ---
 
-**Questions?** Read [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md) for detailed usage instructions.
+**Questions?** Read agent .md files for implementation details.
 
-**Issues?** Check Troubleshooting section above or consult agent .md files.
+**Issues?** Check Troubleshooting section above or consult hooks/*.json for configuration.
 
 **Version:** 1.0 | **Last Updated:** January 2025
