@@ -1,0 +1,8 @@
+{
+  "commands": [
+    {
+      "command": "Follow the session-end agent protocol (.claude/agents/session-end.md) to verify documentation consistency before session ends. Execute all 5 checks: 1) Uncommitted changes, 2) NEXT SESSION accuracy, 3) YOU ARE HERE position, 4) Progress counter sync, 5) Checkbox count accuracy. Generate session end report and suggest any needed fixes. Remember: you cannot block session termination, only suggest fixes.",
+      "description": "Verify documentation consistency at session end"
+    }
+  ]
+}

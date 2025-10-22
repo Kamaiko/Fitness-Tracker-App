@@ -1,0 +1,8 @@
+{
+  "commands": [
+    {
+      "command": "Please review the conversation and check if any tasks were completed during this session. If you detect completed tasks that haven't been updated in TASKS.md yet, follow the task-tracker agent protocol (.claude/agents/task-tracker.md) to update documentation. This is a PreCompact hook - batch any pending updates and commit them now before compaction.",
+      "description": "Flush pending task updates before compaction"
+    }
+  ]
+}

@@ -1,59 +1,37 @@
 # ✅ Development Tasks
 
-**Last Updated:** October 2025 (Revised after Architecture Deep Dive)
-**Document Version:** 2.0
-**Version:** 0.2.0 | **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks
+**Last Updated:** Auto-updated by task-tracker agent
+**Document Version:** 3.0
+**Version:** 0.2.0 | **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks | **Phase:** 0.5 Bis
+
+---
+
+## 📐 Task ID Pattern
+
+Tasks follow hierarchical numbering:
+
+- **Phase.Section.Task**: Example: `0.5.A.1` (Phase 0.5, Section A, Task 1)
+- **Phase.Task**: Example: `1.1` (Phase 1, Task 1)
+- **Special phases**: `0.5bis` (emergency migrations between phases)
+
+IDs are flexible to accommodate project evolution.
 
 ---
 
 ## 📖 Table of Contents
 
-1. [📊 Current Status](#current-status)
-2. [🗺️ Development Roadmap](#development-roadmap)
-3. [🚀 Phase 0.5 Bis: Development Build Migration](#phase-05-bis-development-build-migration-010--next-session) ⭐ **NEXT SESSION**
-4. [🎯 Current Focus (After Migration)](#current-focus-after-migration)
-5. [📋 Phase 0.5: Architecture & Foundation](#phase-05-architecture--foundation-415--critical)
-6. [📋 Phase 1: Authentication & Foundation](#phase-1-authentication--foundation-014)
-7. [📋 Phase 2: Workout Logging](#phase-2-workout-logging-028)
-8. [📋 Phase 3: Exercise Library & Testing](#phase-3-exercise-library--testing-012)
-9. [📋 Phase 4: Analytics & Smart Features](#phase-4-analytics--smart-features-015)
-10. [📋 Phase 5: Polish, Monitoring & Beta Launch](#phase-5-polish-monitoring--beta-launch-018)
-11. [🔄 How to Use This File](#how-to-use-this-file)
+1. [🗺️ Development Roadmap](#development-roadmap)
+2. [⭐ NEXT SESSION](#-next-session)
+3. [📋 Phase 0.5 Bis: Development Build Migration](#phase-05-bis-development-build-migration-010)
+4. [📋 Phase 0.5: Architecture & Foundation](#phase-05-architecture--foundation-415--critical)
+5. [📋 Phase 1: Authentication & Foundation](#phase-1-authentication--foundation-014)
+6. [📋 Phase 2: Workout Logging](#phase-2-workout-logging-028)
+7. [📋 Phase 3: Exercise Library & Testing](#phase-3-exercise-library--testing-012)
+8. [📋 Phase 4: Analytics & Smart Features](#phase-4-analytics--smart-features-015)
+9. [📋 Phase 5: Polish, Monitoring & Beta Launch](#phase-5-polish-monitoring--beta-launch-018)
+10. [📊 Task Size Estimates & Priority Levels](#task-size-estimates--priority-levels)
 
 ---
-
-## How to Use This File
-
-**For Daily Development:**
-
-1. Check [📊 Current Status](#current-status) to see overall progress
-2. Find your current phase in [🗺️ Development Roadmap](#development-roadmap)
-3. Go to that phase section and pick the next uncompleted `[ ]` task
-4. Complete the task
-5. Mark it as `[x]` when done
-6. Update progress tracking in Current Status
-
-**For AI Assistants:**
-
-- **START HERE**: Read [🚀 Phase 0.5 Bis](#phase-05-bis-development-build-migration-010--next-session) for next session tasks
-- Follow tasks in strict order (dependencies matter!)
-- Use Pre-Flight Checklist before starting
-- Mark tasks complete `[x]` as you go
-- Commit changes with conventional format
-
-**Task Format:**
-
-- **S** (Small): 1-2 hours
-- **M** (Medium): 3-6 hours
-- **L** (Large): 1-2 days
-
----
-
-## Current Status
-
-**Version:** 0.2.0 (Architecture Planning Complete)
-**Progress:** ![](https://img.shields.io/badge/Progress-6%25-red)
-**Total:** 6 completed / 96 total tasks
 
 ## Development Roadmap
 
@@ -117,6 +95,24 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **⚠️ Critical Path:** Phase 0.5 (8 audit corrections) MUST complete before Phase 1 can start.
 
+---
+
+## ⭐ NEXT SESSION
+
+**Current Phase:** 0.5 Bis - Development Build Migration
+**Next Task:** 0.5bis.1 Setup EAS Build Account & CLI
+**Status:** 0/10 tasks completed in this phase
+
+**Quick Start:**
+
+1. Read Pre-Flight Checklist below
+2. Start with task 0.5bis.1 (follow strict order)
+3. Each task marks dependencies for next
+
+See [Phase 0.5 Bis](#phase-05-bis-development-build-migration-010) for complete details.
+
+---
+
 ### What's Working
 
 - ✅ Expo SDK 54.0.12 with React 19.1.0
@@ -134,16 +130,9 @@ Phase 6: Polish & Launch (0/9 tasks)
 - ✅ **Architectural decisions documented (ADRs updated)**
 - ✅ **expo-sqlite database with Supabase sync**
 
-### What's Next (Critical Path)
-
-- 🚀 **Phase 0.5 Bis:** Development Build Migration (WatermelonDB, MMKV, Victory Native) ← **NEXT SESSION**
-- 🎯 **Phase 0.5:** Critical audit corrections (adapted for WatermelonDB)
-- 🎯 **Phase 1:** Authentication + CI/CD + Performance libraries
-- 🎯 **Phase 2:** Workout logging core features
-
 ---
 
-## Phase 0.5 Bis: Development Build Migration (0/10) ⭐ NEXT SESSION
+## Phase 0.5 Bis: Development Build Migration (0/10)
 
 **Timeline:** Next session (Tomorrow) | **Priority:** CRITICAL
 **Goal:** Migrate from Expo Go to Development Build with production-ready stack
@@ -458,21 +447,6 @@ git branch -D backup/pre-migration
 - **Documentation updated:** README.md, ARCHITECTURE.md, TECHNICAL.md already reflect new stack
 
 **Estimated Total Time:** 4-6 hours (including build wait times)
-
----
-
-## Current Focus (After Migration)
-
-**Week of January 2025** - Phase 0.5 Audit Corrections (Adapted for WatermelonDB):
-
-- [ ] 0.5.9 **[CRITICAL]** User ID Persistence (4h)
-- [ ] 0.5.10 **[CRITICAL]** Zustand Persist (2h)
-- [ ] 0.5.11 **[CRITICAL]** Error Handling (3h)
-- [ ] 0.5.12 **[IMPORTANT]** Repository Pattern (8h)
-- [ ] 0.5.13 **[IMPORTANT]** Sync Conflicts (8h)
-- [ ] 0.5.14 **[IMPORTANT]** DB Indexes (2h)
-
-**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for step-by-step guide
 
 ---
 
@@ -1625,7 +1599,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## Task Management Guidelines
+## 📊 Task Size Estimates & Priority Levels
 
 ### Task Size Estimates
 
@@ -1654,25 +1628,5 @@ Tasks are ordered chronologically within phases. Some tasks have dependencies:
 
 ---
 
-## How to Use This File
-
-1. **Daily workflow:**
-   - Check current phase
-   - Pick next uncompleted task
-   - Mark as `[x]` when done
-   - Update progress tracking table
-
-2. **Planning:**
-   - Review upcoming phase tasks
-   - Identify potential blockers
-   - Adjust estimates if needed
-
-3. **Progress tracking:**
-   - Update "Current Status" section weekly
-   - Celebrate completed phases
-   - Document learnings in TECHNICAL.md if architecture changes
-
----
-
-**Last Updated:** October 2025 (Post Architecture Deep Dive)
+**Last Updated:** Auto-updated by task-tracker agent
 **Next Review:** After Phase 0.5 completion
