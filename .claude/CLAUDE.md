@@ -170,6 +170,19 @@ When PreCompact hook fires (context ~18000 tokens), you MUST:
 
 **This protocol ensures 95%+ reliability.**
 
+### 📢 Verbose Reporting (MANDATORY)
+
+When PreCompact fires, report progress at each step:
+
+1. **Trigger:** "🔍 PreCompact hook triggered (context ~18000 tokens)"
+2. **Reading:** "Reading .actions.json... [X actions found]"
+3. **Detection:** "Running smart-detector algorithm..."
+4. **Results:** "Detection complete: [N matches OR 'No completed tasks detected']"
+5. **Details:** Show each match with confidence score
+6. **Confirmation:** "Update TASKS.md? [YES/NO]"
+
+This ensures user visibility into automation system.
+
 ---
 
 ### Session Management is AUTOMATED

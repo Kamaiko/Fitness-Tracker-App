@@ -40,6 +40,10 @@ def main():
         print("⚠️  DO NOT SKIP STEPS. FOLLOW EXACTLY.", file=sys.stderr)
         print("", file=sys.stderr)
         print("If NO matches found, report 'No completed tasks detected.'", file=sys.stderr)
+        print("", file=sys.stderr)
+        print("⚠️  MANDATORY: ANNOUNCE TO USER IMMEDIATELY:", file=sys.stderr)
+        print("   '🔍 PreCompact hook triggered - executing smart detection now...'", file=sys.stderr)
+        print("", file=sys.stderr)
         print("═" * 60, file=sys.stderr)
 
         # Exit successfully
