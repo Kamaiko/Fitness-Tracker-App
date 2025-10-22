@@ -11,16 +11,16 @@
 
 - [⚡ TL;DR - Quick Summary](#tldr---quick-summary)
 - [📍 Où en sommes-nous?](#où-en-sommes-nous)
-- [Correction #1: User ID Persistence 🔴](#correction-1-user-id-persistence-)
-- [Correction #2: Zustand Persist 🔴](#correction-2-zustand-persist-)
-- [Correction #3: Error Handling ⚠️](#correction-3-error-handling-️)
-- [Amélioration #4: Chart Abstraction 📘](#amélioration-4-chart-abstraction-)
+- [Correction #1: User ID Persistence 🔴](#correction-1-user-id-persistence)
+- [Correction #2: Zustand Persist 🔴](#correction-2-zustand-persist)
+- [Correction #3: Error Handling ⚠️](#correction-3-error-handling)
+- [Amélioration #4: Chart Abstraction 📘](#amélioration-4-chart-abstraction)
 - [🎯 Checklist Finale](#checklist-finale)
 - [📝 Pour Claude (Session Future)](#pour-claude-session-future)
 
 ---
 
-## ⚡ TL;DR - Quick Summary
+## TL;DR - Quick Summary
 
 **4 corrections à faire APRÈS migration Development Build:**
 
@@ -35,11 +35,11 @@
 
 **Corrections #4-#8 de l'audit original sont OBSOLÈTES** - WatermelonDB les résout nativement (Repository pattern, sync conflicts, indexes, domain types).
 
-**→ START HERE:** [Correction #1: User ID Persistence](#correction-1-user-id-persistence-)
+**→ START HERE:** [Correction #1: User ID Persistence](#correction-1-user-id-persistence)
 
 ---
 
-## 📍 Où en sommes-nous?
+## Où en sommes-nous?
 
 ### ✅ Ce qui fonctionne bien
 
@@ -1102,7 +1102,7 @@ export default function StatsScreen() {
   - [ ] Ajouter persist à `authStore.ts`
   - [ ] Tests: workout actif survit au restart
 
-## ⚠️ IMPORTANTES (avant Phase 2)
+## IMPORTANTES (avant Phase 2)
 
 - [ ] **Correction #3**: Error Handling (3h)
   - [ ] Créer `utils/errors.ts` (custom errors)
@@ -1111,7 +1111,7 @@ export default function StatsScreen() {
   - [ ] Exemple usage dans component
   - [ ] Tests: errors catchées proprement
 
-## 📘 OPTIONNELLES (Phase 2-3)
+## OPTIONNELLES (Phase 2-3)
 
 - [ ] **Amélioration #4**: Chart Abstraction (3h)
   - [ ] Créer `components/charts/LineChart.tsx`
@@ -1175,7 +1175,7 @@ npm start
 
 ---
 
-## 🎯 Résumé pour Patrick
+## Résumé pour Patrick
 
 **Qu'avons-nous identifié?**
 

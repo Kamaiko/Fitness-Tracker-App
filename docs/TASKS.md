@@ -22,7 +22,7 @@
 
 ---
 
-## 🔄 How to Use This File
+## How to Use This File
 
 **For Daily Development:**
 
@@ -49,13 +49,13 @@
 
 ---
 
-## 📊 Current Status
+## Current Status
 
 **Version:** 0.2.0 (Architecture Planning Complete)
 **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red)
 **Total:** 6 completed / 96 total tasks
 
-## 🗺️ Development Roadmap
+## Development Roadmap
 
 ```
 Phase 0.5: Architecture & Foundation (4/15 tasks) ← YOU ARE HERE
@@ -143,7 +143,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## 🚀 Phase 0.5 Bis: Development Build Migration (0/10) ⭐ NEXT SESSION
+## Phase 0.5 Bis: Development Build Migration (0/10) ⭐ NEXT SESSION
 
 **Timeline:** Next session (Tomorrow) | **Priority:** CRITICAL
 **Goal:** Migrate from Expo Go to Development Build with production-ready stack
@@ -461,7 +461,7 @@ git branch -D backup/pre-migration
 
 ---
 
-## 🎯 Current Focus (After Migration)
+## Current Focus (After Migration)
 
 **Week of January 2025** - Phase 0.5 Audit Corrections (Adapted for WatermelonDB):
 
@@ -476,7 +476,7 @@ git branch -D backup/pre-migration
 
 ---
 
-## 📜 Completed Tasks History
+## Completed Tasks History
 
 **6 tasks completed** across Phase 0 and 0.5 (see checkboxes [x] below).
 
@@ -494,7 +494,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 0.5: Architecture & Foundation (4/15) ⭐ CRITICAL
+## Phase 0.5: Architecture & Foundation (4/15) ⭐ CRITICAL
 
 **Timeline:** Week 3 | **Priority:** HIGHEST
 **Goal:** Complete infrastructure setup and critical corrections before Phase 1
@@ -662,7 +662,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 1: Authentication & Foundation (0/14)
+## Phase 1: Authentication & Foundation (0/14)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
@@ -814,7 +814,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 2: Workout Logging (0/28)
+## Phase 2: Workout Logging (0/28)
 
 **Timeline:** Weeks 6-8 | **Priority:** HIGH
 **Goal:** Core workout logging functionality with excellent UX
@@ -1068,7 +1068,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 3: Exercise Library & Testing (0/12)
+## Phase 3: Exercise Library & Testing (0/12)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
@@ -1227,7 +1227,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 4: Analytics & Smart Features (0/15)
+## Phase 4: Analytics & Smart Features (0/15)
 
 **Timeline:** Weeks 11-12 | **Priority:** HIGH
 **MAJOR CHANGES:** Enhanced with context-aware analytics, load management, personalized 1RM, workout reports
@@ -1394,7 +1394,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📋 Phase 5: Polish, Monitoring & Beta Launch (0/18)
+## Phase 5: Polish, Monitoring & Beta Launch (0/18)
 
 **Timeline:** Weeks 13-14 | **Priority:** HIGH
 **ADDED:** Security, monitoring, compliance requirements
@@ -1625,7 +1625,7 @@ git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
 
 ---
 
-## 📝 Task Management Guidelines
+## Task Management Guidelines
 
 ### Task Size Estimates
 
@@ -1654,7 +1654,7 @@ Tasks are ordered chronologically within phases. Some tasks have dependencies:
 
 ---
 
-## 🔄 How to Use This File
+## How to Use This File
 
 1. **Daily workflow:**
    - Check current phase

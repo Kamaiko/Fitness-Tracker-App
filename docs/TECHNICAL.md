@@ -6,7 +6,7 @@
 
 - [📐 Architecture Overview](#architecture-overview)
 - [📦 Technology Stack](#technology-stack)
-- [🏛️ Architecture Decisions (ADRs)](#️-architecture-decisions-adrs)
+- [🏛️ Architecture Decisions (ADRs)](#architecture-decisions-adrs)
   - [ADR-001: Expo SDK vs Bare React Native](#adr-001-expo-sdk-vs-bare-react-native)
   - [ADR-002: Supabase vs Firebase vs AWS Amplify](#adr-002-supabase-vs-firebase-vs-aws-amplify)
   - [ADR-003: TypeScript Strict Mode](#adr-003-typescript-strict-mode)
@@ -21,7 +21,7 @@
   - [ADR-012: Development Build Strategy](#adr-012-development-build-strategy)
 - [📁 Project Structure](#project-structure)
 - [🎨 Design System](#design-system)
-- [🗄️ Database Schema](#️-database-schema)
+- [🗄️ Database Schema](#database-schema)
 - [📊 Analytics & Algorithms](#analytics--algorithms)
 - [💰 Business Model & Monetization](#business-model--monetization-strategy)
 - [🔐 Security & Monitoring](#security--monitoring)
@@ -34,7 +34,7 @@
 
 ---
 
-## 📐 Architecture Overview
+## Architecture Overview
 
 ### Philosophy
 
@@ -124,13 +124,13 @@
 
 ---
 
-## 📦 Technology Stack
+## Technology Stack
 
 See [README.md § Tech Stack](../README.md#️-tech-stack) for complete stack details.
 
 ---
 
-## 🏛️ Architecture Decisions (ADRs)
+## Architecture Decisions (ADRs)
 
 ### ADR-001: Expo SDK 54 Managed Workflow
 
@@ -576,13 +576,13 @@ npm start
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 See [ARCHITECTURE.md § Structure Détaillée](./ARCHITECTURE.md#-structure-détaillée) for complete folder organization.
 
 ---
 
-## 🎨 Design System
+## Design System
 
 See `tailwind.config.js` for complete theme configuration (colors, spacing, typography).
 
@@ -590,13 +590,13 @@ See `tailwind.config.js` for complete theme configuration (colors, spacing, typo
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 See [DATABASE.md](./DATABASE.md) for complete schema documentation (WatermelonDB + Supabase sync).
 
 ---
 
-## 📊 Analytics & Algorithms
+## Analytics & Algorithms
 
 **Principle:** Use scientifically validated formulas (no reinventing). Science-based, context-aware analytics. Avoid AI/ML for MVP.
 
@@ -691,7 +691,7 @@ function detectPlateauWithContext(exerciseHistory, user) {
 
 ---
 
-## 🔐 Security & Monitoring
+## Security & Monitoring
 
 ### Authentication & Data Protection
 
@@ -790,7 +790,7 @@ return JSON.stringify({ user, workouts, exercises, exported_at });
 
 ---
 
-## ⚡ Performance Guidelines
+## Performance Guidelines
 
 ### Bundle Size
 
@@ -847,7 +847,7 @@ return JSON.stringify({ user, workouts, exercises, exported_at });
 
 ---
 
-## 📋 Coding Standards
+## Coding Standards
 
 **TypeScript:** Strict mode, explicit return types, interfaces > types, no `any`, explicit null checks
 
@@ -857,19 +857,19 @@ return JSON.stringify({ user, workouts, exercises, exported_at });
 
 ---
 
-## 🔧 Development Workflow
+## Development Workflow
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventions, branches, review process).
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 **Current:** Expo Go (development) | **Future:** EAS Build → TestFlight/Google Play → App Stores
 
 ---
 
-## 🎨 UX Best Practices (from Strong, Hevy, JEFIT)
+## UX Best Practices (from Strong, Hevy, JEFIT)
 
 ### Core Patterns
 
@@ -908,7 +908,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventio
 
 ---
 
-## 📚 Resources
+## Resources
 
 **Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [MMKV](https://github.com/mrousavy/react-native-mmkv) | [Zustand](https://docs.pmnd.rs/zustand) | [React Query](https://tanstack.com/query/latest) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
 

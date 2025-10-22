@@ -19,7 +19,7 @@
 
 ---
 
-## 📂 Database Service Files
+## Database Service Files
 
 ```
 src/
@@ -38,7 +38,7 @@ src/
 
 ---
 
-## 🔄 How It Works
+## How It Works
 
 ### 1. **Local First** (Instant, <5ms)
 
@@ -90,7 +90,7 @@ await completeWorkout(...); // ✅ Works
 
 ---
 
-## 💡 Usage Examples
+## Usage Examples
 
 ### Initialize Database (app startup)
 
@@ -257,7 +257,7 @@ await database.write(async () => {
 
 ---
 
-## 🗄️ WatermelonDB Schema
+## WatermelonDB Schema
 
 ### Models
 
@@ -419,7 +419,7 @@ export const schema = appSchema({
 
 ---
 
-## 🔄 Supabase Sync
+## Supabase Sync
 
 ### Sync Protocol
 
@@ -504,7 +504,7 @@ $$ LANGUAGE plpgsql;
 
 ---
 
-## ⚡ Performance
+## Performance
 
 ### Benchmarks
 
@@ -524,7 +524,7 @@ $$ LANGUAGE plpgsql;
 
 ---
 
-## 🐛 Debugging
+## Debugging
 
 ### Database Stats
 
@@ -556,7 +556,7 @@ console.log(`Last synced: ${new Date(lastSync)}`);
 
 ---
 
-## ✅ Advantages
+## Advantages
 
 1. ✅ **Reactive**: UI auto-updates on data changes
 2. ✅ **Fast**: Native SQLite optimizations
@@ -566,7 +566,7 @@ console.log(`Last synced: ${new Date(lastSync)}`);
 
 ---
 
-## 📚 Resources
+## Resources
 
 - [WatermelonDB Docs](https://nozbe.github.io/WatermelonDB/)
 - [WatermelonDB Sync](https://nozbe.github.io/WatermelonDB/Advanced/Sync.html)

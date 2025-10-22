@@ -2,7 +2,7 @@
 
 ---
 
-## 📑 Table des Matières
+## Table des Matières
 
 - [📐 Vue d'Ensemble](#vue-densemble)
 - [📂 Structure Détaillée](#structure-détaillée)
@@ -23,7 +23,7 @@
 
 ---
 
-## 📐 Vue d'Ensemble
+## Vue d'Ensemble
 
 Halterofit utilise une **architecture modulaire scalable** inspirée des meilleures pratiques React Native/Expo:
 
@@ -49,7 +49,7 @@ src/
 
 ---
 
-## 📂 Structure Détaillée
+## Structure Détaillée
 
 ### 1. `/app` - Navigation (Expo Router)
 
@@ -401,7 +401,7 @@ constants/
 
 ---
 
-## 🔄 Data Flow
+## Data Flow
 
 ### 1. User Action Flow
 
@@ -466,7 +466,7 @@ INSERT INTO exercise_sets (weight, reps, ...) VALUES (?, ?, ...);
 
 ---
 
-## 📦 Import Patterns
+## Import Patterns
 
 ### Barrel Exports (index.ts)
 
@@ -498,7 +498,7 @@ import { Colors } from '@/constants';
 
 ---
 
-## 🧪 Testing Strategy (Future)
+## Testing Strategy (Future)
 
 ```
 src/
@@ -521,7 +521,7 @@ src/
 
 ---
 
-## 🚀 Post-MVP Performance Optimizations
+## Post-MVP Performance Optimizations
 
 **Planned optimizations** (Phase 5+):
 

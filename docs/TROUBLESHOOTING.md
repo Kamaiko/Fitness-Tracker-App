@@ -24,7 +24,7 @@ Common issues and solutions for Halterofit development with **Development Build*
 
 ---
 
-## 📖 Quick Navigation
+## Quick Navigation
 
 **By Severity:**
 
@@ -43,7 +43,7 @@ Common issues and solutions for Halterofit development with **Development Build*
 
 ---
 
-## 🔴 Critical Issues (App Won't Start)
+## Critical Issues (App Won't Start)
 
 ### Development Build Not Installed
 
@@ -80,7 +80,7 @@ eas build --profile development --platform android
 
 ---
 
-## 📱 Expo & Metro Bundler Issues
+## Expo & Metro Bundler Issues
 
 ### Metro Bundler Won't Start
 
@@ -175,7 +175,7 @@ npm install
 
 ---
 
-## 💾 WatermelonDB Issues
+## WatermelonDB Issues
 
 ### "Cannot Find Model" or Collection Errors
 
@@ -301,7 +301,7 @@ Database.setLogLevel('verbose');
 
 ---
 
-## 🔐 MMKV Storage Issues
+## MMKV Storage Issues
 
 ### "MMKV Not Found" or Native Module Error
 
@@ -380,7 +380,7 @@ export const useStore = create(
 
 ---
 
-## 🎨 Styling & UI Issues
+## Styling & UI Issues
 
 ### Tailwind Classes Not Working
 
@@ -470,7 +470,7 @@ module.exports = {
 
 ---
 
-## 🔐 Authentication Issues
+## Authentication Issues
 
 ### User Lost on App Restart
 
@@ -544,7 +544,7 @@ EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 
 ---
 
-## 📦 npm / Dependency Issues
+## npm / Dependency Issues
 
 ### "Cannot Find Module" After npm install
 
@@ -589,7 +589,7 @@ npm install --legacy-peer-deps
 
 ---
 
-## 🐛 TypeScript Errors
+## TypeScript Errors
 
 ### "Cannot find name" or Import Errors
 
@@ -635,7 +635,7 @@ npm run type-check
 
 ---
 
-## 🚀 Performance Issues
+## Performance Issues
 
 ### App Slow / Laggy
 
@@ -673,7 +673,7 @@ console.log('Query took:', Date.now() - start, 'ms');
 
 ---
 
-## 📝 Adding New Issues to This Guide
+## Adding New Issues to This Guide
 
 When you encounter and fix a new issue:
 
@@ -713,7 +713,7 @@ git commit -m "docs(troubleshooting): add solution for [issue]"
 
 ---
 
-## 🆘 Still Stuck?
+## Still Stuck?
 
 If issue not listed here:
 
