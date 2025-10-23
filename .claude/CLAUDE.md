@@ -28,17 +28,17 @@
 
 ## 🚧 Current Phase & Next Steps
 
-**Phase:** 0.5 Bis - Development Build Migration
+**Phase:** 0.5 - Architecture & Foundation
 **Progress:** 6/96 tasks (6%)
-**Version:** 0.2.0
+**Version:** 0.1.0
 
-**Next Task:** 0.5bis.2 - Implement database schema in Supabase
+**Next Task:** 0.5.2 - Implement database schema in Supabase
 **File to create:** `supabase/migrations/001_initial_schema.sql`
 
 **Critical Context:**
-- Migrating from Expo Go → Development Build (native modules required)
-- Stack changes: expo-sqlite → WatermelonDB, AsyncStorage → MMKV, chart-kit → Victory Native
-- **Blocker**: Must complete Phase 0.5 Bis before Phase 1 (Authentication) can start
+- Current stack: Expo Go + expo-sqlite + AsyncStorage + react-native-chart-kit (100% working)
+- Phase 0.5 Bis (Development Build migration) is DEFERRED until after Phase 0.5 critical corrections
+- **Priority**: Complete Phase 0.5 critical corrections BEFORE considering migration
 
 **Reference:** See [TASKS.md § NEXT SESSION](../docs/TASKS.md#-next-session) for detailed task breakdown
 
@@ -59,7 +59,7 @@ Native modules required for production-grade performance:
 
 **Key Insight:** Building with production tools from Day 1 avoids costly 1-2 week refactoring later.
 
-### Current Stack Overview
+### Current Stack Overview (ACTUAL - Phase 0.5)
 
 | Layer         | Technologies                                         |
 | ------------- | ---------------------------------------------------- |
@@ -67,13 +67,21 @@ Native modules required for production-grade performance:
 | **Navigation**| Expo Router 6                                        |
 | **Styling**   | NativeWind v4 (Tailwind CSS 3.4)                     |
 | **State**     | Zustand 5.0 + React Query 5.90                       |
-| **Database**  | WatermelonDB + Supabase PostgreSQL                   |
-| **Storage**   | MMKV (encrypted, fast)                               |
-| **UI**        | FlashList + expo-image + Victory Native              |
+| **Database**  | expo-sqlite + Supabase PostgreSQL                    |
+| **Storage**   | AsyncStorage (via @react-native-async-storage)       |
+| **UI**        | react-native-chart-kit (Expo Go compatible)          |
 | **Backend**   | Supabase (Auth + Database + Storage + Realtime)      |
-| **Analytics** | simple-statistics (Mann-Kendall, regressions)        |
 | **Testing**   | Jest + React Native Testing Library                  |
-| **Build**     | EAS Build (cloud builds for native modules)          |
+| **Build**     | Expo Go (no native modules yet)                      |
+
+### Future Stack (After Phase 0.5 Bis Migration)
+
+| Component       | Upgrade To         | Why                                              |
+| --------------- | ------------------ | ------------------------------------------------ |
+| **Database**    | WatermelonDB       | Reactive queries, offline-first, built-in sync   |
+| **Storage**     | MMKV               | 10-30x faster, native encryption                 |
+| **Charts**      | Victory Native     | Skia rendering, advanced gestures, professional  |
+| **Build**       | Development Build  | Required for WatermelonDB/MMKV/Victory           |
 
 **Reference:** See [TECHNICAL.md](TECHNICAL.md) for Architecture Decision Records (ADRs)
 
@@ -112,25 +120,26 @@ npm run lint                # ESLint check
 npm run format              # Prettier format
 ```
 
-### EAS Build (Development Build)
+### Database Operations (Current: expo-sqlite)
 
 ```bash
-eas build --profile development --platform android   # Build dev client (~15-20 min)
-eas build --profile development --platform ios       # iOS dev client
-eas build --profile production --platform android    # Production build
-eas whoami                                           # Verify EAS login
+# Supabase (cloud) - for migrations when ready
+supabase migration new <name>   # Create new migration file
+supabase db push                # Push local migrations to remote (when needed)
+supabase db reset               # Reset database to migrations
+
+# expo-sqlite (local)
+# Operations in src/services/database/db.ts
+# Automatic sync with Supabase via services
 ```
 
-### Database Operations
+### Future: EAS Build (After Phase 0.5 Bis Migration)
 
 ```bash
-# Supabase (cloud)
-supabase db reset           # Reset database to migrations
-supabase db push            # Push local migrations to remote
-supabase migration new <name>   # Create new migration
-
-# WatermelonDB (local)
-# Operations handled in code via database.write() / database.read()
+# NOT AVAILABLE YET - Will be needed after Development Build migration
+# eas build --profile development --platform android
+# eas build --profile production --platform android
+# eas whoami
 ```
 
 ### Git Workflow
@@ -183,44 +192,18 @@ When PreCompact fires, report progress at each step:
 
 This ensures user visibility into automation system.
 
-### 🚀 SessionStart Report Format (MANDATORY)
+### 🚀 SessionStart Briefing
 
-When session starts (new conversation OR resume), respond with this EXACT format:
+**Hook:** `session-start.py` fires at session start and provides guidelines.
 
-```
-═══════════════════════════════════════════════
-🚀 SESSION START REPORT
-═══════════════════════════════════════════════
+**Your job:** Provide a conversational briefing with these elements:
 
-📊 **Context Status**
-   - Tokens Used: [X,XXX / 200,000] (XX%)
-   - Status: [FRESH | MODERATE | HIGH | CRITICAL]
-   - Recommendation: [Continue | Compact soon | Compact NOW]
+1. **Context Status** - Token usage, status level (FRESH/MODERATE/HIGH/CRITICAL), recommendation
+2. **Project Status** - Current phase from TASKS.md, progress (X/96 tasks)
+3. **Next Task** - From ⭐ NEXT SESSION marker in TASKS.md (ID, description, files)
+4. **Quick Actions** - Available slash commands (/task-update, etc.)
 
-📋 **Current Progress** (from docs/TASKS.md)
-   - Completed: [XX/96 tasks]
-   - Current Phase: [Phase X.X - Name]
-   - Phase Progress: [XX% complete]
-
-⭐ **Next Task** (marked ⭐ NEXT SESSION in TASKS.md)
-   - ID: [X.X.X]
-   - Description: [Full task description]
-   - Prerequisites: [Any dependencies or context needed]
-
-🔧 **Quick Actions**
-   - `/task-update` - Manually detect completed tasks
-   - `/compact` - Compact conversation if needed
-
-═══════════════════════════════════════════════
-```
-
-**Context Status Levels:**
-- FRESH: 0-25% (Continue normally)
-- MODERATE: 26-60% (Monitor, continue)
-- HIGH: 61-85% (Suggest compact soon)
-- CRITICAL: 86%+ (Recommend compact NOW)
-
-**This format ensures consistent, professional session startup across all conversations.**
+**Format:** Keep it natural and conversational. Use whatever structure/emojis feel right. No strict template - content matters more than container.
 
 ---
 
@@ -281,14 +264,14 @@ Python hooks (`.claude/hooks/*.py`) handle session lifecycle:
 | **CONTRIBUTING.md** ⭐    | Setup & daily development         | Complete setup guide, workflow, commands |
 | **TASKS.md** 📋           | Planning next tasks               | Roadmap (96 tasks across 6 phases)       |
 | **AUDIT_FIXES.md** 🔧     | Post-migration corrections        | 8 critical corrections (blockers)        |
-| **DATABASE.md** 💾        | Working with database             | WatermelonDB setup, schema, CRUD ops     |
+| **DATABASE.md** 💾        | Working with database             | expo-sqlite setup, schema, CRUD ops      |
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
 | **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
 | **TROUBLESHOOTING.md** 🆘 | When something breaks             | Common issues & solutions                |
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**
-- 🎯 **Current Phase:** See [TASKS.md § Phase 0.5 Bis](../docs/TASKS.md#phase-05-bis-development-build-migration-010)
+- 🎯 **Current Phase:** See [TASKS.md § Phase 0.5](../docs/TASKS.md#phase-05-architecture--foundation-415--critical)
 - 🚀 **Next Steps:** See [TASKS.md § NEXT SESSION](../docs/TASKS.md#-next-session)
 
 ---
