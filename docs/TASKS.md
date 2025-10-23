@@ -2,7 +2,7 @@
 
 **Last Updated:** Auto-updated by task-tracker agent
 **Document Version:** 3.0
-**Version:** 0.2.0 | **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks | **Phase:** 0.5 Bis
+**Version:** 0.1.0 | **Progress:** ![](https://img.shields.io/badge/Progress-6%25-red) 6/96 tasks | **Phase:** 0.5
 
 ---
 
@@ -105,9 +105,10 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **Quick Start:**
 
-1. Migration complete! Phase 0.5 Bis (10/10 tasks) ✅
-2. Next: Create Supabase schema matching SQLite database
-3. File to create: `supabase/migrations/001_initial_schema.sql`
+1. Phase 0.5 Bis (Development Build Migration) NOT started yet (0/10 tasks)
+2. Current stack: Expo Go + expo-sqlite + AsyncStorage + react-native-chart-kit
+3. Next: Create Supabase schema matching SQLite database
+4. File to create: `supabase/migrations/001_initial_schema.sql`
 
 See [Phase 0.5.A Infrastructure Setup](#05a-infrastructure-setup-25-completed) for complete details.
 
@@ -132,11 +133,12 @@ See [Phase 0.5.A Infrastructure Setup](#05a-infrastructure-setup-25-completed) f
 
 ---
 
-## Phase 0.5 Bis: Development Build Migration (0/10)
+## Phase 0.5 Bis: Development Build Migration (0/10) - NOT STARTED
 
-**Timeline:** Next session (Tomorrow) | **Priority:** CRITICAL
+**Timeline:** After Phase 0.5 completion | **Priority:** DEFERRED
 **Goal:** Migrate from Expo Go to Development Build with production-ready stack
 
+**Status:** ⚠️ NOT STARTED - Will be done AFTER Phase 0.5 critical corrections
 **Progress:** 0/10 tasks | **Estimated Time:** 4-6 hours total
 
 **Stack Migration:**
@@ -215,32 +217,12 @@ npm start  # Back to Expo Go
   - Verify setup: `eas whoami`
   - Status: Ready for cloud builds
 
-### 0.5bis.2 **Create eas.json Configuration** (S - 30min)
-
-```
-File: eas.json (create at project root)
-
-{
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {}
-  }
-}
-
-Purpose: Development build config for EAS cloud builds
-```
+- [ ] 0.5bis.2 **Create eas.json Configuration** (S - 30min)
+  - Create eas.json at project root
+  - Configure development profile (`developmentClient: true`)
+  - Configure preview and production profiles
+  - Purpose: Development build config for EAS cloud builds
+  - File: `eas.json`
 
 - [ ] 0.5bis.3 **Build Development Build (Android & iOS)** (M - 45min)
   - Command: `eas build --profile development --platform android` (~15-20 min)
@@ -250,147 +232,64 @@ Purpose: Development build config for EAS cloud builds
   - Test that dev build launches successfully
   - Note: ONE-TIME setup, daily dev won't need rebuilds
 
-### 0.5bis.4 **Install WatermelonDB + Dependencies** (M - 1h)
+- [ ] 0.5bis.4 **Install WatermelonDB + Dependencies** (M - 1h)
+  - Install packages: `@nozbe/watermelondb`, `@nozbe/with-observables`
+  - Update metro.config.js for WatermelonDB transformer
+  - Add babel plugins to babel.config.js
+  - Run: `npm run type-check` to verify no errors
+  - Files: `metro.config.js`, `babel.config.js`
 
-```
-Packages:
-- npm install @nozbe/watermelondb
-- npm install @nozbe/with-observables  (for React integration)
+- [ ] 0.5bis.5 **Create WatermelonDB Models & Schema** (L - 2h)
+  - Create model files: Workout.ts, Exercise.ts, WorkoutExercise.ts, ExerciseSet.ts
+  - Define models with @field, @date, @relation decorators
+  - Create schema matching Supabase tables
+  - Setup database instance in `src/services/database/watermelon/index.ts`
+  - Export from services/database/index.ts
+  - Reference: DATABASE.md § WatermelonDB Schema
 
-Configuration:
-- Update metro.config.js for WatermelonDB transformer
-- Add babel plugins to babel.config.js
-- No native rebuild needed yet (just JS config)
+- [ ] 0.5bis.6 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
+  - Replace src/services/database/db.ts expo-sqlite code
+  - Rewrite CRUD operations for WatermelonDB API
+  - Update createWorkout, logSet, etc. to use database.write()
+  - Add reactive queries with .observe()
+  - Update src/hooks/workout/\* to use reactive queries
+  - Verify basic CRUD works and reactive queries update UI
 
-Test:
-- npm run type-check (verify no errors)
-- App should still compile (no breaking changes yet)
-```
+- [ ] 0.5bis.7 **Install MMKV + Migrate Storage** (M - 45min)
+  - Install package: `react-native-mmkv`
+  - Create MMKV wrapper: `src/services/storage/mmkvStorage.ts`
+  - Create MMKV instance with encryption key
+  - Migrate authStorage from AsyncStorage to MMKV
+  - Update stores to use MMKV for persistence
+  - Keep same API (getItem, setItem, removeItem)
+  - Reference: TECHNICAL.md ADR-009
 
-### 0.5bis.5 **Create WatermelonDB Models & Schema** (L - 2h)
+- [ ] 0.5bis.8 **Install Victory Native + Migrate Charts** (M - 1h)
+  - Install packages: `victory-native`, `react-native-svg`, `react-native-skia`
+  - Create LineChart.tsx and BarChart.tsx components
+  - Wrap Victory components with dark theme
+  - Replace any existing react-native-chart-kit usage
+  - Test chart rendering with sample data
+  - Note: Full charts implementation happens in Phase 4
 
-```
-Files to create (see DATABASE.md for complete examples):
-- src/models/Workout.ts
-- src/models/Exercise.ts
-- src/models/WorkoutExercise.ts
-- src/models/ExerciseSet.ts
-- src/services/database/watermelon/schema.ts
-- src/services/database/watermelon/index.ts (database instance)
+- [ ] 0.5bis.9 **Create Supabase Schema & Sync Functions** (L - 1.5h)
+  - Create `supabase/migrations/001_initial_schema.sql`
+  - Create Supabase tables matching WatermelonDB schema
+  - Add RLS policies (users see only their data)
+  - Create pull_changes() and push_changes() PostgreSQL functions
+  - Implement sync() function in `src/services/database/watermelon/sync.ts`
+  - Test sync with sample data
+  - Reference: DATABASE.md § Supabase Sync
 
-Tasks:
-- Define models with @field, @date, @relation decorators
-- Create schema matching Supabase tables
-- Setup database instance
-- Export from services/database/index.ts
-
-Reference: See DATABASE.md § WatermelonDB Schema
-```
-
-### 0.5bis.6 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
-
-```
-Tasks:
-- Replace src/services/database/db.ts expo-sqlite code
-- Rewrite CRUD operations for WatermelonDB API
-- Update createWorkout, logSet, etc. to use database.write()
-- Add reactive queries with .observe()
-- Keep same function signatures (minimal breaking changes)
-
-Files to update:
-- src/services/database/workouts.ts (or create watermelon/workouts.ts)
-- src/hooks/workout/* (use reactive queries)
-
-Test:
-- Verify basic CRUD works
-- Check reactive queries update UI automatically
-```
-
-### 0.5bis.7 **Install MMKV + Migrate Storage** (M - 45min)
-
-```
-Package:
-- npm install react-native-mmkv
-
-Files to create:
-- src/services/storage/mmkvStorage.ts (MMKV wrapper)
-
-Tasks:
-- Create MMKV instance with encryption key
-- Migrate authStorage from AsyncStorage to MMKV
-- Update stores to use MMKV for persistence
-- Keep same API (getItem, setItem, removeItem)
-
-Migration:
-- Read existing AsyncStorage data
-- Write to MMKV
-- Clear AsyncStorage
-- Update all imports to use mmkvStorage
-
-Reference: See TECHNICAL.md ADR-009
-```
-
-### 0.5bis.8 **Install Victory Native + Migrate Charts** (M - 1h)
-
-```
-Packages:
-- npm install victory-native
-- npm install react-native-svg react-native-skia
-
-Files to create:
-- src/components/charts/LineChart.tsx (Victory Native)
-- src/components/charts/BarChart.tsx
-
-Tasks:
-- Wrap Victory components with dark theme
-- Replace any existing react-native-chart-kit usage
-- Test chart rendering with sample data
-
-Note: Charts implementation happens in Phase 4
-This is just setup + basic components
-```
-
-### 0.5bis.9 **Create Supabase Schema & Sync Functions** (L - 1.5h)
-
-```
-Files to create:
-- supabase/migrations/001_initial_schema.sql
-- src/services/database/watermelon/sync.ts
-
-Tasks:
-- Create Supabase tables matching WatermelonDB schema
-- Add RLS policies (users see only their data)
-- Create pull_changes() PostgreSQL function
-- Create push_changes() PostgreSQL function
-- Implement sync() function in sync.ts
-- Test sync with sample data
-
-Reference: See DATABASE.md § Supabase Sync
-```
-
-### 0.5bis.10 **Test & Verify Development Build** (M - 45min)
-
-```
-Tests:
-✅ App launches with dev build
-✅ WatermelonDB creates/reads/updates data
-✅ Reactive queries update UI automatically
-✅ MMKV stores and retrieves auth tokens
-✅ Supabase sync works (create → sync → verify in Supabase dashboard)
-✅ Charts render correctly (basic test)
-✅ No TypeScript errors (npm run type-check)
-✅ Hot reload works normally
-
-Troubleshooting:
-- If errors: Check metro bundler logs
-- If crash: Check native logs (adb logcat or Xcode)
-- If sync fails: Check Supabase dashboard → SQL Editor
-
-Success criteria:
-- Dev build runs smoothly
-- All core features work
-- Ready for Phase 1 development
-```
+- [ ] 0.5bis.10 **Test & Verify Development Build** (M - 45min)
+  - Verify app launches with dev build
+  - Test WatermelonDB creates/reads/updates data
+  - Verify reactive queries update UI automatically
+  - Test MMKV stores and retrieves auth tokens
+  - Verify Supabase sync works (create → sync → check dashboard)
+  - Test charts render correctly
+  - Run: `npm run type-check` (must pass)
+  - Verify hot reload works normally
 
 ---
 

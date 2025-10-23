@@ -44,116 +44,24 @@
 
 ---
 
-## 🛠️ Tech Stack - Critical Decisions
+## 🛠️ Tech Stack
 
-### Why Development Build (Not Expo Go)?
+**Current:** Expo Go + expo-sqlite + AsyncStorage + react-native-chart-kit (100% working)
 
-Native modules required for production-grade performance:
+**Future (Phase 0.5 Bis):** Development Build + WatermelonDB + MMKV + Victory Native
 
-| Component       | Choice             | Why                                              | NOT            |
-| --------------- | ------------------ | ------------------------------------------------ | -------------- |
-| **Database**    | WatermelonDB       | Reactive queries, offline-first, built-in sync   | expo-sqlite    |
-| **Storage**     | MMKV               | 10-30x faster, native encryption                 | AsyncStorage   |
-| **Charts**      | Victory Native     | Skia rendering, advanced gestures, professional  | chart-kit      |
-| **Build**       | Development Build  | Required for WatermelonDB/MMKV/Victory           | Expo Go        |
-
-**Key Insight:** Building with production tools from Day 1 avoids costly 1-2 week refactoring later.
-
-### Current Stack Overview (ACTUAL - Phase 0.5)
-
-| Layer         | Technologies                                         |
-| ------------- | ---------------------------------------------------- |
-| **Frontend**  | Expo SDK 54, React Native 0.82, TypeScript 5.9       |
-| **Navigation**| Expo Router 6                                        |
-| **Styling**   | NativeWind v4 (Tailwind CSS 3.4)                     |
-| **State**     | Zustand 5.0 + React Query 5.90                       |
-| **Database**  | expo-sqlite + Supabase PostgreSQL                    |
-| **Storage**   | AsyncStorage (via @react-native-async-storage)       |
-| **UI**        | react-native-chart-kit (Expo Go compatible)          |
-| **Backend**   | Supabase (Auth + Database + Storage + Realtime)      |
-| **Testing**   | Jest + React Native Testing Library                  |
-| **Build**     | Expo Go (no native modules yet)                      |
-
-### Future Stack (After Phase 0.5 Bis Migration)
-
-| Component       | Upgrade To         | Why                                              |
-| --------------- | ------------------ | ------------------------------------------------ |
-| **Database**    | WatermelonDB       | Reactive queries, offline-first, built-in sync   |
-| **Storage**     | MMKV               | 10-30x faster, native encryption                 |
-| **Charts**      | Victory Native     | Skia rendering, advanced gestures, professional  |
-| **Build**       | Development Build  | Required for WatermelonDB/MMKV/Victory           |
-
-**Reference:** See [TECHNICAL.md](TECHNICAL.md) for Architecture Decision Records (ADRs)
+**See [TECHNICAL.md](../docs/TECHNICAL.md)** for complete stack details and Architecture Decision Records (ADRs).
 
 ---
 
-## 🎯 Performance Targets & Constraints
+## ⚡ Commands & Workflow
 
-**Critical Performance Requirements:**
+**See [CONTRIBUTING.md](../docs/CONTRIBUTING.md)** for complete command reference, git workflow, and development guide.
 
-| Metric                  | Target       | Why                                    |
-| ----------------------- | ------------ | -------------------------------------- |
-| **Cold start time**     | <2s          | User experience standard               |
-| **Screen transitions**  | 60fps        | Sweaty hands in gym - needs smooth UX  |
-| **Set logging latency** | <50ms        | Instant feedback for workout flow      |
-| **Data loss incidents** | 0%           | Zero tolerance - offline-first promise |
-| **Sync success rate**   | >99%         | Exponential backoff for reliability    |
-| **Chart render time**   | <500ms       | 1000+ data points (2 years of data)    |
-
-**Offline-First Architecture:**
-- 100% functionality offline (log entire workout in airplane mode)
-- Automatic bidirectional sync when connection restored
-- Conflict resolution: last write wins with timestamp
-- Guaranteed data integrity (foreign key constraints both DBs)
-
----
-
-## ⚡ Common Commands
-
-### Daily Development
-
-```bash
-npm start                    # Start Expo dev server
-npm run type-check          # TypeScript verification (run before commit)
-npm test                    # Run Jest tests
-npm run lint                # ESLint check
-npm run format              # Prettier format
-```
-
-### Database Operations (Current: expo-sqlite)
-
-```bash
-# Supabase (cloud) - for migrations when ready
-supabase migration new <name>   # Create new migration file
-supabase db push                # Push local migrations to remote (when needed)
-supabase db reset               # Reset database to migrations
-
-# expo-sqlite (local)
-# Operations in src/services/database/db.ts
-# Automatic sync with Supabase via services
-```
-
-### Future: EAS Build (After Phase 0.5 Bis Migration)
-
-```bash
-# NOT AVAILABLE YET - Will be needed after Development Build migration
-# eas build --profile development --platform android
-# eas build --profile production --platform android
-# eas whoami
-```
-
-### Git Workflow
-
-```bash
-git status                  # Check uncommitted changes
-git add -A                  # Stage all changes
-git commit -m "feat(scope): description"   # Conventional commit
-git push origin master      # Push to remote
-```
-
-**Commit Convention:** `<type>(<scope>): <description>`
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-**Scopes:** `workout`, `exercises`, `analytics`, `auth`, `db`, `ui`, `config`
+**Quick Reference:**
+- `npm start` - Start Expo dev server
+- `npm run type-check` - TypeScript verification (run before commit)
+- `npm test` - Run Jest tests
 
 ---
 
@@ -192,18 +100,13 @@ When PreCompact fires, report progress at each step:
 
 This ensures user visibility into automation system.
 
-### 🚀 SessionStart Briefing
+### 🚀 SessionStart Report
 
-**Hook:** `session-start.py` fires at session start and provides guidelines.
+**Hook:** `session-start.py` fires at session start and provides structured guidelines.
 
-**Your job:** Provide a conversational briefing with these elements:
+**Report Elements:** Context status, project progress, next task, quick actions.
 
-1. **Context Status** - Token usage, status level (FRESH/MODERATE/HIGH/CRITICAL), recommendation
-2. **Project Status** - Current phase from TASKS.md, progress (X/96 tasks)
-3. **Next Task** - From ⭐ NEXT SESSION marker in TASKS.md (ID, description, files)
-4. **Quick Actions** - Available slash commands (/task-update, etc.)
-
-**Format:** Keep it natural and conversational. Use whatever structure/emojis feel right. No strict template - content matters more than container.
+**Format:** Follow the template provided by session-start.py hook output. Keep it conversational.
 
 ---
 
@@ -304,53 +207,14 @@ After:  - [x] 0.5bis.1 Setup EAS Build Account
 
 ## 🎓 Standards & Best Practices
 
-### Code Quality
+**See [TECHNICAL.md](../docs/TECHNICAL.md)** for coding standards, performance guidelines, and testing strategy.
 
+**See [CONTRIBUTING.md](../docs/CONTRIBUTING.md)** for pre-commit hooks, workflow, and session end checklist.
+
+**Key Principles:**
 - **TypeScript strict mode** - No `any` types
-- **ESLint enforced** - Fix before commit
-- **Prettier formatting** - Automatic via pre-commit hook
 - **100% offline-first** - All features work without internet
-
-### Testing
-
-- **Unit tests** for critical paths (calculations, validators, formatters)
-- **Integration tests** for database operations and sync
-- **Target coverage:** 60%+ for critical business logic
-- **Framework:** Jest + React Native Testing Library
-
-### Performance
-
-- **FlashList** for all long lists (54% FPS improvement vs FlatList)
-- **expo-image** for aggressive caching (1,300+ exercise GIFs)
-- **React.memo** for expensive components (charts, list items)
-- **Code splitting** for analytics (defer heavy features)
-
-### Pre-commit Hooks (Automated)
-
-```bash
-# Runs automatically on git commit (via Husky + lint-staged)
-- Type-check (TypeScript)
-- Lint (ESLint)
-- Format (Prettier)
-- Commit message validation (commitlint)
-```
-
-**If commit blocked:** Fix errors, then commit again. Hooks prevent broken code.
-
----
-
-## 🔄 Session End Checklist
-
-Before ending session:
-
-```bash
-[ ] Update relevant docs (TASKS.md, TECHNICAL.md, etc.)
-[ ] Commit with conventional message
-[ ] npm run type-check ✅
-[ ] Verify NEXT SESSION marker in TASKS.md is accurate
-```
-
-**Automation:** `session-end.py` hook verifies consistency automatically.
+- **Automation:** session-end.py hook verifies consistency automatically
 
 ---
 
