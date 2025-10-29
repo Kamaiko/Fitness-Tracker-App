@@ -1,505 +1,318 @@
-# /task-update - Intelligent Task Management System
+# /task-update - Auto-Magic Task Completion
 
-**Description**: Professional task progress tracker with auto-validation and smart cascade updates
+**Smart task tracker that detects what you just finished and updates everything automatically.**
 
 ---
 
 ## 🎯 Usage
 
-### Basic Commands
+```bash
+/task-update              # Auto-detect completed task & update
+/task-update next         # Suggest next task to work on
+/task-update status       # Show kanban board
+```
+
+That's it! 99% of the time, you just type `/task-update` and everything happens automatically.
+
+---
+
+## ⚡ How It Works
+
+### Auto-Detection Magic
+
+When you run `/task-update`, Claude analyzes:
+
+1. **Recent git commits** (last 24 hours)
+   - Commit messages
+   - Files changed
+   - Number of commits
+
+2. **Kanban DOING column** (what's currently in progress)
+
+3. **File patterns** from task descriptions
+   - Matches changed files with task "Files:" field
+
+4. **Task descriptions** (keywords matching recent work)
+
+**Then Claude:**
+- ✅ Detects which task you completed
+- ✅ Marks it `[x]` in TASKS.md
+- ✅ Updates all progress counters automatically
+- ✅ Moves task from DOING → DONE in Kanban
+- ✅ Suggests next task from TODO
+
+---
+
+## 📋 Example Workflow
+
+### Morning (Start Work)
 
 ```bash
-/task-update complete 0.5.2              # Mark task as completed
-/task-update start 1.3                   # Mark task as in progress
-/task-update block 2.1 "waiting on API"  # Mark task as blocked with reason
-/task-update unblock 2.1                 # Remove blocker from task
+/task-update status
 ```
 
-### Advanced Commands
+**Output:**
+```
+📋 Kanban Board
+
+TODO (5):           DOING (0):      DONE (5):
+0.5.2 DB schema 🔴                  0.5.18 Jest ✅
+0.5.3 FlashList 🟡                  0.5.17 Dev tools
+...                                 ...
+
+⏭️ Next: Start 0.5.2 Database schema [M - 3-4h] 🔴
+   No blockers, critical priority
+
+Start this task? [Y/n]
+```
+
+Type `Y` → Task moves to DOING column
+
+### After Coding (Finish Task)
 
 ```bash
-/task-update status                      # Show current sprint dashboard
-/task-update velocity                    # Calculate velocity metrics
-/task-update next                        # Suggest next task to work on
-/task-update validate                    # Validate TASKS.md format
+/task-update
+```
+
+**Output:**
+```
+🔍 Analyzing recent work...
+
+✅ Detected completion: 0.5.2 Implement database schema
+   Evidence:
+   • 6 commits in last 2 hours
+   • Files: supabase/migrations/001_initial_schema.sql ✓
+   • Matches task description
+
+📊 Auto-updated:
+   ✓ Task marked [x] in TASKS.md
+   ✓ Phase 0.5: 6/15 → 7/15 (47%)
+   ✓ Overall: 6/96 → 7/96 (7%)
+   ✓ Kanban: 0.5.2 moved DOING → DONE
+   ✓ Progress badge updated
+
+⏭️ Next recommended:
+   0.5.3 Install FlashList [S - 1h] 🟡
+   Quick win, no dependencies
+
+Start this task? [Y/n]
+```
+
+**Zero manual input required** ✨
+
+---
+
+## 🧠 Smart Features
+
+### 1. Ambiguity Handling
+
+If Claude detects multiple possible completions:
+
+```
+🤔 Multiple tasks detected:
+
+Which task did you complete?
+1. 0.5.2 Database schema (6 commits, supabase/*)
+2. 0.5.3 FlashList (2 commits, package.json)
+
+[1/2]: _
+```
+
+Just type the number. That's it.
+
+### 2. Auto-Cascade Updates
+
+One command updates **7 levels** automatically:
+
+1. ✅ Task checkbox: `[ ]` → `[x]`
+2. 📊 Phase progress: `6/15` → `7/15`
+3. 🎯 Overall progress: `6/96` → `7/96` (badge color auto)
+4. 📋 Kanban: Move DOING → DONE (auto-rotate if >5 in DONE)
+5. 🗺️ Development Roadmap: Update phase tree
+6. 📅 Metadata: Update "Last Updated" timestamp
+7. ⏭️ Next task: Suggest from TODO based on priority + dependencies
+
+### 3. Smart Suggestions
+
+`/task-update next` analyzes:
+
+- ✅ Dependencies satisfied?
+- ✅ No blockers?
+- ✅ Priority level
+- ✅ Estimated time vs your capacity
+- ✅ Critical path impact
+
+**Suggests optimal next task** based on all factors.
+
+---
+
+## 📐 Update Protocol (Behind the Scenes)
+
+When you run `/task-update`, Claude follows this protocol automatically:
+
+### Step 1: Analyze Recent Work
+```typescript
+// Parse git log
+const commits = git.log('--since="24 hours ago"')
+const changedFiles = git.diff('--name-only HEAD~5..HEAD')
+
+// Find tasks in DOING column
+const doingTasks = kanban.DOING
+
+// Match evidence
+const mostLikelyTask = match(commits, changedFiles, doingTasks)
+```
+
+### Step 2: Confirm or Ask
+```typescript
+if (confidence > 90%) {
+  // Auto-proceed
+  updateTask(mostLikelyTask)
+} else if (confidence > 60%) {
+  // Show evidence, ask confirmation
+  askUser(`Detected: ${task}. Correct? [Y/n]`)
+} else {
+  // Multiple candidates
+  showOptions(candidateTasks)
+}
+```
+
+### Step 3: Cascade Updates
+```typescript
+// Update TASKS.md
+markComplete(taskId)
+updatePhaseProgress()
+updateOverallProgress()
+updateProgressBadge()
+updateKanban()
+updateRoadmap()
+updateTimestamp()
+
+// Show report
+displayImpact()
+suggestNext()
 ```
 
 ---
 
-## ⚡ Intelligent Features
+## 🎨 Kanban Auto-Management
 
-### 1. Smart Validation ✓
-- Verifies task ID exists in TASKS.md
-- Detects unsatisfied dependencies before allowing completion
-- Warns if marking task complete without acceptance criteria checked
-- Prevents circular dependency creation
-- Validates all file references exist
+### DONE Column (Auto-Rotate)
 
-### 2. Auto-Cascade Updates 🔄
-When you complete a task, the system automatically updates:
-- ✅ Task status: `[ ]` → `[x]`
-- 📊 Phase progress: `6/15` → `7/15` (40% → 47%)
-- 🎯 Overall progress: `6/96` → `7/96` (6% → 7%)
-- 🏆 Executive Summary: Add to "Recent Completions"
-- ⏭️ Current Sprint: Move to "Completed This Week"
-- 🗺️ Development Roadmap: Update phase tree visualization
-- 🔓 Unblock dependent tasks automatically
-- 📅 Update timeline estimates based on velocity
-- ⚡ Recalculate velocity metrics
+Keeps last 5 completed tasks. When 6th task completes:
 
-### 3. Smart Insights 💡
-After each update, displays:
-```
-✅ Task 0.5.2 marked complete
+```markdown
+Before:
+DONE: [Task1, Task2, Task3, Task4, Task5]
 
-📊 Impact Analysis:
-   Phase 0.5: 6/15 → 7/15 (40% → 47%)
-   Overall: 6/96 → 7/96 (6% → 7%)
-   Phase 0.5 ETA: ~2 weeks (based on current velocity)
-
-🔓 Unblocked Tasks:
-   • 0.5.3 can now start (dependency 0.5.2 resolved)
-
-⏭️ Next Recommended:
-   1. 0.5.3 Install FlashList (0 blockers, 1h, 🟡 Medium)
-   2. 0.5.6 Install simple-statistics (0 blockers, 30min, 🟡 Medium)
-
-⚡ Velocity: 3.5 tasks/week (last 2 weeks)
-📈 Trend: ▲ Improving (was 2.5 tasks/week)
+After completing Task6:
+DONE: [Task6, Task1, Task2, Task3, Task4]  ← Task5 auto-removed
 ```
 
-### 4. Conflict Detection ⚠️
-- Warns if task already completed
-- Detects circular dependencies (A → B → A)
-- Alerts if marking blocked task as complete
-- Verifies timeline coherence
-- Checks for orphaned tasks (referencing non-existent dependencies)
+**No manual cleanup needed** - oldest task automatically drops off.
+
+### TODO Priority Queue
+
+Top 5 tasks sorted by:
+1. Priority (🔴 Critical > 🟠 High > 🟡 Medium > 🟢 Low)
+2. Dependencies satisfied
+3. Blocking impact (tasks blocked by this task)
+
+Auto-refreshes when tasks complete.
 
 ---
 
-## 🔧 Execution Protocol
+## ⚠️ Error Handling
 
-**CRITICAL**: Follow these steps EXACTLY in order. Do NOT skip steps.
+### No Recent Work
+```
+ℹ️ No recent commits detected (last 24h)
 
-### Step 1: Parse & Read
-
-```markdown
-1. Parse command arguments:
-   - action: complete|start|block|unblock|status|velocity|next|validate
-   - taskId: e.g., "0.5.2"
-   - options: additional parameters (e.g., blocker reason)
-
-2. Read required files:
-   - docs/TASKS.md (complete file)
-   - .claude/lib/tasks-format-spec.md (validation rules)
-
-3. Extract current state:
-   - Total tasks count (should be 96 for Halterofit v0.1.0)
-   - Completed tasks count
-   - Phase-specific progress
-   - Current sprint data
-   - Recent completions list
+Still working on current task?
+Or mark a specific task? (advanced)
 ```
 
-### Step 2: Validate
+### Task Already Complete
+```
+✓ Task 0.5.2 is already marked complete (2025-10-28)
 
-```markdown
-**Pre-flight validation checks**:
-
-✓ Task ID Format:
-  - Matches pattern: ^\d+(\.\d+)?(\.[A-Z])?(\.\d+)?$
-  - Examples: 0.5.2, 0.5.A.3, 1.3, 0.5bis.1
-
-✓ Task Exists:
-  - Task ID found in TASKS.md
-  - Task has proper checkbox format: - [ ] or - [x]
-
-✓ Action Validity:
-  - complete: Task must be [ ] (pending) or 🟦 (in progress)
-  - start: Task must be [ ] (pending)
-  - block: Task must not already be blocked
-  - unblock: Task must currently be blocked
-
-✓ Dependencies:
-  - All dependencies exist as valid task IDs
-  - All dependencies are completed (if action is 'complete')
-  - No circular dependencies detected
-
-✓ Acceptance Criteria (if task is Critical 🔴):
-  - Acceptance criteria section present
-  - Warn if marking complete without all criteria checked
-  - Block if critical task missing acceptance criteria
+Next task: 0.5.3 Install FlashList [S - 1h]
+Start this task? [Y/n]
 ```
 
-### Step 3: Execute Update
-
-```markdown
-**Update task status**:
-
-FOR action = 'complete':
-1. Change checkbox: - [ ] → - [x]
-2. Add completion timestamp (if not present)
-3. Check all acceptance criteria (if present)
-
-FOR action = 'start':
-1. Change status indicator: ⬜ → 🟦
-2. Move to "In Progress" in Current Sprint
-3. Add start timestamp
-
-FOR action = 'block':
-1. Change status indicator: current → 🔴
-2. Add blocker reason to task
-3. Move to "Blocked Tasks" in Current Sprint
-4. Alert about impact on dependent tasks
-
-FOR action = 'unblock':
-1. Remove 🔴 status indicator
-2. Clear blocker reason
-3. Move back to "Up Next" in Current Sprint
+### Blocked Dependencies
 ```
+⚠️ Cannot start 1.3 - Dependencies not satisfied:
+   • 1.1 Create login screen (pending)
+   • 1.2 Create register screen (pending)
 
-### Step 4: Cascade Updates
-
-```markdown
-**Calculate and apply cascading changes**:
-
-Level 1 - Phase Metrics:
-  completed = count([x] checkboxes in phase)
-  total = count(all tasks in phase)
-  progress = floor((completed / total) * 100)
-
-  Update: "Phase X.Y: A/B tasks" → "Phase X.Y: (A±1)/B tasks"
-  Update: "(X%)" → "((X±N)%)"
-
-Level 2 - Overall Metrics:
-  completedOverall = count([x] checkboxes in entire document)
-  totalOverall = 96  // Fixed for Halterofit v0.1.0
-  progressOverall = floor((completedOverall / totalOverall) * 100)
-
-  Update: "X/96 tasks (Y%)" → "(X±1)/96 tasks ((Y±N)%)"
-
-  Badge color:
-    if progressOverall < 25: color = 'red'
-    elif progressOverall < 75: color = 'yellow'
-    else: color = 'green'
-
-  Update badge: ![](https://img.shields.io/badge/Progress-X%25-COLOR)
-
-Level 3 - Executive Summary:
-  Add to "Recent Completions" (max 5, FIFO):
-    - "TASK_ID - Task title"
-
-  Remove from "This Week's Focus" (if present)
-
-Level 4 - Current Sprint:
-  IF action = 'complete':
-    Move from "In Progress" to "Completed This Week"
-    Update "Up Next" (next prioritized task)
-
-  IF action = 'start':
-    Move from "Up Next" to "In Progress"
-
-  Unblock dependent tasks:
-    FOR each task WITH dependencies including completedTaskId:
-      IF all dependencies now satisfied:
-        Remove 🔴 blocker
-        Add to "Unblocked Tasks" in report
-
-Level 5 - Development Roadmap:
-  Update ASCII tree:
-    "Phase X.Y: Architecture & Foundation (A/B tasks)"
-    → "Phase X.Y: Architecture & Foundation ((A±1)/B tasks)"
-
-Level 6 - Sprint Metrics:
-  Velocity calculation:
-    completedThisWeek = count(tasks in "Completed This Week")
-    completedLast4Weeks = count(tasks completed in last 28 days)
-    avgVelocity = completedLast4Weeks / 4
-
-  ETA calculation:
-    remainingTasksInPhase = phaseTotal - phaseCompleted
-    weeksRemaining = ceil(remainingTasksInPhase / avgVelocity)
-
-  Update: "ETA: X weeks" → "ETA: Y weeks"
-
-Level 7 - Metadata:
-  Update "Last Updated": YYYY-MM-DD
-
-  IF phase completed:
-    Update "Next Milestone": next phase name
-```
-
-### Step 5: Validate Format
-
-```markdown
-**Post-update validation**:
-
-✓ Markdown syntax valid:
-  - No broken checkbox syntax
-  - Headings properly formatted
-  - Lists properly indented
-
-✓ Links and anchors:
-  - Table of contents anchors match section headings
-  - All internal links resolve
-  - No broken references
-
-✓ Counts accurate:
-  - Phase progress matches actual checkboxes
-  - Overall progress matches actual checkboxes
-  - "Recent Completions" count ≤ 5
-
-✓ Consistency:
-  - All metadata timestamps updated
-  - Sprint metrics recalculated
-  - Badge color matches percentage
-```
-
-### Step 6: Generate Report
-
-```markdown
-**Output smart insights**:
-
-Display formatted report:
-  ✅ Task TASK_ID marked [ACTION]
-
-  📊 Impact Analysis:
-     Phase X.Y: A/B → C/D (X% → Y%)
-     Overall: E/F → G/H (M% → N%)
-     Phase X.Y ETA: ~Z weeks
-
-  🔓 Unblocked Tasks: (if any)
-     • TASK_ID description (dependency resolved)
-
-  ⏭️ Next Recommended:
-     1. TASK_ID Title (blockers, est, priority)
-     2. TASK_ID Title (blockers, est, priority)
-
-  ⚡ Velocity: X.Y tasks/week
-  📈 Trend: ▲/▼/➡️ [Improving/Declining/Stable]
-
-  🔴 Warnings: (if any)
-     • Acceptance criteria not all checked
-     • Task was blocked, verify resolution
+Recommended: Complete dependencies first
+Alternative: 1.4 (no blockers, similar priority)
 ```
 
 ---
 
-## 📚 Advanced Commands
+## 🚀 Advanced Usage (Rare)
 
-### `/task-update status`
+### Manual Task Specification
 
-Shows current sprint dashboard:
+If auto-detect fails, you can specify:
 
-```
-⭐ Current Sprint Status
-
-Sprint Goal: Complete Phase 0.5 Infrastructure Setup
-Duration: Week of 2025-10-29 (Day 3/7)
-Capacity: 1 developer • 20h/week • 12h used (60%)
-
-🟦 In Progress (1):
-  • 0.5.2 Implement database schema (started 2 days ago)
-
-⬜ Up Next (3):
-  1. 0.5.3 Install FlashList (0 blockers, 1h)
-  2. 0.5.6 Install simple-statistics (0 blockers, 30min)
-  3. 0.5.4 Install expo-image (0 blockers, 1h)
-
-✅ Completed This Week (5):
-  • 0.5.1, 0.5.7, 0.5.8, 0.5.17, 0.5.18
-
-🔴 Blocked (0):
-  None
-
-📊 Sprint Metrics:
-  Velocity: 5 tasks this week (avg 3.5/week)
-  Burndown: 6/15 done (40%), 9 remaining
-  ETA: Sprint on track to complete in 2 weeks
+```bash
+/task-update 0.5.3    # Mark specific task complete
 ```
 
-### `/task-update velocity`
-
-Shows velocity analytics:
-
-```
-⚡ Velocity Analytics
-
-Last 7 days:   5 tasks completed
-Last 30 days:  14 tasks completed
-Average:       3.5 tasks/week
-
-By Size:
-  [S] Small:  avg 1.5h actual vs 1.5h estimated (100%)
-  [M] Medium: avg 4.2h actual vs 4.5h estimated (93%)
-  [L] Large:  avg 12h actual vs 12h estimated (100%)
-
-Trend: ▲ Improving
-  Week 1: 2 tasks
-  Week 2: 3 tasks
-  Week 3: 5 tasks ← current
-
-Phase 0.5 ETA: 2 weeks (9 tasks @ 3.5/week)
-Overall MVP ETA: 13 weeks (90 tasks @ 7/week projected)
-```
-
-### `/task-update next`
-
-Suggests optimal next task:
-
-```
-⏭️ Recommended Next Task
-
-**0.5.2** Implement database schema in Supabase
-  Priority: 🔴 Critical
-  Size: [M] 3-4h
-  Dependencies: 0.5.1 ✅ (satisfied)
-  Blocks: 12 tasks in Phase 1+ (high impact)
-
-  Why this task?
-  • Critical priority (P0)
-  • All dependencies satisfied
-  • Blocks most future work
-  • Estimated within sprint capacity (8h remaining)
-
-Alternative tasks (if blocked):
-  1. 0.5.6 Install simple-statistics [S - 30min] 🟡
-  2. 0.5.3 Install FlashList [S - 1h] 🟡
-```
-
-### `/task-update validate`
-
-Validates TASKS.md format:
-
-```
-🔍 Validating TASKS.md format...
-
-✓ Structure: All required sections present
-✓ Task IDs: All unique and valid format
-✓ Dependencies: No circular or orphaned dependencies
-✓ Progress: Counts accurate (6/96 = 6%)
-✓ Metadata: Timestamps and badges up-to-date
-✓ Markdown: Syntax valid, no broken links
-
-⚠️ Warnings (2):
-  • Task 0.5.9 is Critical but missing acceptance criteria
-  • Sprint last updated 3 days ago (update recommended)
-
-✅ Format validation passed (2 warnings)
-```
+But 99% of the time, just `/task-update` is enough.
 
 ---
 
-## 🚨 Error Handling
+## 💡 Pro Tips
 
-### Common Errors
+### Daily Workflow
 
-**Error**: Task ID not found
-```
-❌ Error: Task ID "0.5.99" not found in TASKS.md
+```bash
+# Morning
+/task-update status      # See board, start task
 
-Suggestions:
-  • Check task ID format (e.g., 0.5.2, not 05.2)
-  • Verify task exists in correct phase section
-  • Use /task-update validate to see all tasks
-```
+# Work...
 
-**Error**: Dependencies not satisfied
-```
-❌ Error: Cannot complete task 1.3
+# After each task
+/task-update             # Auto-complete, get next
 
-Reason: Unresolved dependencies
-  • 1.1 (pending) - must complete first
-  • 1.2 (in progress) - must complete first
-
-Suggestion: Complete dependencies or remove dependency link
+# Repeat
 ```
 
-**Error**: Circular dependency detected
-```
-❌ Error: Circular dependency detected
+**Total time**: ~10 seconds per task update
 
-Chain: 0.5.2 → 0.5.3 → 0.5.5 → 0.5.2
+### Working on Multiple Tasks?
 
-Action: Cannot add dependency. Would create infinite loop.
-
-Suggestion: Review dependency chain and remove circular reference
-```
-
-**Error**: Task already completed
-```
-❌ Error: Task 0.5.1 is already marked complete
-
-Completed: 2025-10-25
-Action: No update needed
-
-Suggestion: Use /task-update validate to see current status
-```
-
----
-
-## 🎓 Best Practices
-
-### When to Update
+Kanban DOING column shows all active tasks:
 
 ```markdown
-✅ DO:
-- Update immediately after completing work
-- Mark "in progress" when starting task
-- Add blocker as soon as identified
-- Include notes on deviations from plan
-
-❌ DON'T:
-- Batch updates (updating multiple tasks at once)
-- Forget cascade updates (let command handle it)
-- Mark complete without testing
-- Skip validation step
+DOING:
+• 0.5.2 Database schema (started 2 days ago)
+• 0.5.3 FlashList (started today)
 ```
 
-### Task Completion Checklist
+`/task-update` detects which one you just finished based on recent commits.
 
-```markdown
-Before marking task complete:
+### Want to See Progress?
 
-1. ✓ All acceptance criteria satisfied
-2. ✓ Files created/modified as specified
-3. ✓ Tests pass (if applicable)
-4. ✓ Code committed to git
-5. ✓ Documentation updated (if needed)
-6. ✓ No known blockers remaining
-
-Then run: /task-update complete TASK_ID
+```bash
+/task-update status
 ```
 
-### Sprint Planning
-
-```markdown
-Start of week:
-1. Run /task-update status
-2. Review "Up Next" queue
-3. Move top 3-5 tasks to "In Progress"
-4. Verify no blockers
-5. Estimate hours vs capacity
-
-End of week:
-1. Run /task-update velocity
-2. Review completed vs planned
-3. Adjust next week's plan
-4. Update sprint goal if needed
-```
+Shows full kanban + metrics in <2 seconds.
 
 ---
 
-## 📖 Reference
+## 📚 Reference
 
-**Format Specification**: See `.claude/lib/tasks-format-spec.md` for complete validation rules and format standards.
-
-**Task Templates**: See `.claude/lib/task-templates/` for reusable task templates.
-
-**Analytics**: See `.claude/lib/task-analytics.md` for velocity formulas and metrics definitions.
+**Format Spec**: `.claude/lib/tasks-format-spec.md` - Validation rules
+**Kanban Structure**: See TASKS.md § Kanban
 
 ---
 
-**Version**: 1.0
+**Version**: 2.0 (Simplified)
 **Last Updated**: 2025-10-29
-**Maintained by**: Claude AI + Halterofit Team
+**Philosophy**: Maximum automation, minimum friction

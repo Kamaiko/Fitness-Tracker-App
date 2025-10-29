@@ -34,7 +34,7 @@
 
 1. [📊 Executive Summary](#-executive-summary)
 2. [🗺️ Development Roadmap](#development-roadmap)
-3. [⭐ Current Sprint](#-current-sprint)
+3. [📋 Kanban](#-kanban)
 4. [📋 Phase 0.5 Bis: Development Build Migration](#phase-05-bis-development-build-migration-010)
 5. [📋 Phase 0.5: Architecture & Foundation](#phase-05-architecture--foundation-415--critical)
 6. [📋 Phase 1: Authentication & Foundation](#phase-1-authentication--foundation-014)
@@ -110,48 +110,18 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## ⭐ Current Sprint
+## 📋 Kanban
 
-**Sprint Goal**: Complete Phase 0.5 Infrastructure Setup
-**Sprint Duration**: Week of 2025-10-29
-**Team Capacity**: 1 developer • ~20h/week
+| 📝 TODO (Top 5)                    | 🔨 DOING | ✅ DONE (Last 5)                |
+| ---------------------------------- | -------- | ------------------------------- |
+| **0.5.2** Database schema `[M]` 🔴 |          | **0.5.18** Jest setup           |
+| **0.5.3** FlashList `[S]` 🟡       |          | **0.5.17** Dev tools            |
+| **0.5.6** Statistics lib `[S]` 🟡  |          | **0.5.8** Audit analysis        |
+| **0.5.4** Expo-image `[S]` 🟡      |          | **0.5.7** Architecture refactor |
+| **0.5.5** Sentry `[M]` 🟠          |          | **0.5.1** Expo-sqlite + sync    |
 
-### 🟦 In Progress
-
-- None (ready to start next task)
-
-### ⬜ Up Next (Prioritized)
-
-1. **0.5.2** Implement database schema in Supabase `[M - 3-4h]` 🔴 Critical
-   - File: `supabase/migrations/001_initial_schema.sql`
-   - Dependencies: 0.5.1 ✅ (completed)
-   - Blocks: All data-related features in Phase 1+
-
-2. **0.5.6** Install simple-statistics for analytics `[S - 30min]` 🟡 Medium
-   - Dependencies: None
-   - Blocks: Phase 4 analytics features
-
-3. **0.5.3** Install and configure FlashList `[S - 1h]` 🟡 Medium
-   - Dependencies: None
-   - Blocks: Phase 2-3 list performance
-
-### ✅ Completed This Week
-
-- 0.5.1 - Setup expo-sqlite with Supabase sync
-- 0.5.7 - Complete modular architecture refactor
-- 0.5.8 - Technical audit and corrections planning
-- 0.5.17 - Setup professional dev tools
-- 0.5.18 - Setup Jest testing infrastructure
-
-### 🔴 Blocked Tasks
-
-- None
-
-### 📊 Sprint Metrics
-
-- **Velocity**: 5 tasks completed (estimated 3 tasks/week baseline)
-- **Burndown**: 6/15 tasks done in Phase 0.5 (40%)
-- **ETA**: Phase 0.5 complete in ~2 weeks at current velocity
+**Progress**: Phase 0.5: 6/15 (40%) • Overall: 6/96 (6%)
+**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~2 weeks
 
 ---
 
