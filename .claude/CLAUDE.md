@@ -1,8 +1,8 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 3.0
-> **Last Updated**: Auto-updated via git hooks
-> **Purpose**: Project briefing + automation reference
+> **Version**: 4.0
+> **Last Updated**: 2025-10-29
+> **Purpose**: Project briefing and development guide
 
 ---
 
@@ -65,96 +65,13 @@
 
 ---
 
-## 🤖 Automation System
+## 🤖 Slash Commands
 
-### ⚠️ CRITICAL: PreCompact Workflow Protocol
+Custom slash commands available in `.claude/commands/`:
 
-When PreCompact hook fires (context ~18000 tokens), you MUST:
+- **/commit** - Smart git commit with strict commitlint validation
 
-1. **STOP current work immediately**
-2. **READ** the hook message instructions carefully
-3. **EXECUTE** smart-detector.md algorithm EXACTLY
-4. **REPORT** detected tasks to user
-5. **WAIT** for user confirmation
-6. **IF YES** → READ task-tracker.md IMMEDIATELY (do NOT skip)
-7. **EXECUTE** 4-step atomic update WITHOUT DEVIATION
-8. **VALIDATE** format before reporting complete
-
-**DO NOT:**
-- Skip reading task-tracker.md after YES
-- Improvise update process
-- Forget validation steps
-
-**This protocol ensures 95%+ reliability.**
-
-### 📢 Verbose Reporting (MANDATORY)
-
-When PreCompact fires, report progress at each step:
-
-1. **Trigger:** "🔍 PreCompact hook triggered (context ~18000 tokens)"
-2. **Reading:** "Reading .actions.json... [X actions found]"
-3. **Detection:** "Running smart-detector algorithm..."
-4. **Results:** "Detection complete: [N matches OR 'No completed tasks detected']"
-5. **Details:** Show each match with confidence score
-6. **Confirmation:** "Update TASKS.md? [YES/NO]"
-
-This ensures user visibility into automation system.
-
-### 🚀 SessionStart Report
-
-**Hook:** `session-start.py` fires at session start and provides structured guidelines.
-
-**Report Elements:** Context status, project progress, next task, quick actions.
-
-**Format:** Follow the template provided by session-start.py hook output. Keep it conversational.
-
----
-
-### Session Management is AUTOMATED
-
-Python hooks (`.claude/hooks/*.py`) handle session lifecycle:
-
-```
-┌─────────────────────────────────────────────────┐
-│  session-start.py                               │
-│  → Reads TASKS.md NEXT SESSION                  │
-│  → Warns if context >60%                         │
-└─────────────────────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────────┐
-│  You work on tasks...                           │
-│  → Edit files, Write code, Run commands         │
-└─────────────────────────────────────────────────┘
-                      ↓
-        🎣 post-tool-use.py (every tool)
-                      ↓
-┌─────────────────────────────────────────────────┐
-│  .actions.json (action log)                     │
-│  → {"tool":"Edit","target":"file.ts",...}       │
-└─────────────────────────────────────────────────┘
-                      ↓
-        ⏰ Context reaches ~18000 tokens
-                      ↓
-        🎣 pre-compact.py (smart detection)
-                      ↓
-┌─────────────────────────────────────────────────┐
-│  Smart Detection Algorithm                      │
-│  → Analyzes actions vs TASKS.md                 │
-│  → Reports matches >70% confidence               │
-└─────────────────────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────────┐
-│  session-end.py                                 │
-│  → Verifies documentation consistency           │
-│  → Checks uncommitted changes                   │
-└─────────────────────────────────────────────────┘
-```
-
-**You don't need manual startup protocol** - hooks handle it automatically!
-
-**Requirements:** Python 3.11+ installed on system
-
-**Reference:** See [smart-detector.md](lib/smart-detector.md) for detection algorithm details
+See individual command files for detailed usage instructions.
 
 ---
 
@@ -214,7 +131,6 @@ After:  - [x] 0.5bis.1 Setup EAS Build Account
 **Key Principles:**
 - **TypeScript strict mode** - No `any` types
 - **100% offline-first** - All features work without internet
-- **Automation:** session-end.py hook verifies consistency automatically
 
 ---
 
@@ -223,19 +139,20 @@ After:  - [x] 0.5bis.1 Setup EAS Build Account
 ```
 .claude/
 ├── CLAUDE.md (this file)        # Project instructions
-├── settings.local.json          # Hook configuration
-├── hooks/                       # Python 3.11+ automation scripts
-│   ├── post-tool-use.py        # Log actions to .actions.json
-│   ├── pre-compact.py          # Trigger smart detection
-│   ├── session-start.py        # Load context on startup
-│   └── session-end.py          # Verify consistency
-├── lib/                         # Reference documentation
-│   ├── smart-detector.md       # Detection algorithm
-│   └── tasks-format.md         # Strict format rules
-└── .actions.json               # Action log (auto-generated)
+├── settings.json                # Shared hooks configuration (versioned)
+├── settings.local.json          # Local permissions (NOT versioned)
+├── commands/                    # Custom slash commands
+│   └── commit.md               # /commit command
+└── hooks/                       # Reserved for future automation
+    ├── post-tool-use.py        # (empty)
+    ├── pre-compact.py          # (empty)
+    ├── session-start.py        # (empty)
+    └── session-end.py          # (empty)
 ```
 
-**Workflow:** session-start → work → post-tool-use → pre-compact → smart detection → session-end
+**Configuration:**
+- `settings.json` - Hooks and shared config (checked into git)
+- `settings.local.json` - Machine-specific permissions (gitignored)
 
 ---
 
@@ -244,5 +161,4 @@ After:  - [x] 0.5bis.1 Setup EAS Build Account
 1. **Update docs as you go**, not at session end
 2. **Use git grep** to find where info is documented before adding duplicate
 3. **When in doubt**, check Documentation Map table above
-4. **Trust the hooks** - they handle session management automatically
-5. **Keep context <60%** - triggers smart detection before manual compact needed
+4. **Use /commit** for proper conventional commits

@@ -1,0 +1,8 @@
+{
+  "hooks": {
+    "PostToolUse": [],
+    "PreCompact": [],
+    "SessionStart": [],
+    "SessionEnd": []
+  }
+}

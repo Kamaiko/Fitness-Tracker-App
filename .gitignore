@@ -76,8 +76,8 @@ supabase/.temp
 # MCP Configuration (contains access tokens)
 .mcp.json
 
-# Claude Code automation logs (generated per session)
-.claude/.actions.json
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
 
 # TypeScript
 *.tsbuildinfo
