@@ -1,3 +1,9 @@
+---
+description: Auto-detect completed tasks and update TASKS.md
+allowed-tools: Bash(git log:*), Bash(git diff:*), Read, Edit, Grep
+argument-hint: [next|status]
+---
+
 # /task-update - Auto-Magic Task Completion
 
 **Smart task tracker that detects what you just finished and updates everything automatically.**

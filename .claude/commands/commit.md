@@ -1,3 +1,8 @@
+---
+description: Smart git commit with strict commitlint validation
+allowed-tools: Bash(git status:*), Bash(git add:*), Bash(git commit:*), Bash(git log:*), Bash(git diff:*), Read, Grep
+---
+
 # /commit - Smart Commit with Strict Validation
 
 Analyzes changes, suggests commit messages, and ensures 100% commitlint compliance.
