@@ -5,20 +5,30 @@ allowed-tools: Bash(git status:*), Bash(git add:*), Bash(git commit:*), Bash(git
 
 # /commit - Smart Commit with Strict Validation
 
-Analyzes changes, suggests commit messages, and ensures 100% commitlint compliance.
+Analyzes changed files, suggests a commit message following strict conventions, and asks for confirmation before committing.
 
 ## Usage
 
 ```bash
-/commit              # Standard commit with validation
+/commit              # Analyze changes → Suggest message → Confirm → Commit
 /commit --no-verify  # Skip pre-commit hooks (emergency only)
 ```
+
+## 🎯 How It Works
+
+1. **Analyze** - Run `git status` and `git diff` to see all changes
+2. **Suggest** - Generate commit message based on:
+   - Changed files (suggest scope if clear)
+   - Nature of changes (feat/fix/refactor/etc)
+   - Strict commitlint rules
+3. **Confirm** - Show suggested message and ask for approval
+4. **Commit** - Execute commit with validated message
 
 ---
 
 ## ⚠️ CRITICAL: Commitlint Rules
 
-Halterofit uses **STRICT** commitlint configuration. Commits will be **REJECTED** if they don't follow these rules:
+This project uses **STRICT** commitlint configuration. Commits will be **REJECTED** if they don't follow these rules:
 
 ### Rule 1: Allowed Types (7 ONLY)
 
@@ -64,23 +74,9 @@ Can be multiline.
 ```
 
 - **type**: One of the 7 allowed types
-- **scope**: Optional but recommended (see scope guide below)
+- **scope**: Optional but recommended
 - **Subject**: Sentence-case, concise (<72 chars)
 - **Body**: Optional, separated by blank line
-
----
-
-## 📋 Common Scopes
-
-**Auto-detected from file paths:**
-
-```
-Core:        app, components, hooks, services, stores, types, utils
-Features:    workout, analytics, auth, database, ui, forms, navigation
-Automation:  automation, hooks, claude
-Docs:        docs, architecture
-Config:      settings, git, deps
-```
 
 ---
 
@@ -141,5 +137,104 @@ npm run lint          # Fix issues first
 **No emojis:** Ever
 **Atomic:** One logical change per commit
 
-**Pre-commit runs:** ESLint, Prettier, TypeScript
+**Pre-commit hooks:** Will run automatically if configured (Husky/lint-staged)
 **Skip hooks:** `/commit --no-verify` (emergency only)
+
+---
+
+## 🤖 Implementation Instructions for Claude
+
+When user runs `/commit`, follow this workflow:
+
+### Step 1: Analyze Changes
+```bash
+git status              # See all changed files
+git diff --staged       # See staged changes (if any)
+git diff                # See unstaged changes (if none staged)
+git log -1 --oneline    # See last commit for style reference
+```
+
+### Step 2: Determine Commit Type
+
+Analyze the changes and determine the appropriate type:
+
+- **feat** - New feature, component, or functionality added
+- **fix** - Bug fix, error correction
+- **docs** - Documentation only (no code changes)
+- **style** - Formatting, whitespace (no logic changes)
+- **refactor** - Code restructuring (no functional changes)
+- **test** - Adding or updating tests
+- **chore** - Config, dependencies, tooling
+
+### Step 3: Suggest Scope (Optional)
+
+Based on changed files, suggest a scope if it makes sense:
+- Look at file paths and suggest logical grouping
+- If changes span multiple areas, suggest the most dominant one
+- Scope is optional - can be omitted if unclear
+
+### Step 4: Generate Message
+
+Format: `type(scope): Subject` or `type: Subject`
+
+**Rules:**
+- Subject must start with uppercase letter (sentence-case)
+- Subject max 72 characters
+- No emojis
+- Be specific and actionable
+- Describe WHAT changed, not HOW
+
+**Examples:**
+```
+feat(auth): Add login screen
+fix(database): Resolve user ID persistence issue
+docs: Update installation instructions
+refactor: Simplify timer logic
+chore(deps): Update dependencies
+```
+
+### Step 5: Show Summary & Confirm
+
+Present the suggested commit to the user:
+
+```
+📝 Suggested commit message:
+[type](scope): Subject line
+
+📂 Files to be committed:
+  M  path/to/file1.tsx
+  A  path/to/file2.ts
+  D  path/to/file3.md
+
+✅ Proceed with this commit? (yes/no)
+```
+
+If user says no, ask if they want to:
+- Modify the message
+- Cancel the commit
+- Stage different files
+
+### Step 6: Execute Commit
+
+If user confirms:
+```bash
+git add -A                              # Stage all changes
+git commit -m "[type](scope): Subject"  # Commit
+git status                              # Show result
+```
+
+**If commit fails:**
+- Show the error message
+- If it's a hook failure (ESLint/Prettier/TypeScript):
+  - Suggest running `npm run lint:fix` or `npm run format`
+  - Offer to commit with `--no-verify` (explain risks)
+- If it's commitlint validation:
+  - Explain which rule was violated
+  - Suggest corrected message
+
+### Step 7: Offer Next Action
+
+After successful commit, ask if user wants to:
+- Push to remote
+- Continue working
+- Create another commit
