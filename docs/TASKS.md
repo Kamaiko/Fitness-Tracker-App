@@ -2,16 +2,16 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 6/96 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
-**Timeline**: 14 weeks • Started 2025-01-20 • Target 2025-04-28
-**Last Updated**: 2025-10-29 • **Next Milestone**: Phase 0.5 Complete (9 tasks remaining)
+**Progress**: 6/101 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
+**Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
+**Last Updated**: 2025-10-29 • **Next Milestone**: Development Build Migration (10 tasks)
 
 ---
 
 ## 📊 Executive Summary
 
-**Current Focus**: Phase 0.5 - Architecture & Foundation
-**Phase Progress**: 6/15 tasks (40%) • **Overall**: 6/96 tasks (6%)
+**Current Focus**: Phase 0.5.B - Development Build Migration
+**Phase Progress**: 6/28 tasks (21%) • **Overall**: 6/101 tasks (6%)
 **Critical Blockers**: None • **Velocity**: ~3 tasks/week (estimated)
 
 ### Recent Completions ✅
@@ -24,9 +24,9 @@
 
 ### This Week's Focus 🎯
 
-- **0.5.2** Implement database schema in Supabase (Next up)
-- **0.5.6** Install simple-statistics for analytics
-- **0.5.3** Install and configure FlashList
+- **0.5bis.1** Setup EAS Build Account & CLI (Next up)
+- **0.5bis.2** Create eas.json configuration
+- **0.5bis.3** Build Development Build (Android & iOS)
 
 ---
 
@@ -49,12 +49,15 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (4/15 tasks)
-   ├─ Database setup ✅
+Phase 0.5: Architecture & Foundation (6/28 tasks)
+   ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ Architecture refactor ✅
    ├─ Audit analysis ✅
-   └─ 8 CRITICAL corrections ⚠️ BLOCKERS
+   └─ NEXT: Development Build Migration ⚡ PRIORITY
+        ├─ WatermelonDB + MMKV + Victory Native
+        ├─ EAS Build + Dev Client
+        └─ Production-ready stack
         ↓
 Phase 1: Authentication & Foundation (0/14 tasks)
    ├─ Supabase Auth integration
@@ -95,65 +98,89 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time    | Status      | Dependencies                |
-| --------- | ------ | ------------ | ----------- | --------------------------- |
-| **0.5**   | 15     | 35-45h       | IN PROGRESS | None (started)              |
-| **1**     | 14     | 25-30h       | BLOCKED     | ← Phase 0.5 critical fixes  |
-| **2**     | 18     | 50-60h       | BLOCKED     | ← Phase 1 auth              |
-| **3**     | 12     | 30-40h       | BLOCKED     | ← Phase 2 workout core      |
-| **4**     | 15     | 35-45h       | BLOCKED     | ← Phase 3 exercise library  |
-| **5**     | 15     | 40-50h       | BLOCKED     | ← Phase 4 analytics         |
-| **6**     | 9      | 20-25h       | BLOCKED     | ← Phase 5 advanced features |
-| **TOTAL** | **98** | **235-295h** | **6% done** | **14 weeks at 20h/week**    |
+| Phase     | Tasks   | Est. Time    | Status      | Dependencies                     |
+| --------- | ------- | ------------ | ----------- | -------------------------------- |
+| **0.5**   | 28      | 50-60h       | IN PROGRESS | None (started)                   |
+| **1**     | 14      | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
+| **2**     | 18      | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
+| **3**     | 12      | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
+| **4**     | 15      | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
+| **5**     | 15      | 40-50h       | BLOCKED     | ← Phase 4 analytics              |
+| **6**     | 9       | 20-25h       | BLOCKED     | ← Phase 5 advanced features      |
+| **TOTAL** | **111** | **250-310h** | **5% done** | **16 weeks at 20h/week**         |
 
-**⚠️ Critical Path:** Phase 0.5 (8 audit corrections) MUST complete before Phase 1 can start.
+**⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                    | 🔨 DOING | ✅ DONE (Last 5)                |
-| ---------------------------------- | -------- | ------------------------------- |
-| **0.5.2** Database schema `[M]` 🔴 |          | **0.5.18** Jest setup           |
-| **0.5.3** FlashList `[S]` 🟡       |          | **0.5.17** Dev tools            |
-| **0.5.6** Statistics lib `[S]` 🟡  |          | **0.5.8** Audit analysis        |
-| **0.5.4** Expo-image `[S]` 🟡      |          | **0.5.7** Architecture refactor |
-| **0.5.5** Sentry `[M]` 🟠          |          | **0.5.1** Expo-sqlite + sync    |
+| 📝 TODO (Top 5)                            | 🔨 DOING | ✅ DONE (Last 5)                |
+| ------------------------------------------ | -------- | ------------------------------- |
+| **0.5bis.1** EAS Build setup `[S]` 🔴      |          | **0.5.18** Jest setup           |
+| **0.5bis.2** eas.json config `[S]` 🔴      |          | **0.5.17** Dev tools            |
+| **0.5bis.3** Build dev client `[M]` 🟠     |          | **0.5.8** Audit analysis        |
+| **0.5bis.4** WatermelonDB install `[M]` 🟠 |          | **0.5.7** Architecture refactor |
+| **0.5bis.5** WatermelonDB schema `[L]` 🟠  |          | **0.5.1** Expo-sqlite local     |
 
-**Progress**: Phase 0.5: 6/15 (40%) • Overall: 6/96 (6%)
-**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~2 weeks
+**Progress**: Phase 0.5: 6/28 (21%) • Overall: 6/101 (6%)
+**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
+**NEXT**: Development Build Migration ⚡
 
 ---
 
-## Phase 0.5 Bis: Development Build Migration (0/10) - NOT STARTED
+## Phase 0.5: Architecture & Foundation (6/28)
 
-**Timeline:** After Phase 0.5 completion | **Priority:** DEFERRED
-**Goal:** Migrate from Expo Go to Development Build with production-ready stack
+**Timeline:** Weeks 1-7 | **Priority:** HIGHEST
+**Goal:** Production-ready architecture and critical foundation
 
-**Status:** ⚠️ NOT STARTED - Will be done AFTER Phase 0.5 critical corrections
-**Progress:** 0/10 tasks | **Estimated Time:** 4-6 hours total
+**Progress:** 6/28 tasks (21%) | **Est. Time Remaining:** 44-54h
 
-**Stack Migration:**
+**Current Stack:** Expo Go (expo-sqlite + AsyncStorage + react-native-chart-kit)
+**Target Stack:** Development Build (WatermelonDB + MMKV + Victory Native)
 
-- expo-sqlite → WatermelonDB (reactive, offline-first)
+**Why migrate NOW:** Codebase is small (6% complete). Migrating now avoids rewriting 40-60% of code later.
+
+---
+
+### 0.5.A: Initial Setup & Analysis (6/6) ✅ COMPLETE
+
+- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
+- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
+- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
+- [x] 0.5.17 **Setup professional dev tools** (S - 30min) ✅
+- [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h) ✅
+
+---
+
+### 0.5.B: Development Build Migration (0/10) ⚡ NEXT PRIORITY
+
+**Goal:** Migrate to production-ready stack while codebase is small
+
+**Stack Changes:**
+
+- expo-sqlite → WatermelonDB (reactive, offline-first ORM)
 - AsyncStorage → MMKV (encrypted, 10-30x faster)
 - react-native-chart-kit → Victory Native (professional charts)
+- Expo Go → Development Build (enables native modules)
 
-**Why Now:** Avoid costly 1-2 week migration later. Production-ready architecture from Day 1.
+**Why NOW:** Only 6 tasks of code to migrate. Waiting until Phase 1-2 = rewriting 40-60% of app.
+
+**Estimated Time:** 4-6 hours | **Tasks:** 10
 
 ---
 
-### ⚠️ IMPORTANT Pre-Flight Checklist (DO FIRST)
+#### ⚠️ Pre-Flight Checklist (DO FIRST)
 
-**Before starting migration, verify:**
+Before starting migration:
 
-1. ✅ **Git status clean** - Commit or stash all changes
-2. ✅ **Backup current state** - Create git branch `backup/pre-migration`
-3. ✅ **EAS account created** - https://expo.dev/signup (free tier)
-4. ✅ **Supabase project ready** - Have URL and anon key in .env
-5. ✅ **Internet connection stable** - EAS Build needs ~15-20 min cloud build
-6. ✅ **Android device/emulator available** - For testing dev build
-7. ✅ **~2GB free disk space** - For native dependencies
+1. ✅ Git status clean (commit/stash all changes)
+2. ✅ Create backup branch: `git checkout -b backup/pre-migration`
+3. ✅ EAS account created at https://expo.dev/signup
+4. ✅ Supabase project ready (URL + anon key in .env)
+5. ✅ Stable internet (EAS Build = 15-20min cloud build)
+6. ✅ Android device/emulator available
+7. ✅ ~2GB free disk space
 
 **Commands to run BEFORE migration:**
 
@@ -184,22 +211,7 @@ npm start  # Back to Expo Go
 
 ---
 
-### 📋 Migration Order (Follow Strictly)
-
-**DO NOT skip tasks or change order** - Dependencies matter!
-
-1. ✅ Task 0.5bis.1 → EAS Setup (MUST BE FIRST)
-2. ✅ Task 0.5bis.2 → eas.json config
-3. ✅ Task 0.5bis.3 → Build dev client (15-20 min wait)
-4. ✅ Task 0.5bis.4 → WatermelonDB install
-5. ✅ Task 0.5bis.5 → WatermelonDB models/schema
-6. ✅ Task 0.5bis.6 → Migrate database ops
-7. ✅ Task 0.5bis.7 → MMKV install + migrate
-8. ✅ Task 0.5bis.8 → Victory Native install
-9. ✅ Task 0.5bis.9 → Supabase schema + sync
-10. ✅ Task 0.5bis.10 → Test & verify everything works
-
----
+#### 📋 Migration Tasks (Follow Order)
 
 - [ ] 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
   - Create free Expo account at https://expo.dev/signup
@@ -324,195 +336,67 @@ git branch -D backup/pre-migration
   - `eas build --profile production --platform android` - Production build (later)
 - **Documentation updated:** README.md, ARCHITECTURE.md, TECHNICAL.md already reflect new stack
 
-**Estimated Total Time:** 4-6 hours (including build wait times)
-
 ---
 
-## Completed Tasks History
+### 0.5.C: Infrastructure Completion (0/4)
 
-**6 tasks completed** across Phase 0 and 0.5 (see checkboxes [x] below).
+**Goal:** Install remaining libraries (in Development Build environment)
 
-For detailed Git history:
-
-```bash
-git log --grep="feat\|fix\|docs\|refactor\|chore" --oneline --since="2025-01-01"
-```
-
-**Key milestones:**
-
-- ✅ Phase 0: Expo SDK 54, Supabase client, NativeWind v4, ESLint/Prettier
-- ✅ Phase 0.5: expo-sqlite + sync, Jest infrastructure, dev tools (Husky/lint-staged)
-- 🟡 Phase 0.5 IN PROGRESS: 8 critical audit corrections (19-27h remaining)
-
----
-
-## Phase 0.5: Architecture & Foundation (4/15)
-
-**Timeline:** Week 3 | **Priority:** HIGHEST
-**Goal:** Complete infrastructure setup and critical corrections before Phase 1
-
-**Progress:** 4/15 tasks completed (27%) in this phase
-
-**Stack:** expo-sqlite + AsyncStorage + react-native-chart-kit (100% Expo Go)
-
----
-
-### 0.5.A Infrastructure Setup (2/5 completed)
-
-**Goal:** Setup database, performance libraries, and monitoring
-
-- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
-  - expo-sqlite database service implemented
-  - 5 tables schema created
-  - CRUD operations + Supabase sync
-  - See commit history for details
-
-- [ ] 0.5.2 **Implement database schema in Supabase** (M - 3-4h) `[NEXT]`
-  - Create SQL migration matching SQLite schema
-  - Tables: users, exercises, workouts, workout_exercises, exercise_sets
-  - Fields: weight_unit, rir, rest_time_seconds, superset_group
-  - Nutrition phase tracking (nutrition_phase, nutrition_phase_started_at)
-  - Row Level Security policies
-  - Indexes for performance
-  - Seed test data
-  - File: supabase/migrations/001_initial_schema.sql
+**Note:** Task 0.5.2 (Supabase schema) is now part of migration (0.5bis.9) to avoid duplication.
 
 - [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
-  - npm install @shopify/flash-list
-  - Update metro.config.js if needed
-  - Create example FlashList component for testing
-  - Document usage patterns in TECHNICAL.md
-
 - [ ] 0.5.4 **Install and configure expo-image** (S - 1h)
-  - Install expo-image
-  - Configure caching strategy
-  - Create Image wrapper component with defaults
-  - Test with sample exercise GIF
-
 - [ ] 0.5.5 **Setup Sentry for error monitoring** (M - 2h)
-  - Create Sentry account (free tier)
-  - Install @sentry/react-native
-  - Configure in app/\_layout.tsx
-  - Test error reporting
-  - Add performance monitoring
-
----
-
-### 0.5.B Analytics & Architecture (2/3 completed)
-
-**Goal:** Analytics libraries and architecture cleanup
-
 - [ ] 0.5.6 **Install simple-statistics for analytics** (S - 30min)
-  - npm install simple-statistics
-  - Create analytics utilities folder
-  - Document planned algorithms (1RM, plateau detection, load management)
-  - Implementation happens in Phase 4
-
-- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
-  - Barrel exports, stores reorganization
-  - ARCHITECTURE.md created
-  - See commit: "refactor(architecture): optimize modular structure"
-
-- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
-  - 8 problems identified (3 critical)
-  - AUDIT_FIXES.md created
-  - See commit: "docs(audit): add comprehensive corrections guide"
 
 ---
 
-### 0.5.C Development Tools (2/2 completed) ✅
+### 0.5.D: Critical Corrections - Blockers (0/3)
 
-**Goal:** Testing infrastructure and dev quality tools
+**Goal:** Fix critical issues that BLOCK Phase 1 (done in WatermelonDB + MMKV system)
 
-- [x] 0.5.17 **Setup professional dev tools** (S - 30min) ✅
-  - Installed Husky + lint-staged
-  - Setup commitlint (enforce commit conventions)
-  - Created .editorconfig
-  - Created .github/dependabot.yml
-  - Pre-commit hooks working
+**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation
 
-- [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h) ✅
-  - Installed Jest + React Native Testing Library
-  - Configured jest.config.js with jest-expo preset
-  - Created jest.setup.js with Expo mocks
-  - Added test scripts to package.json
-  - Created 3 example test files (7 tests passing)
-  - CI/CD ready in Phase 1
+- [ ] 0.5.9 **User ID Persistence (in MMKV)** (M - 4h) 🔴
+  - Problem: User forgotten on app restart → data loss
+  - Fix: Persist user ID in MMKV (not AsyncStorage)
+  - Impact: BLOCKS Phase 1 auth
+
+- [ ] 0.5.10 **Zustand Persist Middleware (in MMKV)** (M - 2h) 🔴
+  - Problem: Workout state lost on crash
+  - Fix: Add persist middleware to workout store using MMKV
+  - Impact: BLOCKS workout logging
+
+- [ ] 0.5.11 **Error Handling Layer** (M - 3h) 🟠
+  - Problem: No proper error handling → bad UX
+  - Fix: Global error boundary + toast notifications
+  - Impact: Poor debugging experience
 
 ---
 
-### 0.5.D Critical Corrections (0/8)
+### 0.5.E: Optional Improvements (0/5)
 
-**Goal:** Blocking issues that must complete before Phase 1
+**Goal:** Nice-to-have improvements (defer to Phase 1-2, implement progressively)
 
-**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation guide
+- [ ] 0.5.12 **Repository Pattern** (L - 8h) 🟡
+  - Defer: Implement progressively in Phase 1-2
+  - Impact: Makes future DB optimization easier
 
-- [ ] 0.5.9 **[CRITICAL] User ID Persistence** (M - 4h)
+- [ ] 0.5.13 **Sync Conflict Detection** (L - 8h) 🟠
+  - Defer: Must complete before Phase 2 (multi-device)
+  - Impact: Prevents data corruption on conflicts
 
-  ```
-  Problem: User forgotten on app restart → data loss
-  Impact if skipped: 🔴 Data loss in production
-  See: AUDIT_FIXES.md → Correction #1
-  ```
+- [ ] 0.5.14 **Database Indexes** (M - 2h) 🟡
+  - Defer: Add when performance becomes issue (500+ workouts)
+  - Impact: Query performance
 
-- [ ] 0.5.10 **[CRITICAL] Zustand Persist Middleware** (M - 2h)
+- [ ] 0.5.15 **Chart Abstraction** (M - 3h) 🟢
+  - Defer: Victory Native already abstracted
+  - Impact: Minimal (already using good library)
 
-  ```
-  Problem: Workout state lost on app crash/restart
-  Impact if skipped: 🔴 Active workout lost on crash
-  See: AUDIT_FIXES.md → Correction #2
-  ```
-
-- [ ] 0.5.11 **[CRITICAL] Error Handling Layer** (M - 3h)
-
-  ```
-  Problem: No proper error handling → bad UX
-  Impact if skipped: ⚠️ Poor UX, difficult debugging
-  See: AUDIT_FIXES.md → Correction #3
-  ```
-
-- [ ] 0.5.12 **[IMPORTANT] Repository Pattern** (L - 8h)
-
-  ```
-  Problem: Direct database coupling makes future optimization harder
-  Impact if skipped: ⚠️ 1 week refactor if migrating database layer
-  See: AUDIT_FIXES.md → Correction #4
-  Note: Can be done progressively during Phase 1-2
-  ```
-
-- [ ] 0.5.13 **[IMPORTANT] Sync Conflict Detection** (L - 8h)
-
-  ```
-  Problem: Data overwrite with "last write wins"
-  Impact if skipped: 🔴 Data corruption multi-device
-  See: AUDIT_FIXES.md → Correction #5
-  Note: MUST complete before Phase 2 (Sync)
-  ```
-
-- [ ] 0.5.14 **[IMPORTANT] Database Indexes** (M - 2h)
-
-  ```
-  Problem: Slow queries with 500+ workouts
-  Impact if skipped: ⚠️ Slow performance
-  See: AUDIT_FIXES.md → Correction #6
-  ```
-
-- [ ] 0.5.15 **[OPTIONAL] Chart Abstraction** (M - 3h)
-
-  ```
-  Problem: Tight coupling to react-native-chart-kit
-  Impact if skipped: 📘 3h refactor if switching chart library
-  See: AUDIT_FIXES.md → Correction #7
-  Note: Low priority - chart-kit works well for MVP
-  ```
-
-- [ ] 0.5.16 **[OPTIONAL] Domain vs DB Types** (M - 4h)
-
-  ```
-  Problem: Type organization confusion
-  Impact if skipped: 📘 Minor confusion
-  See: AUDIT_FIXES.md → Correction #8
-  ```
+- [ ] 0.5.16 **Domain vs DB Types** (M - 4h) 🟢
+  - Defer: Organize types during Phase 1-2 development
+  - Impact: Minor code organization
 
 ---
 
