@@ -4,9 +4,9 @@
 
 **Science-based fitness tracking with intelligent analytics**
 
-[![Expo SDK](https://img.shields.io/badge/Expo-54.0.12-000020?style=flat&logo=expo)](https://expo.dev)
-[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat&logo=react)](https://react.dev)
-[![React Native](https://img.shields.io/badge/React%20Native-0.82.0-61DAFB?style=flat&logo=react)](https://reactnative.dev)
+[![Expo SDK](https://img.shields.io/badge/Expo-54.0.21-000020?style=flat&logo=expo)](https://expo.dev)
+[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81.5-61DAFB?style=flat&logo=react)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
 [![NativeWind](https://img.shields.io/badge/NativeWind-v4-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
@@ -42,20 +42,20 @@ npm install
 
 **Choose the right document for your need:**
 
-| Document                                             | When to Read                  | Purpose                                       |
-| ---------------------------------------------------- | ----------------------------- | --------------------------------------------- |
-| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐       | Setup & daily development     | Complete setup guide, workflow, commands      |
-| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks           | Roadmap (96 tasks across 6 phases)            |
-| **[AUDIT_FIXES.md](docs/AUDIT_FIXES.md)** 🔧         | After Phase 0.5 Bis migration | 4 critical corrections (post-migration guide) |
-| **[DATABASE.md](docs/DATABASE.md)** 💾               | Working with data/database    | WatermelonDB setup, schema, CRUD operations   |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️       | Understanding code structure  | Folder organization, patterns, imports        |
-| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓             | Understanding tech decisions  | Architecture Decision Records (ADRs)          |
-| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘 | When something breaks         | Common issues & solutions                     |
-| **[PRD.md](docs/PRD.md)** 📄                         | Understanding product vision  | Requirements, user stories, success metrics   |
+| Document                                                   | When to Read                 | Purpose                                          |
+| ---------------------------------------------------------- | ---------------------------- | ------------------------------------------------ |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐             | Setup & daily development    | Complete setup guide, workflow, commands         |
+| **[TASKS.md](docs/TASKS.md)** 📋                           | Planning next tasks          | Roadmap (97 tasks across 6 phases)               |
+| **[PROJECT_AUDIT_2025.md](docs/PROJECT_AUDIT_2025.md)** 🔧 | After migrations complete    | Comprehensive audit report + pending corrections |
+| **[DATABASE.md](docs/DATABASE.md)** 💾                     | Working with data/database   | WatermelonDB setup, schema, CRUD operations      |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️             | Understanding code structure | Folder organization, patterns, imports           |
+| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓                   | Understanding tech decisions | Architecture Decision Records (ADRs)             |
+| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘       | When something breaks        | Common issues & solutions                        |
+| **[PRD.md](docs/PRD.md)** 📄                               | Understanding product vision | Requirements, user stories, success metrics      |
 
 **Quick Navigation:**
 
-- 🎯 **Current Phase:** 0.5 Bis - Development Build Migration → [TASKS.md § Phase 0.5 Bis](docs/TASKS.md#-phase-05-bis-development-build-migration-010--next-session)
+- 🎯 **Current Phase:** 0.5.B - Development Build Migration (8/10 complete) → [TASKS.md § Phase 0.5.B](docs/TASKS.md#05b-development-build-migration-810--in-progress)
 - 🚀 **Next Steps:** See [CONTRIBUTING.md § Daily Development](docs/CONTRIBUTING.md#️-development-workflow) for workflow
 
 ---
@@ -77,26 +77,27 @@ npm install
 
 ## 🛠️ Tech Stack
 
-| Layer         | Category     | Technologies                                          |
-| ------------- | ------------ | ----------------------------------------------------- |
-| **Frontend**  | Framework    | Expo SDK 54 + React Native 0.82 + TypeScript 5.9      |
-|               | Navigation   | Expo Router 6                                         |
-|               | Styling      | NativeWind v4 (Tailwind CSS 3.4)                      |
-|               | State        | Zustand 5.0 + React Query 5.90                        |
-|               | **Database** | **WatermelonDB** (offline-first, reactive) + Supabase |
-|               | Storage      | **MMKV** (10-30x faster than AsyncStorage, encrypted) |
-|               | UI           | FlashList + expo-image + **Victory Native**           |
-| **Backend**   | Platform     | Supabase (PostgreSQL + Auth + Storage + Real-time)    |
-| **External**  | Services     | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat |
-| **Analytics** | Libraries    | simple-statistics (Mann-Kendall, regressions)         |
-| **Testing**   | Framework    | Jest + React Native Testing Library                   |
-| **Build**     | Tool         | EAS Build (Development Build required)                |
+| Layer         | Category     | Technologies                                                    |
+| ------------- | ------------ | --------------------------------------------------------------- |
+| **Frontend**  | Framework    | Expo SDK 54.0.21 + React Native 0.81.5 + TypeScript 5.9         |
+|               | Navigation   | Expo Router 6                                                   |
+|               | Styling      | NativeWind v4 (Tailwind CSS 3.4)                                |
+|               | State        | Zustand 5.0 + React Query 5.90                                  |
+|               | **Database** | **WatermelonDB 0.28.0** ✅ (offline-first, reactive) + Supabase |
+|               | Storage      | **MMKV v4.x** ✅ (10-30x faster, Nitro Modules, encrypted)      |
+|               | Charts       | **Victory Native** ✅ (Skia rendering, professional)            |
+|               | UI           | FlashList + expo-image                                          |
+| **Backend**   | Platform     | Supabase (PostgreSQL + Auth + Storage + Real-time)              |
+| **External**  | Services     | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat           |
+| **Analytics** | Libraries    | simple-statistics (Mann-Kendall, regressions)                   |
+| **Testing**   | Framework    | Jest + React Native Testing Library                             |
+| **Build**     | Tool         | EAS Build (Development Build required)                          |
 
 ---
 
 ## 🎯 Current Status
 
-**Version:** 0.2.0 | **Progress:** 6/96 tasks (6%) | **Phase:** 0.5 Bis - Development Build Migration
+**Version:** 0.1.0 | **Progress:** 13/97 tasks (13%) | **Phase:** 0.5.B - Development Build Migration (8/10)
 
 ---
 
