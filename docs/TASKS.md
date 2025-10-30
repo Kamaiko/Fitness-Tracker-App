@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 6/101 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
+**Progress**: 6/98 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-29 • **Next Milestone**: Development Build Migration (10 tasks)
 
@@ -11,7 +11,7 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 6/28 tasks (21%) • **Overall**: 6/101 tasks (6%)
+**Phase Progress**: 6/28 tasks (21%) • **Overall**: 6/98 tasks (6%)
 **Critical Blockers**: None • **Velocity**: ~3 tasks/week (estimated)
 
 ### Recent Completions ✅
@@ -22,27 +22,36 @@
 4. 0.5.17 - Setup professional dev tools (Husky + lint-staged)
 5. 0.5.18 - Setup Jest testing infrastructure
 
-### This Week's Focus 🎯
+---
 
-- **0.5bis.1** Setup EAS Build Account & CLI (Next up)
-- **0.5bis.2** Create eas.json configuration
-- **0.5bis.3** Build Development Build (Android & iOS)
+## 📋 Kanban
+
+| 📝 TODO (Top 5)                          | 🔨 DOING | ✅ DONE (Last 5)                |
+| ---------------------------------------- | -------- | ------------------------------- |
+| **0.5.20** EAS Build setup `[S]` 🔴      |          | **0.5.18** Jest setup           |
+| **0.5.21** eas.json config `[S]` 🔴      |          | **0.5.17** Dev tools            |
+| **0.5.22** Build dev client `[M]` 🟠     |          | **0.5.8** Audit analysis        |
+| **0.5.23** WatermelonDB install `[M]` 🟠 |          | **0.5.7** Architecture refactor |
+| **0.5.24** WatermelonDB schema `[L]` 🟠  |          | **0.5.1** Expo-sqlite local     |
+
+**Progress**: Phase 0.5: 6/28 (21%) • Overall: 6/98 (6%)
+**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
+**NEXT**: 0.5.20 EAS Build setup ⚡
 
 ---
 
 ## 📖 Table of Contents
 
 1. [📊 Executive Summary](#-executive-summary)
-2. [🗺️ Development Roadmap](#development-roadmap)
-3. [📋 Kanban](#-kanban)
-4. [📋 Phase 0.5 Bis: Development Build Migration](#phase-05-bis-development-build-migration-010)
-5. [📋 Phase 0.5: Architecture & Foundation](#phase-05-architecture--foundation-415--critical)
-6. [📋 Phase 1: Authentication & Foundation](#phase-1-authentication--foundation-014)
-7. [📋 Phase 2: Workout Logging](#phase-2-workout-logging-028)
-8. [📋 Phase 3: Exercise Library & Testing](#phase-3-exercise-library--testing-012)
-9. [📋 Phase 4: Analytics & Smart Features](#phase-4-analytics--smart-features-015)
-10. [📋 Phase 5: Polish, Monitoring & Beta Launch](#phase-5-polish-monitoring--beta-launch-018)
-11. [📊 Task Size Estimates & Priority Levels](#task-size-estimates--priority-levels)
+2. [📋 Kanban](#-kanban)
+3. [🗺️ Development Roadmap](#development-roadmap)
+4. [Phase 0.5: Architecture & Foundation (6/28)](#phase-05-architecture--foundation-628)
+5. [Phase 1: Authentication & Foundation (0/14)](#phase-1-authentication--foundation-014)
+6. [Phase 2: Workout Logging (0/18)](#phase-2-workout-logging-018)
+7. [Phase 3: Exercise Library & Testing (0/12)](#phase-3-exercise-library--testing-012)
+8. [Phase 4: Analytics & Smart Features (0/15)](#phase-4-analytics--smart-features-015)
+9. [Phase 5: Polish, Monitoring & Beta Launch (0/18)](#phase-5-polish-monitoring--beta-launch-018)
+10. [Task Size Estimates & Priority Levels](#task-size-estimates--priority-levels)
 
 ---
 
@@ -98,34 +107,18 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks   | Est. Time    | Status      | Dependencies                     |
-| --------- | ------- | ------------ | ----------- | -------------------------------- |
-| **0.5**   | 28      | 50-60h       | IN PROGRESS | None (started)                   |
-| **1**     | 14      | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
-| **2**     | 18      | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
-| **3**     | 12      | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
-| **4**     | 15      | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
-| **5**     | 15      | 40-50h       | BLOCKED     | ← Phase 4 analytics              |
-| **6**     | 9       | 20-25h       | BLOCKED     | ← Phase 5 advanced features      |
-| **TOTAL** | **111** | **250-310h** | **5% done** | **16 weeks at 20h/week**         |
+| Phase     | Tasks  | Est. Time    | Status      | Dependencies                     |
+| --------- | ------ | ------------ | ----------- | -------------------------------- |
+| **0.5**   | 28     | 50-60h       | IN PROGRESS | None (started)                   |
+| **1**     | 14     | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
+| **2**     | 18     | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
+| **3**     | 12     | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
+| **4**     | 15     | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
+| **5**     | 15     | 40-50h       | BLOCKED     | ← Phase 4 analytics              |
+| **6**     | 9      | 20-25h       | BLOCKED     | ← Phase 5 advanced features      |
+| **TOTAL** | **98** | **250-310h** | **6% done** | **16 weeks at 20h/week**         |
 
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
-
----
-
-## 📋 Kanban
-
-| 📝 TODO (Top 5)                            | 🔨 DOING | ✅ DONE (Last 5)                |
-| ------------------------------------------ | -------- | ------------------------------- |
-| **0.5bis.1** EAS Build setup `[S]` 🔴      |          | **0.5.18** Jest setup           |
-| **0.5bis.2** eas.json config `[S]` 🔴      |          | **0.5.17** Dev tools            |
-| **0.5bis.3** Build dev client `[M]` 🟠     |          | **0.5.8** Audit analysis        |
-| **0.5bis.4** WatermelonDB install `[M]` 🟠 |          | **0.5.7** Architecture refactor |
-| **0.5bis.5** WatermelonDB schema `[L]` 🟠  |          | **0.5.1** Expo-sqlite local     |
-
-**Progress**: Phase 0.5: 6/28 (21%) • Overall: 6/101 (6%)
-**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
-**NEXT**: Development Build Migration ⚡
 
 ---
 
@@ -213,7 +206,7 @@ npm start  # Back to Expo Go
 
 #### 📋 Migration Tasks (Follow Order)
 
-- [ ] 0.5bis.1 **Setup EAS Build Account & CLI** (S - 30min)
+- [ ] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min)
   - Create free Expo account at https://expo.dev/signup
   - Install EAS CLI: `npm install -g eas-cli`
   - Login: `eas login`
@@ -221,14 +214,14 @@ npm start  # Back to Expo Go
   - Verify setup: `eas whoami`
   - Status: Ready for cloud builds
 
-- [ ] 0.5bis.2 **Create eas.json Configuration** (S - 30min)
+- [ ] 0.5.21 **Create eas.json Configuration** (S - 30min)
   - Create eas.json at project root
   - Configure development profile (`developmentClient: true`)
   - Configure preview and production profiles
   - Purpose: Development build config for EAS cloud builds
   - File: `eas.json`
 
-- [ ] 0.5bis.3 **Build Development Build (Android & iOS)** (M - 45min)
+- [ ] 0.5.22 **Build Development Build (Android & iOS)** (M - 45min)
   - Command: `eas build --profile development --platform android` (~15-20 min)
   - Command: `eas build --profile development --platform ios` (~15-20 min)
   - Run builds in parallel (cloud handles it)
@@ -236,14 +229,14 @@ npm start  # Back to Expo Go
   - Test that dev build launches successfully
   - Note: ONE-TIME setup, daily dev won't need rebuilds
 
-- [ ] 0.5bis.4 **Install WatermelonDB + Dependencies** (M - 1h)
+- [ ] 0.5.23 **Install WatermelonDB + Dependencies** (M - 1h)
   - Install packages: `@nozbe/watermelondb`, `@nozbe/with-observables`
   - Update metro.config.js for WatermelonDB transformer
   - Add babel plugins to babel.config.js
   - Run: `npm run type-check` to verify no errors
   - Files: `metro.config.js`, `babel.config.js`
 
-- [ ] 0.5bis.5 **Create WatermelonDB Models & Schema** (L - 2h)
+- [ ] 0.5.24 **Create WatermelonDB Models & Schema** (L - 2h)
   - Create model files: Workout.ts, Exercise.ts, WorkoutExercise.ts, ExerciseSet.ts
   - Define models with @field, @date, @relation decorators
   - Create schema matching Supabase tables
@@ -251,7 +244,7 @@ npm start  # Back to Expo Go
   - Export from services/database/index.ts
   - Reference: DATABASE.md § WatermelonDB Schema
 
-- [ ] 0.5bis.6 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
+- [ ] 0.5.25 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
   - Replace src/services/database/db.ts expo-sqlite code
   - Rewrite CRUD operations for WatermelonDB API
   - Update createWorkout, logSet, etc. to use database.write()
@@ -259,7 +252,7 @@ npm start  # Back to Expo Go
   - Update src/hooks/workout/\* to use reactive queries
   - Verify basic CRUD works and reactive queries update UI
 
-- [ ] 0.5bis.7 **Install MMKV + Migrate Storage** (M - 45min)
+- [ ] 0.5.26 **Install MMKV + Migrate Storage** (M - 45min)
   - Install package: `react-native-mmkv`
   - Create MMKV wrapper: `src/services/storage/mmkvStorage.ts`
   - Create MMKV instance with encryption key
@@ -268,7 +261,7 @@ npm start  # Back to Expo Go
   - Keep same API (getItem, setItem, removeItem)
   - Reference: TECHNICAL.md ADR-009
 
-- [ ] 0.5bis.8 **Install Victory Native + Migrate Charts** (M - 1h)
+- [ ] 0.5.27 **Install Victory Native + Migrate Charts** (M - 1h)
   - Install packages: `victory-native`, `react-native-svg`, `react-native-skia`
   - Create LineChart.tsx and BarChart.tsx components
   - Wrap Victory components with dark theme
@@ -276,7 +269,7 @@ npm start  # Back to Expo Go
   - Test chart rendering with sample data
   - Note: Full charts implementation happens in Phase 4
 
-- [ ] 0.5bis.9 **Create Supabase Schema & Sync Functions** (L - 1.5h)
+- [ ] 0.5.28 **Create Supabase Schema & Sync Functions** (L - 1.5h)
   - Create `supabase/migrations/001_initial_schema.sql`
   - Create Supabase tables matching WatermelonDB schema
   - Add RLS policies (users see only their data)
@@ -285,7 +278,7 @@ npm start  # Back to Expo Go
   - Test sync with sample data
   - Reference: DATABASE.md § Supabase Sync
 
-- [ ] 0.5bis.10 **Test & Verify Development Build** (M - 45min)
+- [ ] 0.5.29 **Test & Verify Development Build** (M - 45min)
   - Verify app launches with dev build
   - Test WatermelonDB creates/reads/updates data
   - Verify reactive queries update UI automatically
@@ -342,7 +335,7 @@ git branch -D backup/pre-migration
 
 **Goal:** Install remaining libraries (in Development Build environment)
 
-**Note:** Task 0.5.2 (Supabase schema) is now part of migration (0.5bis.9) to avoid duplication.
+**Note:** Task 0.5.2 (Supabase schema) is now part of migration (0.5.28) to avoid duplication.
 
 - [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
 - [ ] 0.5.4 **Install and configure expo-image** (S - 1h)

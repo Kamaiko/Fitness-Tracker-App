@@ -27,55 +27,12 @@
       "Bash(git filter-repo:*)",
       "Bash(git filter-branch:*)",
       "Bash(node:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(if exist .claudecommandstest.md del .claudecommandstest.md)",
+      "Bash(if exist .claude.actions.json del .claude.actions.json)",
+      "Bash(if exist nul del nul)"
     ],
     "deny": [],
     "ask": []
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/post-tool-use.py"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/pre-compact.py"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/session-start.py"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/session-end.py"
-          }
-        ]
-      }
-    ]
   }
 }

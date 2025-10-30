@@ -1,7 +1,39 @@
-# TASKS.md Format Specification v4.1 (Simplified)
+# TASKS.md Format Specification v4.2 (Rigorous)
 
-**Purpose**: Clean, maintainable project roadmap format
-**Philosophy**: Maximum clarity, minimum overhead
+**Purpose**: Clean, maintainable project roadmap with strict validation
+**Philosophy**: Maximum clarity, rigorous automation, minimum friction
+
+---
+
+## 🏷️ Task ID Format
+
+### Valid Pattern
+
+**Regex:** `^[0-9]+\.[0-9]+$`
+
+**Format:** `X.Y` where:
+- `X` = Phase number (0-9)
+- `Y` = Task number (1-99, can go beyond)
+
+**Rules:**
+- ✅ Use sequential numbering within phase
+- ✅ Example: `0.5.1`, `0.5.20`, `1.3`, `2.15`
+- ❌ NO letter suffixes: `0.5bis`, `0.5b`, `0.5a`
+- ❌ NO sub-levels: `0.5.10.1`, `0.5.B.1`
+- ❌ NO dashes: `0.5-10`, `1-3`
+
+**Examples:**
+```markdown
+✅ VALID:
+- [ ] **0.5.1** Setup database
+- [ ] **0.5.20** EAS Build setup
+- [ ] **1.3** Create login screen
+
+❌ INVALID:
+- [ ] **0.5bis.1** (letter suffix)
+- [ ] **0.5.B.1** (subsection in ID)
+- [ ] **0.5-10** (dash instead of dot)
+```
 
 ---
 
@@ -11,11 +43,13 @@
 
 1. **Header** - Title + Metadata
 2. **Executive Summary** - Quick snapshot
-3. **Table of Contents** - Navigation
-4. **Development Roadmap** - Visual overview
-5. **Kanban** - Current work board
+3. **Kanban** - Current work board (MOVED UP)
+4. **Table of Contents** - Navigation
+5. **Development Roadmap** - Visual overview
 6. **Phases** - Detailed task lists
 7. **Appendix** - Size estimates, conventions
+
+**Note:** Kanban moved before TOC for immediate visibility of current work.
 
 ---
 
@@ -59,18 +93,24 @@ Simple 3-column table with auto-rotation:
 
 | 📝 TODO (Top 5) | 🔨 DOING | ✅ DONE (Last 5) |
 |-----------------|----------|------------------|
-| **ID** Title `[Size]` Priority | **ID** Title | **ID** Title |
+| **ID** Title `[Size]` Priority | **ID** Title (started) | **ID** Title |
 | ...             | ...      | ... (auto-rotate) |
 
-**Progress**: Phase X: N/M (X%) • Overall: N/96 (X%)
-**Velocity**: ~N tasks/week • **ETA**: Phase done in ~N weeks
+**Progress**: Phase X: N/M (X%) • Overall: N/98 (X%)
+**Velocity**: ~N tasks/week • **ETA**: ~N weeks
+**NEXT**: Task ID Title ⚡
 ```
 
 **Rules**:
-- TODO: Top 5 prioritized tasks (manual or auto-sorted)
-- DOING: Current active tasks (1-2 typically)
-- DONE: Last 5 completed (auto-drops oldest when 6th added)
-- Progress line: Auto-calculated from checkboxes
+- **TODO**: Top 5 prioritized tasks (manual or auto-sorted)
+- **DOING**: Current active tasks
+  - Format: `**ID** Title (started)`
+  - NO timestamp - keep it simple
+  - Auto-added when user says "Y" to start
+  - Auto-removed when task completes
+- **DONE**: Last 5 completed (auto-drops oldest when 6th added)
+- **Progress line**: Auto-calculated from checkboxes (98 total)
+- **NEXT line**: Shows immediate next priority with ⚡ emoji
 
 ---
 
@@ -142,53 +182,67 @@ weeksRemaining = ceil(remainingTasks / velocity)
 
 ## ✅ Validation Checklist
 
-### Must-Have
+### CRITICAL (Must Fix - But Don't Block)
 
-- [ ] All required sections present
-- [ ] Task IDs unique (format: X.Y or X.Y.Z)
-- [ ] Checkboxes correct syntax: `- [ ]` or `- [x]`
-- [ ] Progress counts match actual checkboxes
-- [ ] Kanban has max 5 in TODO/DONE
-- [ ] Table of contents links work
+These are errors that MUST be fixed, but `/task-update` will show warnings and continue:
 
-### Nice-to-Have
+- [ ] Task IDs match pattern `^[0-9]+\.[0-9]+$`
+- [ ] All task IDs unique (no duplicates)
+- [ ] Checkboxes exact syntax: `- [ ]` or `- [x]` (space required)
+- [ ] TOC links point to existing headers (no 404s)
+- [ ] All required sections present (header, summary, kanban, toc, phases)
 
-- [ ] Critical tasks have acceptance criteria
-- [ ] File paths in tasks are accurate
-- [ ] Dependencies reference valid task IDs
-- [ ] Last Updated timestamp current
+### WARNINGS (Should Fix)
+
+These show warnings but are not critical:
+
+- [ ] Progress counts match checkbox counts exactly
+- [ ] Kanban TODO/DONE ≤ 5 tasks (show if > 5)
+- [ ] Phase counts sum to overall count (show diff)
+- [ ] "Recent Completions" has 5 items (show actual count)
+- [ ] Progress badge % matches overall progress
+- [ ] "Last Updated" is valid ISO date (YYYY-MM-DD)
+
+### IGNORED (Not Validated)
+
+These are nice-to-have but not enforced:
+
+- File paths in tasks (assume correct)
+- Task time estimates (not validated)
+- Dependencies reference valid IDs (assume correct)
+- Acceptance criteria completeness
 
 ---
 
-## 🔄 Update Protocol (Auto via /task-update)
+## 🔄 Complete Update Cascade (16 Levels)
 
-When task completes, cascade updates:
+When `/task-update` marks task complete, update ALL of these:
 
-**Level 1**: Task itself
-- Checkbox: `[ ]` → `[x]`
+### Core Updates (Levels 1-3)
+1. **Task checkbox**: `[ ]` → `[x]` in phase section
+2. **Phase progress**: `N/M` → `(N+1)/M` in phase header
+3. **Overall progress**: `N/98` → `(N+1)/98` in document header
 
-**Level 2**: Phase metrics
-- Phase count: `6/15` → `7/15`
-- Phase percent: `40%` → `47%`
+### Visual Updates (Levels 4-7)
+4. **Kanban DOING → DONE**: Move task, remove "(started)"
+5. **Kanban auto-rotate**: If DONE > 5, drop oldest
+6. **Kanban progress line**: Update counts
+7. **Kanban NEXT line**: Update with new next task
+8. **Progress badge**: Update % in `![badge](url)` (color if threshold)
+9. **Development Roadmap**: Update phase tree visual
 
-**Level 3**: Overall metrics
-- Overall count: `6/96` → `7/96`
-- Overall percent: `6%` → `7%`
-- Badge color (if threshold crossed)
+### Metadata Updates (Levels 10-12)
+10. **"Last Updated"**: Set to current date (YYYY-MM-DD)
+11. **"Recent Completions"**: Add task to list (keep last 5, rotate)
+12. **Subsection progress**: Update `0.5.B (X/M)` → `(X+1/M)`
+13. **Subsection emoji**: Change `⚡ NEXT` → `✅ COMPLETE` if all done
 
-**Level 4**: Kanban
-- Move task: DOING → DONE
-- Auto-rotate if DONE > 5 tasks
-- Update progress line
+### Strategic Updates (Levels 14-16)
+14. **Table of Contents**: Sync phase counts `(X/M)`
+15. **Phase Timeline table**: Mark `✅ COMPLETE` if phase done, update STATUS
+16. **Velocity & ETA**: Recalculate simple average, update ETA
 
-**Level 5**: Roadmap
-- Update phase tree progress
-
-**Level 6**: Metadata
-- Update "Last Updated" timestamp
-
-**Level 7**: Suggestions
-- Suggest next task from TODO
+**Time:** All 16 updates complete in ~2 seconds
 
 ---
 
@@ -254,14 +308,64 @@ git log --grep="task-update" --oneline
 - Update progress line
 - Keep counts accurate
 
-### Velocity Tracking
+### Velocity Tracking (Simplified)
 
-**Simple average works**:
-- Track completed last 4 weeks
-- Divide by 4 = avg per week
-- Use for ETA estimates
+**Simple average** (no complex formulas):
 
-**Don't overthink**: Velocity varies, estimates are guides not contracts
+```
+Velocity = Tasks completed last 4 weeks ÷ 4
+ETA (weeks) = Tasks remaining ÷ Velocity
+```
+
+**Example:**
+- Completed last 4 weeks: 12 tasks
+- Velocity: 12 ÷ 4 = 3 tasks/week
+- Remaining in phase: 22 tasks
+- ETA: 22 ÷ 3 = ~7 weeks
+
+**Update frequency:** Recalculate after each task completion
+
+**Note:** Velocity varies naturally - use as rough guide, not promise
+
+---
+
+## 📖 Table of Contents Sync Rules
+
+### Format Standard
+```markdown
+N. [Phase Title (X/M)](#anchor-link)
+```
+
+### Sync Rules
+1. **Phase progress `(X/M)`** must match phase header exactly
+2. **Anchor link** must be lowercase, spaces → hyphens, remove special chars
+3. **One entry per phase** - no subsections in TOC (subsections are internal grouping only)
+4. **Remove obsolete entries** - delete if phase renamed/merged
+5. **Update on task completion** - if phase progress changes
+
+### Example Correct TOC
+```markdown
+## 📖 Table of Contents
+
+1. [📊 Executive Summary](#-executive-summary)
+2. [📋 Kanban](#-kanban)
+3. [🗺️ Development Roadmap](#development-roadmap)
+4. [Phase 0.5: Architecture & Foundation (6/28)](#phase-05-architecture--foundation-628)
+5. [Phase 1: Authentication & Foundation (0/14)](#phase-1-authentication--foundation-014)
+```
+
+### Common Errors
+```markdown
+❌ BAD:
+4. [Phase 0.5 Bis: Migration](#phase-05-bis...)  ← Obsolete, should be removed
+5. [Phase 0.5: Architecture](#phase-05...)        ← Duplicate, keep ONE only
+
+❌ BAD (wrong count):
+4. [Phase 0.5: Architecture (7/28)](#...)  ← Says 7 but actual is 6
+
+✅ GOOD:
+4. [Phase 0.5: Architecture & Foundation (6/28)](#phase-05-architecture--foundation-628)
+```
 
 ---
 
@@ -340,6 +444,16 @@ See `.claude/commands/task-update.md` for command usage.
 
 ## 📝 Change Log
 
+### v4.2 (2025-10-29) - Rigorous
+- Added Task ID Format section with regex validation (`^[0-9]+\.[0-9]+$`)
+- Moved Kanban before TOC for immediate visibility
+- Enhanced DOING column format: `**ID** Title (started)` (no timestamps)
+- Expanded cascade updates: 7 → 16 levels
+- Restructured validation: CRITICAL/WARNINGS/IGNORED levels
+- Simplified velocity calculation (basic average only)
+- Added TOC Sync Rules section
+- Removed "This Week's Focus" section
+
 ### v4.1 (2025-10-29) - Simplified
 - Reduced from 500 → 200 lines
 - Removed complex sprint management
@@ -355,6 +469,6 @@ See `.claude/commands/task-update.md` for command usage.
 
 ---
 
-**Version**: 4.1 (Simplified)
+**Version**: 4.2 (Rigorous)
 **Last Updated**: 2025-10-29
-**Philosophy**: Keep it simple, automate the rest
+**Philosophy**: Maximum clarity, rigorous automation, minimum friction

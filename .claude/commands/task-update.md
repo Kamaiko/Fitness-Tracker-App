@@ -90,12 +90,14 @@ Type `Y` → Task moves to DOING column
    • Files: supabase/migrations/001_initial_schema.sql ✓
    • Matches task description
 
-📊 Auto-updated:
+📊 Auto-updated (16 levels):
    ✓ Task marked [x] in TASKS.md
-   ✓ Phase 0.5: 6/15 → 7/15 (47%)
-   ✓ Overall: 6/96 → 7/96 (7%)
+   ✓ Phase 0.5: 6/28 → 7/28 (25%)
+   ✓ Overall: 6/98 → 7/98 (7%)
    ✓ Kanban: 0.5.2 moved DOING → DONE
    ✓ Progress badge updated
+   ✓ Table of Contents synced
+   ✓ Velocity & ETA recalculated
 
 ⏭️ Next recommended:
    0.5.3 Install FlashList [S - 1h] 🟡
@@ -128,15 +130,33 @@ Just type the number. That's it.
 
 ### 2. Auto-Cascade Updates
 
-One command updates **7 levels** automatically:
+One command updates **16 levels** automatically:
 
+#### Core Updates (1-3)
 1. ✅ Task checkbox: `[ ]` → `[x]`
 2. 📊 Phase progress: `6/15` → `7/15`
-3. 🎯 Overall progress: `6/96` → `7/96` (badge color auto)
-4. 📋 Kanban: Move DOING → DONE (auto-rotate if >5 in DONE)
-5. 🗺️ Development Roadmap: Update phase tree
-6. 📅 Metadata: Update "Last Updated" timestamp
-7. ⏭️ Next task: Suggest from TODO based on priority + dependencies
+3. 🎯 Overall progress: `6/98` → `7/98`
+
+#### Visual Updates (4-9)
+4. 📋 Kanban DOING → DONE: Move task, remove "(started)"
+5. 📋 Kanban auto-rotate: If DONE > 5, drop oldest
+6. 📋 Kanban progress line: Update counts
+7. 📋 Kanban NEXT line: Update with new next task
+8. 📛 Progress badge: Update % in badge (color if threshold)
+9. 🗺️ Development Roadmap: Update phase tree visual
+
+#### Metadata Updates (10-13)
+10. 📅 "Last Updated": Set to current date (YYYY-MM-DD)
+11. 📋 "Recent Completions": Add task to list (keep last 5, rotate)
+12. 📊 Subsection progress: Update `0.5.B (X/M)` → `(X+1/M)`
+13. ✅ Subsection emoji: Change `⚡ NEXT` → `✅ COMPLETE` if all done
+
+#### Strategic Updates (14-16)
+14. 📖 Table of Contents: Sync phase counts `(X/M)`
+15. 📅 Phase Timeline table: Mark `✅ COMPLETE` if phase done, update STATUS
+16. 📈 Velocity & ETA: Recalculate simple average, update ETA
+
+**Time:** All 16 updates complete in ~2 seconds
 
 ### 3. Smart Suggestions
 
@@ -171,28 +191,46 @@ const mostLikelyTask = match(commits, changedFiles, doingTasks)
 
 ### Step 2: Confirm or Ask
 ```typescript
-if (confidence > 90%) {
-  // Auto-proceed
-  updateTask(mostLikelyTask)
-} else if (confidence > 60%) {
-  // Show evidence, ask confirmation
+// Simple heuristics (no complex confidence %)
+if (singleMatchWithStrongEvidence) {
+  // Auto-proceed with confirmation
+  showEvidence()
   askUser(`Detected: ${task}. Correct? [Y/n]`)
-} else {
-  // Multiple candidates
+} else if (multipleCandidates) {
+  // Show options
   showOptions(candidateTasks)
+} else {
+  // No match - ask user
+  showKanbanDoing()
+  askUser('Which task did you complete?')
 }
 ```
 
-### Step 3: Cascade Updates
+### Step 3: Cascade Updates (16 Levels)
 ```typescript
-// Update TASKS.md
+// Core (1-3)
 markComplete(taskId)
 updatePhaseProgress()
 updateOverallProgress()
+
+// Visual (4-9)
+moveKanbanDoingToDone()
+rotateKanbanDone()
+updateKanbanProgressLine()
+updateKanbanNext()
 updateProgressBadge()
-updateKanban()
-updateRoadmap()
-updateTimestamp()
+updateRoadmapTree()
+
+// Metadata (10-13)
+updateLastUpdatedDate()
+rotateRecentCompletions()
+updateSubsectionProgress()
+updateSubsectionEmoji()
+
+// Strategic (14-16)
+syncTableOfContents()
+updatePhaseTimeline()
+recalculateVelocityETA()
 
 // Show report
 displayImpact()
@@ -319,6 +357,11 @@ Shows full kanban + metrics in <2 seconds.
 
 ---
 
-**Version**: 2.0 (Simplified)
+**Version**: 2.1 (Enhanced)
 **Last Updated**: 2025-10-29
-**Philosophy**: Maximum automation, minimum friction
+**Philosophy**: Maximum automation, minimum friction, rigorous updates
+
+**Changes in v2.1:**
+- Documented complete 16-level cascade system
+- Simplified confidence algorithm (removed complex %)
+- Updated examples with accurate task counts (98 total)
