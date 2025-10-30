@@ -26,13 +26,14 @@
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                     | 🔨 DOING | ✅ DONE (Last 5)               |
+| 📝 TODO (Top 6)                     | 🔨 DOING | ✅ DONE (Last 5)               |
 | ----------------------------------- | -------- | ------------------------------ |
 | **0.5.11** Error handling `[M]` 🟠  |          | **0.5.10** Workout persist ✅  |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.9** Auth persist ✅      |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.26** Victory Native ✅   |
-| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.25** MMKV storage ✅     |
-| **0.5.4** expo-image `[S]` 🟡       |          | **0.5.24** WatermelonDB ops ✅ |
+| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.9** Auth persist ✅      |
+| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.26** Victory Native ✅   |
+| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.25** MMKV storage ✅     |
+| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.24** WatermelonDB ops ✅ |
+| **0.5.4** expo-image `[S]` 🟡       |          |                                |
 
 **Progress**: Phase 0.5: 15/27 (56%) • Overall: 15/97 (15%)
 **Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~3 weeks
@@ -68,9 +69,11 @@ Phase 0.5: Architecture & Foundation (15/27 tasks)
    ├─ WatermelonDB Database Operations ✅
    ├─ MMKV Storage Migration ✅
    ├─ Victory Native Charts Migration ✅
-   └─ NEXT: Complete Migration ⚡ PRIORITY
-        ├─ Create Supabase schema & sync
-        └─ Test & verify development build
+   └─ NEXT: Complete Critical Corrections ⚡ PRIORITY
+        ├─ Error handling layer (0.5.11)
+        ├─ Sentry monitoring (0.5.5)
+        ├─ Supabase sync (0.5.27-28)
+        └─ Infrastructure (0.5.3-4)
         ↓
 Phase 1: Authentication & Foundation (0/14 tasks)
    ├─ Supabase Auth integration
@@ -130,7 +133,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 13/27 tasks (48%) | **Est. Time Remaining:** ~15h (Phase 0.5 completion)
+**Progress:** 15/27 tasks (56%) | **Est. Time Remaining:** ~12h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
@@ -239,37 +242,13 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.C: Infrastructure Completion (0/3)
-
-**Goal:** Configure remaining libraries (packages installed in 0.5.22)
-
-**Status:** Packages installed ✅ | Configuration pending ⏳
-
-- [ ] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
-  - Package: @shopify/flash-list 2.0.2 ✅ installed
-  - Replace FlatList with FlashList in workout history
-  - Configure estimatedItemSize for performance
-  - Test with 100+ items list
-
-- [ ] 0.5.4 **Configure expo-image with caching** (S - 1h)
-  - Package: expo-image ^3.0.10 ✅ installed
-  - Replace Image with ExpoImage in exercise library
-  - Configure memory and disk cache
-  - Test with exercise thumbnails
-
-- [ ] 0.5.5 **Configure Sentry for error monitoring** (M - 2h)
-  - Package: @sentry/react-native ~7.2.0 ✅ installed
-  - Setup Sentry project and DSN
-  - Configure error tracking and performance monitoring
-  - Test error reporting
-
----
-
-### 0.5.D: Critical Corrections - Blockers (2/3) ⚡ IN PROGRESS
+### 0.5.C: Critical Corrections - Blockers (2/4) ⚡ IN PROGRESS
 
 **Goal:** Complete store integration and error handling (infrastructure ready from 0.5.25)
 
 **Status:** MMKV infrastructure ✅ complete | Store integration ⏳ pending
+
+**Note:** Tasks numbered in discovery order. Sections organized by logical execution priority.
 
 - [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
   - **Problem:** User ID stored in memory only, lost on app restart
@@ -304,6 +283,40 @@ Phase 6: Polish & Launch (0/9 tasks)
     4. Create useErrorHandler hook for components
   - **Files:** src/utils/errors.ts, src/services/database/workouts.ts, src/hooks/ui/useErrorHandler.ts
   - **Validation:** Errors caught and displayed to user ✅
+
+- [ ] 0.5.5 **Configure Sentry for error monitoring** (M - 2h) 🟡
+  - **Depends on:** 0.5.11 (Error Handling) - Sentry captures custom error classes
+  - Package: @sentry/react-native ~7.2.0 ✅ installed
+  - Setup Sentry project and DSN
+  - Configure error tracking and performance monitoring
+  - Integrate with custom error classes from 0.5.11
+  - Test error reporting (production-only, enabled: !**DEV**)
+  - **Files:** app/\_layout.tsx, src/utils/sentry.ts
+  - **Validation:** Errors captured in Sentry dashboard ✅
+
+---
+
+### 0.5.D: Infrastructure Completion (0/2)
+
+**Goal:** Configure remaining performance libraries (packages installed in 0.5.22)
+
+**Status:** Packages installed ✅ | Configuration pending ⏳
+
+- [ ] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
+  - Package: @shopify/flash-list 2.0.2 ✅ installed
+  - Replace FlatList with FlashList in workout history
+  - Configure estimatedItemSize for performance
+  - Test with 100+ items list
+  - **Files:** src/components/workout/WorkoutHistory.tsx
+  - **Validation:** 54% FPS improvement on large lists ✅
+
+- [ ] 0.5.4 **Configure expo-image with caching** (S - 1h)
+  - Package: expo-image ^3.0.10 ✅ installed
+  - Replace Image with ExpoImage in exercise library
+  - Configure memory and disk cache (cachePolicy="memory-disk")
+  - Test with exercise thumbnails (500+ images)
+  - **Files:** src/components/ui/ExerciseThumbnail.tsx
+  - **Validation:** Fast image loading with cache ✅
 
 ---
 
