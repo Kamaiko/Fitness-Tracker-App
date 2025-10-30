@@ -27,6 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     tsconfigPaths: true,
   },
   extra: {
+    ...config.extra,
     router: {
       origin: false,
     },

@@ -30,7 +30,9 @@
       "WebSearch",
       "Bash(if exist .claudecommandstest.md del .claudecommandstest.md)",
       "Bash(if exist .claude.actions.json del .claude.actions.json)",
-      "Bash(if exist nul del nul)"
+      "Bash(if exist nul del nul)",
+      "Bash(npm --version)",
+      "Bash(eas whoami:*)"
     ],
     "deny": [],
     "ask": []
