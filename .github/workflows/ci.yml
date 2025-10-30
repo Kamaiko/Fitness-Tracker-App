@@ -76,10 +76,21 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Auto-merge GitHub Actions
+        # GitHub Actions: CI infrastructure, not app code
+        # Industry standard: Auto-merge all versions after CI passes
+        if: steps.metadata.outputs.package-ecosystem == 'github_actions'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Auto-merge dev dependencies
         # Dev dependencies: ESLint, TypeScript, Jest, etc.
-        # These rarely break code, safe to auto-merge
-        if: steps.metadata.outputs.dependency-type == 'direct:development'
+        # Safe to auto-merge minor/patch, manual review for major
+        if: |
+          steps.metadata.outputs.dependency-type == 'direct:development' &&
+          steps.metadata.outputs.update-type != 'version-update:semver-major'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}

@@ -59,7 +59,6 @@ updates:
 
     commit-message:
       prefix: "chore(deps)"
-      include: "scope"
 
   # GitHub Actions - Auto-merged after CI passes
   # SHA pinning ensures security
