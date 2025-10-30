@@ -21,7 +21,7 @@
   "dependencies": {
     "@nozbe/watermelondb": "^0.28.0",
     "@nozbe/with-observables": "^1.6.0",
-    "@sentry/react-native": "~7.2.0",
+    "@sentry/react-native": "~7.4.0",
     "@shopify/flash-list": "2.0.2",
     "@shopify/react-native-skia": "2.2.12",
     "@supabase/supabase-js": "^2.58.0",
