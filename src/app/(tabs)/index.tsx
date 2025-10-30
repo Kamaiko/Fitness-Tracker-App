@@ -7,24 +7,21 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+// Skeleton chart heights (randomish but deterministic for skeleton)
+const SKELETON_HEIGHTS = [45, 72, 58, 83, 51, 69, 62];
+
 export default function HomeScreen() {
   return (
     <ScrollView className="flex-1 bg-background" showsVerticalScrollIndicator={false}>
       {/* Header Welcome */}
       <View className="px-6 pt-15 pb-8">
-        <Text className="text-base text-foreground-secondary font-normal mb-1">
-          Welcome back,
-        </Text>
-        <Text className="text-3xl font-bold text-foreground">
-          Athlete
-        </Text>
+        <Text className="text-base text-foreground-secondary font-normal mb-1">Welcome back,</Text>
+        <Text className="text-3xl font-bold text-foreground">Athlete</Text>
       </View>
 
       {/* Stats Cards */}
       <View className="px-6 mb-8">
-        <Text className="text-xl font-bold text-foreground mb-4">
-          Your Progress
-        </Text>
+        <Text className="text-xl font-bold text-foreground mb-4">Your Progress</Text>
         <View className="flex-row gap-3">
           <View className="flex-1 bg-background-surface rounded-2xl p-4 items-center border border-background-elevated shadow-sm">
             <View className="w-10 h-10 rounded-full bg-background-elevated items-center justify-center mb-2">
@@ -60,9 +57,7 @@ export default function HomeScreen() {
 
       {/* Chart Section with Skeleton */}
       <View className="px-6 mb-8">
-        <Text className="text-xl font-bold text-foreground mb-4">
-          Weekly Progress
-        </Text>
+        <Text className="text-xl font-bold text-foreground mb-4">Weekly Progress</Text>
         <View className="bg-background-surface rounded-2xl p-5 border border-background-elevated min-h-[240px]">
           {/* Skeleton Chart */}
           <View className="flex-row h-45 opacity-30">
@@ -78,11 +73,9 @@ export default function HomeScreen() {
                 <View key={i} className="items-center flex-1">
                   <View
                     className="w-5 bg-background-elevated rounded mb-2"
-                    style={{ height: Math.random() * 60 + 20 }}
+                    style={{ height: SKELETON_HEIGHTS[i] }}
                   />
-                  <Text className="text-xs text-foreground-tertiary mt-1">
-                    {day}
-                  </Text>
+                  <Text className="text-xs text-foreground-tertiary mt-1">{day}</Text>
                 </View>
               ))}
             </View>
@@ -109,9 +102,7 @@ export default function HomeScreen() {
             end={{ x: 1, y: 1 }}
             className="rounded-2xl p-5 flex-row items-center justify-center shadow-lg"
           >
-            <Text className="text-lg font-bold text-white tracking-widest">
-              START WORKOUT
-            </Text>
+            <Text className="text-lg font-bold text-white tracking-widest">START WORKOUT</Text>
             <View className="w-2 h-2 rounded-full bg-cyan-400 ml-3" />
           </LinearGradient>
         </TouchableOpacity>
