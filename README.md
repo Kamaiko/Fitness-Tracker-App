@@ -34,7 +34,7 @@ npm install
 # See CONTRIBUTING.md for complete setup guide (~15-20 min)
 ```
 
-**⚠️ Note:** This project requires **Development Build** (not Expo Go) due to native modules (WatermelonDB, MMKV, Victory Native).
+**⚠️ Note:** This project requires **Development Build** (not Expo Go) due to native modules (WatermelonDB, MMKV).
 
 ---
 
@@ -42,16 +42,15 @@ npm install
 
 **Choose the right document for your need:**
 
-| Document                                                   | When to Read                 | Purpose                                          |
-| ---------------------------------------------------------- | ---------------------------- | ------------------------------------------------ |
-| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐             | Setup & daily development    | Complete setup guide, workflow, commands         |
-| **[TASKS.md](docs/TASKS.md)** 📋                           | Planning next tasks          | Roadmap (97 tasks across 6 phases)               |
-| **[PROJECT_AUDIT_2025.md](docs/PROJECT_AUDIT_2025.md)** 🔧 | After migrations complete    | Comprehensive audit report + pending corrections |
-| **[DATABASE.md](docs/DATABASE.md)** 💾                     | Working with data/database   | WatermelonDB setup, schema, CRUD operations      |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️             | Understanding code structure | Folder organization, patterns, imports           |
-| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓                   | Understanding tech decisions | Architecture Decision Records (ADRs)             |
-| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘       | When something breaks        | Common issues & solutions                        |
-| **[PRD.md](docs/PRD.md)** 📄                               | Understanding product vision | Requirements, user stories, success metrics      |
+| Document                                             | When to Read                 | Purpose                                     |
+| ---------------------------------------------------- | ---------------------------- | ------------------------------------------- |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐       | Setup & daily development    | Complete setup guide, workflow, commands    |
+| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks          | Roadmap (97 tasks across 6 phases)          |
+| **[DATABASE.md](docs/DATABASE.md)** 💾               | Working with data/database   | WatermelonDB setup, schema, CRUD operations |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️       | Understanding code structure | Folder organization, patterns, imports      |
+| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓             | Understanding tech decisions | Architecture Decision Records (ADRs)        |
+| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘 | When something breaks        | Common issues & solutions                   |
+| **[PRD.md](docs/PRD.md)** 📄                         | Understanding product vision | Requirements, user stories, success metrics |
 
 **Quick Navigation:**
 

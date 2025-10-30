@@ -130,13 +130,13 @@ Phase 6: Polish & Launch (0/9 tasks)
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 13/27 tasks (48%) | **Est. Time Remaining:** 32-40h
+**Progress:** 13/27 tasks (48%) | **Est. Time Remaining:** ~15h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 
-**Migration Status:** Database ✅ | Storage ✅ | Charts ✅ | Supabase Sync ⏳
-**Why migrate NOW:** Codebase is small (11% complete). Migrating now avoids rewriting 40-60% of code later.
+**Migration Status:** Database ✅ | Storage ✅ | Charts ✅ | Supabase Sync ⏳ (next)
+**Achievement:** Migrated early at 13% project completion, avoiding 40-60% code rewrite later.
 
 ---
 
@@ -161,161 +161,63 @@ Phase 6: Polish & Launch (0/9 tasks)
 - react-native-chart-kit → Victory Native (professional charts)
 - Expo Go → Development Build (enables native modules)
 
-**Why NOW:** Only 6 tasks of code to migrate. Waiting until Phase 1-2 = rewriting 40-60% of app.
+**Status:** 8/10 tasks complete. Final steps: Supabase sync + testing.
 
 **Estimated Time:** 4-6 hours | **Tasks:** 10
 
 ---
 
-#### ⚠️ Pre-Flight Checklist (DO FIRST)
+#### ✅ Pre-Flight Checklist (COMPLETED)
 
-Before starting migration:
-
-1. ✅ Git status clean (commit/stash all changes)
-2. ✅ Create backup branch: `git checkout -b backup/pre-migration`
-3. ✅ EAS account created at https://expo.dev/signup
-4. ✅ Supabase project ready (URL + anon key in .env)
-5. ✅ Stable internet (EAS Build = 15-20min cloud build)
-6. ✅ Android device/emulator available
-7. ✅ ~2GB free disk space
-
-**Commands to run BEFORE migration:**
-
-```bash
-# 1. Backup current state
-git checkout -b backup/pre-migration
-git add -A && git commit -m "chore: backup before dev build migration"
-git checkout master
-
-# 2. Verify environment
-cat .env  # Check EXPO_PUBLIC_SUPABASE_URL and KEY are set
-eas whoami  # Verify EAS login (or run: eas login)
-
-# 3. Clean install (fresh start)
-rm -rf node_modules package-lock.json
-npm install
-npm run type-check  # Verify no errors
-```
-
-**Recovery Plan (if migration fails):**
-
-```bash
-# Restore backup
-git checkout backup/pre-migration
-npm install
-npm start  # Back to Expo Go
-```
+1. ✅ Git status clean
+2. ✅ Backup branch created
+3. ✅ EAS account configured
+4. ✅ Supabase project ready
+5. ✅ Development build successful
 
 ---
 
 #### 📋 Migration Tasks (Follow Order)
 
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
-  - Create free Expo account at https://expo.dev/signup
-  - Install EAS CLI: `npm install -g eas-cli`
-  - Login: `eas login`
-  - Link project: `eas init`
-  - Verify setup: `eas whoami`
-  - Status: Ready for cloud builds
+  - EAS account configured, CLI installed, project linked
 
 - [x] 0.5.21 **Create eas.json Configuration** (S - 30min) ✅
-  - Create eas.json at project root
-  - Configure development profile (`developmentClient: true`)
-  - Configure preview and production profiles
-  - Purpose: Development build config for EAS cloud builds
-  - File: `eas.json`
+  - Development, preview, and production profiles configured
 
 - [x] 0.5.22 **Install Native Packages & Build Development Build** (L - 2-3h) ✅
-  - **Phase A: Install Native Packages** ✅ COMPLETED
-    - Installed: expo-dev-client, @nozbe/watermelondb, @nozbe/with-observables
-    - Installed: react-native-mmkv, react-native-nitro-modules
-    - Installed: victory-native, react-native-skia, @shopify/react-native-skia
-    - Installed: @shopify/flash-list, expo-image, expo-notifications, expo-background-fetch
-    - Installed: @sentry/react-native, simple-statistics, expo-constants
-  - **Phase B: Configure Build Files** ✅ COMPLETED
-    - Created `.npmrc` with `legacy-peer-deps=true`
-    - Updated `babel.config.js` with decorators plugin
-    - Fixed deprecated @testing-library/jest-native
-  - **Phase C: Fix SDK Compatibility** ✅ COMPLETED
-    - Fixed Jest 30.x → 29.7.0 for SDK 54 compatibility
-    - Fixed all package version mismatches with `npx expo install --fix`
-  - **Phase D: Build with EAS** ✅ COMPLETED
-    - Android build SUCCESS (20 minutes)
-    - APK: https://expo.dev/artifacts/eas/qh4rcVLpNNsBsSf58DJWnr.apk
-    - Build ID: c4995844-799a-407b-b888-23cf488eedb3
-  - Note: ALL native packages installed upfront to minimize rebuilds (smart strategy!)
+  - Installed 15+ native packages (WatermelonDB, MMKV, Victory Native, FlashList, expo-image, Sentry, simple-statistics)
+  - Configured build files (.npmrc, babel.config.js)
+  - Fixed SDK 54 compatibility issues
+  - Android build SUCCESS - Build ID: c4995844-799a-407b-b888-23cf488eedb3
 
 - [x] 0.5.23 **Create WatermelonDB Models & Schema** (L - 2h) ✅
-  - ✅ Enabled WatermelonDB transformer in metro.config.js
-  - ✅ Created schema.ts with all 5 tables (users, exercises, workouts, workout_exercises, exercise_sets)
-  - ✅ Created User.ts model with preferences fields
-  - ✅ Created Exercise.ts model with 1,300+ exercises support
-  - ✅ Created Workout.ts model with relations and computed properties
-  - ✅ Created WorkoutExercise.ts junction model with ordering
-  - ✅ Created ExerciseSet.ts model with RPE, RIR, estimated 1RM calculation
-  - ✅ Setup database instance in `src/services/database/watermelon/index.ts`
-  - ✅ Configured TypeScript experimentalDecorators in tsconfig.json
-  - ✅ Verified TypeScript compilation - no errors
-  - ✅ IMPROVEMENT: Added nutrition_phase to workouts for context-aware analytics
-  - Files created: 7 files in src/services/database/watermelon/
+  - Created 5 tables schema (users, exercises, workouts, workout_exercises, exercise_sets)
+  - Created 5 models with decorators, relations, and computed properties
+  - Added nutrition_phase field for context-aware analytics
+  - Configured Metro transformer and TypeScript decorators
 
 - [x] 0.5.23.1 **Phase 1 Critical Fixes (Post-Analysis)** (M - 1.5h) ✅
-  - **Comprehensive Project Analysis** (15-thought deep analysis):
-    - Security audit (auth tokens, encryption, RLS)
-    - Residual code detection (outdated comments, TODOs)
-    - Dependency analysis (duplicates, wrong placement)
-    - Schema consistency verification
-    - Performance optimization opportunities
-    - Identified 17 issues categorized by severity
-  - **Critical Fixes Applied**:
-    - ✅ Moved @nozbe/watermelondb to dependencies (production blocker)
-    - ✅ Removed jest/@types/jest duplicates from dependencies
-    - ✅ Added _.db_ files to .gitignore (GDPR/privacy protection)
-    - ✅ Added 'synced' field indexes to WatermelonDB schema (performance)
-    - ✅ Fixed nutrition_phase schema mismatch (expo-sqlite ↔ WatermelonDB)
-    - ✅ Verified TypeScript compilation - no errors
-  - **Development Build Testing**:
-    - ✅ Fixed metro.config.js transformer conflict
-    - ✅ Fixed react-native-css-interop missing dependency
-    - ✅ Successfully connected dev build to Metro bundler
-    - ✅ Verified hot reload works with development build
-  - **Files modified**: package.json, .gitignore, schema.ts, db.ts, metro.config.js
-  - **Result**: Production-ready configuration, zero critical blockers
+  - Comprehensive 15-thought security & dependency analysis
+  - Fixed 6 critical issues (WatermelonDB dependencies, duplicates, GDPR, indexes)
+  - Verified dev build hot reload and Metro bundler
+  - Zero TypeScript errors, production-ready configuration
 
 - [x] 0.5.24 **Migrate Database Operations to WatermelonDB** (L - 1.5h) ✅
-  - ✅ Deleted expo-sqlite package and all legacy files (db.ts, tests)
-  - ✅ Rewrote workouts.ts (444 lines) with WatermelonDB Dual API
-  - ✅ Updated sync.ts to use WatermelonDB queries
-  - ✅ Implemented Promise API (CREATE, UPDATE, DELETE)
-  - ✅ Implemented Observable API (READ operations - reactive)
-  - ✅ Updated types: number → boolean, added nutrition_phase
-  - ✅ Removed initDatabase() - WatermelonDB auto-initializes
-  - ✅ TypeScript compilation verified (npx tsc --noEmit)
+  - Deleted expo-sqlite and legacy files
+  - Rewrote workouts.ts (444 lines) with WatermelonDB Dual API (Promise + Observable)
+  - Updated sync.ts for WatermelonDB queries
 
 - [x] 0.5.25 **Migrate Storage to MMKV** (M - 1h) ✅
-  - ✅ Created mmkvStorage.ts with react-native-mmkv v4.x (Nitro Modules API)
-  - ✅ Created zustandStorage.ts adapter for Zustand persist middleware
-  - ✅ Created authPersistence.ts for user session persistence (infrastructure)
-  - ✅ Migrated storage.ts from AsyncStorage to MMKV
-  - ✅ 10-30x performance improvement with native encryption
-  - ✅ Updated barrel exports in services/storage/index.ts
-  - Note: Corrections #1-2 (connect to stores) pending - infrastructure complete
+  - Created mmkvStorage.ts (Nitro Modules API), zustandStorage.ts adapter
+  - Created authPersistence.ts service (infrastructure for Correction #1)
+  - 10-30x performance improvement with native encryption
+  - Note: Store integration pending (see 0.5.9, 0.5.10)
 
 - [x] 0.5.26 **Migrate Charts to Victory Native** (M - 1h) ✅
-  - ✅ Created LineChart.tsx wrapper with library-agnostic interface
-  - ✅ Created BarChart.tsx wrapper with simple props API
-  - ✅ Updated ExampleLineChart.tsx to use Victory Native
-  - ✅ Removed react-native-chart-kit dependency (-2.1 MB)
-  - ✅ Implemented abstraction layer for future-proof migrations
-  - ✅ Professional chart rendering with gesture support ready
-  - Files: src/components/charts/ (LineChart.tsx, BarChart.tsx, index.ts)
-  - Note: Packages victory-native, react-native-skia already installed in 0.5.22
-  - Create LineChart.tsx and BarChart.tsx components in src/components/charts/
-  - Wrap Victory components with dark theme
-  - Replace existing react-native-chart-kit usage in ExampleLineChart.tsx
-  - Test chart rendering with sample data
-  - Remove react-native-chart-kit dependency after migration
-  - Note: Full charts implementation happens in Phase 4
+  - Created LineChart.tsx and BarChart.tsx wrappers (library-agnostic interface)
+  - Updated ExampleLineChart.tsx, removed react-native-chart-kit (-2.1 MB)
+  - Professional Skia rendering with gesture support ready
 
 - [ ] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h)
   - Create `supabase/migrations/001_initial_schema.sql`
@@ -338,80 +240,71 @@ npm start  # Back to Expo Go
 
 ---
 
-### ✅ Migration Complete Checklist
+### 0.5.C: Infrastructure Completion (0/3)
 
-**After all 10 tasks complete, verify:**
+**Goal:** Configure remaining libraries (packages installed in 0.5.22)
 
-1. ✅ **Dev build installed on device** - App launches without Expo Go
-2. ✅ **WatermelonDB working** - Can create/read workouts
-3. ✅ **MMKV working** - Settings persist after app restart
-4. ✅ **Sync working** - Data appears in Supabase dashboard
-5. ✅ **Hot reload working** - Code changes refresh instantly
-6. ✅ **No TypeScript errors** - `npm run type-check` passes
-7. ✅ **Git committed** - Migration changes committed to master
+**Status:** Packages installed ✅ | Configuration pending ⏳
 
-**Next Steps (After Migration):**
+- [ ] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
+  - Package: @shopify/flash-list 2.0.2 ✅ installed
+  - Replace FlatList with FlashList in workout history
+  - Configure estimatedItemSize for performance
+  - Test with 100+ items list
 
-```bash
-# 1. Commit migration
-git add -A
-git commit -m "feat(infrastructure): migrate to development build with WatermelonDB + MMKV + Victory Native"
-git push origin master
+- [ ] 0.5.4 **Configure expo-image with caching** (S - 1h)
+  - Package: expo-image ^3.0.10 ✅ installed
+  - Replace Image with ExpoImage in exercise library
+  - Configure memory and disk cache
+  - Test with exercise thumbnails
 
-# 2. Delete backup branch (if everything works)
-git branch -D backup/pre-migration
-
-# 3. Update progress tracking
-# Mark Phase 0.5 Bis tasks as complete in TASKS.md
-
-# 4. Move to Phase 0.5 audit corrections
-# See Phase 0.5.D (8 critical corrections)
-```
-
-**Important Notes:**
-
-- **Daily development workflow unchanged** - Still use `npm start` + QR scan
-- **Rebuild only needed for native changes** - JS/TS changes still use hot reload
-- **EAS Build commands:**
-  - `eas build --profile development --platform android` - Rebuild dev client
-  - `eas build --profile production --platform android` - Production build (later)
-- **Documentation updated:** README.md, ARCHITECTURE.md, TECHNICAL.md already reflect new stack
-
----
-
-### 0.5.C: Infrastructure Completion (0/4)
-
-**Goal:** Install remaining libraries (in Development Build environment)
-
-**Note:** Task 0.5.2 (Supabase schema) is now part of migration (0.5.28) to avoid duplication.
-
-- [ ] 0.5.3 **Install and configure FlashList** (S - 1h)
-- [ ] 0.5.4 **Install and configure expo-image** (S - 1h)
-- [ ] 0.5.5 **Setup Sentry for error monitoring** (M - 2h)
-- [ ] 0.5.6 **Install simple-statistics for analytics** (S - 30min)
+- [ ] 0.5.5 **Configure Sentry for error monitoring** (M - 2h)
+  - Package: @sentry/react-native ~7.2.0 ✅ installed
+  - Setup Sentry project and DSN
+  - Configure error tracking and performance monitoring
+  - Test error reporting
 
 ---
 
 ### 0.5.D: Critical Corrections - Blockers (0/3)
 
-**Goal:** Fix critical issues that BLOCK Phase 1 (done in WatermelonDB + MMKV system)
+**Goal:** Complete store integration and error handling (infrastructure ready from 0.5.25)
 
-**Reference:** See [AUDIT_FIXES.md](./AUDIT_FIXES.md) for detailed implementation
+**Status:** MMKV infrastructure ✅ complete | Store integration ⏳ pending
 
-- [ ] 0.5.9 **User ID Persistence (in MMKV)** (M - 4h) 🔴
-  - Problem: User forgotten on app restart → data loss
-  - Fix: Persist user ID in MMKV (not AsyncStorage)
-  - Impact: BLOCKS Phase 1 auth
+- [ ] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
+  - **Problem:** User ID stored in memory only, lost on app restart
+  - **Impact:** User appears logged out, workouts orphaned, potential data loss
+  - **Infrastructure:** authPersistence.ts service ✅ created (0.5.25)
+  - **Solution:**
+    1. Add Zustand persist middleware to authStore.ts
+    2. Connect persistUser/clearPersistedUser service functions
+    3. Add initializeAuth() function to restore user on startup
+    4. Call initializeAuth() in \_layout.tsx
+  - **Files:** src/stores/auth/authStore.ts, src/app/\_layout.tsx
+  - **Validation:** User persists after app restart ✅
 
-- [ ] 0.5.10 **Zustand Persist Middleware (in MMKV)** (M - 2h) 🔴
-  - Problem: Workout state lost on crash
-  - Fix: Add persist middleware to workout store using MMKV
-  - Impact: BLOCKS workout logging
+- [ ] 0.5.10 **Zustand Persist for Workout Store** (S - 1h) 🔴 BLOCKS PHASE 2
+  - **Problem:** Active workout state lost on crash/close
+  - **Impact:** User loses workout progress (sets logged but appears not started)
+  - **Infrastructure:** zustandStorage.ts adapter ✅ created (0.5.25)
+  - **Solution:**
+    1. Add Zustand persist middleware to workoutStore.ts
+    2. Persist: isWorkoutActive, workoutStartTime, currentWorkoutId
+    3. Test: Start workout → Kill app → Relaunch → Workout still active
+  - **Files:** src/stores/workout/workoutStore.ts
+  - **Validation:** Workout survives app restart ✅
 
-- [ ] 0.5.11 **Error Handling Layer** (M - 3h) 🟠
-  - Problem: No proper error handling → bad UX
-  - Fix: Global error boundary + toast notifications
-  - Impact: Poor debugging experience
+- [ ] 0.5.11 **Error Handling Layer** (M - 3h) 🟠 IMPORTANT
+  - **Problem:** No try/catch in database operations, errors fail silently
+  - **Impact:** Difficult debugging, poor UX, no error tracking
+  - **Solution:**
+    1. Create custom error classes (DatabaseError, AuthError, ValidationError, SyncError)
+    2. Wrap all database operations with try/catch in workouts.ts
+    3. Validate user authentication before DB operations (use getPersistedUserId)
+    4. Create useErrorHandler hook for components
+  - **Files:** src/utils/errors.ts, src/services/database/workouts.ts, src/hooks/ui/useErrorHandler.ts
+  - **Validation:** Errors caught and displayed to user ✅
 
 ---
 
