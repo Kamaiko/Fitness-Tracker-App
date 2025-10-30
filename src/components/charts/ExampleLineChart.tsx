@@ -1,15 +1,13 @@
 /**
- * ExampleLineChart - Simple line chart using react-native-chart-kit
+ * ExampleLineChart - Simple line chart example
  *
- * Phase 0-2: Uses react-native-chart-kit (Expo Go compatible)
- * Phase 3+: Will migrate to Victory Native (requires Dev Client)
+ * Migrated from react-native-chart-kit to Victory Native (Development Build).
+ * Uses our LineChart abstraction layer for easy future migrations.
  *
  * This component serves as a mockup for analytics charts during MVP development.
  */
 
-import { LineChart } from 'react-native-chart-kit';
-import { View, Text, Dimensions } from 'react-native';
-import { Colors } from '@/constants';
+import { LineChart } from './LineChart';
 
 interface ExampleLineChartProps {
   data?: number[];
@@ -22,45 +20,5 @@ export function ExampleLineChart({
   labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   title = 'Weekly Progress',
 }: ExampleLineChartProps) {
-  const screenWidth = Dimensions.get('window').width;
-
-  return (
-    <View className="items-center">
-      {title && <Text className="text-lg font-semibold text-foreground mb-2">{title}</Text>}
-
-      <LineChart
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              data: data,
-            },
-          ],
-        }}
-        width={screenWidth - 48} // Full width minus padding
-        height={220}
-        chartConfig={{
-          backgroundColor: Colors.background.surface,
-          backgroundGradientFrom: Colors.background.surface,
-          backgroundGradientTo: Colors.background.elevated,
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(66, 153, 225, ${opacity})`, // primary color
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.7})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: Colors.primary.DEFAULT,
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-    </View>
-  );
+  return <LineChart data={data} labels={labels} title={title} smoothCurve={true} />;
 }
