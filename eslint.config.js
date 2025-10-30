@@ -9,7 +9,15 @@ const prettierConfig = require('eslint-config-prettier');
 module.exports = [
   // Ignore patterns
   {
-    ignores: ['node_modules/**', '.expo/**', 'dist/**', 'build/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      '.expo/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      '__mocks__/**', // Jest mocks (no type checking needed)
+      '**/*.manual-test.ts', // Manual test helpers (not Jest tests)
+    ],
   },
 
   // Base ESLint recommended rules
