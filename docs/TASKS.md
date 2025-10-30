@@ -16,24 +16,24 @@
 
 ### Recent Completions ✅
 
-1. **0.5.10** - Zustand Persist for Workout Store ✅
-2. **0.5.9** - User ID Persistence with Zustand Persist ✅
-3. **0.5.26** - Migrate Charts to Victory Native ✅
-4. **0.5.25** - Migrate Storage to MMKV ✅
-5. **0.5.24** - Migrate Database Operations to WatermelonDB ✅
+1. **0.5.10** - Zustand Persist for Workout Store
+2. **0.5.9** - User ID Persistence with Zustand Persist
+3. **0.5.26** - Migrate Charts to Victory Native
+4. **0.5.25** - Migrate Storage to MMKV
+5. **0.5.24** - Migrate Database Operations to WatermelonDB
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 6)                     | 🔨 DOING | ✅ DONE (Last 5)               |
-| ----------------------------------- | -------- | ------------------------------ |
-| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.10** Workout persist ✅  |
-| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.9** Auth persist ✅      |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.26** Victory Native ✅   |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.25** MMKV storage ✅     |
-| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.24** WatermelonDB ops ✅ |
-| **0.5.4** expo-image `[S]` 🟡       |          |                                |
+| 📝 TODO (Top 6)                     | 🔨 DOING | ✅ DONE (Last 5)            |
+| ----------------------------------- | -------- | --------------------------- |
+| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.10** Workout persist  |
+| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.9** Auth persist      |
+| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.26** Victory Native   |
+| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.25** MMKV storage     |
+| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.24** WatermelonDB ops |
+| **0.5.4** expo-image `[S]` 🟡       |          |                             |
 
 **Progress**: Phase 0.5: 15/27 (56%) • Overall: 15/97 (15%)
 **Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~3 weeks
