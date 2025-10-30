@@ -28,15 +28,15 @@
 
 | 📝 TODO (Top 5)                     | 🔨 DOING | ✅ DONE (Last 5)               |
 | ----------------------------------- | -------- | ------------------------------ |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.26** Victory Native ✅   |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.25** MMKV storage ✅     |
-| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.24** WatermelonDB ops ✅ |
-| **0.5.4** expo-image `[S]` 🟡       |          | **0.5.23.1** Critical Fixes ✅ |
-| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.23** WatermelonDB models |
+| **0.5.9** Auth persist `[M]` 🔴     |          | **0.5.26** Victory Native ✅   |
+| **0.5.10** Workout persist `[S]` 🔴 |          | **0.5.25** MMKV storage ✅     |
+| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.24** WatermelonDB ops ✅ |
+| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.23.1** Critical Fixes ✅ |
+| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.23** WatermelonDB models |
 
 **Progress**: Phase 0.5: 13/27 (48%) • Overall: 13/97 (13%)
 **Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~3 weeks
-**NEXT**: 0.5.27 Create Supabase Schema & Sync Functions ⚡
+**NEXT**: 0.5.9 Add Zustand Persist to authStore 🔴 PRIORITY
 
 ---
 
@@ -209,10 +209,9 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Updated sync.ts for WatermelonDB queries
 
 - [x] 0.5.25 **Migrate Storage to MMKV** (M - 1h) ✅
-  - Created mmkvStorage.ts (Nitro Modules API), zustandStorage.ts adapter
-  - Created authPersistence.ts service (infrastructure for Correction #1)
+  - Created mmkvStorage.ts (Nitro Modules API), zustandMMKVStorage.ts adapter
   - 10-30x performance improvement with native encryption
-  - Note: Store integration pending (see 0.5.9, 0.5.10)
+  - Note: Store integration pending (see 0.5.9 - Zustand persist approach)
 
 - [x] 0.5.26 **Migrate Charts to Victory Native** (M - 1h) ✅
   - Created LineChart.tsx and BarChart.tsx wrappers (library-agnostic interface)
@@ -275,24 +274,24 @@ Phase 6: Polish & Launch (0/9 tasks)
 - [ ] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
   - **Problem:** User ID stored in memory only, lost on app restart
   - **Impact:** User appears logged out, workouts orphaned, potential data loss
-  - **Infrastructure:** authPersistence.ts service ✅ created (0.5.25)
-  - **Solution:**
-    1. Add Zustand persist middleware to authStore.ts
-    2. Connect persistUser/clearPersistedUser service functions
-    3. Add initializeAuth() function to restore user on startup
-    4. Call initializeAuth() in \_layout.tsx
-  - **Files:** src/stores/auth/authStore.ts, src/app/\_layout.tsx
+  - **Solution:** Add Zustand persist middleware (2025 best practice)
+    - Import persist, createJSONStorage from zustand/middleware
+    - Wrap store: persist((set) => ({...}), {name, storage, partialize})
+    - Config: name='auth-storage', storage=zustandMMKVStorage
+    - Partialize: persist only {user, isAuthenticated}
+    - Add onRehydrateStorage error handling
+  - **Files:** src/stores/auth/authStore.ts
   - **Validation:** User persists after app restart ✅
 
 - [ ] 0.5.10 **Zustand Persist for Workout Store** (S - 1h) 🔴 BLOCKS PHASE 2
   - **Problem:** Active workout state lost on crash/close
   - **Impact:** User loses workout progress (sets logged but appears not started)
-  - **Infrastructure:** zustandStorage.ts adapter ✅ created (0.5.25)
-  - **Solution:**
-    1. Add Zustand persist middleware to workoutStore.ts
-    2. Persist: isWorkoutActive, workoutStartTime, currentWorkoutId
-    3. Test: Start workout → Kill app → Relaunch → Workout still active
+  - **Solution:** Add Zustand persist middleware
+    - Same pattern as authStore
+    - Config: name='workout-storage', storage=zustandMMKVStorage
+    - Persist: isWorkoutActive, workoutStartTime, currentWorkoutId
   - **Files:** src/stores/workout/workoutStore.ts
+  - **Test:** Start workout → Kill app → Reopen → Workout still active
   - **Validation:** Workout survives app restart ✅
 
 - [ ] 0.5.11 **Error Handling Layer** (M - 3h) 🟠 IMPORTANT
@@ -301,7 +300,7 @@ Phase 6: Polish & Launch (0/9 tasks)
   - **Solution:**
     1. Create custom error classes (DatabaseError, AuthError, ValidationError, SyncError)
     2. Wrap all database operations with try/catch in workouts.ts
-    3. Validate user authentication before DB operations (use getPersistedUserId)
+    3. Validate user auth: `useAuthStore.getState().user?.id` (no separate service needed)
     4. Create useErrorHandler hook for components
   - **Files:** src/utils/errors.ts, src/services/database/workouts.ts, src/hooks/ui/useErrorHandler.ts
   - **Validation:** Errors caught and displayed to user ✅

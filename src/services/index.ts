@@ -5,7 +5,7 @@
  *
  * USAGE:
  * import { supabase, database, createWorkout } from '@/services';
- * import { persistUser, mmkvStorage } from '@/services';
+ * import { mmkvStorage, zustandMMKVStorage } from '@/services';
  */
 
 // Auth

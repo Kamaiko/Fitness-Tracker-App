@@ -321,12 +321,29 @@ await synchronize({
 | **MMKV**         | Key-value data (local only)         | Auth tokens, preferences  | 30x > AsyncStorage | ✅ C++        |
 | **Zustand**      | Temporary UI state                  | `isWorkoutActive`, forms  | In-memory          | ❌            |
 
+**Integration with Zustand:**
+
+Zustand stores use MMKV for persistence via `zustandMMKVStorage` adapter:
+
+```typescript
+// src/stores/auth/authStore.ts
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { zustandMMKVStorage } from '@/services/storage';
+
+export const useAuthStore = create(
+  persist((set) => ({ user: null /* ... */ }), {
+    name: 'auth-storage',
+    storage: createJSONStorage(() => zustandMMKVStorage), // MMKV backend
+  })
+);
+```
+
 **Data Flow:**
 
 ```
-Auth tokens, settings → MMKV (encrypted, instant)
-Workouts, exercises   → WatermelonDB (reactive, synced)
-Active workout state  → Zustand (in-memory, temporary)
+Auth session, preferences → Zustand persist → MMKV (encrypted, instant)
+Workouts, exercises       → WatermelonDB (reactive, synced)
+Active workout state      → Zustand in-memory (ephemeral)
 ```
 
 **Benefits:**

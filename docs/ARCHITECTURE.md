@@ -266,7 +266,10 @@ stores/
 - Use Zustand for global state
 - Export both hook and types: `export { useAuthStore } from './authStore'`
 - Keep stores focused (single responsibility)
-- Use services for persistence, not stores directly
+- **Persistence strategy**:
+  - ✅ Simple state → Zustand `persist()` middleware (auth session, preferences)
+  - ✅ Cross-service validation → Use `useAuthStore.getState().user?.id` directly
+  - ❌ Complex/relational data → Use service layer (WatermelonDB operations)
 
 **Example**:
 

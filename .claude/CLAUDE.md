@@ -1,7 +1,7 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 4.1
-> **Last Updated**: 2025-10-29
+> **Version**: 4.2
+> **Last Updated**: 2025-01-30
 > **Purpose**: Project briefing and development guide
 
 ---
@@ -23,6 +23,8 @@
 - **Actionable insights**: Not just numbers - explains WHY and WHAT TO DO
 
 **Unlike competitors (Jefit/Strong/Hevy):** We explain context, not just show raw data.
+
+**Design Philosophy:** Halterofit draws inspiration from industry-leading fitness tracking apps like Jefit, particularly their robust offline-first architecture and comprehensive exercise tracking capabilities. We aim to match their reliability while adding our unique context-aware analytics layer.
 
 ---
 
@@ -132,6 +134,46 @@ After:  - [x] 0.5.20 Setup EAS Build Account & CLI
 **Key Principles:**
 - **TypeScript strict mode** - No `any` types
 - **100% offline-first** - All features work without internet
+
+---
+
+## 💬 Code Navigation & Comments
+
+Use structured comment tags to improve code navigation and maintainability:
+
+**Recommended Tags:**
+
+- `// TODO:` - Planned features or improvements
+  ```typescript
+  // TODO: Add biometric authentication for quick login (Phase 1)
+  ```
+
+- `// FIXME:` - Known issues that need attention
+  ```typescript
+  // FIXME: Race condition when rapidly toggling workout state
+  ```
+
+- `// NOTE:` - Important context or explanations
+  ```typescript
+  // NOTE: We use Zustand persist middleware instead of service layer for simple state
+  ```
+
+- `// HACK:` - Temporary workarounds (mark for refactoring)
+  ```typescript
+  // HACK: Temporary null check until WatermelonDB migration complete
+  ```
+
+**Benefits:**
+- IDE search functionality (`Cmd/Ctrl + F` for "TODO:")
+- Quick identification of technical debt
+- Clear communication of intent for future developers
+- Easy tracking of areas needing attention
+
+**Best Practices:**
+- Be specific in comments (bad: "fix this", good: "validate email format before Supabase call")
+- Link to TASKS.md task numbers when relevant: `// TODO(0.5.23): Migrate to Victory Native`
+- Remove obsolete comments during refactoring
+- Use comments to explain **why**, not **what** (code should be self-documenting for "what")
 
 ---
 
