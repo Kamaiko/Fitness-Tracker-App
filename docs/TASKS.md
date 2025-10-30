@@ -90,7 +90,7 @@ Phase 3: Exercise Library & Management (0/12 tasks)
    └─ Search & filters
         ↓
 Phase 4: Analytics & Insights (0/15 tasks)
-   ├─ Progress charts (react-native-chart-kit)
+   ├─ Progress charts (Victory Native)
    ├─ Volume tracking
    ├─ Plateau detection (Mann-Kendall)
    └─ Workout reports
@@ -110,15 +110,15 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time    | Status      | Dependencies                     |
-| --------- | ------ | ------------ | ----------- | -------------------------------- |
-| **0.5**   | 27     | 50-60h       | IN PROGRESS | None (started)                   |
-| **1**     | 15     | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
-| **2**     | 20     | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
-| **3**     | 9      | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
-| **4**     | 11     | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
-| **5**     | 15     | 40-50h       | BLOCKED     | ← Phase 4 analytics              |
-| **TOTAL** | **97** | **230-290h** | **7% done** | **12-15 weeks at 20h/week**      |
+| Phase     | Tasks  | Est. Time    | Status       | Dependencies                     |
+| --------- | ------ | ------------ | ------------ | -------------------------------- |
+| **0.5**   | 27     | 50-60h       | IN PROGRESS  | None (started)                   |
+| **1**     | 15     | 25-30h       | BLOCKED      | ← Phase 0.5 migration + blockers |
+| **2**     | 20     | 50-60h       | BLOCKED      | ← Phase 1 auth                   |
+| **3**     | 9      | 30-40h       | BLOCKED      | ← Phase 2 workout core           |
+| **4**     | 11     | 35-45h       | BLOCKED      | ← Phase 3 exercise library       |
+| **5**     | 15     | 40-50h       | BLOCKED      | ← Phase 4 analytics              |
+| **TOTAL** | **97** | **230-290h** | **11% done** | **12-15 weeks at 20h/week**      |
 
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
@@ -131,10 +131,11 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **Progress:** 11/27 tasks (41%) | **Est. Time Remaining:** 34-42h
 
-**Current Stack:** Expo Go (expo-sqlite + AsyncStorage + react-native-chart-kit)
-**Target Stack:** Development Build (WatermelonDB + MMKV + Victory Native)
+**Current Stack:** Development Build (WatermelonDB ✅ + AsyncStorage + react-native-chart-kit)
+**Target Stack:** Development Build (WatermelonDB ✅ + MMKV + Victory Native)
 
-**Why migrate NOW:** Codebase is small (6% complete). Migrating now avoids rewriting 40-60% of code later.
+**Migration Status:** Database ✅ | Storage ⏳ | Charts ⏳ | Supabase Sync ⏳
+**Why migrate NOW:** Codebase is small (11% complete). Migrating now avoids rewriting 40-60% of code later.
 
 ---
 
@@ -600,7 +601,7 @@ git branch -D backup/pre-migration
   - Current exercise
   - Sets logged
   - Rest timer state
-  - Auto-save to expo-sqlite
+  - Auto-save to WatermelonDB
 
   Include:
   - Actions for starting/ending workout
@@ -661,8 +662,8 @@ git branch -D backup/pre-migration
   - Calendar view (optional)
 
   Uses:
-  - expo-sqlite queries for reactive UI
-  - Pagination with LIMIT/OFFSET
+  - WatermelonDB reactive queries with .observe()
+  - Pagination with Q.take/Q.skip
   ```
 
 - [ ] 6.5 Create workout detail/summary screen (M - 3h) `[src/app/(tabs)/workout/[id].tsx]`
@@ -691,7 +692,7 @@ git branch -D backup/pre-migration
   - Quick add button (no need to go back)
 
   Data source:
-  - expo-sqlite local exercises table
+  - WatermelonDB local exercises table
   - No API calls (data already seeded from ExerciseDB)
   ```
 
@@ -702,7 +703,7 @@ git branch -D backup/pre-migration
   - Full-text search on exercise name, muscle groups
   - Fuzzy matching (typos)
   - Ranking: exact match > starts with > contains
-  - expo-sqlite raw SQL for custom queries if needed
+  - WatermelonDB Q.where() with Q.like() for pattern matching
   ```
 
 - [ ] 7.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
@@ -772,7 +773,7 @@ git branch -D backup/pre-migration
 - [ ] 9.1 Implement "Start Empty Workout" (S - 2h)
 
   ```
-  - Create new workout in expo-sqlite
+  - Create new workout in WatermelonDB
   - Navigate to active workout screen
   - User adds exercises as they go
   ```
@@ -889,7 +890,7 @@ Reference: See task 0.5.18 for details
   - Fetch all exercises from API (1,300+ exercises)
   - Transform to our schema (match exercises table)
   - Bulk insert to Supabase exercises table
-  - Sync to local expo-sqlite
+  - Sync to local WatermelonDB
   - Mark as is_custom = false
 
   Script:
@@ -904,7 +905,7 @@ Reference: See task 0.5.18 for details
   ```
   Features:
   - FlashList for performance (500+ items)
-  - Search bar (real-time, local expo-sqlite query)
+  - Search bar (real-time, local WatermelonDB query)
   - Filters: Muscle group, Equipment, Difficulty
   - Show exercise GIF thumbnail (expo-image with caching)
   - Tap to view details
@@ -941,7 +942,7 @@ Reference: See task 0.5.18 for details
 
   Saved to:
   - Supabase exercises table
-  - expo-sqlite local
+  - WatermelonDB local
   ```
 
 - [ ] 12.2 Add exercise images/videos (optional for custom) (M - 3h)
@@ -967,7 +968,7 @@ Reference: See task 0.5.18 for details
   Implementation:
   - Bottom sheet modal
   - Multiple selection (checkboxes)
-  - Apply filters to expo-sqlite query
+  - Apply filters to WatermelonDB query
   - Show active filter count badge
   ```
 
@@ -977,7 +978,7 @@ Reference: See task 0.5.18 for details
 
   ```
   For selected exercise, show:
-  - Chart: Weight progression over time (react-native-chart-kit)
+  - Chart: Weight progression over time (Victory Native)
   - Chart: Volume progression (sets × reps × weight)
   - List: Last 10 workouts with this exercise
   - Personal records: Max weight, Max reps, Max volume
@@ -1007,14 +1008,14 @@ Reference: See task 0.5.18 for details
 
   ```
   Sections:
-  - Weekly volume chart (bar chart - react-native-chart-kit)
+  - Weekly volume chart (bar chart - Victory Native)
   - Strength progression (line chart - selected exercises)
   - Workout frequency (calendar heatmap)
   - Personal records (list with badges)
   - Body part split (pie chart or bars)
 
-  Charts library: react-native-chart-kit (Expo Go compatible)
-  Data source: expo-sqlite aggregation queries
+  Charts library: Victory Native (professional charts)
+  Data source: WatermelonDB aggregation queries
   ```
 
 - [ ] 13.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
@@ -1028,7 +1029,7 @@ Reference: See task 0.5.18 for details
   - Compound vs isolation volume (1.5x multiplier for compounds)
   - Acute Load (7-day), Chronic Load (28-day), Fatigue Ratio
 
-  Store aggregated data in expo-sqlite for performance
+  Store aggregated data in WatermelonDB for performance
   ```
 
 - [ ] 13.3 Add strength progression charts (M - 4h) `[src/components/analytics/StrengthChart.tsx]`
@@ -1039,7 +1040,7 @@ Reference: See task 0.5.18 for details
   - Y-axis: Weight or Estimated 1RM
   - Show trend line (linear regression)
   - Highlight PRs with markers
-  - Pinch to zoom (react-native-chart-kit or manual implementation)
+  - Pinch to zoom (Victory Native gestures)
   ```
 
 ### 14. Advanced Analytics (Science-Based)
@@ -1186,7 +1187,7 @@ Reference: See task 0.5.18 for details
   ```
   - Profile app launch with Sentry Performance
   - Defer non-critical initialization
-  - Optimize expo-sqlite initial queries
+  - Optimize WatermelonDB initial queries
   - Use skeleton screens during load
   - Target: <2s cold start
   ```
@@ -1241,8 +1242,8 @@ Reference: See task 0.5.18 for details
   - "Delete My Account" button (destructive action)
   - Confirmation dialog with warnings
   - Delete all data from Supabase (cascades via foreign keys)
-  - Clear expo-sqlite local database
-  - Clear AsyncStorage
+  - Clear WatermelonDB local database
+  - Clear AsyncStorage (or MMKV when migrated)
   - Sign out user
 
   See TECHNICAL.md § Compliance code examples
