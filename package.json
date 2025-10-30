@@ -21,7 +21,6 @@
   "dependencies": {
     "@nozbe/watermelondb": "^0.28.0",
     "@nozbe/with-observables": "^1.6.0",
-    "@react-native-async-storage/async-storage": "^2.2.0",
     "@sentry/react-native": "~7.2.0",
     "@shopify/flash-list": "2.0.2",
     "@shopify/react-native-skia": "2.2.12",
@@ -60,7 +59,6 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "@nozbe/watermelondb": "^0.25.5",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "29.5.14",
     "@types/react": "~19.1.10",

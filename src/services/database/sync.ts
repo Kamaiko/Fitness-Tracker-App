@@ -259,10 +259,10 @@ export async function getSyncStatus(): Promise<SyncStatus> {
     .query(Q.where('synced', false))
     .fetchCount();
 
-  // TODO: Store last sync timestamp in AsyncStorage
+  // TODO: Store last sync timestamp in MMKV
   return {
     isOnline: true, // TODO: Check actual connectivity
-    lastSync: null, // TODO: Get from AsyncStorage
+    lastSync: null, // TODO: Get from MMKV
     pendingWorkouts: pendingWorkoutsQuery,
     pendingSets: pendingSetsQuery,
   };
