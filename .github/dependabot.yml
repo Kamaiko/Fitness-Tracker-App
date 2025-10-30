@@ -1,13 +1,44 @@
+# Dependabot Configuration - Halterofit (SIMPLE VERSION)
+# Philosophy: Keep It Simple, Stupid
+
 version: 2
 updates:
-  # Enable version updates for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
-    # Group all dependencies into a single PR for easier review
+      day: "monday"
+
+    open-pull-requests-limit: 5
+
     groups:
-      dependencies:
+      # Dev dependencies - Safe to merge quickly
+      dev-dependencies:
+        patterns:
+          - "@types/*"
+          - "@typescript-eslint/*"
+          - "eslint*"
+          - "prettier"
+          - "lint-staged"
+          - "husky"
+          - "@commitlint/*"
+          - "jest*"
+          - "@testing-library/*"
+
+      # Runtime dependencies - Review required
+      # Excludes critical packages (separate PRs)
+      runtime:
         patterns:
           - "*"
+        exclude-patterns:
+          - "expo"
+          - "expo-*"
+          - "react"
+          - "react-native"
+          - "@nozbe/watermelondb"
+
+    # Critical packages get individual PRs
+    # (No grouping = easier to review one by one)
+
+    commit-message:
+      prefix: "chore(deps)"
