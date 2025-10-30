@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 8/98 tasks (8%) • ![](https://img.shields.io/badge/Progress-8%25-red)
+**Progress**: 7/97 tasks (7%) • ![](https://img.shields.io/badge/Progress-7%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-29 • **Next Milestone**: Development Build Migration (10 tasks)
 
@@ -11,7 +11,7 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 8/28 tasks (29%) • **Overall**: 8/98 tasks (8%)
+**Phase Progress**: 7/27 tasks (26%) • **Overall**: 7/97 tasks (7%)
 **Critical Blockers**: None • **Velocity**: ~3 tasks/week (estimated)
 
 ### Recent Completions ✅
@@ -34,7 +34,7 @@
 | **0.5.25** Migrate to WatermelonDB `[L]` 🟠 |          | **0.5.17** Dev tools       |
 | **0.5.26** Install MMKV `[M]` 🟠            |          | **0.5.8** Audit analysis   |
 
-**Progress**: Phase 0.5: 8/28 (29%) • Overall: 8/98 (8%)
+**Progress**: Phase 0.5: 7/27 (26%) • Overall: 7/97 (7%)
 **Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
 **NEXT**: 0.5.22 Build Development Build ⚡
 
@@ -45,20 +45,19 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (8/28)](#phase-05-architecture--foundation-828)
-5. [Phase 1: Authentication & Foundation (0/14)](#phase-1-authentication--foundation-014)
-6. [Phase 2: Workout Logging (0/18)](#phase-2-workout-logging-018)
-7. [Phase 3: Exercise Library & Testing (0/12)](#phase-3-exercise-library--testing-012)
-8. [Phase 4: Analytics & Smart Features (0/15)](#phase-4-analytics--smart-features-015)
-9. [Phase 5: Polish, Monitoring & Beta Launch (0/18)](#phase-5-polish-monitoring--beta-launch-018)
-10. [Task Size Estimates & Priority Levels](#task-size-estimates--priority-levels)
+4. [Phase 0.5: Architecture & Foundation (7/27)](#phase-05-architecture--foundation-727)
+5. [Phase 1: Authentication & Foundation (0/15)](#phase-1-authentication--foundation-015)
+6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
+7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
+8. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
+9. [Phase 5: Polish, Monitoring & Beta Launch (0/15)](#phase-5-polish-monitoring--beta-launch-015)
 
 ---
 
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (6/28 tasks)
+Phase 0.5: Architecture & Foundation (7/27 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ Architecture refactor ✅
@@ -109,25 +108,24 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 | Phase     | Tasks  | Est. Time    | Status      | Dependencies                     |
 | --------- | ------ | ------------ | ----------- | -------------------------------- |
-| **0.5**   | 28     | 50-60h       | IN PROGRESS | None (started)                   |
-| **1**     | 14     | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
-| **2**     | 18     | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
-| **3**     | 12     | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
-| **4**     | 15     | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
+| **0.5**   | 27     | 50-60h       | IN PROGRESS | None (started)                   |
+| **1**     | 15     | 25-30h       | BLOCKED     | ← Phase 0.5 migration + blockers |
+| **2**     | 20     | 50-60h       | BLOCKED     | ← Phase 1 auth                   |
+| **3**     | 9      | 30-40h       | BLOCKED     | ← Phase 2 workout core           |
+| **4**     | 11     | 35-45h       | BLOCKED     | ← Phase 3 exercise library       |
 | **5**     | 15     | 40-50h       | BLOCKED     | ← Phase 4 analytics              |
-| **6**     | 9      | 20-25h       | BLOCKED     | ← Phase 5 advanced features      |
-| **TOTAL** | **98** | **250-310h** | **6% done** | **16 weeks at 20h/week**         |
+| **TOTAL** | **97** | **230-290h** | **7% done** | **12-15 weeks at 20h/week**      |
 
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
 ---
 
-## Phase 0.5: Architecture & Foundation (8/28)
+## Phase 0.5: Architecture & Foundation (7/27)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 8/28 tasks (29%) | **Est. Time Remaining:** 40-50h
+**Progress:** 7/27 tasks (26%) | **Est. Time Remaining:** 40-50h
 
 **Current Stack:** Expo Go (expo-sqlite + AsyncStorage + react-native-chart-kit)
 **Target Stack:** Development Build (WatermelonDB + MMKV + Victory Native)
@@ -136,7 +134,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.A: Initial Setup & Analysis (6/6) ✅ COMPLETE
+### 0.5.A: Initial Setup & Analysis (5/5) ✅ COMPLETE
 
 - [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
 - [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
@@ -393,7 +391,7 @@ git branch -D backup/pre-migration
 
 ---
 
-## Phase 1: Authentication & Foundation (0/14)
+## Phase 1: Authentication & Foundation (0/15)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
@@ -545,14 +543,14 @@ git branch -D backup/pre-migration
 
 ---
 
-## Phase 2: Workout Logging (0/28)
+## Phase 2: Workout Logging (0/20)
 
 **Timeline:** Weeks 6-8 | **Priority:** HIGH
 **Goal:** Core workout logging functionality with excellent UX
 
-### 5. Workout Session Core
+### 6. Workout Session Core
 
-- [ ] 5.1 Update workout session state management (M - 3h) `[src/stores/workoutStore.ts]`
+- [ ] 6.1 Update workout session state management (M - 3h) `[src/stores/workoutStore.ts]`
 
   ```
   State to manage:
@@ -569,7 +567,7 @@ git branch -D backup/pre-migration
   - Selectors for workout statistics
   ```
 
-- [ ] 5.2 Design workout active screen (L - 8h) `[src/app/(tabs)/workout/active.tsx]` `[CRITICAL UX]`
+- [ ] 6.2 Design workout active screen (L - 8h) `[src/app/(tabs)/workout/active.tsx]` `[CRITICAL UX]`
 
   ```
   Features:
@@ -591,7 +589,7 @@ git branch -D backup/pre-migration
   - WorkoutSummary
   ```
 
-- [ ] 5.3 Implement rest timer with notifications (M - 4h) `[src/components/workout/RestTimer.tsx]`
+- [ ] 6.3 Implement rest timer with notifications (M - 4h) `[src/components/workout/RestTimer.tsx]`
 
   ```
   Features:
@@ -609,7 +607,7 @@ git branch -D backup/pre-migration
   - expo-background-fetch (keep timer alive)
   ```
 
-- [ ] 5.4 Create workout history screen (M - 4h) `[src/app/(tabs)/workout/history.tsx]`
+- [ ] 6.4 Create workout history screen (M - 4h) `[src/app/(tabs)/workout/history.tsx]`
 
   ```
   Features:
@@ -625,7 +623,7 @@ git branch -D backup/pre-migration
   - Pagination with LIMIT/OFFSET
   ```
 
-- [ ] 5.5 Create workout detail/summary screen (M - 3h) `[src/app/(tabs)/workout/[id].tsx]`
+- [ ] 6.5 Create workout detail/summary screen (M - 3h) `[src/app/(tabs)/workout/[id].tsx]`
   ```
   Shows:
   - Workout date, duration
@@ -636,9 +634,9 @@ git branch -D backup/pre-migration
   - Actions: Repeat workout, Edit, Delete, Share
   ```
 
-### 6. Exercise Selection & Management
+### 7. Exercise Selection & Management
 
-- [ ] 6.1 Create exercise selection modal (L - 6h) `[src/components/workout/ExerciseSelector.tsx]` `[CRITICAL UX]`
+- [ ] 7.1 Create exercise selection modal (L - 6h) `[src/components/workout/ExerciseSelector.tsx]` `[CRITICAL UX]`
 
   ```
   Features:
@@ -655,7 +653,7 @@ git branch -D backup/pre-migration
   - No API calls (data already seeded from ExerciseDB)
   ```
 
-- [ ] 6.2 Implement search algorithm (M - 3h) `[src/utils/search.ts]`
+- [ ] 7.2 Implement search algorithm (M - 3h) `[src/utils/search.ts]`
 
   ```
   Search strategy:
@@ -665,7 +663,7 @@ git branch -D backup/pre-migration
   - expo-sqlite raw SQL for custom queries if needed
   ```
 
-- [ ] 6.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
+- [ ] 7.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
   ```
   - Store favorited exercise IDs in AsyncStorage (simple array)
   - Toggle favorite function
@@ -673,9 +671,9 @@ git branch -D backup/pre-migration
   - Zustand store for reactive UI
   ```
 
-### 7. Set Logging Interface
+### 8. Set Logging Interface
 
-- [ ] 7.1 Create set logging component (L - 6h) `[src/components/workout/SetLogger.tsx]` `[CRITICAL UX]`
+- [ ] 8.1 Create set logging component (L - 6h) `[src/components/workout/SetLogger.tsx]` `[CRITICAL UX]`
 
   ```
   Design (minimize taps):
@@ -688,7 +686,7 @@ git branch -D backup/pre-migration
   See TECHNICAL.md UX Best Practices § Quick Set Logging
   ```
 
-- [ ] 7.2 Implement RPE tracking system (M - 3h) `[src/components/workout/RPESelector.tsx]`
+- [ ] 8.2 Implement RPE tracking system (M - 3h) `[src/components/workout/RPESelector.tsx]`
 
   ```
   - Scale 1-10 (visual buttons)
@@ -697,7 +695,7 @@ git branch -D backup/pre-migration
   - Color-coded (green 1-5, yellow 6-7, orange 8-9, red 10)
   ```
 
-- [ ] 7.3 Implement RIR tracking (non-intrusive UX) (M - 3h) `[src/components/workout/RIRTracker.tsx]`
+- [ ] 8.3 Implement RIR tracking (non-intrusive UX) (M - 3h) `[src/components/workout/RIRTracker.tsx]`
 
   ```
   Options (see TECHNICAL.md UX section):
@@ -708,7 +706,7 @@ git branch -D backup/pre-migration
   Scale 0-5 (0 = failure, 5 = easy)
   ```
 
-- [ ] 7.4 Add set history display (M - 3h) `[src/components/workout/SetHistory.tsx]`
+- [ ] 8.4 Add set history display (M - 3h) `[src/components/workout/SetHistory.tsx]`
 
   ```
   Shows below current set input:
@@ -718,7 +716,7 @@ git branch -D backup/pre-migration
   - Helps user choose progressive overload
   ```
 
-- [ ] 7.5 Implement auto-suggestions for weight/reps (M - 4h)
+- [ ] 8.5 Implement auto-suggestions for weight/reps (M - 4h)
   ```
   Logic:
   - If last workout RIR = 0-1 → Suggest +2.5kg
@@ -727,9 +725,9 @@ git branch -D backup/pre-migration
   - Show suggestion subtly (not forcing)
   ```
 
-### 8. Workout Management Features
+### 9. Workout Management Features
 
-- [ ] 8.1 Implement "Start Empty Workout" (S - 2h)
+- [ ] 9.1 Implement "Start Empty Workout" (S - 2h)
 
   ```
   - Create new workout in expo-sqlite
@@ -737,7 +735,7 @@ git branch -D backup/pre-migration
   - User adds exercises as they go
   ```
 
-- [ ] 8.2 Implement "Repeat Last Workout" (M - 3h)
+- [ ] 9.2 Implement "Repeat Last Workout" (M - 3h)
 
   ```
   - Fetch last workout for selected exercise or full workout
@@ -746,7 +744,7 @@ git branch -D backup/pre-migration
   - Show comparison with last time
   ```
 
-- [ ] 8.3 Create workout templates (L - 6h) `[src/app/(tabs)/workout/templates.tsx]`
+- [ ] 9.3 Create workout templates (L - 6h) `[src/app/(tabs)/workout/templates.tsx]`
 
   ```
   - Save current workout as template
@@ -758,7 +756,7 @@ git branch -D backup/pre-migration
   Uses workout_templates tables (see schema)
   ```
 
-- [ ] 8.4 Implement workout notes (S - 2h) `[src/components/workout/NotesInput.tsx]`
+- [ ] 9.4 Implement workout notes (S - 2h) `[src/components/workout/NotesInput.tsx]`
 
   ```
   - Text area for workout notes
@@ -767,7 +765,7 @@ git branch -D backup/pre-migration
   - Also per-set notes (exercise_sets.notes)
   ```
 
-- [ ] 8.5 Add workout duration timer (S - 2h) `[src/components/workout/WorkoutTimer.tsx]`
+- [ ] 9.5 Add workout duration timer (S - 2h) `[src/components/workout/WorkoutTimer.tsx]`
 
   ```
   - Start when workout starts (workouts.started_at)
@@ -776,7 +774,7 @@ git branch -D backup/pre-migration
   - Save total duration on workout end
   ```
 
-- [ ] 8.6 **Implement Plate Calculator** (M - 4h) `[src/utils/plateCalculator.ts + Modal]` `[ESSENTIAL FEATURE]`
+- [ ] 9.6 **Implement Plate Calculator** (M - 4h) `[src/utils/plateCalculator.ts + Modal]` `[ESSENTIAL FEATURE]`
 
   ```
   Feature:
@@ -789,7 +787,7 @@ git branch -D backup/pre-migration
   See TECHNICAL.md UX Best Practices § Plate Calculator
   ```
 
-- [ ] 8.7 Add quick weight change buttons (S - 2h)
+- [ ] 9.7 Add quick weight change buttons (S - 2h)
   ```
   - Buttons: +5kg, +2.5kg, -2.5kg, -5kg (or lbs equivalent)
   - Located around weight input
@@ -799,29 +797,27 @@ git branch -D backup/pre-migration
 
 ---
 
-## Phase 3: Exercise Library & Testing (0/12)
+## Phase 3: Exercise Library & Testing (0/9)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
 
-### 8. Automated Testing
+### 10. Automated Testing
 
 **Note:** Jest infrastructure already setup in Phase 0.5 (task 0.5.18) ✅
 
-- [x] 8.1 **Setup Jest and React Native Testing Library** (M - 2h) ✅
+```
+COMPLETED in Phase 0.5 (task 0.5.18):
+- ✅ Installed Jest + React Native Testing Library
+- ✅ Configured jest.config.js with jest-expo preset
+- ✅ Created jest.setup.js with Expo mocks
+- ✅ Added test scripts to package.json
+- ✅ Created 3 example test files (7 tests passing)
 
-  ```
-  COMPLETED in Phase 0.5 (task 0.5.18):
-  - ✅ Installed Jest + React Native Testing Library
-  - ✅ Configured jest.config.js with jest-expo preset
-  - ✅ Created jest.setup.js with Expo mocks
-  - ✅ Added test scripts to package.json
-  - ✅ Created 3 example test files (7 tests passing)
+Reference: See task 0.5.18 for details
+```
 
-  Reference: See task 0.5.18 for details
-  ```
-
-- [ ] 8.2 **Write unit tests for critical features** (L - 6h)
+- [ ] 10.1 **Write unit tests for critical features** (L - 6h)
 
   ```
   Priority areas (60% coverage target):
@@ -841,9 +837,9 @@ git branch -D backup/pre-migration
   Note: Jest infrastructure ready, just write the tests
   ```
 
-### 9. ExerciseDB API Integration
+### 11. ExerciseDB API Integration
 
-- [ ] 9.1 **Integrate ExerciseDB API and seed Supabase** (L - 6h) `[CRITICAL TIME SAVER]`
+- [ ] 11.1 **Integrate ExerciseDB API and seed Supabase** (L - 6h) `[CRITICAL TIME SAVER]`
 
   ```
   Tasks:
@@ -861,7 +857,7 @@ git branch -D backup/pre-migration
   Time saved: 100-200 hours vs manual creation
   ```
 
-- [ ] 9.2 Design exercise list screen (M - 4h) `[src/app/(tabs)/exercises/index.tsx]`
+- [ ] 11.2 Design exercise list screen (M - 4h) `[src/app/(tabs)/exercises/index.tsx]`
 
   ```
   Features:
@@ -873,7 +869,7 @@ git branch -D backup/pre-migration
   - Quick add to workout button
   ```
 
-- [ ] 9.3 Create exercise detail screen (M - 4h) `[src/app/(tabs)/exercises/[id].tsx]`
+- [ ] 11.3 Create exercise detail screen (M - 4h) `[src/app/(tabs)/exercises/[id].tsx]`
   ```
   Shows:
   - Exercise name
@@ -886,9 +882,9 @@ git branch -D backup/pre-migration
   - Actions: Add to favorites, Add to workout, View history
   ```
 
-### 10. Custom Exercises & Management
+### 12. Custom Exercises & Management
 
-- [ ] 10.1 Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
+- [ ] 12.1 Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
 
   ```
   Form:
@@ -906,7 +902,7 @@ git branch -D backup/pre-migration
   - expo-sqlite local
   ```
 
-- [ ] 10.2 Add exercise images/videos (optional for custom) (M - 3h)
+- [ ] 12.2 Add exercise images/videos (optional for custom) (M - 3h)
 
   ```
   - Upload to Supabase Storage
@@ -916,7 +912,7 @@ git branch -D backup/pre-migration
   - Display in exercise detail screen
   ```
 
-- [ ] 10.3 Create exercise filters (M - 3h) `[src/components/exercises/FilterPanel.tsx]`
+- [ ] 12.3 Create exercise filters (M - 3h) `[src/components/exercises/FilterPanel.tsx]`
 
   ```
   Filters:
@@ -933,9 +929,9 @@ git branch -D backup/pre-migration
   - Show active filter count badge
   ```
 
-### 11. Exercise History & Analytics
+**Section removed - tasks renumbered above**
 
-- [ ] 11.1 Show exercise history (M - 4h) `[src/components/exercises/ExerciseHistory.tsx]`
+- [ ] 12.4 Show exercise history (M - 4h) `[src/components/exercises/ExerciseHistory.tsx]`
 
   ```
   For selected exercise, show:
@@ -946,7 +942,7 @@ git branch -D backup/pre-migration
   - Average RPE/RIR
   ```
 
-- [ ] 11.2 Implement progression tracking (M - 4h)
+- [ ] 12.5 Implement progression tracking (M - 4h)
   ```
   Calculate and display:
   - Week-over-week change (%)
@@ -958,14 +954,14 @@ git branch -D backup/pre-migration
 
 ---
 
-## Phase 4: Analytics & Smart Features (0/15)
+## Phase 4: Analytics & Smart Features (0/11)
 
 **Timeline:** Weeks 11-12 | **Priority:** HIGH
 **MAJOR CHANGES:** Enhanced with context-aware analytics, load management, personalized 1RM, workout reports
 
-### 12. Progress Dashboard
+### 13. Progress Dashboard
 
-- [ ] 12.1 Create analytics dashboard (L - 6h) `[src/app/(tabs)/analytics/index.tsx]`
+- [ ] 13.1 Create analytics dashboard (L - 6h) `[src/app/(tabs)/analytics/index.tsx]`
 
   ```
   Sections:
@@ -979,7 +975,7 @@ git branch -D backup/pre-migration
   Data source: expo-sqlite aggregation queries
   ```
 
-- [ ] 12.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
+- [ ] 13.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
 
   ```
   Calculations (see TECHNICAL.md Analytics section):
@@ -993,7 +989,7 @@ git branch -D backup/pre-migration
   Store aggregated data in expo-sqlite for performance
   ```
 
-- [ ] 12.3 Add strength progression charts (M - 4h) `[src/components/analytics/StrengthChart.tsx]`
+- [ ] 13.3 Add strength progression charts (M - 4h) `[src/components/analytics/StrengthChart.tsx]`
   ```
   Features:
   - Select exercise(s) to compare
@@ -1004,9 +1000,9 @@ git branch -D backup/pre-migration
   - Pinch to zoom (react-native-chart-kit or manual implementation)
   ```
 
-### 13. Advanced Analytics (Science-Based)
+### 14. Advanced Analytics (Science-Based)
 
-- [ ] 13.1 **Implement context-aware plateau detection** (M - 5h) `[src/lib/analytics/plateau.ts]` `[CRITICAL]`
+- [ ] 14.1 **Implement context-aware plateau detection** (M - 5h) `[src/lib/analytics/plateau.ts]` `[CRITICAL]`
 
   ```
   Algorithm (see TECHNICAL.md):
@@ -1022,7 +1018,7 @@ git branch -D backup/pre-migration
   Science-based statistical analysis, NOT AI/ML
   ```
 
-- [ ] 13.2 Implement load management system (M - 4h) `[src/lib/analytics/loadManagement.ts]` `[NEW - CRITICAL]`
+- [ ] 14.2 Implement load management system (M - 4h) `[src/lib/analytics/loadManagement.ts]` `[NEW - CRITICAL]`
 
   ```
   Metrics from sports science literature:
@@ -1037,7 +1033,7 @@ git branch -D backup/pre-migration
   Display in dashboard and post-workout reports
   ```
 
-- [ ] 13.3 Implement personalized 1RM with RIR adjustment (M - 3h) `[src/lib/analytics/personalized1RM.ts]` `[NEW]`
+- [ ] 14.3 Implement personalized 1RM with RIR adjustment (M - 3h) `[src/lib/analytics/personalized1RM.ts]` `[NEW]`
 
   ```
   Enhancement over basic formulas:
@@ -1050,7 +1046,7 @@ git branch -D backup/pre-migration
   Compare PRs using adjusted 1RM, not just raw weight
   ```
 
-- [ ] 13.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
+- [ ] 14.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
 
   ```
   Analysis:
@@ -1062,7 +1058,7 @@ git branch -D backup/pre-migration
   - Contextualize by nutrition phase
   ```
 
-- [ ] 13.5 Add workout frequency & consistency analysis (M - 3h)
+- [ ] 14.5 Add workout frequency & consistency analysis (M - 3h)
   ```
   Metrics:
   - Workouts per week (average, trend, by nutrition phase)
@@ -1073,9 +1069,9 @@ git branch -D backup/pre-migration
   - Session completion rate (started vs finished)
   ```
 
-### 14. Performance Feedback & Reports
+### 15. Performance Feedback & Reports
 
-- [ ] 14.1 **Create post-workout report system** (L - 6h) `[src/components/analytics/WorkoutReport.tsx]` `[NEW - CRITICAL]`
+- [ ] 15.1 **Create post-workout report system** (L - 6h) `[src/components/analytics/WorkoutReport.tsx]` `[NEW - CRITICAL]`
 
   ```
   Displayed immediately after "End Workout":
@@ -1095,7 +1091,7 @@ git branch -D backup/pre-migration
   Keep it concise (3-4 lines max), actionable, science-based
   ```
 
-- [ ] 14.2 **Create weekly summary system** (L - 5h) `[src/components/analytics/WeeklySummary.tsx]` `[NEW]`
+- [ ] 15.2 **Create weekly summary system** (L - 5h) `[src/components/analytics/WeeklySummary.tsx]` `[NEW]`
 
   ```
   Generated every Monday morning (background task):
@@ -1109,7 +1105,7 @@ git branch -D backup/pre-migration
   Push notification: "Your Weekly Summary is ready!"
   ```
 
-- [ ] 14.3 Add context-aware weight suggestions (M - 4h) `[src/lib/suggestions/weightSuggestions.ts]`
+- [ ] 15.3 Add context-aware weight suggestions (M - 4h) `[src/lib/suggestions/weightSuggestions.ts]`
 
   ```
   Science-based rules (NOT AI):
@@ -1125,14 +1121,14 @@ git branch -D backup/pre-migration
 
 ---
 
-## Phase 5: Polish, Monitoring & Beta Launch (0/18)
+## Phase 5: Polish, Monitoring & Beta Launch (0/15)
 
 **Timeline:** Weeks 13-14 | **Priority:** HIGH
 **ADDED:** Security, monitoring, compliance requirements
 
-### 15. Performance Optimization
+### 16. Performance Optimization
 
-- [ ] 15.1 Optimize bundle size (M - 3h)
+- [ ] 16.1 Optimize bundle size (M - 3h)
 
   ```
   - Run react-native-bundle-visualizer
@@ -1143,7 +1139,7 @@ git branch -D backup/pre-migration
   - Target: <10MB bundle size
   ```
 
-- [ ] 15.2 Improve cold start time (M - 3h)
+- [ ] 16.2 Improve cold start time (M - 3h)
 
   ```
   - Profile app launch with Sentry Performance
@@ -1153,7 +1149,7 @@ git branch -D backup/pre-migration
   - Target: <2s cold start
   ```
 
-- [ ] 15.3 Add offline functionality verification (M - 2h)
+- [ ] 16.3 Add offline functionality verification (M - 2h)
 
   ```
   Test scenarios:
@@ -1167,9 +1163,9 @@ git branch -D backup/pre-migration
   - User notified when sync completes
   ```
 
-### 16. Security & Compliance `[REQUIRED FOR APP STORE]`
+### 17. Security & Compliance `[REQUIRED FOR APP STORE]`
 
-- [ ] 16.1 **Create Privacy Policy** (M - 3h) `[REQUIRED]`
+- [ ] 17.1 **Create Privacy Policy** (M - 3h) `[REQUIRED]`
 
   ```
   Must include:
@@ -1183,7 +1179,7 @@ git branch -D backup/pre-migration
   Link in app settings + login/register screens
   ```
 
-- [ ] 16.2 **Create Terms of Service** (M - 2h) `[REQUIRED]`
+- [ ] 17.2 **Create Terms of Service** (M - 2h) `[REQUIRED]`
 
   ```
   Must include:
@@ -1196,7 +1192,7 @@ git branch -D backup/pre-migration
   Link in register screen (user must accept)
   ```
 
-- [ ] 16.3 **Implement data deletion flow** (M - 3h) `[GDPR REQUIRED]`
+- [ ] 17.3 **Implement data deletion flow** (M - 3h) `[GDPR REQUIRED]`
 
   ```
   Feature in Profile/Settings:
@@ -1210,7 +1206,7 @@ git branch -D backup/pre-migration
   See TECHNICAL.md § Compliance code examples
   ```
 
-- [ ] 16.4 **Implement data export** (M - 3h) `[GDPR REQUIRED]`
+- [ ] 17.4 **Implement data export** (M - 3h) `[GDPR REQUIRED]`
 
   ```
   Feature in Profile/Settings:
@@ -1226,9 +1222,9 @@ git branch -D backup/pre-migration
   Format: JSON (structured, human-readable)
   ```
 
-### 17. Monitoring & Analytics
+### 18. Monitoring & Analytics
 
-- [ ] 17.1 **Setup user analytics** (M - 3h) `[PostHog or Mixpanel]`
+- [ ] 18.1 **Setup user analytics** (M - 3h) `[PostHog or Mixpanel]`
 
   ```
   Track events:
@@ -1247,7 +1243,7 @@ git branch -D backup/pre-migration
   Free tier: PostHog (1M events/month)
   ```
 
-- [ ] 17.2 **Verify Sentry monitoring** (S - 1h)
+- [ ] 18.2 **Verify Sentry monitoring** (S - 1h)
 
   ```
   Test:
@@ -1261,7 +1257,7 @@ git branch -D backup/pre-migration
   - Error rate >5% → Slack notification (if team)
   ```
 
-- [ ] 17.3 Setup performance monitoring (M - 2h)
+- [ ] 18.3 Setup performance monitoring (M - 2h)
 
   ```
   Monitor with Sentry:
@@ -1276,9 +1272,9 @@ git branch -D backup/pre-migration
   - Error trends
   ```
 
-### 18. Beta Launch Preparation
+### 19. Beta Launch Preparation
 
-- [ ] 18.1 Create onboarding flow (M - 4h) `[src/app/(onboarding)/]`
+- [ ] 19.1 Create onboarding flow (M - 4h) `[src/app/(onboarding)/]`
 
   ```
   Screens:
@@ -1294,7 +1290,7 @@ git branch -D backup/pre-migration
   Store completion in AsyncStorage
   ```
 
-- [ ] 18.2 Add user feedback system (M - 3h)
+- [ ] 19.2 Add user feedback system (M - 3h)
 
   ```
   Options:
@@ -1308,7 +1304,7 @@ git branch -D backup/pre-migration
   - OR use service like UserVoice, Canny
   ```
 
-- [ ] 18.3 Prepare beta release (M - 4h)
+- [ ] 19.3 Prepare beta release (M - 4h)
 
   ```
   Tasks:
@@ -1325,7 +1321,7 @@ git branch -D backup/pre-migration
   - eas submit (when ready)
   ```
 
-- [ ] 18.4 Write beta testing guide (S - 1h)
+- [ ] 19.4 Write beta testing guide (S - 1h)
 
   ```
   Document for beta testers:
@@ -1336,7 +1332,7 @@ git branch -D backup/pre-migration
   - Feedback form link
   ```
 
-- [ ] 18.5 App Store compliance checklist (M - 2h)
+- [ ] 19.5 App Store compliance checklist (M - 2h)
 
   ```
   iOS:
@@ -1353,35 +1349,6 @@ git branch -D backup/pre-migration
   - App icon (adaptive icon)
   - Screenshots (phone, tablet)
   ```
-
----
-
-## 📊 Task Size Estimates & Priority Levels
-
-### Task Size Estimates
-
-- **S** (Small): 1-2 hours
-- **M** (Medium): 3-6 hours
-- **L** (Large): 1-2 days
-
-### Priority Levels
-
-- **CRITICAL**: Blocking other tasks, must be done first
-- **HIGH**: Core MVP features
-- **MEDIUM**: Important but can be deferred
-- **LOW**: Nice-to-have, post-MVP
-
-### File Path Conventions
-
-File paths in brackets `[path/to/file.tsx]` indicate where to create or modify code.
-
-### Dependencies
-
-Tasks are ordered chronologically within phases. Some tasks have dependencies:
-
-- Phase 0.5 must be completed before Phase 1
-- Database schema (0.5.2) must be done before any data-related features
-- WatermelonDB setup (0.5.1) must be done before using database
 
 ---
 
