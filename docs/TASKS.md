@@ -145,6 +145,8 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### 0.5.A: Initial Setup & Analysis (5/5) ✅ COMPLETE
 
+**Goal:** Establish project foundation with database, architecture, and development tools
+
 - [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
 - [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
 - [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
@@ -167,8 +169,6 @@ Phase 6: Polish & Launch (0/9 tasks)
 **Status:** 8/10 tasks complete. Final steps: Supabase sync + testing.
 
 **Estimated Time:** 4-6 hours | **Tasks:** 10
-
----
 
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
   - EAS account configured, CLI installed, project linked
