@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 15/97 tasks (15%) • ![](https://img.shields.io/badge/Progress-15%25-red)
+**Progress**: 16/97 tasks (16%) • ![](https://img.shields.io/badge/Progress-16%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-30 • **Next Milestone**: Complete Critical Corrections (1 task remaining)
 
@@ -11,31 +11,30 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 15/27 tasks (56%) • **Overall**: 15/97 tasks (15%)
+**Phase Progress**: 15/27 tasks (56%) • **Overall**: 16/97 tasks (16%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
 
 ### Recent Completions ✅
 
-1. **0.5.10** - Zustand Persist for Workout Store
-2. **0.5.9** - User ID Persistence with Zustand Persist
-3. **0.5.26** - Migrate Charts to Victory Native
-4. **0.5.25** - Migrate Storage to MMKV
-5. **0.5.24** - Migrate Database Operations to WatermelonDB
+1. **5.1** - Setup CI/CD Pipeline with GitHub Actions
+2. **0.5.10** - Zustand Persist for Workout Store
+3. **0.5.9** - User ID Persistence with Zustand Persist
+4. **0.5.26** - Migrate Charts to Victory Native
+5. **0.5.25** - Migrate Storage to MMKV
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 6)                     | 🔨 DOING | ✅ DONE (Last 5)            |
-| ----------------------------------- | -------- | --------------------------- |
-| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.10** Workout persist  |
-| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.9** Auth persist      |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.26** Victory Native   |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.25** MMKV storage     |
-| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.24** WatermelonDB ops |
-| **0.5.4** expo-image `[S]` 🟡       |          |                             |
+| 📝 TODO (Top 5)                     | 🔨 DOING | ✅ DONE (Last 5)           |
+| ----------------------------------- | -------- | -------------------------- |
+| **0.5.11** Error handling `[M]` 🟠  |          | **5.1** CI/CD Pipeline     |
+| **0.5.5** Sentry `[M]` 🟡           |          | **0.5.10** Workout persist |
+| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.9** Auth persist     |
+| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.26** Victory Native  |
+| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.25** MMKV storage    |
 
-**Progress**: Phase 0.5: 15/27 (56%) • Overall: 15/97 (15%)
+**Progress**: Phase 0.5: 15/27 (56%) • Overall: 16/97 (16%)
 **Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~3 weeks
 **NEXT**: 0.5.11 Add Error Handling Layer 🟠 IMPORTANT
 
@@ -47,7 +46,7 @@
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
 4. [Phase 0.5: Architecture & Foundation (15/27)](#phase-05-architecture--foundation-1527)
-5. [Phase 1: Authentication & Foundation (0/15)](#phase-1-authentication--foundation-015)
+5. [Phase 1: Authentication & Foundation (1/15)](#phase-1-authentication--foundation-115)
 6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
 7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
 8. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
@@ -61,11 +60,8 @@
 Phase 0.5: Architecture & Foundation (15/27 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
-   ├─ Architecture refactor ✅
-   ├─ Audit analysis ✅
    ├─ EAS Build + Dev Client ✅
    ├─ WatermelonDB Schema & Models ✅
-   ├─ Critical Fixes (comprehensive analysis) ✅
    ├─ WatermelonDB Database Operations ✅
    ├─ MMKV Storage Migration ✅
    ├─ Victory Native Charts Migration ✅
@@ -75,10 +71,10 @@ Phase 0.5: Architecture & Foundation (15/27 tasks)
         ├─ Supabase sync (0.5.27-28)
         └─ Infrastructure (0.5.3-4)
         ↓
-Phase 1: Authentication & Foundation (0/14 tasks)
+Phase 1: Authentication & Foundation (1/15 tasks)
    ├─ Supabase Auth integration
    ├─ Login/Register screens
-   ├─ CI/CD pipeline
+   ├─ CI/CD pipeline ✅
    └─ Type definitions
         ↓
 Phase 2: Core Workout Logging (0/18 tasks)
@@ -122,7 +118,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 | **3**     | 9      | 30-40h       | BLOCKED      | ← Phase 2 workout core           |
 | **4**     | 11     | 35-45h       | BLOCKED      | ← Phase 3 exercise library       |
 | **5**     | 15     | 40-50h       | BLOCKED      | ← Phase 4 analytics              |
-| **TOTAL** | **97** | **230-290h** | **13% done** | **12-15 weeks at 20h/week**      |
+| **TOTAL** | **97** | **230-290h** | **16% done** | **12-15 weeks at 20h/week**      |
 
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
@@ -334,7 +330,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 1: Authentication & Foundation (0/15)
+## Phase 1: Authentication & Foundation (1/15)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
@@ -451,25 +447,12 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### 5. Phase 1 Completion: CI/CD & Features
 
-- [ ] 5.1 Setup CI/CD pipeline with GitHub Actions (M - 1.5h) ✅ RECOMMENDED
+- [x] 5.1 **Setup CI/CD pipeline with GitHub Actions** (M - 1.5h) ✅
 
-  ```
-  Tasks:
-  - Create .github/workflows/quality-checks.yml
-  - Configure quality gates (type-check, lint, format-check, test:ci)
-  - Add status badge to README.md
-  - Test workflow on PR
-  - Configure to run on push to main and all PRs
-
-  Impact: Catches errors before merge, professional standard
-  Reference: See PRD.md "Testing & QA Strategy"
-
-  Note: Jest infrastructure already setup in Phase 0.5 (task 0.5.18)
-  CI will run: type-check, lint, format-check, test:ci
-  Tests will be written progressively in Phase 2-3
-
-  Milestone: Completes Phase 1 foundation (auth + CI/CD)
-  ```
+  **Completed:**
+  - CI workflow: TypeScript type-check, ESLint, Jest tests, coverage reports
+  - Dependabot auto-merge: runtime minor/patch, all dev deps
+  - SHA pinning for security, Node 24 compatible
 
 - [ ] 5.2 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
 
