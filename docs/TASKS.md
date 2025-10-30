@@ -2,25 +2,25 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 13/97 tasks (13%) • ![](https://img.shields.io/badge/Progress-13%25-red)
+**Progress**: 14/97 tasks (14%) • ![](https://img.shields.io/badge/Progress-14%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
-**Last Updated**: 2025-01-30 • **Next Milestone**: Complete Migration Stack (2 tasks remaining)
+**Last Updated**: 2025-10-30 • **Next Milestone**: Complete Critical Corrections (2 tasks remaining)
 
 ---
 
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 13/27 tasks (48%) • **Overall**: 13/97 tasks (13%)
+**Phase Progress**: 14/27 tasks (52%) • **Overall**: 14/97 tasks (14%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
 
 ### Recent Completions ✅
 
-1. **0.5.26** - Migrate Charts to Victory Native ✅
-2. **0.5.25** - Migrate Storage to MMKV ✅
-3. **0.5.24** - Migrate Database Operations to WatermelonDB ✅
-4. **0.5.23.1** - Phase 1 Critical Fixes (comprehensive analysis + 6 fixes)
-5. 0.5.23 - Create WatermelonDB Models & Schema
+1. **0.5.9** - User ID Persistence with Zustand Persist ✅
+2. **0.5.26** - Migrate Charts to Victory Native ✅
+3. **0.5.25** - Migrate Storage to MMKV ✅
+4. **0.5.24** - Migrate Database Operations to WatermelonDB ✅
+5. **0.5.23.1** - Phase 1 Critical Fixes (comprehensive analysis + 6 fixes)
 
 ---
 
@@ -28,15 +28,15 @@
 
 | 📝 TODO (Top 5)                     | 🔨 DOING | ✅ DONE (Last 5)               |
 | ----------------------------------- | -------- | ------------------------------ |
-| **0.5.9** Auth persist `[M]` 🔴     |          | **0.5.26** Victory Native ✅   |
-| **0.5.10** Workout persist `[S]` 🔴 |          | **0.5.25** MMKV storage ✅     |
-| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.24** WatermelonDB ops ✅ |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.23.1** Critical Fixes ✅ |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.23** WatermelonDB models |
+| **0.5.10** Workout persist `[S]` 🔴 |          | **0.5.9** Auth persist ✅      |
+| **0.5.11** Error handling `[M]` 🟠  |          | **0.5.26** Victory Native ✅   |
+| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.25** MMKV storage ✅     |
+| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.24** WatermelonDB ops ✅ |
+| **0.5.3** FlashList `[S]` 🟡        |          | **0.5.23.1** Critical Fixes ✅ |
 
-**Progress**: Phase 0.5: 13/27 (48%) • Overall: 13/97 (13%)
+**Progress**: Phase 0.5: 14/27 (52%) • Overall: 14/97 (14%)
 **Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~3 weeks
-**NEXT**: 0.5.9 Add Zustand Persist to authStore 🔴 PRIORITY
+**NEXT**: 0.5.10 Add Zustand Persist to workoutStore 🔴 PRIORITY
 
 ---
 
@@ -45,7 +45,7 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (13/27)](#phase-05-architecture--foundation-1327)
+4. [Phase 0.5: Architecture & Foundation (14/27)](#phase-05-architecture--foundation-1427)
 5. [Phase 1: Authentication & Foundation (0/15)](#phase-1-authentication--foundation-015)
 6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
 7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
@@ -57,7 +57,7 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (13/27 tasks)
+Phase 0.5: Architecture & Foundation (14/27 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ Architecture refactor ✅
@@ -125,7 +125,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 0.5: Architecture & Foundation (13/27)
+## Phase 0.5: Architecture & Foundation (14/27)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
@@ -265,13 +265,13 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.D: Critical Corrections - Blockers (0/3)
+### 0.5.D: Critical Corrections - Blockers (1/3) ⚡ IN PROGRESS
 
 **Goal:** Complete store integration and error handling (infrastructure ready from 0.5.25)
 
 **Status:** MMKV infrastructure ✅ complete | Store integration ⏳ pending
 
-- [ ] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
+- [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
   - **Problem:** User ID stored in memory only, lost on app restart
   - **Impact:** User appears logged out, workouts orphaned, potential data loss
   - **Solution:** Add Zustand persist middleware (2025 best practice)
