@@ -97,32 +97,38 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto-merge runtime patch updates
-        # Runtime patch updates (0.0.X): Bug fixes only, generally safe
-        # Example: react-native 0.73.1 -> 0.73.2
+      - name: Auto-merge runtime patch and minor updates
+        # Runtime patch (0.0.X): Bug fixes only
+        # Runtime minor (0.X.0): New features, backward compatible (semver promise)
+        # Industry standard: Auto-merge both after CI passes
+        # Example: react-native 0.73.1 -> 0.73.2 (patch) or 0.73.0 -> 0.74.0 (minor)
         if: |
           steps.metadata.outputs.dependency-type == 'direct:production' &&
-          steps.metadata.outputs.update-type == 'version-update:semver-patch'
+          (steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+           steps.metadata.outputs.update-type == 'version-update:semver-minor')
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Comment on manual review PRs
-        # For minor/major runtime updates, add helpful comment
+      - name: Comment on MAJOR updates requiring review
+        # Major updates (X.0.0): Breaking changes - ALWAYS require manual review
+        # Post helpful comment with action items
         if: |
           steps.metadata.outputs.dependency-type == 'direct:production' &&
-          (steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
-           steps.metadata.outputs.update-type == 'version-update:semver-major')
+          steps.metadata.outputs.update-type == 'version-update:semver-major'
         run: |
-          gh pr comment "$PR_URL" --body "⚠️ **Manual review required**
+          gh pr comment "$PR_URL" --body "🚨 **MAJOR UPDATE - Breaking Changes Expected**
 
           This is a ${{ steps.metadata.outputs.update-type }} update for a runtime dependency.
 
-          Please review:
-          - Breaking changes in changelog
-          - Test the app thoroughly before merging
-          - Check for migration guides if major version"
+          **Required actions before merging:**
+          1. Read the changelog and migration guide
+          2. Review all breaking changes
+          3. Test the app thoroughly on both iOS and Android
+          4. Check for required code changes
+
+          ⚠️ Do NOT auto-merge this PR without careful review!"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
