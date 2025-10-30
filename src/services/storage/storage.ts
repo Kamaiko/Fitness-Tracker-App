@@ -1,26 +1,36 @@
 /**
  * Storage Service
  *
- * Unified storage abstraction using AsyncStorage.
- * This provides a simple key-value storage interface that can be
- * easily swapped for other implementations (MMKV, etc.) later.
+ * Unified storage abstraction using MMKV (upgraded from AsyncStorage).
+ * Provides async interface for backward compatibility while using
+ * synchronous MMKV operations under the hood.
+ *
+ * Benefits over AsyncStorage:
+ * - 10-30x faster (synchronous operations)
+ * - Native encryption
+ * - Better reliability
  *
  * Usage:
  *   import { storage } from '@/services/storage/storage';
  *
  *   await storage.set('user', JSON.stringify(userData));
  *   const user = await storage.get('user');
+ *
+ * Migration note:
+ * - Existing AsyncStorage data will NOT be migrated
+ * - Acceptable for MVP (minimal production data)
  */
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { mmkvStorage } from './mmkvStorage';
 
 export const storage = {
   /**
    * Set a value in storage
+   * Async wrapper around synchronous MMKV operation
    */
   async set(key: string, value: string): Promise<void> {
     try {
-      await AsyncStorage.setItem(key, value);
+      mmkvStorage.set(key, value);
     } catch (error) {
       console.error(`Storage.set error for key "${key}":`, error);
       throw error;
@@ -29,10 +39,12 @@ export const storage = {
 
   /**
    * Get a value from storage
+   * Async wrapper around synchronous MMKV operation
    */
   async get(key: string): Promise<string | null> {
     try {
-      return await AsyncStorage.getItem(key);
+      const value = mmkvStorage.get(key);
+      return value ?? null;
     } catch (error) {
       console.error(`Storage.get error for key "${key}":`, error);
       return null;
@@ -41,10 +53,11 @@ export const storage = {
 
   /**
    * Delete a value from storage
+   * Async wrapper around synchronous MMKV operation
    */
   async delete(key: string): Promise<void> {
     try {
-      await AsyncStorage.removeItem(key);
+      mmkvStorage.delete(key);
     } catch (error) {
       console.error(`Storage.delete error for key "${key}":`, error);
       throw error;
@@ -53,10 +66,11 @@ export const storage = {
 
   /**
    * Clear all storage
+   * ⚠️ Use with caution - deletes everything
    */
   async clear(): Promise<void> {
     try {
-      await AsyncStorage.clear();
+      mmkvStorage.clearAll();
     } catch (error) {
       console.error('Storage.clear error:', error);
       throw error;
@@ -68,8 +82,7 @@ export const storage = {
    */
   async getAllKeys(): Promise<string[]> {
     try {
-      const keys = await AsyncStorage.getAllKeys();
-      return Array.from(keys); // Convert readonly to mutable
+      return mmkvStorage.getAllKeys();
     } catch (error) {
       console.error('Storage.getAllKeys error:', error);
       return [];

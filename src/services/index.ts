@@ -5,7 +5,11 @@
  *
  * USAGE:
  * import { supabase, database, createWorkout } from '@/services';
+ * import { persistUser, mmkvStorage } from '@/services';
  */
+
+// Auth
+export * from './auth';
 
 // Database
 export * from './database';

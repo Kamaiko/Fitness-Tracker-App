@@ -1,11 +1,14 @@
 /**
  * Storage Service - Main Export
  *
- * Unified storage abstraction using AsyncStorage.
- * Will migrate to MMKV in Phase 3+ when Dev Client is available.
+ * Unified storage abstraction using MMKV (upgraded from AsyncStorage).
+ * Available now with Development Build.
  *
  * USAGE:
  * import { storage, storageHelpers } from '@/services/storage';
+ * import { mmkvStorage, zustandMMKVStorage } from '@/services/storage';
  */
 
 export { storage, storageHelpers } from './storage';
+export { mmkvStorage, mmkvJSONStorage } from './mmkvStorage';
+export { zustandMMKVStorage } from './zustandStorage';
