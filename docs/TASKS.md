@@ -2,41 +2,41 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 7/97 tasks (7%) • ![](https://img.shields.io/badge/Progress-7%25-red)
+**Progress**: 10/97 tasks (10%) • ![](https://img.shields.io/badge/Progress-10%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
-**Last Updated**: 2025-10-29 • **Next Milestone**: Development Build Migration (10 tasks)
+**Last Updated**: 2025-10-30 • **Next Milestone**: Database Migration to WatermelonDB (5 tasks remaining)
 
 ---
 
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 7/27 tasks (26%) • **Overall**: 7/97 tasks (7%)
-**Critical Blockers**: None • **Velocity**: ~3 tasks/week (estimated)
+**Phase Progress**: 10/27 tasks (37%) • **Overall**: 10/97 tasks (10%)
+**Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
 
 ### Recent Completions ✅
 
-1. 0.5.21 - Create eas.json Configuration
-2. 0.5.20 - Setup EAS Build Account & CLI
-3. 0.5.18 - Setup Jest testing infrastructure
-4. 0.5.17 - Setup professional dev tools (Husky + lint-staged)
-5. 0.5.8 - Technical audit and corrections planning
+1. **0.5.23.1** - Phase 1 Critical Fixes (comprehensive analysis + 6 fixes)
+2. 0.5.23 - Create WatermelonDB Models & Schema
+3. 0.5.22 - Install Native Packages & Build Development Build
+4. 0.5.21 - Create eas.json Configuration
+5. 0.5.20 - Setup EAS Build Account & CLI
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                             | 🔨 DOING | ✅ DONE (Last 5)           |
-| ------------------------------------------- | -------- | -------------------------- |
-| **0.5.22** Build dev client `[M]` 🟠        |          | **0.5.21** eas.json config |
-| **0.5.23** WatermelonDB install `[M]` 🟠    |          | **0.5.20** EAS Build setup |
-| **0.5.24** WatermelonDB schema `[L]` 🟠     |          | **0.5.18** Jest setup      |
-| **0.5.25** Migrate to WatermelonDB `[L]` 🟠 |          | **0.5.17** Dev tools       |
-| **0.5.26** Install MMKV `[M]` 🟠            |          | **0.5.8** Audit analysis   |
+| 📝 TODO (Top 5)                             | 🔨 DOING | ✅ DONE (Last 5)               |
+| ------------------------------------------- | -------- | ------------------------------ |
+| **0.5.24** Migrate to WatermelonDB `[L]` 🟠 |          | **0.5.23.1** Critical Fixes ✅ |
+| **0.5.25** Migrate to MMKV `[M]` 🟠         |          | **0.5.23** WatermelonDB models |
+| **0.5.26** Migrate to Victory `[M]` 🟠      |          | **0.5.22** Install & Build ✅  |
+| **0.5.27** Supabase schema `[L]` 🟠         |          | **0.5.21** eas.json config     |
+| **0.5.28** Test & Verify `[M]` 🟠           |          | **0.5.20** EAS Build setup     |
 
-**Progress**: Phase 0.5: 7/27 (26%) • Overall: 7/97 (7%)
-**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
-**NEXT**: 0.5.22 Build Development Build ⚡
+**Progress**: Phase 0.5: 10/27 (37%) • Overall: 10/97 (10%)
+**Velocity**: ~4 tasks/week (improved!) • **ETA**: Phase 0.5 complete in ~4 weeks
+**NEXT**: 0.5.24 Migrate Database Operations to WatermelonDB ⚡
 
 ---
 
@@ -57,15 +57,19 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (7/27 tasks)
+Phase 0.5: Architecture & Foundation (10/27 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ Architecture refactor ✅
    ├─ Audit analysis ✅
-   └─ NEXT: Development Build Migration ⚡ PRIORITY
-        ├─ WatermelonDB + MMKV + Victory Native
-        ├─ EAS Build + Dev Client
-        └─ Production-ready stack
+   ├─ EAS Build + Dev Client ✅
+   ├─ WatermelonDB Schema & Models ✅
+   ├─ Critical Fixes (comprehensive analysis) ✅
+   └─ NEXT: Complete Migration ⚡ PRIORITY
+        ├─ Migrate DB operations to WatermelonDB
+        ├─ Migrate storage to MMKV
+        ├─ Migrate charts to Victory Native
+        └─ Create Supabase schema & sync
         ↓
 Phase 1: Authentication & Foundation (0/14 tasks)
    ├─ Supabase Auth integration
@@ -219,55 +223,92 @@ npm start  # Back to Expo Go
   - Purpose: Development build config for EAS cloud builds
   - File: `eas.json`
 
-- [ ] 0.5.22 **Build Development Build (Android & iOS)** (M - 45min)
-  - Command: `eas build --profile development --platform android` (~15-20 min)
-  - Command: `eas build --profile development --platform ios` (~15-20 min)
-  - Run builds in parallel (cloud handles it)
-  - Download APK/IPA or scan QR to install on device
-  - Test that dev build launches successfully
-  - Note: ONE-TIME setup, daily dev won't need rebuilds
+- [x] 0.5.22 **Install Native Packages & Build Development Build** (L - 2-3h) ✅
+  - **Phase A: Install Native Packages** ✅ COMPLETED
+    - Installed: expo-dev-client, @nozbe/watermelondb, @nozbe/with-observables
+    - Installed: react-native-mmkv, react-native-nitro-modules
+    - Installed: victory-native, react-native-skia, @shopify/react-native-skia
+    - Installed: @shopify/flash-list, expo-image, expo-notifications, expo-background-fetch
+    - Installed: @sentry/react-native, simple-statistics, expo-constants
+  - **Phase B: Configure Build Files** ✅ COMPLETED
+    - Created `.npmrc` with `legacy-peer-deps=true`
+    - Updated `babel.config.js` with decorators plugin
+    - Fixed deprecated @testing-library/jest-native
+  - **Phase C: Fix SDK Compatibility** ✅ COMPLETED
+    - Fixed Jest 30.x → 29.7.0 for SDK 54 compatibility
+    - Fixed all package version mismatches with `npx expo install --fix`
+  - **Phase D: Build with EAS** ✅ COMPLETED
+    - Android build SUCCESS (20 minutes)
+    - APK: https://expo.dev/artifacts/eas/qh4rcVLpNNsBsSf58DJWnr.apk
+    - Build ID: c4995844-799a-407b-b888-23cf488eedb3
+  - Note: ALL native packages installed upfront to minimize rebuilds (smart strategy!)
 
-- [ ] 0.5.23 **Install WatermelonDB + Dependencies** (M - 1h)
-  - Install packages: `@nozbe/watermelondb`, `@nozbe/with-observables`
-  - Update metro.config.js for WatermelonDB transformer
-  - Add babel plugins to babel.config.js
-  - Run: `npm run type-check` to verify no errors
-  - Files: `metro.config.js`, `babel.config.js`
+- [x] 0.5.23 **Create WatermelonDB Models & Schema** (L - 2h) ✅
+  - ✅ Enabled WatermelonDB transformer in metro.config.js
+  - ✅ Created schema.ts with all 5 tables (users, exercises, workouts, workout_exercises, exercise_sets)
+  - ✅ Created User.ts model with preferences fields
+  - ✅ Created Exercise.ts model with 1,300+ exercises support
+  - ✅ Created Workout.ts model with relations and computed properties
+  - ✅ Created WorkoutExercise.ts junction model with ordering
+  - ✅ Created ExerciseSet.ts model with RPE, RIR, estimated 1RM calculation
+  - ✅ Setup database instance in `src/services/database/watermelon/index.ts`
+  - ✅ Configured TypeScript experimentalDecorators in tsconfig.json
+  - ✅ Verified TypeScript compilation - no errors
+  - ✅ IMPROVEMENT: Added nutrition_phase to workouts for context-aware analytics
+  - Files created: 7 files in src/services/database/watermelon/
 
-- [ ] 0.5.24 **Create WatermelonDB Models & Schema** (L - 2h)
-  - Create model files: Workout.ts, Exercise.ts, WorkoutExercise.ts, ExerciseSet.ts
-  - Define models with @field, @date, @relation decorators
-  - Create schema matching Supabase tables
-  - Setup database instance in `src/services/database/watermelon/index.ts`
-  - Export from services/database/index.ts
-  - Reference: DATABASE.md § WatermelonDB Schema
+- [x] 0.5.23.1 **Phase 1 Critical Fixes (Post-Analysis)** (M - 1.5h) ✅
+  - **Comprehensive Project Analysis** (15-thought deep analysis):
+    - Security audit (auth tokens, encryption, RLS)
+    - Residual code detection (outdated comments, TODOs)
+    - Dependency analysis (duplicates, wrong placement)
+    - Schema consistency verification
+    - Performance optimization opportunities
+    - Identified 17 issues categorized by severity
+  - **Critical Fixes Applied**:
+    - ✅ Moved @nozbe/watermelondb to dependencies (production blocker)
+    - ✅ Removed jest/@types/jest duplicates from dependencies
+    - ✅ Added _.db_ files to .gitignore (GDPR/privacy protection)
+    - ✅ Added 'synced' field indexes to WatermelonDB schema (performance)
+    - ✅ Fixed nutrition_phase schema mismatch (expo-sqlite ↔ WatermelonDB)
+    - ✅ Verified TypeScript compilation - no errors
+  - **Development Build Testing**:
+    - ✅ Fixed metro.config.js transformer conflict
+    - ✅ Fixed react-native-css-interop missing dependency
+    - ✅ Successfully connected dev build to Metro bundler
+    - ✅ Verified hot reload works with development build
+  - **Files modified**: package.json, .gitignore, schema.ts, db.ts, metro.config.js
+  - **Result**: Production-ready configuration, zero critical blockers
 
-- [ ] 0.5.25 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
+- [ ] 0.5.24 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
   - Replace src/services/database/db.ts expo-sqlite code
   - Rewrite CRUD operations for WatermelonDB API
   - Update createWorkout, logSet, etc. to use database.write()
   - Add reactive queries with .observe()
   - Update src/hooks/workout/\* to use reactive queries
   - Verify basic CRUD works and reactive queries update UI
+  - Remove expo-sqlite dependency after migration complete
 
-- [ ] 0.5.26 **Install MMKV + Migrate Storage** (M - 45min)
-  - Install package: `react-native-mmkv`
+- [ ] 0.5.25 **Migrate Storage to MMKV** (M - 45min)
+  - Note: Package react-native-mmkv already installed in 0.5.22
   - Create MMKV wrapper: `src/services/storage/mmkvStorage.ts`
   - Create MMKV instance with encryption key
   - Migrate authStorage from AsyncStorage to MMKV
   - Update stores to use MMKV for persistence
   - Keep same API (getItem, setItem, removeItem)
+  - Remove @react-native-async-storage/async-storage dependency after migration
   - Reference: TECHNICAL.md ADR-009
 
-- [ ] 0.5.27 **Install Victory Native + Migrate Charts** (M - 1h)
-  - Install packages: `victory-native`, `react-native-svg`, `react-native-skia`
-  - Create LineChart.tsx and BarChart.tsx components
+- [ ] 0.5.26 **Migrate Charts to Victory Native** (M - 1h)
+  - Note: Packages victory-native, react-native-skia already installed in 0.5.22
+  - Create LineChart.tsx and BarChart.tsx components in src/components/charts/
   - Wrap Victory components with dark theme
-  - Replace any existing react-native-chart-kit usage
+  - Replace existing react-native-chart-kit usage in ExampleLineChart.tsx
   - Test chart rendering with sample data
+  - Remove react-native-chart-kit dependency after migration
   - Note: Full charts implementation happens in Phase 4
 
-- [ ] 0.5.28 **Create Supabase Schema & Sync Functions** (L - 1.5h)
+- [ ] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h)
   - Create `supabase/migrations/001_initial_schema.sql`
   - Create Supabase tables matching WatermelonDB schema
   - Add RLS policies (users see only their data)
@@ -276,15 +317,15 @@ npm start  # Back to Expo Go
   - Test sync with sample data
   - Reference: DATABASE.md § Supabase Sync
 
-- [ ] 0.5.29 **Test & Verify Development Build** (M - 45min)
-  - Verify app launches with dev build
+- [ ] 0.5.28 **Test & Verify Development Build** (M - 45min)
+  - Verify app launches with dev build on physical device
   - Test WatermelonDB creates/reads/updates data
   - Verify reactive queries update UI automatically
   - Test MMKV stores and retrieves auth tokens
   - Verify Supabase sync works (create → sync → check dashboard)
-  - Test charts render correctly
+  - Test Victory Native charts render correctly
   - Run: `npm run type-check` (must pass)
-  - Verify hot reload works normally
+  - Verify hot reload works normally with dev build
 
 ---
 

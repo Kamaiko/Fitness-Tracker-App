@@ -32,7 +32,13 @@
       "Bash(if exist .claude.actions.json del .claude.actions.json)",
       "Bash(if exist nul del nul)",
       "Bash(npm --version)",
-      "Bash(eas whoami:*)"
+      "Bash(eas whoami:*)",
+      "Read(//c/**)",
+      "Bash(awk:*)",
+      "Bash(test:*)",
+      "Bash(npx expo install:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(eas build:list:*)"
     ],
     "deny": [],
     "ask": []

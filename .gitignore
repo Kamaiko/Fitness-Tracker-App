@@ -107,3 +107,8 @@ patches/
 *.jsbundle
 /ios/Pods/
 /android/app/debug.keystore
+
+# SQLite databases (prevent committing user data)
+*.db
+*.db-shm
+*.db-wal

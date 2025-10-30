@@ -4,7 +4,7 @@
  * Centralized export for all application services.
  *
  * USAGE:
- * import { supabase, storage, initDatabase } from '@/services';
+ * import { supabase, database, createWorkout } from '@/services';
  */
 
 // Database

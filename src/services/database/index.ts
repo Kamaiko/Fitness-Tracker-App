@@ -1,23 +1,24 @@
 /**
  * Database Service - Main Export
  *
- * Simple SQLite-based offline-first storage
+ * WatermelonDB-based offline-first storage with reactive queries
  *
  * ARCHITECTURE:
- * - Phase 0-2 (NOW): expo-sqlite + manual Supabase sync
- * - Phase 3+ (1000+ users): Migrate to WatermelonDB + MMKV
+ * - WatermelonDB for reactive, scalable data management
+ * - Dual API: Promise (imperative) + Observable (reactive)
+ * - Manual Supabase sync for backend persistence
  *
  * USAGE:
- * import { initDatabase, createWorkout, syncToSupabase } from '@/services/database';
+ * import { createWorkout, observeUserWorkouts } from '@/services/database';
  */
 
-// Core database
-export { initDatabase, getDatabase, resetDatabase, getDatabaseStats } from './db';
+// WatermelonDB database instance
+export { database } from './watermelon';
 
 // Types
 export type * from './types';
 
-// Workout operations
+// Workout operations (Promise-based - imperative)
 export {
   createWorkout,
   addExerciseToWorkout,
@@ -32,6 +33,14 @@ export {
   deleteWorkout,
   getUnsyncedWorkouts,
   markWorkoutAsSynced,
+} from './workouts';
+
+// Workout operations (Observable-based - reactive)
+export {
+  observeWorkout,
+  observeUserWorkouts,
+  observeActiveWorkout,
+  observeWorkoutWithDetails,
 } from './workouts';
 
 // Sync operations

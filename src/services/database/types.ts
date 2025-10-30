@@ -29,7 +29,7 @@ export interface Exercise {
   instructions?: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   image_url?: string;
-  is_custom: number; // SQLite boolean (0 or 1)
+  is_custom: boolean;
   created_by?: string;
   created_at: number;
   updated_at: number;
@@ -43,7 +43,8 @@ export interface Workout {
   duration_seconds?: number;
   title?: string;
   notes?: string;
-  synced: number; // 0 = not synced, 1 = synced
+  nutrition_phase: 'bulk' | 'cut' | 'maintenance';
+  synced: boolean;
   created_at: number;
   updated_at: number;
 }
@@ -57,7 +58,7 @@ export interface WorkoutExercise {
   notes?: string;
   target_sets?: number;
   target_reps?: number;
-  synced: number;
+  synced: boolean;
   created_at: number;
   updated_at: number;
 }
@@ -76,9 +77,9 @@ export interface ExerciseSet {
   rest_time_seconds?: number;
   completed_at?: number;
   notes?: string;
-  is_warmup: number; // SQLite boolean
-  is_failure: number; // SQLite boolean
-  synced: number;
+  is_warmup: boolean;
+  is_failure: boolean;
+  synced: boolean;
   created_at: number;
   updated_at: number;
 }
@@ -103,7 +104,9 @@ export interface WorkoutExerciseWithDetails extends WorkoutExercise {
 /**
  * Create types (without auto-generated fields)
  */
-export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at' | 'synced'>;
+export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at' | 'synced'> & {
+  nutrition_phase: 'bulk' | 'cut' | 'maintenance';
+};
 export type CreateWorkoutExercise = Omit<
   WorkoutExercise,
   'id' | 'created_at' | 'updated_at' | 'synced'
@@ -114,4 +117,6 @@ export type CreateExerciseSet = Omit<ExerciseSet, 'id' | 'created_at' | 'updated
  * Update types (optional fields only)
  */
 export type UpdateWorkout = Partial<Omit<Workout, 'id' | 'user_id' | 'created_at'>>;
-export type UpdateExerciseSet = Partial<Omit<ExerciseSet, 'id' | 'workout_exercise_id' | 'created_at'>>;
+export type UpdateExerciseSet = Partial<
+  Omit<ExerciseSet, 'id' | 'workout_exercise_id' | 'created_at'>
+>;
