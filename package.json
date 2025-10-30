@@ -23,7 +23,7 @@
     "@nozbe/with-observables": "^1.6.0",
     "@sentry/react-native": "~7.4.0",
     "@shopify/flash-list": "2.0.2",
-    "@shopify/react-native-skia": "2.2.12",
+    "@shopify/react-native-skia": "2.3.8",
     "@supabase/supabase-js": "^2.78.0",
     "@tanstack/react-query": "^5.90.5",
     "expo": "54.0.21",
