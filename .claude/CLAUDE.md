@@ -1,6 +1,6 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 4.0
+> **Version**: 4.1
 > **Last Updated**: 2025-10-29
 > **Purpose**: Project briefing and development guide
 
@@ -29,18 +29,18 @@
 ## 🚧 Current Phase & Next Steps
 
 **Phase:** 0.5 - Architecture & Foundation
-**Progress:** 6/96 tasks (6%)
+**Progress:** 6/98 tasks (6%)
 **Version:** 0.1.0
 
-**Next Task:** 0.5.2 - Implement database schema in Supabase
-**File to create:** `supabase/migrations/001_initial_schema.sql`
+**Next Task:** 0.5.20 - Setup EAS Build Account & CLI
+**Next Phase:** Development Build Migration (10 tasks)
 
 **Critical Context:**
 - Current stack: Expo Go + expo-sqlite + AsyncStorage + react-native-chart-kit (100% working)
-- Phase 0.5 Bis (Development Build migration) is DEFERRED until after Phase 0.5 critical corrections
-- **Priority**: Complete Phase 0.5 critical corrections BEFORE considering migration
+- Phase 0.5.B (Development Build migration) is NEXT priority
+- Migration now to avoid rewriting 40-60% of code later
 
-**Reference:** See [TASKS.md § NEXT SESSION](../docs/TASKS.md#-next-session) for detailed task breakdown
+**Reference:** See [TASKS.md § Kanban](../docs/TASKS.md#-kanban) for current priorities
 
 ---
 
@@ -48,7 +48,7 @@
 
 **Current:** Expo Go + expo-sqlite + AsyncStorage + react-native-chart-kit (100% working)
 
-**Future (Phase 0.5 Bis):** Development Build + WatermelonDB + MMKV + Victory Native
+**Target (Phase 0.5.B):** Development Build + WatermelonDB + MMKV + Victory Native
 
 **See [TECHNICAL.md](../docs/TECHNICAL.md)** for complete stack details and Architecture Decision Records (ADRs).
 
@@ -70,6 +70,7 @@
 Custom slash commands available in `.claude/commands/`:
 
 - **/commit** - Smart git commit with strict commitlint validation
+- **/task-update** - Auto-magic task completion with 16-level cascade updates
 
 See individual command files for detailed usage instructions.
 
@@ -82,7 +83,7 @@ See individual command files for detailed usage instructions.
 | Document                  | When to Read                      | Purpose                                  |
 | ------------------------- | --------------------------------- | ---------------------------------------- |
 | **CONTRIBUTING.md** ⭐    | Setup & daily development         | Complete setup guide, workflow, commands |
-| **TASKS.md** 📋           | Planning next tasks               | Roadmap (96 tasks across 6 phases)       |
+| **TASKS.md** 📋           | Planning next tasks               | Roadmap (98 tasks across 6 phases)       |
 | **AUDIT_FIXES.md** 🔧     | Post-migration corrections        | 8 critical corrections (blockers)        |
 | **DATABASE.md** 💾        | Working with database             | expo-sqlite setup, schema, CRUD ops      |
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
@@ -91,8 +92,8 @@ See individual command files for detailed usage instructions.
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**
-- 🎯 **Current Phase:** See [TASKS.md § Phase 0.5](../docs/TASKS.md#phase-05-architecture--foundation-415--critical)
-- 🚀 **Next Steps:** See [TASKS.md § NEXT SESSION](../docs/TASKS.md#-next-session)
+- 🎯 **Current Phase:** See [TASKS.md § Phase 0.5](../docs/TASKS.md#phase-05-architecture--foundation-628)
+- 🚀 **Next Priority:** See [TASKS.md § Kanban](../docs/TASKS.md#-kanban)
 
 ---
 
@@ -111,11 +112,11 @@ See individual command files for detailed usage instructions.
 
 ```markdown
 📄 File: docs/TASKS.md
-📍 Section: Phase 0.5 Bis, Task 1 (line 210)
+📍 Section: Phase 0.5.B, Task 1 (line 209)
 ✏️ Change: Mark checkbox [x]
 
-Before: - [ ] 0.5bis.1 Setup EAS Build Account
-After:  - [x] 0.5bis.1 Setup EAS Build Account
+Before: - [ ] 0.5.20 Setup EAS Build Account & CLI
+After:  - [x] 0.5.20 Setup EAS Build Account & CLI
 ```
 
 **Never duplicate info across docs** - Each doc has single responsibility (see Documentation Map above)
@@ -142,12 +143,12 @@ After:  - [x] 0.5bis.1 Setup EAS Build Account
 ├── settings.json                # Shared hooks configuration (versioned)
 ├── settings.local.json          # Local permissions (NOT versioned)
 ├── commands/                    # Custom slash commands
-│   └── commit.md               # /commit command
+│   ├── commit.md               # /commit - Smart git commits
+│   └── task-update.md          # /task-update - Auto-magic task management
+├── lib/                         # Specifications & formats
+│   └── tasks-format-spec.md    # TASKS.md format specification v4.2
 └── hooks/                       # Reserved for future automation
-    ├── post-tool-use.py        # (empty)
-    ├── pre-compact.py          # (empty)
-    ├── session-start.py        # (empty)
-    └── session-end.py          # (empty)
+    └── (empty - for future use)
 ```
 
 **Configuration:**
