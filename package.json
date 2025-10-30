@@ -81,7 +81,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --config .eslintrc.js --fix",
+      "eslint --fix",
       "prettier --write",
       "bash -c 'tsc --noEmit'"
     ],
