@@ -1,5 +1,6 @@
 # Dependabot Configuration - Halterofit
-# Philosophy: Automation + Security + Simplicity
+# Industry Standard: Selective Automation with Semver Rules
+# Philosophy: Auto-merge safe updates, manual review for breaking changes
 
 version: 2
 updates:
@@ -9,11 +10,16 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
 
+    # Limit concurrent PRs to avoid overwhelming
     open-pull-requests-limit: 5
 
+    # Group similar updates to reduce PR noise
     groups:
-      # Dev dependencies - Safe to merge quickly
+      # Dev dependencies - Auto-merged by CI workflow
+      # TypeScript, ESLint, Jest, Prettier, etc.
       dev-dependencies:
         patterns:
           - "@types/*"
@@ -25,33 +31,45 @@ updates:
           - "@commitlint/*"
           - "jest*"
           - "@testing-library/*"
+        update-types:
+          - "minor"
+          - "patch"
 
-      # Runtime dependencies - Review required
-      # Excludes critical packages (separate PRs)
-      runtime:
+      # Runtime patch updates - Auto-merged by CI workflow
+      # Bug fixes only (0.0.X), low risk
+      runtime-patches:
         patterns:
           - "*"
         exclude-patterns:
-          - "expo"
-          - "expo-*"
-          - "react"
-          - "react-native"
-          - "@nozbe/watermelondb"
+          - "@types/*"
+          - "@typescript-eslint/*"
+          - "eslint*"
+          - "prettier"
+          - "lint-staged"
+          - "husky"
+          - "@commitlint/*"
+          - "jest*"
+          - "@testing-library/*"
+        update-types:
+          - "patch"
 
-    # Critical packages get individual PRs
-    # (No grouping = easier to review one by one)
+    # Critical packages always get separate PRs (easier to review)
+    # Expo, React, React Native, WatermelonDB, Supabase
+    # Minor/major updates require manual review
 
     commit-message:
       prefix: "chore(deps)"
+      include: "scope"
 
-  # GitHub Actions - Security Updates
-  # Enables SHA pinning with automatic updates
-  # Dependabot will update both SHA and version comments
+  # GitHub Actions - Auto-merged after CI passes
+  # SHA pinning ensures security
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
 
     open-pull-requests-limit: 3
 

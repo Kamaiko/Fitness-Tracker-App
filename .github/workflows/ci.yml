@@ -11,7 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# Least privilege permissions
+# Default permissions (read-only)
 permissions:
   contents: read
 
@@ -46,9 +46,71 @@ jobs:
         run: npm test -- --ci --coverage --maxWorkers=2
 
       - name: Upload coverage reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.0
         if: always()
         with:
           name: coverage-report
           path: coverage/
           retention-days: 30
+
+  # Dependabot Auto-Merge (Industry Standard Pattern)
+  # Automatically merges Dependabot PRs after CI passes
+  # Only merges: dev dependencies + patch updates for runtime
+  dependabot:
+    name: Dependabot Auto-Merge
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    # Only run on Dependabot PRs
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+
+    # Elevated permissions for merging
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@08eff52bf64351f401fb50d4972fa95b9f2c2d1b # v2.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge dev dependencies
+        # Dev dependencies: ESLint, TypeScript, Jest, etc.
+        # These rarely break code, safe to auto-merge
+        if: steps.metadata.outputs.dependency-type == 'direct:development'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge runtime patch updates
+        # Runtime patch updates (0.0.X): Bug fixes only, generally safe
+        # Example: react-native 0.73.1 -> 0.73.2
+        if: |
+          steps.metadata.outputs.dependency-type == 'direct:production' &&
+          steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on manual review PRs
+        # For minor/major runtime updates, add helpful comment
+        if: |
+          steps.metadata.outputs.dependency-type == 'direct:production' &&
+          (steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+           steps.metadata.outputs.update-type == 'version-update:semver-major')
+        run: |
+          gh pr comment "$PR_URL" --body "⚠️ **Manual review required**
+
+          This is a ${{ steps.metadata.outputs.update-type }} update for a runtime dependency.
+
+          Please review:
+          - Breaking changes in changelog
+          - Test the app thoroughly before merging
+          - Check for migration guides if major version"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
