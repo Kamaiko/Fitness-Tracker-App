@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 6/98 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
+**Progress**: 8/98 tasks (8%) • ![](https://img.shields.io/badge/Progress-8%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-29 • **Next Milestone**: Development Build Migration (10 tasks)
 
@@ -11,32 +11,32 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 6/28 tasks (21%) • **Overall**: 6/98 tasks (6%)
+**Phase Progress**: 8/28 tasks (29%) • **Overall**: 8/98 tasks (8%)
 **Critical Blockers**: None • **Velocity**: ~3 tasks/week (estimated)
 
 ### Recent Completions ✅
 
-1. 0.5.1 - Setup expo-sqlite with Supabase sync
-2. 0.5.7 - Complete modular architecture refactor
-3. 0.5.8 - Technical audit and corrections planning
+1. 0.5.21 - Create eas.json Configuration
+2. 0.5.20 - Setup EAS Build Account & CLI
+3. 0.5.18 - Setup Jest testing infrastructure
 4. 0.5.17 - Setup professional dev tools (Husky + lint-staged)
-5. 0.5.18 - Setup Jest testing infrastructure
+5. 0.5.8 - Technical audit and corrections planning
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                          | 🔨 DOING | ✅ DONE (Last 5)                |
-| ---------------------------------------- | -------- | ------------------------------- |
-| **0.5.20** EAS Build setup `[S]` 🔴      |          | **0.5.18** Jest setup           |
-| **0.5.21** eas.json config `[S]` 🔴      |          | **0.5.17** Dev tools            |
-| **0.5.22** Build dev client `[M]` 🟠     |          | **0.5.8** Audit analysis        |
-| **0.5.23** WatermelonDB install `[M]` 🟠 |          | **0.5.7** Architecture refactor |
-| **0.5.24** WatermelonDB schema `[L]` 🟠  |          | **0.5.1** Expo-sqlite local     |
+| 📝 TODO (Top 5)                             | 🔨 DOING | ✅ DONE (Last 5)           |
+| ------------------------------------------- | -------- | -------------------------- |
+| **0.5.22** Build dev client `[M]` 🟠        |          | **0.5.21** eas.json config |
+| **0.5.23** WatermelonDB install `[M]` 🟠    |          | **0.5.20** EAS Build setup |
+| **0.5.24** WatermelonDB schema `[L]` 🟠     |          | **0.5.18** Jest setup      |
+| **0.5.25** Migrate to WatermelonDB `[L]` 🟠 |          | **0.5.17** Dev tools       |
+| **0.5.26** Install MMKV `[M]` 🟠            |          | **0.5.8** Audit analysis   |
 
-**Progress**: Phase 0.5: 6/28 (21%) • Overall: 6/98 (6%)
+**Progress**: Phase 0.5: 8/28 (29%) • Overall: 8/98 (8%)
 **Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~7 weeks
-**NEXT**: 0.5.20 EAS Build setup ⚡
+**NEXT**: 0.5.22 Build Development Build ⚡
 
 ---
 
@@ -45,7 +45,7 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (6/28)](#phase-05-architecture--foundation-628)
+4. [Phase 0.5: Architecture & Foundation (8/28)](#phase-05-architecture--foundation-828)
 5. [Phase 1: Authentication & Foundation (0/14)](#phase-1-authentication--foundation-014)
 6. [Phase 2: Workout Logging (0/18)](#phase-2-workout-logging-018)
 7. [Phase 3: Exercise Library & Testing (0/12)](#phase-3-exercise-library--testing-012)
@@ -122,12 +122,12 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 0.5: Architecture & Foundation (6/28)
+## Phase 0.5: Architecture & Foundation (8/28)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 6/28 tasks (21%) | **Est. Time Remaining:** 44-54h
+**Progress:** 8/28 tasks (29%) | **Est. Time Remaining:** 40-50h
 
 **Current Stack:** Expo Go (expo-sqlite + AsyncStorage + react-native-chart-kit)
 **Target Stack:** Development Build (WatermelonDB + MMKV + Victory Native)
@@ -146,7 +146,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.B: Development Build Migration (0/10) ⚡ NEXT PRIORITY
+### 0.5.B: Development Build Migration (2/10) 🔨 IN PROGRESS
 
 **Goal:** Migrate to production-ready stack while codebase is small
 
@@ -206,7 +206,7 @@ npm start  # Back to Expo Go
 
 #### 📋 Migration Tasks (Follow Order)
 
-- [ ] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min)
+- [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
   - Create free Expo account at https://expo.dev/signup
   - Install EAS CLI: `npm install -g eas-cli`
   - Login: `eas login`
@@ -214,7 +214,7 @@ npm start  # Back to Expo Go
   - Verify setup: `eas whoami`
   - Status: Ready for cloud builds
 
-- [ ] 0.5.21 **Create eas.json Configuration** (S - 30min)
+- [x] 0.5.21 **Create eas.json Configuration** (S - 30min) ✅
   - Create eas.json at project root
   - Configure development profile (`developmentClient: true`)
   - Configure preview and production profiles
