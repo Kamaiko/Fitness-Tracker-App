@@ -170,18 +170,6 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-#### ✅ Pre-Flight Checklist (COMPLETED)
-
-1. ✅ Git status clean
-2. ✅ Backup branch created
-3. ✅ EAS account configured
-4. ✅ Supabase project ready
-5. ✅ Development build successful
-
----
-
-#### 📋 Migration Tasks (Follow Order)
-
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
   - EAS account configured, CLI installed, project linked
 
