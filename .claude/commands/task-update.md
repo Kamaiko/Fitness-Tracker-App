@@ -90,14 +90,14 @@ Type `Y` → Task moves to DOING column
    • Files: supabase/migrations/001_initial_schema.sql ✓
    • Matches task description
 
-📊 Auto-updated (16 levels):
+📊 Auto-updated (15 levels):
    ✓ Task marked [x] in TASKS.md
    ✓ Phase 0.5: 6/28 → 7/28 (25%)
    ✓ Overall: 6/98 → 7/98 (7%)
    ✓ Kanban: 0.5.2 moved DOING → DONE
    ✓ Progress badge updated
-   ✓ Table of Contents synced
    ✓ Velocity & ETA recalculated
+   ✓ All subsections synced
 
 ⏭️ Next recommended:
    0.5.3 Install FlashList [S - 1h] 🟡
@@ -130,7 +130,7 @@ Just type the number. That's it.
 
 ### 2. Auto-Cascade Updates
 
-One command updates **16 levels** automatically:
+One command updates **15 levels** automatically:
 
 #### Core Updates (1-3)
 1. ✅ Task checkbox: `[ ]` → `[x]`
@@ -151,12 +151,13 @@ One command updates **16 levels** automatically:
 12. 📊 Subsection progress: Update `0.5.B (X/M)` → `(X+1/M)`
 13. ✅ Subsection emoji: Change `⚡ NEXT` → `✅ COMPLETE` if all done
 
-#### Strategic Updates (14-16)
-14. 📖 Table of Contents: Sync phase counts `(X/M)`
-15. 📅 Phase Timeline table: Mark `✅ COMPLETE` if phase done, update STATUS
-16. 📈 Velocity & ETA: Recalculate simple average, update ETA
+#### Strategic Updates (14-15)
+14. 📅 Phase Timeline table: Mark `✅ COMPLETE` if phase done, update STATUS
+15. 📈 Velocity & ETA: Recalculate simple average, update ETA
 
-**Time:** All 16 updates complete in ~2 seconds
+**Note:** TOC no longer needs updates - uses stable anchors (`#phase-05`)
+
+**Time:** All 15 updates complete in ~2 seconds
 
 ### 3. Smart Suggestions
 
@@ -206,7 +207,7 @@ if (singleMatchWithStrongEvidence) {
 }
 ```
 
-### Step 3: Cascade Updates (16 Levels)
+### Step 3: Cascade Updates (15 Levels)
 ```typescript
 // Core (1-3)
 markComplete(taskId)
@@ -227,8 +228,7 @@ rotateRecentCompletions()
 updateSubsectionProgress()
 updateSubsectionEmoji()
 
-// Strategic (14-16)
-syncTableOfContents()
+// Strategic (14-15)
 updatePhaseTimeline()
 recalculateVelocityETA()
 
@@ -357,9 +357,15 @@ Shows full kanban + metrics in <2 seconds.
 
 ---
 
-**Version**: 2.1 (Enhanced)
+**Version**: 2.2 (Simplified)
 **Last Updated**: 2025-10-29
-**Philosophy**: Maximum automation, minimum friction, rigorous updates
+**Philosophy**: Maximum automation, minimum friction, zero duplication
+
+**Changes in v2.2:**
+- Reduced cascade: 16 → 15 levels (removed TOC sync)
+- TOC now uses stable HTML anchors (#phase-N)
+- No more broken links from count changes
+- Simpler, more reliable automation
 
 **Changes in v2.1:**
 - Documented complete 16-level cascade system

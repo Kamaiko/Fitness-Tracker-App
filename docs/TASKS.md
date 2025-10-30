@@ -45,12 +45,12 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (8/28)](#phase-05-architecture--foundation-828)
-5. [Phase 1: Authentication & Foundation (0/14)](#phase-1-authentication--foundation-014)
-6. [Phase 2: Workout Logging (0/18)](#phase-2-workout-logging-018)
-7. [Phase 3: Exercise Library & Testing (0/12)](#phase-3-exercise-library--testing-012)
-8. [Phase 4: Analytics & Smart Features (0/15)](#phase-4-analytics--smart-features-015)
-9. [Phase 5: Polish, Monitoring & Beta Launch (0/18)](#phase-5-polish-monitoring--beta-launch-018)
+4. [Phase 0.5: Architecture & Foundation](#phase-05)
+5. [Phase 1: Authentication & Foundation](#phase-1)
+6. [Phase 2: Workout Logging](#phase-2)
+7. [Phase 3: Exercise Library & Testing](#phase-3)
+8. [Phase 4: Analytics & Smart Features](#phase-4)
+9. [Phase 5: Polish, Monitoring & Beta Launch](#phase-5)
 10. [Task Size Estimates & Priority Levels](#task-size-estimates--priority-levels)
 
 ---
@@ -121,6 +121,8 @@ Phase 6: Polish & Launch (0/9 tasks)
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
 ---
+
+<a id="phase-05"></a>
 
 ## Phase 0.5: Architecture & Foundation (8/28)
 
@@ -393,6 +395,8 @@ git branch -D backup/pre-migration
 
 ---
 
+<a id="phase-1"></a>
+
 ## Phase 1: Authentication & Foundation (0/14)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
@@ -544,6 +548,8 @@ git branch -D backup/pre-migration
   ```
 
 ---
+
+<a id="phase-2"></a>
 
 ## Phase 2: Workout Logging (0/28)
 
@@ -799,6 +805,8 @@ git branch -D backup/pre-migration
 
 ---
 
+<a id="phase-3"></a>
+
 ## Phase 3: Exercise Library & Testing (0/12)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
@@ -957,6 +965,8 @@ git branch -D backup/pre-migration
   ```
 
 ---
+
+<a id="phase-4"></a>
 
 ## Phase 4: Analytics & Smart Features (0/15)
 
@@ -1124,6 +1134,8 @@ git branch -D backup/pre-migration
   ```
 
 ---
+
+<a id="phase-5"></a>
 
 ## Phase 5: Polish, Monitoring & Beta Launch (0/18)
 
