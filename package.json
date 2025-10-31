@@ -1,6 +1,7 @@
 {
   "name": "halterofit",
   "version": "0.1.0",
+  "description": "Offline-first fitness tracking app with context-aware analytics. Testing: docs/testing/README.md",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",

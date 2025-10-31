@@ -13,8 +13,8 @@
   - [ADR-004: Database Strategy - WatermelonDB](#adr-004-database-strategy---watermelondb)
   - [ADR-005: Navigation with Expo Router](#adr-005-navigation-with-expo-router)
   - [ADR-006: State Management - Zustand + React Query](#adr-006-state-management---zustand--react-query)
-  - [ADR-007: Styling with NativeWind](#adr-007-styling-with-nativewind)
-  - [ADR-008: Testing Strategy](#adr-008-testing-strategy)
+  - [ADR-007: Three-Tier Testing Strategy](#adr-007-three-tier-testing-strategy)
+  - [ADR-008: Supabase Backend](#adr-008-supabase-backend)
   - [ADR-009: Storage Strategy - MMKV](#adr-009-storage-strategy---mmkv)
   - [ADR-010: Performance Libraries](#adr-010-performance-libraries)
   - [ADR-011: Charts Library - Victory Native](#adr-011-charts-library---victory-native)
@@ -290,15 +290,26 @@ await synchronize({
 
 ---
 
-### ADR-007: Manual Testing for MVP
+### ADR-007: Three-Tier Testing Strategy
 
-**Decision:** Skip Jest/Detox initially
+**Decision:** Jest (Unit) + Manual E2E (Phase 1) + Maestro (Phase 3+)
 
-**Rationale:** Faster MVP delivery, comprehensive tests pre-production
+**Rationale:**
 
-**Future:** Add Jest + Detox before v1.0 launch
+- **Jest + LokiJS:** Fast unit tests for CRUD/queries (37 tests, 60-65% coverage)
+- **Manual E2E:** Validate sync protocol (LokiJS limitation) before automation
+- **Maestro:** Automate critical flows after manual validation (Phase 3+)
 
-**Status:** ✅ Decided
+**Key Limitation:** WatermelonDB sync protocol (`_changed`, `_status`) requires real SQLite - cannot be tested in Jest
+
+**Status:** ✅ **IMPLEMENTED** (Phase 0.5.28)
+
+**References:**
+
+- [Testing Overview](./testing/README.md) - Complete strategy and navigation
+- [Unit Testing Guide](./testing/unit-guide.md) - Writing Jest tests
+- [Manual E2E Guide](./testing/e2e-manual.md) - Phase 1 sync protocol validation
+- [Test Infrastructure](../tests/README.md) - Helpers, fixtures, mocks
 
 ---
 

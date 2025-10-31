@@ -28,3 +28,57 @@ global.console = {
 
 // Mock our Supabase client to avoid loading native dependencies during tests
 jest.mock('@/services/supabase/client');
+
+// ============================================================================
+// 🆕 Global Test Setup (Phase 0.5.28 refactor)
+// ============================================================================
+
+beforeEach(() => {
+  // Clear all mocks before each test
+  jest.clearAllMocks();
+
+  // Note: resetTestIdCounter() is called in each test file's beforeEach
+  // (not here to avoid issues - tests explicitly call it)
+});
+
+// ============================================================================
+// 🆕 Custom Jest Matchers (Phase 0.5.28 refactor)
+// ============================================================================
+
+expect.extend({
+  /**
+   * Assert workout object has valid structure
+   * @example expect(workout).toBeValidWorkout()
+   */
+  toBeValidWorkout(received) {
+    const pass =
+      received &&
+      typeof received.id === 'string' &&
+      typeof received.title === 'string' &&
+      typeof received.userId === 'string';
+
+    return {
+      pass,
+      message: () =>
+        pass
+          ? `Expected ${JSON.stringify(received)} not to be a valid workout`
+          : `Expected ${JSON.stringify(received)} to be a valid workout (id, title, userId)`,
+    };
+  },
+
+  /**
+   * Assert exercise object has valid structure
+   * @example expect(exercise).toBeValidExercise()
+   */
+  toBeValidExercise(received) {
+    const pass = received && typeof received.id === 'string' && typeof received.name === 'string';
+
+    return {
+      pass,
+      message: () =>
+        pass
+          ? `Expected ${JSON.stringify(received)} not to be a valid exercise`
+          : `Expected ${JSON.stringify(received)} to be a valid exercise (id, name)`,
+    };
+  },
+});

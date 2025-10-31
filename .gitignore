@@ -116,3 +116,4 @@ patches/
 *.db
 *.db-shm
 *.db-wal
+nul

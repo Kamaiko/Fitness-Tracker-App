@@ -55,7 +55,10 @@
       "Bash(if exist fix_types.py del fix_types.py)",
       "Bash(if exist fix_workout.py del fix_workout.py)",
       "Bash(find:*)",
-      "Bash(if exist c:DevToolsProjectsHalterofitfix_workouts.py del c:DevToolsProjectsHalterofitfix_workouts.py)"
+      "Bash(if exist c:DevToolsProjectsHalterofitfix_workouts.py del c:DevToolsProjectsHalterofitfix_workouts.py)",
+      "Bash(gh run list:*)",
+      "Bash(npm run format:*)",
+      "Bash(if not exist \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\" mkdir \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\")"
     ],
     "deny": [],
     "ask": []

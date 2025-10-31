@@ -7,8 +7,9 @@
  * @module test-utils
  */
 
+/* global expect */
+
 import { Database, Model } from '@nozbe/watermelondb';
-import { Q } from '@nozbe/watermelondb';
 
 // ============================================================================
 // Database Query Helpers

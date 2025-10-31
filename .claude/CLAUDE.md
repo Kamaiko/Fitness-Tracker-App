@@ -86,8 +86,10 @@
 **Current Coverage**: 60-65% database layer (Phase 0.5 foundation)
 
 **See:**
-- [Database Test README](../src/services/database/__tests__/README.md) - Unit test structure
-- [E2E_STRATEGY.md](../docs/E2E_STRATEGY.md) - Manual + Maestro automation plan
+- [Testing Overview](../docs/testing/README.md) - Complete testing strategy and navigation
+- [Unit Testing Guide](../docs/testing/unit-guide.md) - Writing Jest unit tests
+- [Manual E2E Guide](../docs/testing/e2e-manual.md) - Phase 1 manual testing
+- [Test Infrastructure](../tests/README.md) - Helpers, fixtures, mocks
 
 ---
 
@@ -115,7 +117,7 @@ See individual command files for detailed usage instructions.
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
 | **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
 | **TROUBLESHOOTING.md** 🆘 | When something breaks             | Common issues & solutions                |
-| **E2E_STRATEGY.md** 🧪    | Setting up E2E testing            | Manual testing (Phase 1), Maestro (Phase 3+) |
+| **testing/README.md** 🧪  | Understanding testing strategy    | Three-tier testing (unit/manual E2E/automated) |
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**

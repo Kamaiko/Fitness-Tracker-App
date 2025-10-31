@@ -12,6 +12,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@tests/(.*)$': '<rootDir>/tests/$1', // 🆕 Alias for tests infrastructure
   },
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}', '**/?(*.)+(spec|test).{ts,tsx}'],
 

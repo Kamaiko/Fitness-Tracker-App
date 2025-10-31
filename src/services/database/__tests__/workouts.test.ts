@@ -13,14 +13,14 @@
 
 import { Database } from '@nozbe/watermelondb';
 import { Q } from '@nozbe/watermelondb';
-import { createTestDatabase, cleanupTestDatabase } from './setup/test-database';
+import { createTestDatabase, cleanupTestDatabase } from '@tests/support/database/test-database';
 import Workout from '../watermelon/models/Workout';
 import {
   createTestWorkout,
   createTestUser,
   resetTestIdCounter,
   createTestWorkoutData,
-} from './setup/factories';
+} from '@tests/support/database/factories';
 import {
   getAllRecords,
   countRecords,
@@ -28,7 +28,7 @@ import {
   dateInPast,
   assertDatesApproximatelyEqual,
   createMultipleRecords,
-} from './setup/test-utils';
+} from '@tests/support/database/assertions';
 
 // NOTE: Sync protocol tests (assertSyncProtocolColumns, getSyncTimestamp)
 // removed - these require real SQLite and are tested in E2E only.

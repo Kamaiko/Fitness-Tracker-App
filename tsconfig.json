@@ -6,7 +6,8 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@tests/*": ["tests/*"]
     },
     // CI/CD Performance: Incremental compilation for faster type-checks
     "incremental": true,
