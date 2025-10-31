@@ -1,4 +1,4 @@
-# 🏗️ Technical Documentation
+# Technical Documentation
 
 ---
 
@@ -126,7 +126,29 @@
 
 ## Technology Stack
 
-See [README.md § Tech Stack](../README.md#️-tech-stack) for complete stack details.
+**Current Production Stack (Development Build):**
+
+| Category             | Technology             | Version | Purpose                                      |
+| -------------------- | ---------------------- | ------- | -------------------------------------------- |
+| **Framework**        | Expo SDK               | 54.0.21 | React Native framework with managed workflow |
+| **Language**         | TypeScript             | 5.9     | Type-safe development                        |
+| **UI Library**       | React Native           | 0.81.5  | Mobile UI framework                          |
+| **Styling**          | NativeWind             | v4      | Tailwind CSS for React Native                |
+| **Database**         | WatermelonDB           | 0.28.0  | Offline-first reactive database              |
+| **Storage**          | MMKV                   | 4.0.0   | Encrypted key-value storage                  |
+| **State Management** | Zustand                | 5.0.8   | Lightweight global state                     |
+| **Server State**     | React Query (TanStack) | 5.90.5  | Installed, not yet used                      |
+| **Backend**          | Supabase               | 2.78.0  | PostgreSQL + Auth + Storage                  |
+| **Charts**           | Victory Native         | 41.20.1 | Data visualization (Skia-based)              |
+| **Lists**            | FlashList              | 2.2.0   | High-performance lists                       |
+| **Images**           | expo-image             | 3.0.10  | Optimized image loading with caching         |
+| **Navigation**       | Expo Router            | 6.0.14  | File-based routing                           |
+| **Error Monitoring** | Sentry                 | 7.4.0   | Crash reporting and monitoring               |
+| **Build**            | EAS Build              | Latest  | Cloud-based native builds                    |
+| **Testing**          | Jest + Testing Library | Latest  | Unit and integration testing                 |
+| **Linting**          | ESLint + Prettier      | Latest  | Code quality and formatting                  |
+
+**Migration Status:** All native modules (WatermelonDB, MMKV, Victory Native) migrated in Phase 0.5.B (Tasks 0.5.20-0.5.26).
 
 ---
 

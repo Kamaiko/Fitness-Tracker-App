@@ -1,4 +1,4 @@
-# 🏗️ Architecture - Halterofit
+# Architecture - Halterofit
 
 ---
 
@@ -29,14 +29,14 @@ Halterofit uses a **scalable modular architecture** inspired by React Native/Exp
 
 ```
 src/
-├── app/              # 🚀 Navigation & Screens (Expo Router)
-├── components/       # 🧩 UI Components (Feature-organized)
-├── hooks/            # 🪝 Custom React Hooks
-├── services/         # ⚙️ Business Logic & External Services
-├── stores/           # 📦 Global State (Zustand)
-├── types/            # 📝 TypeScript Definitions
-├── utils/            # 🔧 Pure Utility Functions
-└── constants/        # 🎨 App-wide Constants
+├── app/              # Navigation & Screens (Expo Router)
+├── components/       # UI Components (Feature-organized)
+├── hooks/            # Custom React Hooks
+├── services/         # Business Logic & External Services
+├── stores/           # Global State (Zustand)
+├── types/            # TypeScript Definitions
+├── utils/            # Pure Utility Functions
+└── constants/        # App-wide Constants
 ```
 
 ### Architectural Principles

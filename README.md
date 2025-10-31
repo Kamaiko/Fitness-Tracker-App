@@ -11,7 +11,6 @@
 [![NativeWind](https://img.shields.io/badge/NativeWind-v4-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
 [![Science-Based](https://img.shields.io/badge/Analytics-Science--Based-00A36C?style=flat)](https://github.com)
-[![CI](https://github.com/Kamaiko/HalteroFit/actions/workflows/ci.yml/badge.svg)](https://github.com/Kamaiko/HalteroFit/actions/workflows/ci.yml)
 
 <br/>
 
