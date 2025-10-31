@@ -216,12 +216,31 @@ Know which document to reference for what:
 
 When user runs `/primer`, execute this workflow **silently** (no verbose logging):
 
+**⚡ Performance Note:** This workflow is optimized to minimize token usage:
+- **TASKS.md:** Read header only (~120 lines) using dynamic grep detection
+- **Recent files:** Names only, no content reading
+- **Code scan:** Single glob pattern instead of 5 separate calls
+- **Impact:** ~30k tokens saved (70k total vs 102k before optimization)
+
 ### Phase 1: Documentation Deep Dive
 
 ```typescript
 // Read core project documentation
 read('c:/DevTools/Projects/Halterofit/.claude/CLAUDE.md')
-read('c:/DevTools/Projects/Halterofit/docs/TASKS.md')
+
+// Read TASKS.md header only (dynamically detect where phase details start)
+// Step 1: Find line number where first "## Phase" section begins
+bash('grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1 | cut -d: -f1')
+// → Returns line number (e.g., 127)
+
+// Step 2: Read until that line - 1 to get: Header + Kanban + Roadmap + Timeline
+// Without loading 1000+ lines of detailed phase descriptions
+read('c:/DevTools/Projects/Halterofit/docs/TASKS.md', { limit: <detected_line - 1> })
+
+// This approach is future-proof:
+// - Works even if header grows from 120 to 200 lines
+// - Works when Phase 0.5 completes and Phase 1 becomes current
+// - No manual adjustment needed
 
 // Extract key info:
 - Current phase (from TASKS.md header "Progress: N/M tasks (X%)")
@@ -234,11 +253,14 @@ read('c:/DevTools/Projects/Halterofit/docs/TASKS.md')
 
 ```typescript
 // Scan project structure (don't read every file, just list)
-glob('src/app/**/*.tsx')         // Count screens
-glob('src/components/**/*.tsx')  // Count components
-glob('src/services/**/*.ts')     // Identify services
-glob('src/stores/**/*.ts')       // Identify stores
-glob('src/hooks/**/*.ts')        // Identify hooks
+// Use single glob pattern for efficiency (~1k tokens saved vs 5 separate globs)
+glob('src/**/*.{ts,tsx}')
+// Lists all TS/TSX files, mentally group by directory when summarizing:
+// - src/app/ → screens
+// - src/components/ → UI components
+// - src/services/ → business logic
+// - src/stores/ → state management
+// - src/hooks/ → custom hooks
 
 // Build mental map of architecture
 ```
@@ -250,12 +272,9 @@ glob('src/hooks/**/*.ts')        // Identify hooks
 bash('git log --oneline -10')
 bash('git log --name-only -5 --pretty=format:""')
 
-// Identify recently modified files
-const recentFiles = parseGitLog()
-
-// Read 2-3 most recently modified files to understand context
-read(recentFiles[0])  // Most recent file
-read(recentFiles[1])  // Second most recent
+// Identify recently modified files (names only, no content read)
+// Seeing file names is sufficient for context orientation
+// This saves ~2-3k tokens per session
 
 // Correlate with TASKS.md Recent Completions
 ```
@@ -313,6 +332,9 @@ Prêt pour vos instructions.
 ✅ **Adapts to project evolution** - Works at any phase
 ✅ **References docs** - Doesn't duplicate info
 ✅ **Immuable principles** - Core values don't change
+✅ **Smart header reading** - Dynamically detects where phase details begin
+✅ **Scales with project** - Works whether header is 80 or 200 lines
+✅ **Token-efficient** - Reads ~120 lines instead of 1300+ lines (~30k tokens saved)
 
 ### When to Use `/primer`
 
