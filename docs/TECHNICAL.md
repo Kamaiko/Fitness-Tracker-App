@@ -224,11 +224,11 @@ await synchronize({
 **Trade-offs:**
 
 - ⚠️ Requires Development Build (can't use Expo Go)
-- ⚠️ Initial setup complexity (3-4h vs 1h expo-sqlite)
 - ✅ No future migration needed (production-ready from day 1)
 - ✅ Better architecture for MVP scale
+- ✅ Early migration avoided 40-60% code rewrite later
 
-**Status:** 📋 Planned for Phase 0.5 Bis migration
+**Status:** ✅ **COMPLETED** (Phase 0.5.B - Tasks 0.5.22-0.5.26)
 
 ---
 
@@ -377,7 +377,7 @@ export const authStorage = {
 };
 ```
 
-**Status:** 📋 Planned for Phase 0.5 Bis migration
+**Status:** ✅ **COMPLETED** (Phase 0.5.B - Task 0.5.25)
 
 ---
 
@@ -467,7 +467,7 @@ import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
 - ✅ Production-ready from day 1 (no migration needed)
 - ✅ Better UX for analytics-focused app
 
-**Status:** 📋 Planned for Phase 0.5 Bis migration
+**Status:** ✅ **COMPLETED** (Phase 0.5.B - Task 0.5.26)
 
 ---
 
@@ -562,7 +562,7 @@ npm start
 
 **Savings:** ~76 hours by avoiding future migration
 
-**Status:** 📋 Planned for Phase 0.5 Bis (next session)
+**Status:** ✅ **COMPLETED** (Phase 0.5.B - Tasks 0.5.20-0.5.26)
 
 ---
 

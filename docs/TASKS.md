@@ -143,7 +143,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **Goal:** Establish project foundation with database, architecture, and development tools
 
-- [x] 0.5.1 **Setup expo-sqlite with Supabase sync** (M - 4h) ✅
+- [x] 0.5.1 **Setup database with Supabase sync** (M - 4h) ✅
 - [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
 - [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
 - [x] 0.5.17 **Setup professional dev tools** (S - 30min) ✅
@@ -354,7 +354,7 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Sign up functionality
   - Sign in functionality
   - Sign out functionality
-  - Session management with AsyncStorage (via Supabase SDK)
+  - Session management with MMKV encrypted storage
   - Error handling (user-friendly messages)
 
 - [ ] 1.4 Add form validation utilities (S - 2h) `[src/utils/validation.ts]`
@@ -591,7 +591,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 - [ ] 7.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
   ```
-  - Store favorited exercise IDs in AsyncStorage (simple array)
+  - Store favorited exercise IDs in MMKV (simple array)
   - Toggle favorite function
   - Filter exercises to show only favorites
   - Zustand store for reactive UI
@@ -1126,7 +1126,7 @@ Reference: See task 0.5.18 for details
   - Confirmation dialog with warnings
   - Delete all data from Supabase (cascades via foreign keys)
   - Clear WatermelonDB local database
-  - Clear AsyncStorage (or MMKV when migrated)
+  - Clear MMKV storage
   - Sign out user
 
   See TECHNICAL.md § Compliance code examples
@@ -1213,7 +1213,7 @@ Reference: See task 0.5.18 for details
   - Skip option
 
   Show once on first launch
-  Store completion in AsyncStorage
+  Store completion in MMKV
   ```
 
 - [ ] 19.2 Add user feedback system (M - 3h)

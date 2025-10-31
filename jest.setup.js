@@ -20,9 +20,7 @@ global.console = {
 // All external native modules are mocked via __mocks__ directory
 // This is the standard Jest approach for modules that don't exist in Node.js
 // Mocked modules:
-// - expo-sqlite
 // - expo-asset
-// - @react-native-async-storage/async-storage
 // - react-native-mmkv
 // - @supabase/supabase-js
 

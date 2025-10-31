@@ -474,29 +474,25 @@ module.exports = {
 
 ### User Lost on App Restart
 
-**Symptoms:**
+**Status:** ✅ **RESOLVED** (Tasks 0.5.9, 0.5.10)
 
-- User logged in, app restart → logged out
-- `useAuthStore.getState().user` is `null` after reload
+**Solution Implemented:**
 
-**Cause:**
+- Zustand persist middleware added to authStore and workoutStore
+- MMKV storage backend (encrypted, 10-30x faster)
+- User data persists across app restarts
 
-- Zustand not persisted (will be fixed in Correction #2)
-- AsyncStorage not saving user
-
-**Temporary Workaround:**
+**Verification:**
 
 ```typescript
-// Check AsyncStorage manually
+// Verify persisted user data
 import { storage } from '@/services/storage';
 
-const userId = await storage.get('auth:user_id');
+const userId = await storage.getString('auth:user_id');
 console.log('Persisted user ID:', userId);
 ```
 
-**Permanent Fix:**
-
-- See [AUDIT_FIXES.md](./AUDIT_FIXES.md) → Correction #1 & #2
+**Reference:** Tasks 0.5.9 (Auth Persist), 0.5.10 (Workout Persist)
 
 ---
 
