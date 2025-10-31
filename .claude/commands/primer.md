@@ -5,148 +5,181 @@ allowed-tools: Read, Grep, Glob, Bash(git status:*), Bash(git log:*), Bash(git d
 
 # /primer - Project Familiarization
 
-**Smart session orientation that familiarizes Claude with the project automatically.**
+Smart session orientation that familiarizes Claude with the project automatically.
 
----
-
-## 🎯 What It Does
-
-When you type `/primer`, Claude automatically:
-
-1. **Reads core documentation** (CLAUDE.md, TASKS.md) to understand project vision, standards, and current state
-2. **Scans code structure** (src/ directories) to comprehend architecture organization
-3. **Analyzes recent work** (git history + modified files) to grasp current context
-4. **Verifies local state** (git status, package.json) for sanity checks
-5. **Summarizes understanding** with current phase, recent work, and readiness confirmation
-
-**Purpose:** Get Claude oriented and ready to work WITHOUT suggesting what to do next (you decide the task).
-
-**Philosophy:** TASKS.md is the source of truth for roadmap, but `/primer` prepares Claude for ANY work (even outside TASKS.md scope).
-
----
-
-## 📋 Usage
+## Usage
 
 ```bash
 /primer              # Full project familiarization
 ```
 
-That's it! Claude reads everything silently and confirms readiness.
+## 🎯 What It Does
+
+1. Reads core documentation (CLAUDE.md, TASKS.md header)
+2. Scans code structure (src/ directories)
+3. Analyzes recent work (git history)
+4. Verifies local state (git status, package.json)
+5. **Generates dashboard summary** with metrics, next task, and readiness
 
 ---
 
-## ⚡ Familiarization Workflow
-
-When you run `/primer`, Claude follows this checklist:
+## ⚡ Execution Workflow
 
 ### Step 1: Read Core Documentation
 
-**CLAUDE.md** - Project overview
+**CLAUDE.md:**
+```typescript
+read('c:/DevTools/Projects/Halterofit/.claude/CLAUDE.md')
+```
+
+Extract:
 - Mission, vision, target users
 - Current phase & progress
-- Tech stack decisions
-- Development standards & conventions
+- Tech stack
+- Development standards
 - Documentation map
 
-**TASKS.md** - Roadmap & current state
-- Header: Project status, phase, overall progress
-- Kanban: Recent completions (DONE column)
-- Current focus (phase description)
+**TASKS.md Header Only:**
+```bash
+# Find where phase details start (dynamic detection)
+bash('grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1')
+# Returns line number (e.g., "127:## Phase 0.5...")
 
-**Purpose:** Understand project principles (immuable) + current state (dynamic).
+# Read only header: Status + Kanban + Roadmap + Timeline
+# Without loading 1000+ lines of phase details
+read('c:/DevTools/Projects/Halterofit/docs/TASKS.md', { limit: <line_number - 1> })
+```
+
+Extract:
+- Current phase & progress (from header "Progress: N/M tasks (X%)")
+- Recent completions (from § Recent Completions ✅)
+- Kanban board (TODO, DOING, DONE)
+- Velocity & ETA
 
 ---
 
-### Step 2: Understand Code Structure
+### Step 2: Scan Code Structure
 
-**Scan project directories** with Glob:
-
-```
-src/app/**/*.tsx           # Expo Router screens
-src/components/**/*.tsx    # UI components
-src/services/**/*.ts       # Business logic & APIs
-src/stores/**/*.ts         # State management (Zustand)
-src/hooks/**/*.ts          # Custom React hooks
-src/utils/**/*.ts          # Utilities & helpers
+```bash
+glob('src/**/*.{ts,tsx}')
 ```
 
-**Purpose:** Comprehend architecture organization without reading every file.
+**Group mentally by directory:**
+- `src/app/` → screens (expo-router)
+- `src/components/` → UI components
+- `src/services/` → business logic
+- `src/stores/` → state management (Zustand)
+- `src/hooks/` → custom React hooks
+
+Build mental map of architecture **without reading every file**.
 
 ---
 
 ### Step 3: Analyze Recent Work
 
-**Git history** (last 10 commits):
 ```bash
 git log --oneline -10
-```
-
-**Recently modified files** (last 5 commits):
-```bash
 git log --name-only -5 --pretty=format:""
 ```
 
-**Read recently modified files** to understand:
-- What was worked on last session
-- Current implementation patterns
+**Identify:**
+- Recently modified files (names only, no content read)
+- Commit patterns
 - Active development areas
 
-**Purpose:** Contextualize recent work to understand project momentum.
+Correlate with TASKS.md Recent Completions.
 
 ---
 
 ### Step 4: Verify Local State
 
-**Git status** - Check for uncommitted changes:
 ```bash
-git status
+git status                                      # Check uncommitted changes
+read('c:/DevTools/Projects/Halterofit/package.json')  # Verify dependencies
 ```
-
-**Package.json** - Verify main dependencies:
-- Read `package.json` → dependencies section
-- Identify core stack (WatermelonDB, MMKV, Victory Native, etc.)
-
-**Purpose:** Sanity checks for clean working state.
 
 ---
 
-### Step 5: Summarize Understanding
+### Step 5: Generate Dashboard Summary
 
-Generate concise summary with **proper markdown spacing** (use double newlines `\n\n` between sections):
+**Format (compact, 1 ligne par section, NO double newlines needed):**
 
 ```
-✅ Familiarisé avec Halterofit (Phase X.X, N/M tasks - X%)
+✅ Familiarisé avec Halterofit
 
-**Dernier travail :**
-  • Task ID - Description
-  • Task ID - Description
+📊 17/26 tasks (65%) • Phase 0.5 • ~4 tasks/semaine • ETA: 2.5 semaines
 
-**Stack actuel :**
-Key dependencies with versions
+🔥 Momentum: Excellent (4 tasks dernière semaine vs 2.8 avg précédentes)
+⏱️  Dernière activité: il y a 2h (74e509b - fix(claude): Improve /primer formatting)
 
-**Structure projet :**
-  • src/app/ - N screens (expo-router)
-  • src/components/ - N components
-  • src/services/ - Main services
-  • src/stores/ - State stores
+⏭️  NEXT TASK:
+    0.5.27 - Implement Supabase sync schema [L - 4-6h] 🟠 CRITICAL
+    └─ Bloque 5 tasks Phase 1 • Aucune dépendance • Migration complete, infra ready
 
-**État local :**
-Clean / Uncommitted changes detected
+⚠️  ALERTS:
+    • Modified: .claude/settings.local.json (uncommitted)
+
+💡 QUICK ACTIONS:
+    /task-update next → Start 0.5.27
+    /commit → Commit local changes first
 
 ---
 
 Prêt pour vos instructions.
 ```
 
-**IMPORTANT:** Use double newlines between each section to create readable paragraphs in markdown.
+**How to extract dashboard data:**
 
-**Tone:** Contextual but concise (Option 2 style).
+**Line 1: Status compact**
+- Format: `📊 X/M tasks (X%) • Phase N • ~N tasks/semaine • ETA: N semaines`
+- From TASKS.md header: "Phase 0.5: Architecture & Foundation (17/26)"
+- From Kanban: "Velocity: ~4 tasks/week", "ETA: Phase 0.5 complete in ~2.5 weeks"
+
+**Line 2: Momentum (dynamic calculation)**
+- Count tasks completed last 7 days (from git log)
+- Compare to average of previous 3 weeks
+- If trending up: "🔥 Momentum: Excellent (4 tasks dernière semaine vs 2.8 avg précédentes)"
+- If trending down: "⚠️ Momentum: Ralenti (2 tasks vs 4 avg précédentes)"
+- If stable: "📊 Momentum: Stable (3-4 tasks/semaine)"
+
+**Line 3: Dernière activité (freshness check)**
+- Get last commit: `git log -1 --format="%h - %s"`
+- Calculate time since: `git log -1 --format="%ar"`
+- Format: `⏱️  Dernière activité: il y a 2h (74e509b - fix(claude): Improve /primer)`
+- If > 24h: Add warning emoji: `⚠️ Dernière activité: il y a 3 jours (attention: stale)`
+
+**Line 4-5: NEXT TASK (first from Kanban TODO)**
+- From TASKS.md § Kanban → TODO column (first task)
+- Parse: "**0.5.27** Supabase schema `[L]` 🟠"
+- Look up task details in Phase sections for:
+  - Dependencies (check "Blocked by:" or "Dependencies:")
+  - Impact (how many tasks does this unblock?)
+  - Context (why this task now? e.g., "Migration complete, infra ready")
+- Format:
+  ```
+  task_id - description [size] priority
+  └─ Impact • Dependencies • Context
+  ```
+
+**Line 6: ALERTS (conditional - only if issues exist)**
+- Check git status for uncommitted changes
+- Check for merge conflicts
+- Check if branch is behind origin
+- Check for TODO/FIXME in recently modified files
+- Only show if alerts exist
+
+**Line 7: QUICK ACTIONS (context-aware suggestions)**
+- If uncommitted changes: `/commit → Commit local changes first`
+- If clean working tree: `/task-update next → Start [next_task_id]`
+- Always show: Quick actions based on current state
+
+**Tone:** Dashboard-style, compact, actionable, visual.
 
 ---
 
 ## 🎯 Halterofit Project Principles
 
-These principles are **immuable** and should guide all work:
+These principles are **immuable** and guide all work:
 
 ### Mission & Vision
 
@@ -159,8 +192,6 @@ These principles are **immuable** and should guide all work:
 
 **Unique Value:** Context-aware analytics that explain WHY (not just raw numbers)
 
----
-
 ### Collaboration Model
 
 **User Profile:**
@@ -169,22 +200,17 @@ These principles are **immuable** and should guide all work:
 - Needs clear explanations
 
 **Workflow:**
-- **Always** present plan → validate → execute
-- Work **one task at a time** (unless logically groupable)
-- Be **communicative** - share suggestions and alternatives
-- **Ask questions** when anything is unclear or ambiguous
-- **Never improvise** solutions that could backfire later
-
-**Role:** Act as a methodical, reliable collaborator who understands before acting.
-
----
+- Always: Plan → Validate → Execute
+- Work one task at a time (unless logically groupable)
+- Be communicative - share suggestions and alternatives
+- Ask questions when anything is unclear
+- Never improvise solutions that could backfire later
 
 ### Development Standards
 
 **Code Quality:**
-- ✅ Bonnes pratiques over "hotfixes"
+- ✅ Best practices over "hotfixes"
 - ✅ Clean, reusable, scalable code
-- ✅ Clear, maintainable structure
 - ❌ No quick fixes that create tech debt
 
 **Technical Requirements:**
@@ -193,206 +219,18 @@ These principles are **immuable** and should guide all work:
 - All features work without internet
 
 **Source of Truth:**
-- **TASKS.md** - Project roadmap and next steps
-- Always check TASKS.md for current phase and priorities
+- TASKS.md = Project roadmap and next steps
 - User may work outside TASKS.md scope (that's OK)
-
----
 
 ### Documentation Map
 
-Know which document to reference for what:
-
-| Document | When to Use | Purpose |
-|----------|-------------|---------|
-| **CLAUDE.md** ⭐ | Project overview, daily workflow | Complete guide, conventions, standards |
-| **TASKS.md** 📋 | Planning next tasks | Roadmap (96 tasks across 6 phases) |
-| **TECHNICAL.md** 🎓 | Understanding tech decisions | Architecture Decision Records (ADRs) |
-| **CONTRIBUTING.md** 🛠️ | Setup & development | Commands, workflow, git conventions |
-| **DATABASE.md** 💾 | Working with database | WatermelonDB setup, schema, operations |
-| **ARCHITECTURE.md** 🏗️ | Understanding code structure | Folder organization, patterns, imports |
-| **TROUBLESHOOTING.md** 🆘 | When something breaks | Common issues & solutions |
-| **PRD.md** 📄 | Understanding product vision | Requirements, user stories, metrics |
-
-**Quick Rule:** When in doubt, check CLAUDE.md § Documentation Map.
-
----
-
-## 🤖 Implementation Instructions for Claude
-
-When user runs `/primer`, execute this workflow **silently** (no verbose logging):
-
-**⚡ Performance Note:** This workflow is optimized to minimize token usage:
-- **TASKS.md:** Read header only (~120 lines) using dynamic grep detection
-- **Recent files:** Names only, no content reading
-- **Code scan:** Single glob pattern instead of 5 separate calls
-- **Impact:** ~30k tokens saved (70k total vs 102k before optimization)
-
-### Phase 1: Documentation Deep Dive
-
-```typescript
-// Read core project documentation
-read('c:/DevTools/Projects/Halterofit/.claude/CLAUDE.md')
-
-// Read TASKS.md header only (dynamically detect where phase details start)
-// Step 1: Find line number where first "## Phase" section begins
-bash('grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1 | cut -d: -f1')
-// → Returns line number (e.g., 127)
-
-// Step 2: Read until that line - 1 to get: Header + Kanban + Roadmap + Timeline
-// Without loading 1000+ lines of detailed phase descriptions
-read('c:/DevTools/Projects/Halterofit/docs/TASKS.md', { limit: <detected_line - 1> })
-
-// This approach is future-proof:
-// - Works even if header grows from 120 to 200 lines
-// - Works when Phase 0.5 completes and Phase 1 becomes current
-// - No manual adjustment needed
-
-// Extract key info:
-- Current phase (from TASKS.md header "Progress: N/M tasks (X%)")
-- Overall progress (18/96 tasks)
-- Recent completions (from TASKS.md § Recent Completions ✅)
-- Current focus (from TASKS.md § Executive Summary)
-```
-
-### Phase 2: Code Structure Scan
-
-```typescript
-// Scan project structure (don't read every file, just list)
-// Use single glob pattern for efficiency (~1k tokens saved vs 5 separate globs)
-glob('src/**/*.{ts,tsx}')
-// Lists all TS/TSX files, mentally group by directory when summarizing:
-// - src/app/ → screens
-// - src/components/ → UI components
-// - src/services/ → business logic
-// - src/stores/ → state management
-// - src/hooks/ → custom hooks
-
-// Build mental map of architecture
-```
-
-### Phase 3: Recent Context Analysis
-
-```typescript
-// Analyze recent git activity
-bash('git log --oneline -10')
-bash('git log --name-only -5 --pretty=format:""')
-
-// Identify recently modified files (names only, no content read)
-// Seeing file names is sufficient for context orientation
-// This saves ~2-3k tokens per session
-
-// Correlate with TASKS.md Recent Completions
-```
-
-### Phase 4: Local State Verification
-
-```typescript
-// Check git status
-bash('git status')
-// → Detect uncommitted changes (warn if present)
-
-// Read package.json for stack verification
-read('c:/DevTools/Projects/Halterofit/package.json')
-// → Extract key dependencies (WatermelonDB, MMKV, Victory Native, etc.)
-```
-
-### Phase 5: Generate Summary
-
-```typescript
-// Output format (concise but contextual)
-// IMPORTANT: Use double newlines between sections for proper markdown spacing
-
-✅ Familiarisé avec Halterofit (Phase {phase}, {completed}/{total} tasks - {percentage}%)
-
-**Dernier travail :**
-  • {task_id} - {task_description}
-  • {task_id} - {task_description}
-
-**Stack actuel :**
-{key_dependencies_with_versions}
-
-**Structure projet :**
-  • src/app/ - {screen_count} screens (expo-router)
-  • src/components/ - {component_count} components
-  • src/services/ - {services_identified}
-  • src/stores/ - {stores_identified}
-
-**État local :**
-{git_status_summary}
-
----
-
-Prêt pour vos instructions.
-```
-
----
-
-## 🚨 Important Notes
-
-### What `/primer` Does NOT Do
-
-❌ **Does NOT suggest next task** - User decides what to work on
-❌ **Does NOT update TASKS.md** - Read-only command
-❌ **Does NOT commit changes** - Pure familiarization
-❌ **Does NOT run builds/tests** - Just reads and understands
-
-### What Makes It Zero-Maintenance
-
-✅ **No hardcoded data** - Everything read dynamically
-✅ **Adapts to project evolution** - Works at any phase
-✅ **References docs** - Doesn't duplicate info
-✅ **Immuable principles** - Core values don't change
-✅ **Smart header reading** - Dynamically detects where phase details begin
-✅ **Scales with project** - Works whether header is 80 or 200 lines
-✅ **Token-efficient** - Reads ~120 lines instead of 1300+ lines (~30k tokens saved)
-
-### When to Use `/primer`
-
-**Ideal scenarios:**
-- 🌅 Starting a new session
-- 🔄 Returning after days/weeks away
-- 🤔 Feeling lost or uncertain
-- 🎯 Before tackling complex task
-- 🔀 Switching context from other projects
-
-**Not needed if:**
-- Already working in same session
-- Just completed a task and continuing
-- Context is fresh (< 1 hour)
-
----
-
-## 💡 Pro Tips
-
-### Combine with Other Commands
-
-```bash
-/primer              # Familiarize first
-# ... user gives task ...
-/task-update next    # If working from TASKS.md
-/commit              # When task complete
-```
-
-### Trust the Process
-
-The `/primer` workflow is designed to give Claude complete context efficiently. Trust that the silent background reading is comprehensive.
-
-### Use Anytime
-
-There's no cost to running `/primer` multiple times. If you feel Claude lost context or you're starting fresh, just run it again.
-
----
-
-## 📚 Reference
-
-**Format Spec:** `.claude/lib/tasks-format-spec.md` - TASKS.md structure
-**Project Docs:** See CLAUDE.md § Documentation Map
-
----
-
-**Version**: 1.0
-**Last Updated**: 2025-01-31
-**Philosophy**: Comprehensive orientation, zero maintenance, user-directed work
-
-**Key Insight:** Familiarization enables effective collaboration. A well-oriented Claude is a productive Claude.
+| Document | Purpose |
+|----------|---------|
+| **CLAUDE.md** ⭐ | Project overview, conventions, standards |
+| **TASKS.md** 📋 | Roadmap (96 tasks across 6 phases) |
+| **TECHNICAL.md** 🎓 | Architecture Decision Records (ADRs) |
+| **CONTRIBUTING.md** 🛠️ | Commands, workflow, git conventions |
+| **DATABASE.md** 💾 | WatermelonDB setup, schema, operations |
+| **ARCHITECTURE.md** 🏗️ | Folder organization, patterns, imports |
+| **TROUBLESHOOTING.md** 🆘 | Common issues & solutions |
+| **PRD.md** 📄 | Requirements, user stories, metrics |
