@@ -13,6 +13,7 @@ Welcome to Halterofit! This guide will help you set up the project and start con
 - [🎨 Coding Standards](#coding-standards)
 - [🐛 Common Issues](#common-issues)
 - [📝 Commands](#commands)
+- [🔄 CI/CD Architecture](#cicd-architecture)
 
 ---
 
@@ -287,6 +288,185 @@ npm start
 # Then in Metro console:
 # import { database } from './src/services/database/watermelon';
 # await database.adapter.getLocal('schema_version');
+```
+
+---
+
+## CI/CD Architecture
+
+### Overview
+
+Halterofit uses **GitHub Actions** for continuous integration and deployment with a **parallel job architecture** designed for speed and clarity.
+
+**Key Metrics:**
+
+- ⚡ **Build Time**: ~30s (down from ~65s with sequential jobs)
+- 🎯 **Parallelization**: 3 jobs run simultaneously
+- 💾 **Caching**: TypeScript, ESLint, Jest caches for faster subsequent runs
+- 🔒 **Security**: SHA-pinned actions, automated vulnerability scanning
+
+### Workflow Structure
+
+```
+.github/workflows/
+├── ci.yml              # Main CI pipeline (active)
+├── cd-preview.yml      # EAS preview builds (Phase 2+)
+└── cd-production.yml   # EAS production builds (Phase 3+)
+```
+
+### CI Pipeline (ci.yml)
+
+**Triggered on:**
+
+- Push to `master` branch
+- Pull requests to `master`
+
+**4 Jobs (3 parallel + 1 dependent):**
+
+#### Job 1: `code-quality` (⏱️ ~5min, runs in parallel)
+
+- TypeScript type-check
+- ESLint linting (with cache)
+- Prettier format check
+- **Caching**: `.tsbuildinfo`, `.eslintcache`
+
+#### Job 2: `unit-tests` (⏱️ ~5min, runs in parallel)
+
+- Jest tests with coverage
+- Upload coverage reports (30-day retention)
+- **TODO Phase 1**: Coverage threshold check (40% minimum)
+- **Caching**: `.jest-cache`
+
+#### Job 3: `security-scan` (⏱️ ~3min, runs in parallel)
+
+- `npm audit` for HIGH/CRITICAL vulnerabilities
+- Fails build if vulnerabilities detected
+
+#### Job 4: `dependabot-auto-merge` (requires: all jobs pass)
+
+- Auto-merges Dependabot PRs after CI passes
+- **Auto-merge rules:**
+  - ✅ GitHub Actions: All versions
+  - ✅ Dev dependencies: Minor/patch only
+  - ✅ Runtime dependencies: Patch/minor only
+  - ❌ Runtime major: Manual review required
+
+### CD Workflows (Phase 2+)
+
+**cd-preview.yml** - Currently disabled
+
+- **Purpose**: EAS preview builds for QA
+- **Trigger**: Manual or PR with "needs-qa" label
+- **When**: Phase 2+ (when features are stable)
+
+**cd-production.yml** - Currently disabled
+
+- **Purpose**: EAS production builds for stores
+- **Trigger**: Manual or git tags (e.g., `v1.0.0`)
+- **When**: Phase 3+ (MVP ready for production)
+
+### Debugging Failed CI
+
+#### Type-Check Failures
+
+```bash
+npm run type-check
+# Review errors and fix TypeScript issues
+```
+
+#### ESLint Failures
+
+```bash
+npm run lint        # Check errors
+npm run lint:fix    # Auto-fix formatting
+```
+
+#### Test Failures
+
+```bash
+npm test           # Run all tests
+npm run test:watch # Watch mode for TDD
+```
+
+#### Security Vulnerabilities
+
+```bash
+npm audit           # View vulnerabilities
+npm audit fix       # Auto-fix (safe updates)
+# Review npm audit output for manual fixes
+```
+
+### Caching Strategy
+
+**Why caching?**
+
+- TypeScript cache: -40% type-check time
+- ESLint cache: -60% lint time
+- Jest cache: -50% test time
+
+**How it works:**
+
+- GitHub Actions `actions/cache@v4` caches files based on content hash
+- Cache invalidated when source files change
+- Separate caches for TypeScript, ESLint, Jest
+
+**Files cached:**
+
+- `.tsbuildinfo` (TypeScript incremental compilation)
+- `.eslintcache` (ESLint results)
+- `.jest-cache` (Jest transform cache)
+
+### Performance Monitoring
+
+**View CI performance:**
+
+1. Go to [Actions tab](https://github.com/Kamaiko/HalteroFit/actions)
+2. Click on a workflow run
+3. Review job timing (should be ~30s total)
+
+**Expected timing:**
+
+- `code-quality`: ~5 minutes
+- `unit-tests`: ~5 minutes
+- `security-scan`: ~3 minutes
+- **Total (parallel)**: ~5 minutes (longest job)
+
+### Coverage Reporting
+
+**Current Phase (0.5):**
+
+- Coverage tracked but no threshold (infrastructure phase)
+- Reports uploaded as artifacts (30-day retention)
+
+**Phase 1+:**
+
+- Minimum 40% coverage required
+- Fails build if below threshold
+
+**View coverage:**
+
+1. Go to workflow run on GitHub Actions
+2. Download `coverage-report` artifact
+3. Open `coverage/lcov-report/index.html` in browser
+
+### Adding New CI Checks
+
+If you need to add a new CI check (e.g., E2E tests, bundle size):
+
+1. Add as a new job in `.github/workflows/ci.yml`
+2. Use `needs: [job1, job2]` if dependent on other jobs
+3. Add to `dependabot-auto-merge` needs array
+4. Document in this section
+
+**Example:**
+
+```yaml
+e2e-tests:
+  name: E2E Tests (Detox)
+  runs-on: ubuntu-latest
+  needs: [code-quality, unit-tests] # Only run after basic checks pass
+  steps:
+    # ... Detox setup and tests
 ```
 
 ---
