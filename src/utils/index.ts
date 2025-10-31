@@ -7,6 +7,12 @@
  * import { formatWeight, calculateOneRepMax, validateEmail } from '@/utils';
  */
 
+// Error handling
+export * from './errors';
+
+// Sentry monitoring
+export * from './sentry';
+
 // Calculations
 export * from './calculations';
 
