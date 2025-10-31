@@ -80,6 +80,11 @@ module.exports = [
         // ES2022 globals
         Promise: 'readonly',
         console: 'readonly',
+        // Timer functions
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
         // React Native globals
         __DEV__: 'readonly',
       },
@@ -144,6 +149,11 @@ module.exports = [
         beforeAll: 'readonly',
         afterAll: 'readonly',
         jest: 'readonly',
+        // Timer functions
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
         // Browser globals (for JSDOM)
         window: 'readonly',
         document: 'readonly',
