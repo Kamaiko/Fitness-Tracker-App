@@ -112,27 +112,33 @@ git status
 
 ### Step 5: Summarize Understanding
 
-Generate concise summary with:
+Generate concise summary with **proper markdown spacing** (use double newlines `\n\n` between sections):
 
 ```
-✅ Familiarisé avec Halterofit (Phase X.X, N/M tasks).
+✅ Familiarisé avec Halterofit (Phase X.X, N/M tasks - X%)
 
-Dernier travail :
+**Dernier travail :**
   • Task ID - Description
   • Task ID - Description
 
-Stack actuel : [Key dependencies]
+**Stack actuel :**
+Key dependencies with versions
 
-Structure projet :
-  • src/app/ - N screens
+**Structure projet :**
+  • src/app/ - N screens (expo-router)
   • src/components/ - N components
   • src/services/ - Main services
   • src/stores/ - State stores
 
-État local : [Clean / Uncommitted changes detected]
+**État local :**
+Clean / Uncommitted changes detected
+
+---
 
 Prêt pour vos instructions.
 ```
+
+**IMPORTANT:** Use double newlines between each section to create readable paragraphs in markdown.
 
 **Tone:** Contextual but concise (Option 2 style).
 
@@ -294,23 +300,28 @@ read('c:/DevTools/Projects/Halterofit/package.json')
 ### Phase 5: Generate Summary
 
 ```typescript
-// Output format (concise but contextual):
+// Output format (concise but contextual)
+// IMPORTANT: Use double newlines between sections for proper markdown spacing
 
-✅ Familiarisé avec Halterofit (Phase {phase}, {completed}/{total} tasks).
+✅ Familiarisé avec Halterofit (Phase {phase}, {completed}/{total} tasks - {percentage}%)
 
-Dernier travail :
+**Dernier travail :**
   • {task_id} - {task_description}
   • {task_id} - {task_description}
 
-Stack actuel : {key_dependencies}
+**Stack actuel :**
+{key_dependencies_with_versions}
 
-Structure projet :
+**Structure projet :**
   • src/app/ - {screen_count} screens (expo-router)
   • src/components/ - {component_count} components
   • src/services/ - {services_identified}
   • src/stores/ - {stores_identified}
 
-État local : {git_status_summary}
+**État local :**
+{git_status_summary}
+
+---
 
 Prêt pour vos instructions.
 ```
