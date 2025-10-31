@@ -7,6 +7,9 @@
  * import { formatWeight, calculateOneRepMax, validateEmail } from '@/utils';
  */
 
+// Error handling
+export * from './errors';
+
 // Calculations
 export * from './calculations';
 
