@@ -206,23 +206,21 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Professional Skia rendering with gesture support ready
 
 - [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) ✅ 2025-01-31
-  - ✅ Created migration: `supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql`
-  - ✅ All 5 tables with sync columns (\_changed, \_status)
-  - ✅ 19 RLS policies (users see only their data)
-  - ✅ PostgreSQL functions: pull_changes() and push_changes()
-  - ✅ Implemented sync.ts with WatermelonDB synchronize() protocol
-  - ✅ 37 Jest tests created (workouts, exercises, sets + infrastructure)
+  - Created migration: `supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql`
+  - All 5 tables with sync columns (\_changed, \_status)
+  - 19 RLS policies (users see only their data)
+  - PostgreSQL functions: pull_changes() and push_changes()
+  - Implemented sync.ts with WatermelonDB synchronize() protocol
+  - 37 Jest tests created (workouts, exercises, sets + infrastructure)
   - **Bonus:** Test README (122 lines), setup README (328 lines), E2E strategy doc
 
-- [ ] 0.5.28 **Test & Verify Development Build** (M - 45min)
-  - Verify app launches with dev build on physical device
-  - Test WatermelonDB creates/reads/updates data
-  - Verify reactive queries update UI automatically
-  - Test MMKV stores and retrieves auth tokens
-  - Verify Supabase sync works (create → sync → check dashboard)
-  - Test Victory Native charts render correctly
-  - Run: `npm run type-check` (must pass)
-  - Verify hot reload works normally with dev build
+- [ ] 0.5.28 **Install & Launch Development Build** (S - 15min)
+  - [ ] Install dev build on physical device (or emulator)
+  - [ ] Verify app launches without crashes
+  - [ ] Verify hot reload works with code changes
+  - [x] TypeScript: `npm run type-check` passes ✅ (verified in CI)
+  - [x] Unit tests: 37/37 Jest tests pass ✅ (verified in CI)
+  - **Note:** Integration testing (auth, sync, UI interactions) deferred to Phase 1.16 (Manual E2E Checklists)
 
 ---
 
