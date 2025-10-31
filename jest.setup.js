@@ -11,8 +11,10 @@ process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
 process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
 
 // Mock console warnings in tests (reduce noise)
+// Set DEBUG_WATERMELON=1 to see WatermelonDB logs during test debugging
 global.console = {
   ...console,
+  log: process.env.DEBUG_WATERMELON ? console.log : jest.fn(), // Silence WatermelonDB logs
   warn: jest.fn(),
   error: jest.fn(),
 };
