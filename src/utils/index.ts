@@ -10,6 +10,9 @@
 // Error handling
 export * from './errors';
 
+// Sentry monitoring
+export * from './sentry';
+
 // Calculations
 export * from './calculations';
 

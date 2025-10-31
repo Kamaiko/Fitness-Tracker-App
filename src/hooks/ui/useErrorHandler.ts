@@ -17,7 +17,8 @@
 
 import { useCallback } from 'react';
 import { Alert } from 'react-native';
-import { AppError, isOperationalError } from '@/utils/errors';
+import { isOperationalError } from '@/utils/errors';
+import { captureSentryException } from '@/utils/sentry';
 
 /**
  * Hook for consistent error handling
@@ -48,13 +49,13 @@ export function useErrorHandler() {
         stack: error.stack,
       });
 
-      // TODO (Task 0.5.5): Send to Sentry for monitoring
-      // if (!__DEV__) {
-      //   Sentry.captureException(error, {
-      //     extra: error.toJSON(),
-      //     tags: { context: context || 'unknown' },
-      //   });
-      // }
+      // Send to Sentry for monitoring (production only)
+      if (!__DEV__) {
+        captureSentryException(error, {
+          ...error.toJSON(),
+          context: context || 'unknown',
+        });
+      }
     } else {
       // Unknown/unexpected error - show generic message
       Alert.alert(
@@ -69,12 +70,13 @@ export function useErrorHandler() {
         timestamp,
       });
 
-      // TODO (Task 0.5.5): Send to Sentry
-      // if (!__DEV__) {
-      //   Sentry.captureException(error, {
-      //     tags: { context: context || 'unknown', type: 'unexpected' },
-      //   });
-      // }
+      // Send to Sentry (production only)
+      if (!__DEV__) {
+        captureSentryException(error instanceof Error ? error : new Error(String(error)), {
+          context: context || 'unknown',
+          type: 'unexpected',
+        });
+      }
     }
   }, []);
 
