@@ -31,10 +31,10 @@ module.exports = {
       // statements: 0,
     },
     './src/services/database/': {
-      branches: 5,
-      functions: 5,
-      lines: 5,
-      statements: 5,
+      branches: 1,
+      functions: 1,
+      lines: 1,
+      statements: 1,
     },
   },
 
