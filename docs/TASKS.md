@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 18/97 tasks (19%) • ![](https://img.shields.io/badge/Progress-19%25-red)
+**Progress**: 18/96 tasks (19%) • ![](https://img.shields.io/badge/Progress-19%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-30 • **Next Milestone**: Complete Development Build Migration & Infrastructure
 
@@ -11,7 +11,7 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 17/27 tasks (63%) • **Overall**: 18/97 tasks (19%)
+**Phase Progress**: 17/26 tasks (65%) • **Overall**: 18/96 tasks (19%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
 
 ### Recent Completions ✅
@@ -34,7 +34,7 @@
 | **0.5.4** expo-image `[S]` 🟡       |          | **0.5.10** Workout persist  |
 | **1.1** Login screen `[M]` 🟠       |          | **0.5.9** Auth persist      |
 
-**Progress**: Phase 0.5: 17/27 (63%) • Overall: 18/97 (19%)
+**Progress**: Phase 0.5: 17/26 (65%) • Overall: 18/96 (19%)
 **Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~2.5 weeks
 **NEXT**: 0.5.27-28 Supabase Schema & Sync 🟠 IMPORTANT
 
@@ -45,7 +45,7 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (17/27)](#phase-05-architecture--foundation-1727)
+4. [Phase 0.5: Architecture & Foundation (17/26)](#phase-05-architecture--foundation-1726)
 5. [Phase 1: Authentication & Foundation (1/15)](#phase-1-authentication--foundation-115)
 6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
 7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
@@ -57,7 +57,7 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (17/27 tasks)
+Phase 0.5: Architecture & Foundation (17/26 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ EAS Build + Dev Client ✅
@@ -112,24 +112,24 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 | Phase     | Tasks  | Est. Time    | Status       | Dependencies                     |
 | --------- | ------ | ------------ | ------------ | -------------------------------- |
-| **0.5**   | 27     | 50-60h       | IN PROGRESS  | None (started)                   |
+| **0.5**   | 26     | 50-60h       | IN PROGRESS  | None (started)                   |
 | **1**     | 15     | 25-30h       | BLOCKED      | ← Phase 0.5 migration + blockers |
 | **2**     | 20     | 50-60h       | BLOCKED      | ← Phase 1 auth                   |
 | **3**     | 9      | 30-40h       | BLOCKED      | ← Phase 2 workout core           |
 | **4**     | 11     | 35-45h       | BLOCKED      | ← Phase 3 exercise library       |
 | **5**     | 15     | 40-50h       | BLOCKED      | ← Phase 4 analytics              |
-| **TOTAL** | **97** | **230-290h** | **16% done** | **12-15 weeks at 20h/week**      |
+| **TOTAL** | **96** | **230-290h** | **19% done** | **12-15 weeks at 20h/week**      |
 
 **⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
 
 ---
 
-## Phase 0.5: Architecture & Foundation (15/27)
+## Phase 0.5: Architecture & Foundation (17/26)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 15/27 tasks (56%) | **Est. Time Remaining:** ~12h (Phase 0.5 completion)
+**Progress:** 17/26 tasks (65%) | **Est. Time Remaining:** ~9h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
@@ -226,11 +226,11 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.C: Critical Corrections - Blockers (2/4) ⚡ IN PROGRESS
+### 0.5.C: Critical Corrections - Blockers (4/4) ✅ COMPLETE
 
 **Goal:** Complete store integration and error handling (infrastructure ready from 0.5.25)
 
-**Status:** MMKV infrastructure ✅ complete | Store integration ⏳ pending
+**Status:** ✅ All tasks complete - Store integration ✅ | Error handling ✅ | Sentry monitoring ✅
 
 **Note:** Tasks numbered in discovery order. Sections organized by logical execution priority.
 
