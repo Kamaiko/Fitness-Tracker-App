@@ -135,21 +135,16 @@ const customWorkout = await createTestWorkout(database, {
 **4. Assertion Helpers:**
 
 - `assertDatesApproximatelyEqual(actual, expected, toleranceMs?)` - Fuzzy date matching
-- `assertArrayContainsObject(array, expectedProps)` - Find object in array by properties
 
-**5. Error Testing:**
-
-- `expectAsyncError(fn, expectedMessage)` - Assert async errors
-
-**6. Batch Operations:**
+**5. Batch Operations:**
 
 - `createMultipleRecords(createFn, db, count, overridesFn?)` - Bulk record creation
 
-**7. Performance Testing:**
+**6. Performance Testing:**
 
 - `measureExecutionTime(fn)` - Returns `{ result, durationMs }`
 
-**8. Custom Jest Matchers (in jest.setup.js):**
+**7. Custom Jest Matchers (in jest.setup.js):**
 
 - `expect(workout).toBeValidWorkout()` - Domain-specific assertions
 - `expect(exercise).toBeValidExercise()`

@@ -326,51 +326,6 @@ export function assertDatesApproximatelyEqual(
   expect(diff).toBeLessThanOrEqual(toleranceMs);
 }
 
-/**
- * Asserts that an array contains objects with specific properties.
- *
- * @param {any[]} array - Array to check
- * @param {object} expectedProps - Expected properties and values
- *
- * @example
- * ```typescript
- * const workouts = await getAllRecords(database, 'workouts');
- * assertArrayContainsObject(workouts, { title: 'Leg Day', status: 'completed' });
- * ```
- */
-export function assertArrayContainsObject(array: any[], expectedProps: Record<string, any>): void {
-  const found = array.some((item) => {
-    return Object.entries(expectedProps).every(([key, value]) => item[key] === value);
-  });
-
-  expect(found).toBe(true);
-}
-
-// ============================================================================
-// Error Testing Helpers
-// ============================================================================
-
-/**
- * Asserts that an async function throws an error with a specific message.
- *
- * @param {Function} fn - Async function that should throw
- * @param {string | RegExp} expectedMessage - Expected error message or pattern
- *
- * @example
- * ```typescript
- * await expectAsyncError(
- *   async () => await getRecordById(database, 'workouts', 'non-existent'),
- *   /not found/i
- * );
- * ```
- */
-export async function expectAsyncError(
-  fn: () => Promise<any>,
-  expectedMessage: string | RegExp
-): Promise<void> {
-  await expect(fn()).rejects.toThrow(expectedMessage);
-}
-
 // ============================================================================
 // Batch Operation Helpers
 // ============================================================================
