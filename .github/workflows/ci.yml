@@ -66,7 +66,7 @@ jobs:
         run: npm run lint -- --cache --cache-location .eslintcache
 
       - name: Prettier format check
-        run: npm run format:check -- --ignore-path .prettierignore
+        run: npm run format:check
 
   # ============================================================================
   # Job 2: Unit Tests (Jest with Coverage)
