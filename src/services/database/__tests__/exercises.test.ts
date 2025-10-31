@@ -14,11 +14,7 @@ import { Q } from '@nozbe/watermelondb';
 import { createTestDatabase, cleanupTestDatabase } from './setup/test-database';
 import Exercise from '../watermelon/models/Exercise';
 import { createTestExercise, resetTestIdCounter } from './setup/factories';
-import {
-  getAllRecords,
-  countRecords,
-  wait,
-} from './setup/test-utils';
+import { getAllRecords, countRecords, wait } from './setup/test-utils';
 
 // NOTE: Sync protocol tests removed - require real SQLite, moved to E2E
 // See: __tests__/README.md

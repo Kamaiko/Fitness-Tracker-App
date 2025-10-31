@@ -50,7 +50,7 @@ export async function getAllRecords(database: Database, tableName: string): Prom
 export async function getRecordById(
   database: Database,
   tableName: string,
-  id: string,
+  id: string
 ): Promise<Model> {
   const collection = database.get(tableName);
   return await collection.find(id);
@@ -78,7 +78,7 @@ export async function getRecordById(
 export async function countRecords(
   database: Database,
   tableName: string,
-  queryConditions: any[] = [],
+  queryConditions: any[] = []
 ): Promise<number> {
   const collection = database.get(tableName);
   return await collection.query(...queryConditions).fetchCount();
@@ -101,7 +101,7 @@ export async function countRecords(
 export async function recordExists(
   database: Database,
   tableName: string,
-  id: string,
+  id: string
 ): Promise<boolean> {
   try {
     await getRecordById(database, tableName, id);
@@ -142,7 +142,7 @@ export async function recordExists(
  */
 export function assertSyncProtocolColumns(
   record: any,
-  options: { shouldBeDeleted?: boolean } = {},
+  options: { shouldBeDeleted?: boolean } = {}
 ): void {
   // WatermelonDB stores sync protocol columns in _raw object
   // According to WatermelonDB source (RawRecord/index.d.ts):
@@ -261,16 +261,11 @@ export async function wait(ms: number): Promise<void> {
  * const oneHourAgo = dateInPast({ hours: 1 });
  * ```
  */
-export function dateInPast(options: {
-  days?: number;
-  hours?: number;
-  minutes?: number;
-}): Date {
+export function dateInPast(options: { days?: number; hours?: number; minutes?: number }): Date {
   const now = new Date();
   const { days = 0, hours = 0, minutes = 0 } = options;
 
-  const totalMs =
-    days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+  const totalMs = days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
 
   return new Date(now.getTime() - totalMs);
 }
@@ -290,16 +285,11 @@ export function dateInPast(options: {
  * const inOneHour = dateInFuture({ hours: 1 });
  * ```
  */
-export function dateInFuture(options: {
-  days?: number;
-  hours?: number;
-  minutes?: number;
-}): Date {
+export function dateInFuture(options: { days?: number; hours?: number; minutes?: number }): Date {
   const now = new Date();
   const { days = 0, hours = 0, minutes = 0 } = options;
 
-  const totalMs =
-    days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+  const totalMs = days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
 
   return new Date(now.getTime() + totalMs);
 }
@@ -326,7 +316,7 @@ export function dateInFuture(options: {
 export function assertDatesApproximatelyEqual(
   actual: Date | string | number,
   expected: Date | string | number,
-  toleranceMs: number = 1000,
+  toleranceMs: number = 1000
 ): void {
   const actualTime = new Date(actual).getTime();
   const expectedTime = new Date(expected).getTime();
@@ -375,7 +365,7 @@ export function assertArrayContainsObject(array: any[], expectedProps: Record<st
  */
 export async function expectAsyncError(
   fn: () => Promise<any>,
-  expectedMessage: string | RegExp,
+  expectedMessage: string | RegExp
 ): Promise<void> {
   await expect(fn()).rejects.toThrow(expectedMessage);
 }
@@ -411,7 +401,7 @@ export async function createMultipleRecords<T>(
   createFn: (db: Database, overrides?: any) => Promise<T>,
   database: Database,
   count: number,
-  overridesFn?: (index: number) => any,
+  overridesFn?: (index: number) => any
 ): Promise<T[]> {
   const records: T[] = [];
 
@@ -444,7 +434,7 @@ export async function createMultipleRecords<T>(
  * ```
  */
 export async function measureExecutionTime<T>(
-  fn: () => Promise<T>,
+  fn: () => Promise<T>
 ): Promise<{ result: T; durationMs: number }> {
   const startTime = Date.now();
   const result = await fn();

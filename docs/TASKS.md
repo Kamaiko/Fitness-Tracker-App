@@ -207,7 +207,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 - [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) ✅ 2025-01-31
   - ✅ Created migration: `supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql`
-  - ✅ All 5 tables with sync columns (_changed, _status)
+  - ✅ All 5 tables with sync columns (\_changed, \_status)
   - ✅ 19 RLS policies (users see only their data)
   - ✅ PostgreSQL functions: pull_changes() and push_changes()
   - ✅ Implemented sync.ts with WatermelonDB synchronize() protocol

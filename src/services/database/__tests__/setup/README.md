@@ -5,22 +5,27 @@ Professional, reusable testing infrastructure for WatermelonDB database operatio
 ## 📁 Files Overview
 
 ### `test-database.ts`
+
 SQLite in-memory database setup with 100% production parity.
 
 **Key Functions:**
+
 - `createTestDatabase()` - Creates fresh test database instance
 - `cleanupTestDatabase(database)` - Resets database between tests
 
 **Features:**
+
 - ⚡ In-memory (:memory:) for speed (~10ms setup)
 - 🎯 100% production parity (real SQLite)
 - 🔒 Isolated per test (no side effects)
 - 📦 Full migration support (v1 → v2)
 
 ### `factories.ts`
+
 Test data factories following DRY principle.
 
 **Available Factories:**
+
 - `createTestUser(database, overrides?)` - Create user
 - `createTestWorkout(database, overrides?)` - Create workout
 - `createTestExercise(database, overrides?)` - Create exercise
@@ -28,14 +33,17 @@ Test data factories following DRY principle.
 - `createTestExerciseSet(database, overrides?)` - Create exercise set
 
 **Utility Functions:**
+
 - `generateTestId(prefix)` - Generate unique test IDs
 - `resetTestIdCounter()` - Reset ID counter per test
 - `create*Data()` functions - Generate data without persisting
 
 ### `test-utils.ts`
+
 Reusable helper functions and assertions.
 
 **Categories:**
+
 - **Query Helpers:** `getAllRecords`, `getRecordById`, `countRecords`, `recordExists`
 - **Sync Protocol:** `assertSyncProtocolColumns`, `getSyncTimestamp`, `isRecordDeleted`
 - **Time Manipulation:** `wait`, `dateInPast`, `dateInFuture`
@@ -157,12 +165,9 @@ test('marks record as deleted', async () => {
 ```typescript
 test('creates multiple records efficiently', async () => {
   // Create 100 workouts with sequential titles
-  const workouts = await createMultipleRecords(
-    createTestWorkout,
-    database,
-    100,
-    (index) => ({ title: `Workout ${index + 1}` }),
-  );
+  const workouts = await createMultipleRecords(createTestWorkout, database, 100, (index) => ({
+    title: `Workout ${index + 1}`,
+  }));
 
   expect(workouts).toHaveLength(100);
   expect(workouts[0].title).toBe('Workout 1');
@@ -179,10 +184,7 @@ test('query executes within performance budget', async () => {
 
   // Measure query performance
   const { result, durationMs } = await measureExecutionTime(async () => {
-    return await database
-      .get('workouts')
-      .query(Q.where('status', 'completed'))
-      .fetch();
+    return await database.get('workouts').query(Q.where('status', 'completed')).fetch();
   });
 
   expect(durationMs).toBeLessThan(100); // Must complete in < 100ms
@@ -193,10 +195,7 @@ test('query executes within performance budget', async () => {
 
 ```typescript
 test('throws error when record not found', async () => {
-  await expectAsyncError(
-    async () => await getRecordById(database, 'workouts', 'non-existent-id'),
-    /not found/i,
-  );
+  await expectAsyncError(async () => await getRecordById(database, 'workouts', 'non-existent-id'), /not found/i);
 });
 ```
 
@@ -266,15 +265,16 @@ expect(Math.abs(workout.startedAt.getTime() - new Date().getTime())).toBeLessTha
 
 Measured on average development machine:
 
-| Operation                      | Time      | Notes                        |
-| ------------------------------ | --------- | ---------------------------- |
-| `createTestDatabase()`         | ~10ms     | In-memory setup              |
-| `createTestWorkout()`          | ~5-10ms   | Single record creation       |
-| `createMultipleRecords(100)`   | ~500ms    | Batch creation (100 records) |
-| Query 1000 records             | ~20-50ms  | With simple WHERE clause     |
-| `cleanupTestDatabase()`        | ~5ms      | Reset database               |
+| Operation                    | Time     | Notes                        |
+| ---------------------------- | -------- | ---------------------------- |
+| `createTestDatabase()`       | ~10ms    | In-memory setup              |
+| `createTestWorkout()`        | ~5-10ms  | Single record creation       |
+| `createMultipleRecords(100)` | ~500ms   | Batch creation (100 records) |
+| Query 1000 records           | ~20-50ms | With simple WHERE clause     |
+| `cleanupTestDatabase()`      | ~5ms     | Reset database               |
 
 **Expected test suite performance:**
+
 - Single test: ~100-150ms
 - 50 tests: ~3-5 seconds
 - Full suite (100+ tests): ~8-12 seconds
@@ -286,6 +286,7 @@ Measured on average development machine:
 ### Issue: Tests are slow
 
 **Solution:**
+
 1. Ensure using in-memory database (`:memory:`)
 2. Batch multiple operations in single `database.write()`
 3. Use `createMultipleRecords()` for bulk data
@@ -294,6 +295,7 @@ Measured on average development machine:
 ### Issue: Flaky tests (inconsistent failures)
 
 **Solution:**
+
 1. Always call `resetTestIdCounter()` in `beforeEach`
 2. Always call `cleanupTestDatabase()` in `afterEach`
 3. Don't rely on exact timestamps - use `assertDatesApproximatelyEqual()`
@@ -302,6 +304,7 @@ Measured on average development machine:
 ### Issue: "Record not found" errors
 
 **Solution:**
+
 1. Verify `createTest*()` was called before querying
 2. Check ID matches between related records
 3. Ensure database isn't cleaned up mid-test

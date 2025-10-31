@@ -27,12 +27,14 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 **Deliverable**: Manual test checklists in `e2e/manual/`
 
 **Why Manual First?**
+
 - Backend API still being implemented
 - Faster iteration without automation overhead
 - Validates business logic before freezing test scenarios
 - Builds institutional knowledge of critical user flows
 
 **Checklist Locations** (Task 1.16):
+
 - `e2e/manual/sync-checklist.md` - Supabase sync scenarios
 - `e2e/manual/offline-crud.md` - Offline CRUD operations
 - `e2e/manual/auth-flows.md` - Authentication flows
@@ -46,6 +48,7 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 **Deliverable**: Maestro YAML tests in `e2e/maestro/`
 
 **Why Maestro?**
+
 - ✅ Simple YAML syntax (no JavaScript/TypeScript required)
 - ✅ Works with Expo Dev Builds out of the box
 - ✅ Easier to maintain than Detox (native driver complexity)
@@ -61,12 +64,14 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 ### Critical User Journeys (Priority 1)
 
 **1. First Sync Flow**
+
 - User logs in for first time
 - App pulls initial data from Supabase
 - Verify workout templates, exercises, user settings loaded
 - **Pass Criteria**: All data visible, no sync errors
 
 **2. Offline CRUD Operations**
+
 - Turn off network connectivity
 - Create workout with exercises and sets
 - Verify `_changed` timestamp updated
@@ -74,6 +79,7 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 - **Pass Criteria**: Data saved locally, `_changed` set correctly
 
 **3. Push Changes to Backend**
+
 - Reconnect to network
 - Trigger manual sync or pull-to-refresh
 - Verify offline changes pushed to Supabase
@@ -81,12 +87,14 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 - **Pass Criteria**: Backend data matches local, no conflicts
 
 **4. Conflict Resolution**
+
 - Create data offline
 - Simulate server rejection (duplicate ID, validation error)
 - Verify app handles conflict gracefully
 - **Pass Criteria**: User sees error message, data not lost
 
 **5. Soft Delete Verification**
+
 - Mark workout as deleted (`markAsDeleted()`)
 - Verify record excluded from queries
 - Verify `_status: 'deleted'` set in database
@@ -98,18 +106,21 @@ WatermelonDB's sync protocol (`_changed`, `_status`, `synchronize()`) requires R
 ### Secondary Scenarios (Priority 2)
 
 **6. Batch Operations**
+
 - Create multiple workouts in quick succession
 - Verify all changes tracked independently
 - Verify batch sync succeeds
 - **Pass Criteria**: All records sync without race conditions
 
 **7. Schema Migrations**
+
 - Install app with older schema version
 - Trigger automatic migration on startup
 - Verify data preserved after migration
 - **Pass Criteria**: No data loss, app functions normally
 
 **8. Network Interruption**
+
 - Start sync operation
 - Disable network mid-sync
 - Verify app handles interruption gracefully
@@ -145,6 +156,7 @@ e2e/
 ### Prerequisites
 
 1. **Development Build Installed** (Task 0.5.20-0.5.26 completed)
+
    ```bash
    eas build --profile development --platform ios
    # or
@@ -164,25 +176,30 @@ e2e/
 ### Running Manual Tests
 
 **Step 1: Review Checklist**
+
 - Open `e2e/manual/sync-checklist.md`
 - Identify scenario to test (e.g., "First Sync Flow")
 
 **Step 2: Setup Test Environment**
+
 - Uninstall app (clean slate)
 - Enable network connectivity
 - Prepare test data in Supabase dashboard
 
 **Step 3: Execute Test**
+
 - Follow checklist step-by-step
 - Record observations (screenshots helpful)
 - Mark pass/fail for each step
 
 **Step 4: Document Results**
+
 - Add notes to checklist (inline comments)
 - If failure: Create GitHub issue with steps to reproduce
 - If pass: Initial tester name and date
 
 **Example Checklist Entry:**
+
 ```markdown
 ## Scenario 1: First Sync Flow
 
@@ -217,7 +234,7 @@ maestro --version
 **File**: `e2e/maestro/workout-create-offline.yaml`
 
 ```yaml
-appId: com.halterofit  # Replace with actual bundle ID
+appId: com.halterofit # Replace with actual bundle ID
 ---
 # Scenario 2: Offline CRUD Operations
 
@@ -228,35 +245,35 @@ appId: com.halterofit  # Replace with actual bundle ID
     file: ./flows/disable-network.yaml
 
 # Navigate to workout creation
-- tapOn: "New Workout"
-- assertVisible: "Create Workout"
+- tapOn: 'New Workout'
+- assertVisible: 'Create Workout'
 
 # Fill workout details
-- tapOn: "Workout Title"
-- inputText: "Offline Leg Day"
-- tapOn: "Add Exercise"
-- tapOn: "Squat"
+- tapOn: 'Workout Title'
+- inputText: 'Offline Leg Day'
+- tapOn: 'Add Exercise'
+- tapOn: 'Squat'
 - inputText:
-    text: "100"
-    id: "weight-input"
+    text: '100'
+    id: 'weight-input'
 - inputText:
-    text: "5"
-    id: "reps-input"
+    text: '5'
+    id: 'reps-input'
 
 # Save workout
-- tapOn: "Save Workout"
-- assertVisible: "Workout saved locally"
+- tapOn: 'Save Workout'
+- assertVisible: 'Workout saved locally'
 
 # Verify data persistence
 - stopApp: com.halterofit
 - launchApp
-- assertVisible: "Offline Leg Day"
+- assertVisible: 'Offline Leg Day'
 
 # Re-enable network and sync
 - runFlow:
     file: ./flows/enable-network.yaml
-- swipeDown  # Pull to refresh
-- assertVisible: "Synced to cloud"
+- swipeDown # Pull to refresh
+- assertVisible: 'Synced to cloud'
 ```
 
 ### Running Maestro Tests
@@ -282,6 +299,7 @@ maestro test --format junit e2e/maestro/ > test-results.xml
 ### Phase 1: Manual Testing (No CI/CD)
 
 Manual tests are **NOT** run in CI/CD. They are executed manually before releases:
+
 - Before merging Phase 1 PR (Supabase integration)
 - Before v0.1.0 release (MVP)
 - Before v1.0.0 release (Production)
@@ -293,6 +311,7 @@ Manual tests are **NOT** run in CI/CD. They are executed manually before release
 ### Phase 3+: Maestro in CI/CD
 
 **When to Run**:
+
 - ✅ On EAS Build preview (before release builds)
 - ✅ On demand (manual workflow dispatch)
 - ❌ NOT on every commit (too slow, costs $$$)
@@ -304,10 +323,10 @@ Manual tests are **NOT** run in CI/CD. They are executed manually before release
 name: E2E Tests (Maestro)
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch: # Manual trigger only
   push:
     branches:
-      - release/*      # Run on release branches
+      - release/* # Run on release branches
 
 jobs:
   e2e-ios:
@@ -350,6 +369,7 @@ jobs:
 ```
 
 **Cost Optimization**:
+
 - Use EAS Build's built-in caching
 - Run E2E only on release branches
 - Run subset of critical tests on every preview build
@@ -362,6 +382,7 @@ jobs:
 ### Phase 1 (Manual)
 
 **Target**: 100% of critical user journeys tested manually
+
 - ✅ First sync (Scenario 1)
 - ✅ Offline CRUD (Scenario 2)
 - ✅ Push changes (Scenario 3)
@@ -377,16 +398,19 @@ jobs:
 **Target**: 80% of manual tests automated with Maestro
 
 **Priority 1 Automation** (v1.0):
+
 - Scenario 1: First sync
 - Scenario 2: Offline CRUD
 - Scenario 3: Push changes
 
 **Priority 2 Automation** (v1.1+):
+
 - Scenario 4: Conflict resolution
 - Scenario 5: Soft deletes
 - Scenario 6: Batch operations
 
 **Scenarios NOT Automated**:
+
 - Schema migrations (too complex, low frequency)
 - Network interruption edge cases (flaky in CI/CD)
 
@@ -397,11 +421,13 @@ jobs:
 ### Manual Testing
 
 **❌ DON'T**:
+
 - Test on production Supabase project (use separate test project)
 - Skip network toggle verification (easy to forget)
 - Test on debug build (performance not representative)
 
 **✅ DO**:
+
 - Use consistent test data (same workouts, exercises)
 - Document deviations from checklist
 - Create GitHub issues for failures immediately
@@ -412,11 +438,13 @@ jobs:
 ### Maestro Automation
 
 **❌ DON'T**:
+
 - Hardcode test data IDs (use dynamic queries)
 - Run E2E on every commit (expensive, slow)
 - Test implementation details (e.g., internal state)
 
 **✅ DO**:
+
 - Use `assertVisible` for user-facing text
 - Add `wait` steps for network operations (avoid flakiness)
 - Test from user's perspective (tap, swipe, input)
@@ -437,14 +465,15 @@ jobs:
 
 ## ✨ Summary
 
-| Phase | Timeline | Environment | Framework | Status |
-|-------|----------|-------------|-----------|--------|
-| **Phase 1** | v0.1.x | Dev Build + Real Device | Manual Checklists | 🚧 In Progress |
-| **Phase 3+** | v1.0+ | Dev Build + Simulator/Emulator | Maestro (YAML) | 📅 Planned |
+| Phase        | Timeline | Environment                    | Framework         | Status         |
+| ------------ | -------- | ------------------------------ | ----------------- | -------------- |
+| **Phase 1**  | v0.1.x   | Dev Build + Real Device        | Manual Checklists | 🚧 In Progress |
+| **Phase 3+** | v1.0+    | Dev Build + Simulator/Emulator | Maestro (YAML)    | 📅 Planned     |
 
 **Key Takeaway**: Start manual, automate later. Validate business logic before freezing test scenarios.
 
 **Next Actions**:
+
 1. Complete Task 1.16 - Document manual E2E checklists
 2. Execute manual tests before v0.1.0 release
 3. Complete Task 10.2 - Setup Maestro automation (Phase 3)

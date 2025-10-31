@@ -228,10 +228,12 @@ export function setupAutoSync() {
   };
 
   // Listen to changes in critical tables
-  database.withChangesForTables(['workouts', 'workout_exercises', 'exercise_sets']).subscribe(() => {
-    console.log('📝 Data changed, scheduling sync...');
-    debouncedSync();
-  });
+  database
+    .withChangesForTables(['workouts', 'workout_exercises', 'exercise_sets'])
+    .subscribe(() => {
+      console.log('📝 Data changed, scheduling sync...');
+      debouncedSync();
+    });
 
   console.log('✅ Auto-sync enabled');
 }

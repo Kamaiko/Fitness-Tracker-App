@@ -99,7 +99,7 @@ export function createTestUserData(overrides: Partial<TestUserData> = {}): TestU
  */
 export async function createTestUser(
   database: Database,
-  overrides: Partial<TestUserData> = {},
+  overrides: Partial<TestUserData> = {}
 ): Promise<User> {
   const userData = createTestUserData(overrides);
   const usersCollection = database.get('users');
@@ -141,9 +141,7 @@ export interface TestWorkoutData {
  * // { user_id: 'test-user-1', title: 'Leg Day', ... }
  * ```
  */
-export function createTestWorkoutData(
-  overrides: Partial<TestWorkoutData> = {},
-): TestWorkoutData {
+export function createTestWorkoutData(overrides: Partial<TestWorkoutData> = {}): TestWorkoutData {
   return {
     user_id: overrides.user_id || generateTestId('user'),
     title: overrides.title || `Test Workout ${idCounter}`,
@@ -176,7 +174,7 @@ export function createTestWorkoutData(
  */
 export async function createTestWorkout(
   database: Database,
-  overrides: Partial<TestWorkoutData> = {},
+  overrides: Partial<TestWorkoutData> = {}
 ): Promise<Workout> {
   const workoutData = createTestWorkoutData(overrides);
   const workoutsCollection = database.get('workouts');
@@ -190,9 +188,7 @@ export async function createTestWorkout(
       workout.title = workoutData.title;
       workout.notes = workoutData.notes;
       workout.startedAt = workoutData.started_at ? new Date(workoutData.started_at) : new Date();
-      workout.completedAt = workoutData.completed_at
-        ? new Date(workoutData.completed_at)
-        : null;
+      workout.completedAt = workoutData.completed_at ? new Date(workoutData.completed_at) : null;
       workout.durationSeconds = workoutData.duration_seconds;
       workout.nutritionPhase = workoutData.nutrition_phase;
     });
@@ -225,7 +221,7 @@ export interface TestExerciseData {
  * ```
  */
 export function createTestExerciseData(
-  overrides: Partial<TestExerciseData> = {},
+  overrides: Partial<TestExerciseData> = {}
 ): TestExerciseData {
   return {
     id: overrides.id || generateTestId('exercise'),
@@ -256,7 +252,7 @@ export function createTestExerciseData(
  */
 export async function createTestExercise(
   database: Database,
-  overrides: Partial<TestExerciseData> = {},
+  overrides: Partial<TestExerciseData> = {}
 ): Promise<Exercise> {
   const exerciseData = createTestExerciseData(overrides);
   const exercisesCollection = database.get('exercises');
@@ -305,7 +301,7 @@ export interface TestWorkoutExerciseData {
  * ```
  */
 export function createTestWorkoutExerciseData(
-  overrides: Partial<TestWorkoutExerciseData> = {},
+  overrides: Partial<TestWorkoutExerciseData> = {}
 ): TestWorkoutExerciseData {
   return {
     workout_id: overrides.workout_id || generateTestId('workout'),
@@ -335,7 +331,7 @@ export function createTestWorkoutExerciseData(
  */
 export async function createTestWorkoutExercise(
   database: Database,
-  overrides: Partial<TestWorkoutExerciseData> = {},
+  overrides: Partial<TestWorkoutExerciseData> = {}
 ): Promise<WorkoutExercise> {
   const weData = createTestWorkoutExerciseData(overrides);
   const workoutExercisesCollection = database.get('workout_exercises');
@@ -386,7 +382,7 @@ export interface TestExerciseSetData {
  * ```
  */
 export function createTestExerciseSetData(
-  overrides: Partial<TestExerciseSetData> = {},
+  overrides: Partial<TestExerciseSetData> = {}
 ): TestExerciseSetData {
   return {
     workout_exercise_id: overrides.workout_exercise_id || generateTestId('workout-exercise'),
@@ -421,7 +417,7 @@ export function createTestExerciseSetData(
  */
 export async function createTestExerciseSet(
   database: Database,
-  overrides: Partial<TestExerciseSetData> = {},
+  overrides: Partial<TestExerciseSetData> = {}
 ): Promise<ExerciseSet> {
   const setData = createTestExerciseSetData(overrides);
   const setsCollection = database.get('exercise_sets');
@@ -472,7 +468,7 @@ export async function createMultipleRecords<T>(
   factoryFn: (database: Database, overrides?: any) => Promise<T>,
   database: Database,
   count: number,
-  overridesFn?: (index: number) => any,
+  overridesFn?: (index: number) => any
 ): Promise<T[]> {
   const records: T[] = [];
   for (let i = 0; i < count; i++) {

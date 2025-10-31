@@ -220,8 +220,14 @@ describe('Workout CRUD Operations', () => {
       await createTestWorkout(database, { title: 'Workout 1', completed_at: null });
       await createTestWorkout(database, { title: 'Workout 2', completed_at: null });
       // Completed workouts (completed_at is set)
-      await createTestWorkout(database, { title: 'Workout 3', completed_at: new Date().toISOString() });
-      await createTestWorkout(database, { title: 'Workout 4', completed_at: new Date().toISOString() });
+      await createTestWorkout(database, {
+        title: 'Workout 3',
+        completed_at: new Date().toISOString(),
+      });
+      await createTestWorkout(database, {
+        title: 'Workout 4',
+        completed_at: new Date().toISOString(),
+      });
 
       const inProgress = await database
         .get('workouts')
@@ -438,7 +444,7 @@ describe('Workout CRUD Operations', () => {
         .query(
           Q.where('user_id', user.id),
           Q.where('completed_at', Q.notEq(null)),
-          Q.where('nutrition_phase', 'bulk'),
+          Q.where('nutrition_phase', 'bulk')
         )
         .fetch();
 
