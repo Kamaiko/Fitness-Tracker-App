@@ -44,7 +44,7 @@ export interface Workout {
   title?: string;
   notes?: string;
   nutrition_phase: 'bulk' | 'cut' | 'maintenance';
-  synced: boolean;
+  // synced removed - internal WatermelonDB sync tracking
   created_at: number;
   updated_at: number;
 }
@@ -58,7 +58,7 @@ export interface WorkoutExercise {
   notes?: string;
   target_sets?: number;
   target_reps?: number;
-  synced: boolean;
+  // synced removed - internal WatermelonDB sync tracking
   created_at: number;
   updated_at: number;
 }
@@ -79,7 +79,7 @@ export interface ExerciseSet {
   notes?: string;
   is_warmup: boolean;
   is_failure: boolean;
-  synced: boolean;
+  // synced removed - internal WatermelonDB sync tracking
   created_at: number;
   updated_at: number;
 }
@@ -104,14 +104,11 @@ export interface WorkoutExerciseWithDetails extends WorkoutExercise {
 /**
  * Create types (without auto-generated fields)
  */
-export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at' | 'synced'> & {
+export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at'> & {
   nutrition_phase: 'bulk' | 'cut' | 'maintenance';
 };
-export type CreateWorkoutExercise = Omit<
-  WorkoutExercise,
-  'id' | 'created_at' | 'updated_at' | 'synced'
->;
-export type CreateExerciseSet = Omit<ExerciseSet, 'id' | 'created_at' | 'updated_at' | 'synced'>;
+export type CreateWorkoutExercise = Omit<WorkoutExercise, 'id' | 'created_at' | 'updated_at'>;
+export type CreateExerciseSet = Omit<ExerciseSet, 'id' | 'created_at' | 'updated_at'>;
 
 /**
  * Update types (optional fields only)

@@ -32,6 +32,7 @@ expo-env.d.ts
 coverage/
 *.lcov
 .nyc_output
+.jest-cache/
 
 # Debugging
 npm-debug.log*
@@ -59,6 +60,9 @@ dist/
 *.tmp
 *.temp
 .cache/
+*.py          # Python scripts (temporary migrations)
+*.backup
+*.bak
 
 # Logs
 logs/

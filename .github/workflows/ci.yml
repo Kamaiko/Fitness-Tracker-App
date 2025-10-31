@@ -158,7 +158,53 @@ jobs:
           exit 1
 
   # ============================================================================
-  # Job 4: Dependabot Auto-Merge
+  # Job 4: E2E Tests (Maestro) - PHASE 3+
+  # Uncomment when Task 10.2 is complete (Setup Maestro E2E Automation)
+  # ============================================================================
+  # e2e-tests:
+  #   name: E2E Tests (Maestro)
+  #   needs: [code-quality, unit-tests, security-scan]
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
+  #
+  #   # Only run E2E on release branches or workflow dispatch
+  #   if: |
+  #     github.event_name == 'workflow_dispatch' ||
+  #     startsWith(github.ref, 'refs/heads/release/')
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v5
+  #
+  #     - name: Setup Maestro
+  #       run: |
+  #         curl -Ls "https://get.maestro.mobile.dev" | bash
+  #         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+  #
+  #     - name: Download EAS Build (Android)
+  #       run: |
+  #         npx eas-cli@latest build:download \
+  #           --platform android \
+  #           --profile preview \
+  #           --output app.apk
+  #       env:
+  #         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+  #
+  #     - name: Run Maestro tests
+  #       run: maestro test e2e/maestro/
+  #
+  #     - name: Upload Maestro results
+  #       if: always()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: maestro-results
+  #         path: maestro-results/
+  #         retention-days: 7
+  #
+  #   # Reference: docs/E2E_STRATEGY.md for complete setup guide
+
+  # ============================================================================
+  # Job 5: Dependabot Auto-Merge
   # Requires ALL previous jobs to pass before merging
   # ============================================================================
   dependabot-auto-merge:

@@ -2,41 +2,41 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 18/96 tasks (19%) • ![](https://img.shields.io/badge/Progress-19%25-red)
+**Progress**: 19/98 tasks (19%) • ![](https://img.shields.io/badge/Progress-19%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
-**Last Updated**: 2025-10-30 • **Next Milestone**: Complete Development Build Migration & Infrastructure
+**Last Updated**: 2025-01-31 • **Next Milestone**: Complete Development Build Migration & Infrastructure
 
 ---
 
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 17/26 tasks (65%) • **Overall**: 18/96 tasks (19%)
+**Phase Progress**: 18/26 tasks (69%) • **Overall**: 19/98 tasks (19%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
 
 ### Recent Completions ✅
 
-1. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
-2. **0.5.5** - Sentry Error Monitoring (production-only, privacy, DSN configured)
-3. **5.1** - Setup CI/CD Pipeline with GitHub Actions
-4. **0.5.10** - Zustand Persist for Workout Store
-5. **0.5.9** - User ID Persistence with Zustand Persist
+1. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
+2. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
+3. **0.5.5** - Sentry Error Monitoring (production-only, privacy, DSN configured)
+4. **5.1** - Setup CI/CD Pipeline with GitHub Actions
+5. **0.5.10** - Zustand Persist for Workout Store
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                     | 🔨 DOING | ✅ DONE (Last 5)            |
-| ----------------------------------- | -------- | --------------------------- |
-| **0.5.27** Supabase schema `[L]` 🟠 |          | **0.5.11** Error handling   |
-| **0.5.28** Test & Verify `[M]` 🟠   |          | **0.5.5** Sentry monitoring |
-| **0.5.3** FlashList `[S]` 🟡        |          | **5.1** CI/CD Pipeline      |
-| **0.5.4** expo-image `[S]` 🟡       |          | **0.5.10** Workout persist  |
-| **1.1** Login screen `[M]` 🟠       |          | **0.5.9** Auth persist      |
+| 📝 TODO (Top 5)                   | 🔨 DOING | ✅ DONE (Last 5)            |
+| --------------------------------- | -------- | --------------------------- |
+| **0.5.28** Test & Verify `[M]` 🟠 |          | **0.5.27** Supabase sync    |
+| **0.5.3** FlashList `[S]` 🟡      |          | **0.5.11** Error handling   |
+| **0.5.4** expo-image `[S]` 🟡     |          | **0.5.5** Sentry monitoring |
+| **1.1** Login screen `[M]` 🟠     |          | **5.1** CI/CD Pipeline      |
+| **1.2** Register screen `[M]` 🟠  |          | **0.5.10** Workout persist  |
 
-**Progress**: Phase 0.5: 17/26 (65%) • Overall: 18/96 (19%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~2.5 weeks
-**NEXT**: 0.5.27-28 Supabase Schema & Sync 🟠 IMPORTANT
+**Progress**: Phase 0.5: 18/26 (69%) • Overall: 19/98 (19%)
+**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~2 weeks
+**NEXT**: 0.5.28 Test & Verify Development Build 🟠 IMPORTANT
 
 ---
 
@@ -45,7 +45,7 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (17/26)](#phase-05-architecture--foundation-1726)
+4. [Phase 0.5: Architecture & Foundation (18/26)](#phase-05-architecture--foundation-1826)
 5. [Phase 1: Authentication & Foundation (1/15)](#phase-1-authentication--foundation-115)
 6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
 7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
@@ -57,7 +57,7 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (17/26 tasks)
+Phase 0.5: Architecture & Foundation (18/26 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ EAS Build + Dev Client ✅
@@ -124,7 +124,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 0.5: Architecture & Foundation (17/26)
+## Phase 0.5: Architecture & Foundation (18/26)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
@@ -151,7 +151,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.B: Development Build Migration (8/10) 🔨 IN PROGRESS
+### 0.5.B: Development Build Migration (9/10) 🔨 IN PROGRESS
 
 **Goal:** Migrate to production-ready stack while codebase is small
 
@@ -205,14 +205,14 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Updated ExampleLineChart.tsx, removed react-native-chart-kit (-2.1 MB)
   - Professional Skia rendering with gesture support ready
 
-- [ ] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h)
-  - Create `supabase/migrations/001_initial_schema.sql`
-  - Create Supabase tables matching WatermelonDB schema
-  - Add RLS policies (users see only their data)
-  - Create pull_changes() and push_changes() PostgreSQL functions
-  - Implement sync() function in `src/services/database/watermelon/sync.ts`
-  - Test sync with sample data
-  - Reference: DATABASE.md § Supabase Sync
+- [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) ✅ 2025-01-31
+  - ✅ Created migration: `supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql`
+  - ✅ All 5 tables with sync columns (_changed, _status)
+  - ✅ 19 RLS policies (users see only their data)
+  - ✅ PostgreSQL functions: pull_changes() and push_changes()
+  - ✅ Implemented sync.ts with WatermelonDB synchronize() protocol
+  - ✅ 37 Jest tests created (workouts, exercises, sets + infrastructure)
+  - **Bonus:** Test README (122 lines), setup README (328 lines), E2E strategy doc
 
 - [ ] 0.5.28 **Test & Verify Development Build** (M - 45min)
   - Verify app launches with dev build on physical device
@@ -371,6 +371,14 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Reset confirmation screen
   - Supabase email notification
   - Success/error states
+
+- [ ] 1.16 **Document Manual E2E Test Checklists** (S - 1.5h) `[e2e/manual/]`
+  - Create `e2e/manual/sync-checklist.md` (Supabase sync scenarios)
+  - Create `e2e/manual/offline-crud.md` (Offline CRUD operations)
+  - Create `e2e/manual/auth-flows.md` (Login/logout/reset password)
+  - Document prerequisites (Dev Build, test account, network toggle)
+  - Include pass/fail criteria for each scenario
+  - Reference: `src/services/database/__tests__/README.md` § E2E Testing
 
 ### 2. Navigation Structure
 
@@ -781,6 +789,29 @@ Reference: See task 0.5.18 for details
   - src/services/database/__tests__/workouts.test.ts
 
   Note: Jest infrastructure ready, just write the tests
+  ```
+
+- [ ] 10.2 **Setup Maestro E2E Automation** (L - 6h) `[e2e/maestro/]`
+
+  ```
+  Tasks:
+  - Install Maestro CLI and dependencies
+  - Create e2e/maestro/ directory structure
+  - Write initial E2E tests (login, create workout, sync)
+  - Configure Maestro flows for critical user journeys
+  - Document Maestro setup in docs/E2E_STRATEGY.md
+  - Integrate with CI/CD (GitHub Actions + EAS Build)
+
+  Test files to create:
+  - e2e/maestro/auth-login.yaml
+  - e2e/maestro/workout-create-offline.yaml
+  - e2e/maestro/sync-offline-changes.yaml
+
+  Reference: Manual checklists from Phase 1 (task 1.16)
+  Framework: Maestro (YAML-based, simpler than Detox)
+  CI Integration: Run on EAS Build preview (not every commit)
+
+  Note: Requires manual E2E checklists from Phase 1 as baseline
   ```
 
 ### 11. ExerciseDB API Integration

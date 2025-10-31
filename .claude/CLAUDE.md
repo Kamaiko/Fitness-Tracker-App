@@ -71,6 +71,26 @@
 
 ---
 
+## 🧪 Testing Strategy
+
+**Three-tier testing approach:**
+
+| Test Type | Environment | What to Test | Tools | Status |
+|-----------|-------------|--------------|-------|--------|
+| **Unit** | Jest + LokiJS | CRUD, queries, relationships | Jest, @testing-library | ✅ Active (37 tests) |
+| **Integration** | Expo Dev Build | Sync protocol, migrations | Real SQLite + JSI | 🚧 Phase 1 (Manual) |
+| **E2E** | Real Device | Full user flows | Maestro (YAML) | 📅 Phase 3+ |
+
+**Key Limitation**: WatermelonDB sync protocol (`_changed`, `_status`, `synchronize()`) **CANNOT** be tested in Jest with LokiJS adapter. Requires real SQLite environment.
+
+**Current Coverage**: 60-65% database layer (Phase 0.5 foundation)
+
+**See:**
+- [Database Test README](../src/services/database/__tests__/README.md) - Unit test structure
+- [E2E_STRATEGY.md](../docs/E2E_STRATEGY.md) - Manual + Maestro automation plan
+
+---
+
 ## 🤖 Slash Commands
 
 Custom slash commands available in `.claude/commands/`:
@@ -95,6 +115,7 @@ See individual command files for detailed usage instructions.
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
 | **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
 | **TROUBLESHOOTING.md** 🆘 | When something breaks             | Common issues & solutions                |
+| **E2E_STRATEGY.md** 🧪    | Setting up E2E testing            | Manual testing (Phase 1), Maestro (Phase 3+) |
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**

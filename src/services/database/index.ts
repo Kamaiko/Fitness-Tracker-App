@@ -6,7 +6,7 @@
  * ARCHITECTURE:
  * - WatermelonDB for reactive, scalable data management
  * - Dual API: Promise (imperative) + Observable (reactive)
- * - Manual Supabase sync for backend persistence
+ * - Official WatermelonDB sync protocol for backend persistence
  *
  * USAGE:
  * import { createWorkout, observeUserWorkouts } from '@/services/database';
@@ -44,5 +44,5 @@ export {
 } from './workouts';
 
 // Sync operations
-export { syncToSupabase, getSyncStatus, autoSync } from './sync';
+export { sync, getSyncStatus, setupAutoSync, manualSync, checkUnsyncedChanges } from './sync';
 export type { SyncStatus, SyncResult } from './sync';

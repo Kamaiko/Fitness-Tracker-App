@@ -1,242 +1,174 @@
 /**
- * Supabase Sync Service
+ * WatermelonDB Sync Service - Official Protocol
  *
- * Simple sync strategy:
- * 1. Save local first (instant UI)
- * 2. Sync to Supabase in background
- * 3. Handle conflicts with "last write wins"
+ * Architecture:
+ * - Uses WatermelonDB's built-in synchronize() function
+ * - Bidirectional sync: pull (download) + push (upload)
+ * - Automatic conflict resolution (last write wins)
+ * - Batch operations for performance
  *
- * Uses WatermelonDB for local storage, Supabase for backend sync
+ * References:
+ * - DATABASE.md § Supabase Sync
+ * - WatermelonDB Sync Docs: https://nozbe.github.io/WatermelonDB/Advanced/Sync.html
  */
 
-import { Q } from '@nozbe/watermelondb';
-import { supabase } from '@/services/supabase';
+import { synchronize, hasUnsyncedChanges } from '@nozbe/watermelondb/sync';
+import SyncLogger from '@nozbe/watermelondb/sync/SyncLogger';
 import { database } from './watermelon';
-import { getUnsyncedWorkouts, markWorkoutAsSynced } from './workouts';
-import WorkoutModel from './watermelon/models/Workout';
-import ExerciseSetModel from './watermelon/models/ExerciseSet';
-import type { Workout, WorkoutExercise, ExerciseSet } from './types';
+import { supabase } from '@/services/supabase';
+import { DatabaseError } from '@/utils/errors';
 
 // ============================================================================
-// Sync Status Types
+// Types
 // ============================================================================
-
-export interface SyncStatus {
-  isOnline: boolean;
-  lastSync: number | null;
-  pendingWorkouts: number;
-  pendingSets: number;
-}
 
 export interface SyncResult {
   success: boolean;
-  syncedWorkouts: number;
-  syncedExercises: number;
-  syncedSets: number;
+  timestamp: number;
+  pulledRecords: number;
+  pushedRecords: number;
   errors: string[];
 }
 
+export interface SyncStatus {
+  lastSyncedAt: number | null;
+  hasUnsyncedChanges: boolean;
+  isOnline: boolean;
+}
+
 // ============================================================================
-// Main Sync Function
+// Main Sync Function (WatermelonDB Protocol)
 // ============================================================================
 
 /**
- * Sync all unsynced data to Supabase
- * Called after workout completion or periodically
+ * Synchronize local database with Supabase backend
+ * Uses WatermelonDB's official sync protocol
+ *
+ * @throws {DatabaseError} If sync fails
  */
-export async function syncToSupabase(): Promise<SyncResult> {
+export async function sync(): Promise<SyncResult> {
+  const logger = new SyncLogger(10);
   const result: SyncResult = {
     success: false,
-    syncedWorkouts: 0,
-    syncedExercises: 0,
-    syncedSets: 0,
+    timestamp: Date.now(),
+    pulledRecords: 0,
+    pushedRecords: 0,
     errors: [],
   };
 
   try {
-    // Check if online
-    const { data: healthCheck } = await supabase.from('workouts').select('id').limit(1);
-    if (!healthCheck) throw new Error('Offline');
+    await synchronize({
+      database,
 
-    // Sync workouts
-    const workoutsResult = await syncWorkouts();
-    result.syncedWorkouts = workoutsResult.synced;
-    result.errors.push(...workoutsResult.errors);
+      // Pull changes from server
+      pullChanges: async ({ lastPulledAt, schemaVersion, migration }) => {
+        console.log('📥 Pulling changes since:', new Date(lastPulledAt || 0));
 
-    // Sync workout exercises
-    const exercisesResult = await syncWorkoutExercises();
-    result.syncedExercises = exercisesResult.synced;
-    result.errors.push(...exercisesResult.errors);
+        const { data, error } = await supabase.rpc('pull_changes', {
+          last_pulled_at: lastPulledAt || 0,
+        });
 
-    // Sync sets
-    const setsResult = await syncSets();
-    result.syncedSets = setsResult.synced;
-    result.errors.push(...setsResult.errors);
+        if (error) {
+          console.error('Pull error:', error);
+          throw new DatabaseError(
+            'Failed to download data from server',
+            `Supabase RPC error: ${error.message}`
+          );
+        }
 
-    result.success = result.errors.length === 0;
+        // Count pulled records
+        let pulledCount = 0;
+        for (const table in data.changes) {
+          const tableChanges = data.changes[table];
+          pulledCount +=
+            (tableChanges.created?.length || 0) +
+            (tableChanges.updated?.length || 0) +
+            (tableChanges.deleted?.length || 0);
+        }
+        result.pulledRecords = pulledCount;
 
-    console.log('✅ Sync complete:', result);
+        console.log('✅ Pulled', pulledCount, 'changes');
+
+        return {
+          changes: data.changes,
+          timestamp: data.timestamp,
+        };
+      },
+
+      // Push local changes to server
+      pushChanges: async ({ changes, lastPulledAt }) => {
+        // Count records to push
+        let pushCount = 0;
+        for (const table of Object.keys(changes)) {
+          const tableChanges = changes[table as keyof typeof changes] as {
+            created?: any[];
+            updated?: any[];
+            deleted?: string[];
+          };
+          pushCount +=
+            (tableChanges.created?.length || 0) +
+            (tableChanges.updated?.length || 0) +
+            (tableChanges.deleted?.length || 0);
+        }
+
+        if (pushCount === 0) {
+          console.log('⏭️ No changes to push');
+          return;
+        }
+
+        console.log('📤 Pushing', pushCount, 'changes');
+
+        const { error } = await supabase.rpc('push_changes', {
+          changes: changes,
+        });
+
+        if (error) {
+          console.error('Push error:', error);
+          throw new DatabaseError(
+            'Failed to upload data to server',
+            `Supabase RPC error: ${error.message}`
+          );
+        }
+
+        result.pushedRecords = pushCount;
+        console.log('✅ Pushed', pushCount, 'changes');
+      },
+
+      // Migration support (for schema version changes)
+      migrationsEnabledAtVersion: 1,
+
+      // Logging (for debugging)
+      log: logger.newLog(),
+    });
+
+    result.success = true;
+    console.log('✅ Sync completed successfully');
+    console.log('📊 Sync stats:', {
+      pulled: result.pulledRecords,
+      pushed: result.pushedRecords,
+    });
+
+    // Log detailed sync info (for debugging)
+    if (__DEV__) {
+      console.log('🔍 Sync logs:', logger.formattedLogs);
+    }
+
     return result;
   } catch (error) {
-    result.errors.push(`Sync failed: ${error}`);
-    console.log('⚠️ Sync failed (will retry later):', error);
-    return result;
-  }
-}
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    result.errors.push(errorMessage);
 
-// ============================================================================
-// Sync Individual Tables
-// ============================================================================
+    console.error('❌ Sync failed:', errorMessage);
 
-/**
- * Sync workouts table
- */
-async function syncWorkouts(): Promise<{ synced: number; errors: string[] }> {
-  const errors: string[] = [];
-  let synced = 0;
-
-  try {
-    // Get unsynced workouts using WatermelonDB helper
-    const unsynced = await getUnsyncedWorkouts();
-
-    for (const workout of unsynced) {
-      try {
-        // Transform to Supabase format (timestamps to ISO)
-        const supabaseWorkout = {
-          id: workout.id,
-          user_id: workout.user_id,
-          started_at: new Date(workout.started_at).toISOString(),
-          completed_at: workout.completed_at ? new Date(workout.completed_at).toISOString() : null,
-          duration_seconds: workout.duration_seconds,
-          title: workout.title,
-          notes: workout.notes,
-          nutrition_phase: workout.nutrition_phase,
-          created_at: new Date(workout.created_at).toISOString(),
-          updated_at: new Date(workout.updated_at).toISOString(),
-        };
-
-        // Upsert to Supabase (insert or update)
-        const { error } = await supabase.from('workouts').upsert(supabaseWorkout);
-
-        if (error) throw error;
-
-        // Mark as synced locally using WatermelonDB helper
-        await markWorkoutAsSynced(workout.id);
-        synced++;
-      } catch (err) {
-        errors.push(`Workout ${workout.id}: ${err}`);
-      }
+    if (error instanceof DatabaseError) {
+      throw error;
     }
-  } catch (err) {
-    errors.push(`Workouts sync failed: ${err}`);
-  }
 
-  return { synced, errors };
-}
-
-/**
- * Sync workout_exercises table
- * Gets exercises from unsynced workouts
- */
-async function syncWorkoutExercises(): Promise<{ synced: number; errors: string[] }> {
-  const errors: string[] = [];
-  let synced = 0;
-
-  try {
-    // Get unsynced workouts with their exercises
-    const unsyncedWorkouts = await getUnsyncedWorkouts();
-
-    // Flatten all exercises from all unsynced workouts
-    const allExercises = unsyncedWorkouts.flatMap((workout) => workout.exercises);
-
-    for (const we of allExercises) {
-      try {
-        const supabaseWE = {
-          id: we.id,
-          workout_id: we.workout_id,
-          exercise_id: we.exercise_id,
-          order_index: we.order_index,
-          superset_group: we.superset_group,
-          notes: we.notes,
-          target_sets: we.target_sets,
-          target_reps: we.target_reps,
-          created_at: new Date(we.created_at).toISOString(),
-          updated_at: new Date(we.updated_at).toISOString(),
-        };
-
-        const { error } = await supabase.from('workout_exercises').upsert(supabaseWE);
-
-        if (error) throw error;
-
-        synced++;
-      } catch (err) {
-        errors.push(`WorkoutExercise ${we.id}: ${err}`);
-      }
-    }
-  } catch (err) {
-    errors.push(`Workout exercises sync failed: ${err}`);
-  }
-
-  return { synced, errors };
-}
-
-/**
- * Sync exercise_sets table
- * Gets sets from unsynced workouts
- */
-async function syncSets(): Promise<{ synced: number; errors: string[] }> {
-  const errors: string[] = [];
-  let synced = 0;
-
-  try {
-    // Get unsynced workouts with their exercises and sets
-    const unsyncedWorkouts = await getUnsyncedWorkouts();
-
-    // Flatten all sets from all exercises in all unsynced workouts
-    const allSets = unsyncedWorkouts.flatMap((workout) =>
-      workout.exercises.flatMap((exercise) => exercise.sets)
+    throw new DatabaseError(
+      'Sync failed. Your data is safe locally.',
+      `Sync error: ${errorMessage}`
     );
-
-    // Sync in batches of 50 (better performance)
-    const BATCH_SIZE = 50;
-    for (let i = 0; i < allSets.length; i += BATCH_SIZE) {
-      const batch = allSets.slice(i, i + BATCH_SIZE);
-
-      try {
-        const supabaseSets = batch.map((set: ExerciseSet) => ({
-          id: set.id,
-          workout_exercise_id: set.workout_exercise_id,
-          set_number: set.set_number,
-          weight: set.weight,
-          weight_unit: set.weight_unit,
-          reps: set.reps,
-          duration_seconds: set.duration_seconds,
-          distance_meters: set.distance_meters,
-          rpe: set.rpe,
-          rir: set.rir,
-          rest_time_seconds: set.rest_time_seconds,
-          completed_at: set.completed_at ? new Date(set.completed_at).toISOString() : null,
-          notes: set.notes,
-          is_warmup: set.is_warmup,
-          is_failure: set.is_failure,
-          created_at: new Date(set.created_at).toISOString(),
-          updated_at: new Date(set.updated_at).toISOString(),
-        }));
-
-        const { error } = await supabase.from('exercise_sets').upsert(supabaseSets);
-
-        if (error) throw error;
-
-        synced += batch.length;
-      } catch (err) {
-        errors.push(`Batch sync failed: ${err}`);
-      }
-    }
-  } catch (err) {
-    errors.push(`Sets sync failed: ${err}`);
   }
-
-  return { synced, errors };
 }
 
 // ============================================================================
@@ -244,42 +176,70 @@ async function syncSets(): Promise<{ synced: number; errors: string[] }> {
 // ============================================================================
 
 /**
- * Get current sync status
+ * Check if there are unsynced changes locally
  */
-export async function getSyncStatus(): Promise<SyncStatus> {
-  // Count pending workouts using WatermelonDB
-  const pendingWorkoutsQuery = await database
-    .get<WorkoutModel>('workouts')
-    .query(Q.where('synced', false))
-    .fetchCount();
-
-  // Count pending sets using WatermelonDB
-  const pendingSetsQuery = await database
-    .get<ExerciseSetModel>('exercise_sets')
-    .query(Q.where('synced', false))
-    .fetchCount();
-
-  // TODO: Store last sync timestamp in MMKV
-  return {
-    isOnline: true, // TODO: Check actual connectivity
-    lastSync: null, // TODO: Get from MMKV
-    pendingWorkouts: pendingWorkoutsQuery,
-    pendingSets: pendingSetsQuery,
-  };
+export async function checkUnsyncedChanges(): Promise<boolean> {
+  try {
+    return await hasUnsyncedChanges({ database });
+  } catch (error) {
+    console.error('Error checking unsynced changes:', error);
+    return false;
+  }
 }
 
 /**
- * Auto-sync: Call this after important operations
- * Non-blocking - runs in background
+ * Get sync status (for UI display)
  */
-export function autoSync(): void {
-  syncToSupabase()
-    .then((result) => {
-      if (result.success) {
-        console.log('✅ Auto-sync successful');
+export async function getSyncStatus(): Promise<SyncStatus> {
+  // TODO: Store lastSyncedAt in MMKV (Phase 1)
+  // TODO: Check actual network connectivity
+
+  const hasUnsynced = await checkUnsyncedChanges();
+
+  return {
+    lastSyncedAt: null, // Will implement in Phase 1
+    hasUnsyncedChanges: hasUnsynced,
+    isOnline: true, // Will implement connectivity check later
+  };
+}
+
+// ============================================================================
+// Auto-Sync Helper
+// ============================================================================
+
+/**
+ * Setup automatic sync on data changes
+ * Call this once during app initialization
+ */
+export function setupAutoSync() {
+  // Debounced sync (wait 2s after last change before syncing)
+  let syncTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  const debouncedSync = () => {
+    if (syncTimeout) clearTimeout(syncTimeout);
+
+    syncTimeout = setTimeout(async () => {
+      try {
+        await sync();
+      } catch (error) {
+        console.log('⚠️ Auto-sync failed (will retry later):', error);
       }
-    })
-    .catch((err) => {
-      console.log('⚠️ Auto-sync queued for retry:', err);
-    });
+    }, 2000); // 2 second debounce
+  };
+
+  // Listen to changes in critical tables
+  database.withChangesForTables(['workouts', 'workout_exercises', 'exercise_sets']).subscribe(() => {
+    console.log('📝 Data changed, scheduling sync...');
+    debouncedSync();
+  });
+
+  console.log('✅ Auto-sync enabled');
+}
+
+/**
+ * Manual sync trigger (for pull-to-refresh)
+ */
+export async function manualSync(): Promise<SyncResult> {
+  console.log('🔄 Manual sync triggered');
+  return await sync();
 }

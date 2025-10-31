@@ -46,7 +46,7 @@ function workoutToPlain(workout: WorkoutModel): Workout {
     title: workout.title ?? undefined,
     notes: workout.notes ?? undefined,
     nutrition_phase: workout.nutritionPhase as 'bulk' | 'cut' | 'maintenance',
-    synced: workout.synced,
+    // synced removed - using WatermelonDB sync protocol
     created_at: workout.createdAt.getTime(),
     updated_at: workout.updatedAt.getTime(),
   };
@@ -90,7 +90,7 @@ export async function createWorkout(data: CreateWorkout): Promise<Workout> {
         if (data.title) workout.title = data.title;
         if (data.notes) workout.notes = data.notes;
         workout.nutritionPhase = data.nutrition_phase;
-        workout.synced = false;
+        // Sync tracking handled by WatermelonDB
       });
     });
 
@@ -137,7 +137,7 @@ export async function addExerciseToWorkout(
         we.exerciseId = exerciseId;
         we.orderIndex = orderIndex;
         if (supersetGroup) we.supersetGroup = supersetGroup;
-        we.synced = false;
+        // Sync tracking handled by WatermelonDB
       });
     });
 
@@ -150,7 +150,7 @@ export async function addExerciseToWorkout(
       notes: workoutExercise.notes ?? undefined,
       target_sets: workoutExercise.targetSets ?? undefined,
       target_reps: workoutExercise.targetReps ?? undefined,
-      synced: workoutExercise.synced,
+      // synced removed
       created_at: workoutExercise.createdAt.getTime(),
       updated_at: workoutExercise.updatedAt.getTime(),
     };
@@ -206,7 +206,7 @@ export async function logSet(
         set.isWarmup = data.is_warmup ?? false;
         set.isFailure = false;
         set.completedAt = new Date();
-        set.synced = false;
+        // Sync tracking handled by WatermelonDB
       });
     });
 
@@ -226,7 +226,7 @@ export async function logSet(
       notes: exerciseSet.notes ?? undefined,
       is_warmup: exerciseSet.isWarmup,
       is_failure: exerciseSet.isFailure,
-      synced: exerciseSet.synced,
+      // synced removed
       created_at: exerciseSet.createdAt.getTime(),
       updated_at: exerciseSet.updatedAt.getTime(),
     };
@@ -441,7 +441,7 @@ export async function getWorkoutWithDetails(workoutId: string): Promise<WorkoutW
           notes: we.notes ?? undefined,
           target_sets: we.targetSets ?? undefined,
           target_reps: we.targetReps ?? undefined,
-          synced: we.synced,
+          // synced removed
           created_at: we.createdAt.getTime(),
           updated_at: we.updatedAt.getTime(),
           exercise: {
@@ -482,7 +482,7 @@ export async function getWorkoutWithDetails(workoutId: string): Promise<WorkoutW
             notes: set.notes ?? undefined,
             is_warmup: set.isWarmup,
             is_failure: set.isFailure,
-            synced: set.synced,
+            // synced removed
             created_at: set.createdAt.getTime(),
             updated_at: set.updatedAt.getTime(),
           })),
@@ -611,7 +611,7 @@ export async function updateWorkout(id: string, updates: UpdateWorkout): Promise
         if (updates.title !== undefined) w.title = updates.title;
         if (updates.notes !== undefined) w.notes = updates.notes;
         if (updates.nutrition_phase) w.nutritionPhase = updates.nutrition_phase;
-        w.synced = false;
+        // Sync tracking handled by WatermelonDB
       });
       return workout;
     });
@@ -716,7 +716,7 @@ export async function getUnsyncedWorkouts(): Promise<WorkoutWithDetails[]> {
   try {
     const workouts = await database
       .get<WorkoutModel>('workouts')
-      .query(Q.where('synced', false))
+      .query(Q.where('_status', Q.notEq('deleted')))
       .fetch();
 
     return Promise.all(workouts.map((w) => getWorkoutWithDetails(w.id)));
@@ -742,7 +742,7 @@ export async function markWorkoutAsSynced(id: string): Promise<void> {
     await database.write(async () => {
       const workout = await database.get<WorkoutModel>('workouts').find(id);
       await workout.update((w) => {
-        w.synced = true;
+        // Sync tracking handled by WatermelonDB _changed/_status
       });
     });
   } catch (error) {
