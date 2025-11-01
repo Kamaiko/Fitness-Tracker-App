@@ -351,6 +351,45 @@ tests/
 
 ---
 
+### Why **mocks** at Root? (Not in tests/)
+
+**Structure principle:**
+
+```
+project-root/
+├── __mocks__/              ← External dependencies (Jest auto-discovery)
+│   ├── react-native-mmkv.js
+│   └── expo-asset.js
+│
+└── tests/
+    ├── __helpers__/        ← Internal test utilities
+    └── fixtures/           ← Static test data
+```
+
+**Distinction:**
+
+| Location             | Purpose                          | What Goes Here                      | Example                                                    |
+| -------------------- | -------------------------------- | ----------------------------------- | ---------------------------------------------------------- |
+| `__mocks__/` (root)  | Mock **external dependencies**   | Packages from `node_modules`        | `react-native-mmkv`, `expo-asset`, `@supabase/supabase-js` |
+| `tests/__helpers__/` | **Internal utilities** for tests | Test factories, queries, assertions | `createTestWorkout()`, `countRecords()`                    |
+| `tests/fixtures/`    | **Static test data**             | JSON files, sample data             | `workouts.json`, `users.json`                              |
+
+**Why root for **mocks**?**
+
+1. **Jest Convention** - Jest auto-discovers mocks in `__mocks__/` adjacent to `node_modules` (no config needed)
+2. **Semantic Clarity** - Clear separation: external (mocks) vs internal (helpers) vs data (fixtures)
+3. **Standard Practice** - Follows Jest official docs recommendation
+
+**If moved to tests/**mocks**/:**
+
+- ❌ Jest won't auto-discover
+- ❌ Need manual `moduleNameMapper` config for each mock
+- ❌ Breaks Jest convention
+
+**Reference:** [Jest Manual Mocks](https://jestjs.io/docs/manual-mocks)
+
+---
+
 ## Decision Records
 
 **Q: Why Three-Tier Testing?**
