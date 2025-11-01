@@ -173,5 +173,54 @@
         ]
       }
     ]
+  },
+  "simpleWorkouts": {
+    "legDayBulk": {
+      "title": "Leg Day - Hypertrophy",
+      "nutrition_phase": "bulk",
+      "duration_seconds": 4980,
+      "notes": "Focus on progressive overload"
+    },
+    "pushDayCut": {
+      "title": "Push Day - Strength",
+      "nutrition_phase": "cut",
+      "duration_seconds": 3600,
+      "notes": "Reduced volume due to calorie deficit"
+    },
+    "pullDayMaintenance": {
+      "title": "Pull Day",
+      "nutrition_phase": "maintenance",
+      "duration_seconds": 4200
+    },
+    "chestShoulders": {
+      "title": "Chest & Shoulders",
+      "nutrition_phase": "bulk",
+      "duration_seconds": 5100,
+      "notes": "Bench press + OHP superset"
+    },
+    "backBiceps": {
+      "title": "Back & Biceps",
+      "nutrition_phase": "bulk",
+      "duration_seconds": 4500,
+      "notes": "Pull day with bicep isolation"
+    },
+    "armsDayBulk": {
+      "title": "Arms Day - Hypertrophy",
+      "nutrition_phase": "bulk",
+      "duration_seconds": 3300,
+      "notes": "Biceps and triceps focus"
+    },
+    "fullBodyCut": {
+      "title": "Full Body - Circuit",
+      "nutrition_phase": "cut",
+      "duration_seconds": 2700,
+      "notes": "High volume circuit training"
+    },
+    "shouldersAbsBulk": {
+      "title": "Shoulders & Abs",
+      "nutrition_phase": "bulk",
+      "duration_seconds": 3900,
+      "notes": "Deltoid focus + core work"
+    }
   }
 }
