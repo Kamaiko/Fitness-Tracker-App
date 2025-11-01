@@ -150,151 +150,45 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### 0.5.B: Development Build Migration (10/10) ✅ COMPLETE
 
-**Goal:** Migrate to production-ready stack while codebase is small
-
-**Stack Changes:**
-
-- expo-sqlite → WatermelonDB (reactive, offline-first ORM)
-- AsyncStorage → MMKV (encrypted, 10-30x faster)
-- react-native-chart-kit → Victory Native (professional charts)
-- Expo Go → Development Build (enables native modules)
-
-**Status:** ✅ All tasks complete. Development Build ready for Phase 1.
+**Goal:** Migrate to production-ready stack (WatermelonDB, MMKV, Victory Native, Development Build)
 
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
-  - EAS account configured, CLI installed, project linked
-
 - [x] 0.5.21 **Create eas.json Configuration** (S - 30min) ✅
-  - Development, preview, and production profiles configured
-
 - [x] 0.5.22 **Install Native Packages & Build Development Build** (L - 2-3h) ✅
-  - Installed 15+ native packages (WatermelonDB, MMKV, Victory Native, FlashList, expo-image, Sentry, simple-statistics)
-  - Configured build files (.npmrc, babel.config.js)
-  - Fixed SDK 54 compatibility issues
-  - Android build SUCCESS - Build ID: c4995844-799a-407b-b888-23cf488eedb3
-
 - [x] 0.5.23 **Create WatermelonDB Models & Schema** (L - 2h) ✅
-  - Created 5 tables schema (users, exercises, workouts, workout_exercises, exercise_sets)
-  - Created 5 models with decorators, relations, and computed properties
-  - Added nutrition_phase field for context-aware analytics
-  - Configured Metro transformer and TypeScript decorators
-
 - [x] 0.5.23.1 **Phase 1 Critical Fixes (Post-Analysis)** (M - 1.5h) ✅
-  - Comprehensive 15-thought security & dependency analysis
-  - Fixed 6 critical issues (WatermelonDB dependencies, duplicates, GDPR, indexes)
-  - Verified dev build hot reload and Metro bundler
-  - Zero TypeScript errors, production-ready configuration
-
 - [x] 0.5.24 **Migrate Database Operations to WatermelonDB** (L - 1.5h) ✅
-  - Deleted expo-sqlite and legacy files
-  - Rewrote workouts.ts (444 lines) with WatermelonDB Dual API (Promise + Observable)
-  - Updated sync.ts for WatermelonDB queries
-
 - [x] 0.5.25 **Migrate Storage to MMKV** (M - 1h) ✅
-  - Created mmkvStorage.ts (Nitro Modules API), zustandMMKVStorage.ts adapter
-  - 10-30x performance improvement with native encryption
-  - Note: Store integration pending (see 0.5.9 - Zustand persist approach)
-
 - [x] 0.5.26 **Migrate Charts to Victory Native** (M - 1h) ✅
-  - Created LineChart.tsx and BarChart.tsx wrappers (library-agnostic interface)
-  - Updated ExampleLineChart.tsx, removed react-native-chart-kit (-2.1 MB)
-  - Professional Skia rendering with gesture support ready
-
 - [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) ✅ 2025-01-31
-  - Created migration: `supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql`
-  - All 5 tables with sync columns (\_changed, \_status)
-  - 19 RLS policies (users see only their data)
-  - PostgreSQL functions: pull_changes() and push_changes()
-  - Implemented sync.ts with WatermelonDB synchronize() protocol
-  - 37 Jest tests created (workouts, exercises, sets + infrastructure)
-  - **Bonus:** Test README (122 lines), setup README (328 lines), E2E strategy doc
-
-- [x] 0.5.28 **Install & Launch Development Build** (S - 15min) ✅ 2025-01-31
-  - Used existing EAS build (fingerprint check: non-critical differences only)
-  - Installed APK on Android physical device
-  - App launches successfully, no crashes
-  - Hot reload verified and functional
+- [x] 0.5.28 **Verify Development Build Launch** (S - 15min) ✅ 2025-01-31
 
 ---
 
 ### 0.5.C: Critical Corrections - Blockers (4/4) ✅ COMPLETE
 
-**Goal:** Complete store integration and error handling (infrastructure ready from 0.5.25)
+**Goal:** Store persistence, error handling, and monitoring
 
-**Status:** ✅ All tasks complete - Store integration ✅ | Error handling ✅ | Sentry monitoring ✅
-
-**Note:** Tasks numbered in discovery order. Sections organized by logical execution priority.
-
-- [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) 🔴 BLOCKS PHASE 1
-  - **Problem:** User ID stored in memory only, lost on app restart
-  - **Impact:** User appears logged out, workouts orphaned, potential data loss
-  - **Solution:** Add Zustand persist middleware (2025 best practice)
-    - Import persist, createJSONStorage from zustand/middleware
-    - Wrap store: persist((set) => ({...}), {name, storage, partialize})
-    - Config: name='auth-storage', storage=zustandMMKVStorage
-    - Partialize: persist only {user, isAuthenticated}
-    - Add onRehydrateStorage error handling
-  - **Files:** src/stores/auth/authStore.ts
-  - **Validation:** User persists after app restart ✅
-
-- [x] 0.5.10 **Zustand Persist for Workout Store** (S - 1h) 🔴 BLOCKS PHASE 2
-  - **Problem:** Active workout state lost on crash/close
-  - **Impact:** User loses workout progress (sets logged but appears not started)
-  - **Solution:** Add Zustand persist middleware
-    - Same pattern as authStore
-    - Config: name='workout-storage', storage=zustandMMKVStorage
-    - Persist: isWorkoutActive, workoutStartTime, currentWorkoutId
-  - **Files:** src/stores/workout/workoutStore.ts
-  - **Test:** Start workout → Kill app → Reopen → Workout still active
-  - **Validation:** Workout survives app restart ✅
-
-- [x] 0.5.11 **Error Handling Layer** (M - 3h) 🟠 IMPORTANT ✅
-  - **Problem:** No try/catch in database operations, errors fail silently
-  - **Impact:** Difficult debugging, poor UX, no error tracking
-  - **Solution:**
-    1. Create custom error classes (DatabaseError, AuthError, ValidationError, SyncError)
-    2. Wrap all database operations with try/catch in workouts.ts (17 functions)
-    3. Validate user auth: `useAuthStore.getState().user?.id` (security validation)
-    4. Create useErrorHandler hook for components (mixte approach: user-friendly + detailed logs)
-  - **Files:** src/utils/errors.ts, src/services/database/workouts.ts, src/hooks/ui/useErrorHandler.ts
-  - **Validation:** All errors caught, displayed to user, and logged ✅
-  - **Completed:** 2025-10-30 • Commit: 9b59402
-
-- [x] 0.5.5 **Configure Sentry for error monitoring** (M - 2h) 🟡 ✅
-  - **Depends on:** 0.5.11 (Error Handling) - Sentry captures custom error classes ✅
-  - Package: @sentry/react-native ~7.4.0 ✅ installed & configured
-  - Setup Sentry project and DSN ✅ (production-only, !**DEV**)
-  - Configure error tracking and performance monitoring ✅
-  - Integrate with custom error classes from 0.5.11 ✅
-  - Privacy controls (email/IP scrubbing) ✅
-  - React Navigation integration ✅
-  - **Files:** app/\_layout.tsx, src/utils/sentry.ts, src/hooks/ui/useErrorHandler.ts, docs/SENTRY_SETUP.md
-  - **Validation:** DSN configured, Sentry ready for production builds ✅
-  - **Completed:** 2025-10-30 • Commit: d5ff4de
+- [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) ✅
+- [x] 0.5.10 **Zustand Persist for Workout Store** (S - 1h) ✅
+- [x] 0.5.11 **Error Handling Layer** (M - 3h) ✅
+- [x] 0.5.5 **Configure Sentry for error monitoring** (M - 2h) ✅
 
 ---
 
 ### 0.5.D: Infrastructure Completion (0/2)
 
-**Goal:** Configure remaining performance libraries (packages installed in 0.5.22)
-
-**Status:** Packages installed ✅ | Configuration pending ⏳
+**Goal:** Configure remaining performance libraries
 
 - [ ] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
-  - Package: @shopify/flash-list 2.0.2 ✅ installed
   - Replace FlatList with FlashList in workout history
   - Configure estimatedItemSize for performance
   - Test with 100+ items list
-  - **Files:** src/components/workout/WorkoutHistory.tsx
-  - **Validation:** 54% FPS improvement on large lists ✅
 
 - [ ] 0.5.4 **Configure expo-image with caching** (S - 1h)
-  - Package: expo-image ^3.0.10 ✅ installed
   - Replace Image with ExpoImage in exercise library
   - Configure memory and disk cache (cachePolicy="memory-disk")
   - Test with exercise thumbnails (500+ images)
-  - **Files:** src/components/ui/ExerciseThumbnail.tsx
-  - **Validation:** Fast image loading with cache ✅
 
 ---
 
@@ -302,23 +196,23 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **Goal:** Nice-to-have improvements (defer to Phase 1-2, implement progressively)
 
-- [ ] 0.5.12 **Repository Pattern** (L - 8h) 🟡
+- [ ] 0.5.12 **Repository Pattern** (L - 8h)
   - Defer: Implement progressively in Phase 1-2
   - Impact: Makes future DB optimization easier
 
-- [ ] 0.5.13 **Sync Conflict Detection** (L - 8h) 🟠
+- [ ] 0.5.13 **Sync Conflict Detection** (L - 8h)
   - Defer: Must complete before Phase 2 (multi-device)
   - Impact: Prevents data corruption on conflicts
 
-- [ ] 0.5.14 **Database Indexes** (M - 2h) 🟡
+- [ ] 0.5.14 **Database Indexes** (M - 2h)
   - Defer: Add when performance becomes issue (500+ workouts)
   - Impact: Query performance
 
-- [ ] 0.5.15 **Chart Abstraction** (M - 3h) 🟢
+- [ ] 0.5.15 **Chart Abstraction** (M - 3h)
   - Defer: Victory Native already abstracted
   - Impact: Minimal (already using good library)
 
-- [ ] 0.5.16 **Domain vs DB Types** (M - 4h) 🟢
+- [ ] 0.5.16 **Domain vs DB Types** (M - 4h)
   - Defer: Organize types during Phase 1-2 development
   - Impact: Minor code organization
 
