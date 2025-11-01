@@ -7,6 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@test-helpers/*": ["tests/__helpers__/*"],
       "@tests/*": ["tests/*"]
     },
     // CI/CD Performance: Incremental compilation for faster type-checks

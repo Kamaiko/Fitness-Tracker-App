@@ -12,7 +12,7 @@
 
 import { Database } from '@nozbe/watermelondb';
 import { Q } from '@nozbe/watermelondb';
-import { createTestDatabase, cleanupTestDatabase } from '@tests/support/database/test-database';
+import { createTestDatabase, cleanupTestDatabase } from '@test-helpers/database/test-database';
 import ExerciseSet from '../watermelon/models/ExerciseSet';
 import {
   createTestExerciseSet,
@@ -21,8 +21,9 @@ import {
   createTestExercise,
   resetTestIdCounter,
   createMultipleRecords,
-} from '@tests/support/database/factories';
-import { countRecords, wait } from '@tests/support/database/assertions';
+} from '@test-helpers/database/factories';
+import { countRecords } from '@test-helpers/database/queries';
+import { wait } from '@test-helpers/database/time';
 
 // NOTE: Sync protocol tests removed - require real SQLite, moved to E2E
 // See: __tests__/README.md

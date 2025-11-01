@@ -12,7 +12,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@tests/(.*)$': '<rootDir>/tests/$1', // 🆕 Alias for tests infrastructure
+    '^@test-helpers/(.*)$': '<rootDir>/tests/__helpers__/$1', // Test helpers (factories, queries, time, assertions)
+    '^@tests/(.*)$': '<rootDir>/tests/$1', // General tests infrastructure (fixtures, e2e)
   },
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}', '**/?(*.)+(spec|test).{ts,tsx}'],
 

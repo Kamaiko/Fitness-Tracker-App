@@ -59,7 +59,9 @@
       "Bash(gh run list:*)",
       "Bash(npm run format:*)",
       "Bash(if not exist \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\" mkdir \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\")",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(for file in docs/testing/*.md tests/**/*.md)",
+      "Bash(do [ -f \"$file\" ])"
     ],
     "deny": [],
     "ask": []
