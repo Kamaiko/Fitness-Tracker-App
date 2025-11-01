@@ -107,5 +107,5 @@ Current structure allows adding more domains as project grows.
 
 - [tests/readme.md](../readme.md) - Infrastructure overview
 - [tests/**helpers**/database/readme.md](../__helpers__/database/readme.md) - Factory functions
-- [docs/testing/readme.md](../../docs/testing/readme.md) - Complete testing guide
+- [docs/TESTING.md](../../docs/TESTING.md) - Complete testing guide
 - [**mocks**/README.md](../../__mocks__/README.md) - Module mocks

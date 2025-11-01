@@ -46,7 +46,7 @@ tests/
 **Location of Tests:**
 
 - Unit tests: Colocated in `src/**/__tests__/*.test.ts`
-- E2E tests: Manual execution on real device (documented in docs/testing/readme.md)
+- E2E tests: Manual execution on real device (documented in docs/TESTING.md)
 
 ---
 
@@ -178,7 +178,7 @@ tests / fixtures / database / workouts.json; // Static data
 
 ### Test Infrastructure
 
-- **Complete Testing Guide:** [docs/testing/readme.md](../docs/testing/readme.md) - Unit + Mocking + E2E
+- **Complete Testing Guide:** [docs/TESTING.md](../docs/TESTING.md) - Unit + Mocking + E2E
 - **Database Helpers Reference:** [**helpers**/database/readme.md](./__helpers__/database/readme.md)
 - **Fixtures Guide:** [fixtures/readme.md](./fixtures/readme.md)
 - **Mocks Inventory:** [**mocks**/README.md](../__mocks__/README.md)

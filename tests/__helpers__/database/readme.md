@@ -143,7 +143,7 @@ await wait(10); // Wait 10ms for timestamp to change
 
 - LokiJS CANNOT test `synchronize()` method or full sync protocol
 - Full sync testing requires real SQLite (E2E tests only)
-- See: [docs/testing/readme.md § Manual E2E Testing](../../../docs/testing/readme.md#-manual-e2e-testing)
+- See: [docs/TESTING.md § Manual E2E Testing](../../../docs/TESTING.md#-manual-e2e-testing)
 
 **Assertion Helpers:**
 
@@ -330,5 +330,5 @@ afterEach(async () => {
 
 ### Testing Guides
 
-- **Complete Testing Guide:** [docs/testing/readme.md](../../../docs/testing/readme.md) - Unit + Mocking + E2E
+- **Complete Testing Guide:** [docs/TESTING.md](../../../docs/TESTING.md) - Unit + Mocking + E2E
 - **Project Docs:** [docs/DATABASE.md](../../../docs/DATABASE.md) - WatermelonDB setup

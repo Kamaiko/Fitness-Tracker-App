@@ -329,9 +329,7 @@ await synchronize({
 
 **References:**
 
-- [Testing Overview](./testing/README.md) - Complete strategy and navigation
-- [Unit Testing Guide](./testing/unit-guide.md) - Writing Jest tests
-- [Manual E2E Guide](./testing/e2e-manual.md) - Phase 1 sync protocol validation
+- [Testing Guide](./TESTING.md) - Complete strategy and navigation
 - [Test Infrastructure](../tests/README.md) - Helpers, fixtures, mocks
 
 ---

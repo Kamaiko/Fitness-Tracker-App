@@ -90,9 +90,7 @@
 **Current Coverage**: 60-65% database layer (Phase 0.5 foundation)
 
 **See:**
-- [Testing Overview](../docs/testing/README.md) - Complete testing strategy and navigation
-- [Unit Testing Guide](../docs/testing/unit-guide.md) - Writing Jest unit tests
-- [Manual E2E Guide](../docs/testing/e2e-manual.md) - Phase 1 manual testing
+- [Testing Guide](../docs/TESTING.md) - Complete testing strategy and navigation
 - [Test Infrastructure](../tests/README.md) - Helpers, fixtures, mocks
 
 ---
@@ -121,7 +119,7 @@ See individual command files for detailed usage instructions.
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
 | **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
 | **TROUBLESHOOTING.md** 🆘 | When something breaks             | Common issues & solutions                |
-| **testing/README.md** 🧪  | Understanding testing strategy    | Three-tier testing (unit/manual E2E/automated) |
+| **TESTING.md** 🧪         | Understanding testing strategy    | Three-tier testing (unit/manual E2E/automated) |
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**
