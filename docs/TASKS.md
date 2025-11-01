@@ -1,6 +1,20 @@
 # Project Roadmap
 
-> **Emoji Policy:** This document uses minimal, functional emojis for status markers (🟠 HIGH, 🟡 IN PROGRESS, ✅ COMPLETE) to aid visual scanning. Decorative emojis are avoided per project standards.
+## Table of Contents
+
+1. [Executive Summary](#executive-summary)
+2. [Kanban](#kanban)
+3. [Development Roadmap](#development-roadmap)
+4. [Phase Timeline & Effort](#phase-timeline--effort)
+5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
+6. [Phase 0.6: UI/UX Foundation (0/7)](#phase-06-uiux-foundation-07)
+7. [Phase 1: Authentication & Foundation (1/21)](#phase-1-authentication--foundation-115)
+8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-020)
+9. [Phase 3: Exercise Library & Testing (0/11)](#phase-3-exercise-library--testing-09)
+10. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
+11. [Phase 5: Polish, Monitoring & Beta Launch (0/16)](#phase-5-polish-monitoring--beta-launch-015)
+
+---
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
@@ -39,22 +53,6 @@
 **Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 0/7 (0%) • Overall: 22/113 (19%)
 **Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1.75 weeks
 **NEXT**: 0.6.1 & 0.6.2 Install UI Foundation (React Native Reusables + @expo/vector-icons) 🟠
-
----
-
-## Table of Contents
-
-1. [Executive Summary](#executive-summary)
-2. [Kanban](#kanban)
-3. [Development Roadmap](#development-roadmap)
-4. [Phase Timeline & Effort](#phase-timeline--effort)
-5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
-6. [Phase 0.6: UI/UX Foundation (0/7)](#phase-06-uiux-foundation-07)
-7. [Phase 1: Authentication & Foundation (1/21)](#phase-1-authentication--foundation-115)
-8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-020)
-9. [Phase 3: Exercise Library & Testing (0/11)](#phase-3-exercise-library--testing-09)
-10. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
-11. [Phase 5: Polish, Monitoring & Beta Launch (0/16)](#phase-5-polish-monitoring--beta-launch-015)
 
 ---
 
