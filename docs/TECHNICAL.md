@@ -775,11 +775,11 @@ npm start
 
 ---
 
-### ADR-016: React Native Vector Icons
+### ADR-016: Expo Vector Icons
 
-**Decision:** Use react-native-vector-icons for iconography
+**Decision:** Use @expo/vector-icons for iconography
 
-**Context:** Need comprehensive icon library for fitness app UI.
+**Context:** Need comprehensive icon library for fitness app UI. With Development Build strategy, need to choose between @expo/vector-icons and react-native-vector-icons.
 
 **Rationale:**
 
@@ -787,8 +787,10 @@ npm start
 - Excellent fitness-specific icons (dumbbell, timer, trending-up, etc.)
 - Native font rendering (better performance than SVG)
 - Modular loading (only include needed packs)
-- Widely adopted in React Native ecosystem
+- **Included by default in Expo SDK** (zero setup required)
+- **Wrapper around react-native-vector-icons** (same API, Expo-optimized asset system)
 - Works seamlessly with Development Build
+- Better compatibility with Expo ecosystem (tested with each Expo release)
 
 **Primary Icon Packs:**
 
@@ -798,12 +800,14 @@ npm start
 
 **Alternatives Considered:**
 
+- react-native-vector-icons: Same library under the hood, but requires manual native linking
 - Lucide React Native: Limited icon count (~1,400), fewer fitness icons
 - Custom SVG icons: Requires design work, less performant
 
 **Trade-offs:**
 
-- Requires native font linking (handled by Development Build)
+- ✅ No native linking required (already included in Expo)
+- ✅ Zero installation friction (built into expo package)
 - Slightly larger app size (~500KB for all packs, can optimize)
 
 **Status:** Phase 0.6 (Task 0.6.2)

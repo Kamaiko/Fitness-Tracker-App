@@ -28,17 +28,17 @@
 
 ## Kanban
 
-| TODO (Top 5)                               | DOING | DONE (Last 5)               |
-| ------------------------------------------ | ----- | --------------------------- |
-| **0.6.1** React Native Reusables `[M]` 🟠  |       | **0.5.4** expo-image cache  |
-| **0.6.2** Vector Icons `[S]` 🟠            |       | **0.5.3** FlashList config  |
-| **0.6.3** Dark theme config `[M]` 🟠       |       | **0.5.28** Install & Launch |
-| **0.6.4** Install core components `[M]` 🟠 |       | **0.5.27** Supabase sync    |
-| **0.6.5** Navigation components `[S]` 🟠   |       | **0.5.11** Error handling   |
+| TODO (Top 5)                               | DOING                                     | DONE (Last 5)               |
+| ------------------------------------------ | ----------------------------------------- | --------------------------- |
+| **0.6.3** Dark theme config `[M]` 🟠       | **0.6.1** React Native Reusables `[M]` 🟠 | **0.5.4** expo-image cache  |
+| **0.6.4** Install core components `[M]` 🟠 | **0.6.2** @expo/vector-icons `[S]` 🟠     | **0.5.3** FlashList config  |
+| **0.6.5** Navigation components `[S]` 🟠   |                                           | **0.5.28** Install & Launch |
+| **0.6.6** Create fitness components `[L]`  |                                           | **0.5.27** Supabase sync    |
+| **0.6.7** Component documentation `[S]`    |                                           | **0.5.11** Error handling   |
 
 **Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 0/7 (0%) • Overall: 22/113 (19%)
 **Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1.75 weeks
-**NEXT**: 0.6.1 Install React Native Reusables 🟠 Begin UI Foundation
+**NEXT**: 0.6.1 & 0.6.2 Install UI Foundation (React Native Reusables + @expo/vector-icons) 🟠
 
 ---
 
@@ -318,14 +318,14 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 **Progress:** 0/7 tasks (0%) | **Est. Time:** ~10h (1.5 weeks at 4 tasks/week)
 
-**Stack:** React Native Reusables + React Native Vector Icons + NativeWind v4 + Reanimated v4
+**Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
 
 **Why Now:** Phase 1 (Auth screens) requires UI components. Installing component library now ensures visual cohesion from the start and avoids refactoring later.
 
 ---
 
-### 0.6.A: Component Library Setup (3/3)
+### 0.6.A: Component Library Setup (0/3)
 
 **Goal:** Install and configure React Native Reusables with design system
 
@@ -336,9 +336,8 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Setup Metro bundler integration
   - Verify installation with test component
 
-- [ ] 0.6.2 **Install React Native Vector Icons** (S - 1h)
-  - Install `react-native-vector-icons` package
-  - Link fonts via `react-native.config.js` (auto-link for Development Build)
+- [ ] 0.6.2 **Configure @expo/vector-icons** (S - 30min)
+  - Verify `@expo/vector-icons` included in Expo SDK (already installed)
   - Choose primary icon pack (MaterialIcons, Ionicons, or FontAwesome)
   - Create icon wrapper component with default sizing and color
   - Test icons from multiple packs in example screen
@@ -354,7 +353,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.B: Core Components Installation (2/2)
+### 0.6.B: Core Components Installation (0/2)
 
 **Goal:** Install essential UI components via CLI
 
@@ -374,7 +373,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.C: Custom Fitness Components (1/1)
+### 0.6.C: Custom Fitness Components (0/1)
 
 **Goal:** Create workout-specific components not available in Reusables
 
@@ -389,7 +388,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.D: Documentation Updates (1/1)
+### 0.6.D: Documentation Updates (0/1)
 
 **Goal:** Update all documentation to reflect UI stack changes
 
