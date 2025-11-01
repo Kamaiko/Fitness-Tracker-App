@@ -1,17 +1,19 @@
-# 📋 Project Roadmap
+# Project Roadmap
+
+> **Emoji Policy:** This document uses minimal, functional emojis for status markers (🟠 HIGH, 🟡 IN PROGRESS, ✅ COMPLETE) to aid visual scanning. Decorative emojis are avoided per project standards.
 
 **Project**: Halterofit v0.1.0
-**Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 22/98 tasks (22%) • ![](https://img.shields.io/badge/Progress-22%25-red)
-**Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
-**Last Updated**: 2025-10-31 • **Next Milestone**: Complete Infrastructure & Begin Phase 1
+**Status**: 🟡 In Progress (Phase 0.6)
+**Progress**: 22/113 tasks (19%)
+**Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
+**Last Updated**: 2025-11-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
 
 ---
 
-## 📊 Executive Summary
+## Executive Summary
 
-**Current Focus**: Phase 0.5.D - Infrastructure Completion
-**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/98 tasks (22%)
+**Current Focus**: Phase 0.6.A - UI/UX Foundation (Component Library Setup)
+**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/113 tasks (19%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (excellent!)
 
 ### Recent Completions ✅
@@ -24,37 +26,41 @@
 
 ---
 
-## 📋 Kanban
+## Kanban
 
-| 📝 TODO (Top 5)                  | 🔨 DOING | ✅ DONE (Last 5)            |
-| -------------------------------- | -------- | --------------------------- |
-| **1.1** Login screen `[M]` 🟠    |          | **0.5.4** expo-image cache  |
-| **1.2** Register screen `[M]` 🟠 |          | **0.5.3** FlashList config  |
-| **1.3** Supabase Auth `[M]` 🟠   |          | **0.5.28** Install & Launch |
-| **1.4** User profile `[M]` 🟠    |          | **0.5.27** Supabase sync    |
-| **1.5** JWT refresh `[S]` 🟡     |          | **0.5.11** Error handling   |
+| TODO (Top 5)                               | DOING | DONE (Last 5)               |
+| ------------------------------------------ | ----- | --------------------------- |
+| **0.6.1** React Native Reusables `[M]` 🟠  |       | **0.5.4** expo-image cache  |
+| **0.6.2** Vector Icons `[S]` 🟠            |       | **0.5.3** FlashList config  |
+| **0.6.3** Dark theme config `[M]` 🟠       |       | **0.5.28** Install & Launch |
+| **0.6.4** Install core components `[M]` 🟠 |       | **0.5.27** Supabase sync    |
+| **0.6.5** Navigation components `[S]` 🟠   |       | **0.5.11** Error handling   |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Overall: 22/98 (22%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~1.25 weeks
-**NEXT**: 1.1 Create Login Screen 🟠 Begin Phase 1
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 0/7 (0%) • Overall: 22/113 (19%)
+**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1.75 weeks
+**NEXT**: 0.6.1 Install React Native Reusables 🟠 Begin UI Foundation
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
-1. [📊 Executive Summary](#-executive-summary)
-2. [📋 Kanban](#-kanban)
-3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (19/26)](#phase-05-architecture--foundation-1926)
-5. [Phase 1: Authentication & Foundation (1/15)](#phase-1-authentication--foundation-115)
-6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
-7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
-8. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
-9. [Phase 5: Polish, Monitoring & Beta Launch (0/15)](#phase-5-polish-monitoring--beta-launch-015)
+1. [Executive Summary](#executive-summary)
+2. [Kanban](#kanban)
+3. [Development Roadmap](#development-roadmap)
+4. [Phase Timeline & Effort](#phase-timeline--effort)
+5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
+6. [Phase 0.6: UI/UX Foundation (0/7)](#phase-06-uiux-foundation-07)
+7. [Phase 1: Authentication & Foundation (1/21)](#phase-1-authentication--foundation-115)
+8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-020)
+9. [Phase 3: Exercise Library & Testing (0/11)](#phase-3-exercise-library--testing-09)
+10. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
+11. [Phase 5: Polish, Monitoring & Beta Launch (0/16)](#phase-5-polish-monitoring--beta-launch-015)
 
 ---
 
 ## Development Roadmap
+
+**Note:** Phase progress details are in the [Phase Timeline & Effort](#phase-timeline--effort) table and individual phase headers below. This visual shows high-level flow and completion status.
 
 ```
 Phase 0.5: Architecture & Foundation (21/26 tasks)
@@ -68,19 +74,26 @@ Phase 0.5: Architecture & Foundation (21/26 tasks)
    ├─ Development Build Migration ✅
    └─ COMPLETE: Infrastructure (0.5.3-4) ✅
         ↓
-Phase 1: Authentication & Foundation (1/15 tasks)
+Phase 0.6: UI/UX Foundation (0/7 tasks) 🆕
+   ├─ React Native Reusables (shadcn/ui base)
+   ├─ React Native Vector Icons integration
+   ├─ Single dark mode design system
+   ├─ Core components (Button, Input, Card, Form)
+   └─ Custom fitness components (stubs)
+        ↓
+Phase 1: Authentication & Foundation (1/13 tasks)
    ├─ Supabase Auth integration
    ├─ Login/Register screens
    ├─ CI/CD pipeline ✅
    └─ Type definitions
         ↓
-Phase 2: Core Workout Logging (0/18 tasks)
+Phase 2: Workout Logging (0/20 tasks)
    ├─ Active workout screen
    ├─ Set logging interface
    ├─ Rest timer
    └─ Workout history
         ↓
-Phase 3: Exercise Library & Management (0/12 tasks)
+Phase 3: Exercise Library & Testing (0/10 tasks)
    ├─ ExerciseDB API integration (1,300+ exercises)
    ├─ Exercise selector
    ├─ Custom exercises
@@ -107,26 +120,27 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time    | Status       | Dependencies                     |
-| --------- | ------ | ------------ | ------------ | -------------------------------- |
-| **0.5**   | 26     | 50-60h       | IN PROGRESS  | None (started)                   |
-| **1**     | 15     | 25-30h       | BLOCKED      | ← Phase 0.5 migration + blockers |
-| **2**     | 20     | 50-60h       | BLOCKED      | ← Phase 1 auth                   |
-| **3**     | 9      | 30-40h       | BLOCKED      | ← Phase 2 workout core           |
-| **4**     | 11     | 35-45h       | BLOCKED      | ← Phase 3 exercise library       |
-| **5**     | 15     | 40-50h       | BLOCKED      | ← Phase 4 analytics              |
-| **TOTAL** | **96** | **230-290h** | **20% done** | **12-15 weeks at 20h/week**      |
+| Phase     | Tasks   | Est. Time    | Status       | Dependencies                |
+| --------- | ------- | ------------ | ------------ | --------------------------- |
+| **0.5**   | 26      | 50-60h       | IN PROGRESS  | None (started)              |
+| **0.6**   | 7       | 8-12h        | BLOCKED      | ← Phase 0.5 complete        |
+| **1**     | 21      | 42-52h       | BLOCKED      | ← Phase 0.6 UI foundation   |
+| **2**     | 21      | 51-61h       | BLOCKED      | ← Phase 1 auth              |
+| **3**     | 11      | 32-42h       | BLOCKED      | ← Phase 2 workout core      |
+| **4**     | 11      | 35-45h       | BLOCKED      | ← Phase 3 exercise library  |
+| **5**     | 16      | 43-53h       | BLOCKED      | ← Phase 4 analytics         |
+| **TOTAL** | **113** | **268-338h** | **19% done** | **12-16 weeks at 20h/week** |
 
-**⚠️ Critical Path:** Phase 0.5.D (Infrastructure) completes Phase 0.5, unblocking Phase 1.
+**⚠️ Critical Path:** Phase 0.5.D (Infrastructure) → Phase 0.6 (UI Foundation) → Phase 1 (Auth screens).
 
 ---
 
-## Phase 0.5: Architecture & Foundation (19/26)
+## Phase 0.5: Architecture & Foundation (21/26)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 19/26 tasks (73%) | **Est. Time Remaining:** ~7h (Phase 0.5 completion)
+**Progress:** 21/26 tasks (81%) | **Est. Time Remaining:** ~5h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
@@ -295,7 +309,101 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 1: Authentication & Foundation (1/15)
+---
+
+## Phase 0.6: UI/UX Foundation (0/7)
+
+**Timeline:** Week 8 | **Priority:** HIGH
+**Goal:** Modern UI library and design system for production-ready user experience
+
+**Progress:** 0/7 tasks (0%) | **Est. Time:** ~10h (1.5 weeks at 4 tasks/week)
+
+**Stack:** React Native Reusables + React Native Vector Icons + NativeWind v4 + Reanimated v4
+**Design:** Single dark mode, modern fitness aesthetic, animations-first
+
+**Why Now:** Phase 1 (Auth screens) requires UI components. Installing component library now ensures visual cohesion from the start and avoids refactoring later.
+
+---
+
+### 0.6.A: Component Library Setup (3/3)
+
+**Goal:** Install and configure React Native Reusables with design system
+
+- [ ] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h)
+  - Install `@react-native-reusables/cli` and core dependencies
+  - Install `class-variance-authority`, `clsx`, `tailwind-merge`
+  - Configure `components.json` with project aliases
+  - Setup Metro bundler integration
+  - Verify installation with test component
+
+- [ ] 0.6.2 **Install React Native Vector Icons** (S - 1h)
+  - Install `react-native-vector-icons` package
+  - Link fonts via `react-native.config.js` (auto-link for Development Build)
+  - Choose primary icon pack (MaterialIcons, Ionicons, or FontAwesome)
+  - Create icon wrapper component with default sizing and color
+  - Test icons from multiple packs in example screen
+  - Document icon usage patterns and available packs
+
+- [ ] 0.6.3 **Configure Single Dark Theme** (M - 2h)
+  - Update `tailwind.config.js` with dark mode colors
+  - Define design tokens (primary: #00E5FF, surface: #1A1A1A, etc.)
+  - Configure typography scale (display, headers, body, numbers)
+  - Setup spacing system (touch targets 44x44px minimum)
+  - Create `global.css` with base styles
+  - Test theme consistency across components
+
+---
+
+### 0.6.B: Core Components Installation (2/2)
+
+**Goal:** Install essential UI components via CLI
+
+- [ ] 0.6.4 **Install Phase 1 Components (Auth)** (M - 1.5h)
+  - Run CLI: `npx @react-native-reusables/cli add button input label card form`
+  - Install: `alert toast progress skeleton` (feedback components)
+  - Customize Button variants (primary, secondary, danger)
+  - Customize Input for form fields (email, password)
+  - Test components in example screen with dark theme
+
+- [ ] 0.6.5 **Install Navigation Components** (S - 1h)
+  - Run CLI: `npx @react-native-reusables/cli add sheet tabs`
+  - Configure Sheet (bottom sheet) for modals
+  - Integrate with expo-router tabs
+  - Test sheet animations and dismissal
+  - Document usage patterns for modals
+
+---
+
+### 0.6.C: Custom Fitness Components (1/1)
+
+**Goal:** Create workout-specific components not available in Reusables
+
+- [ ] 0.6.6 **Create Custom Fitness Components Stubs** (M - 2h)
+  - Create `components/fitness/RestTimer.tsx` (countdown stub)
+  - Create `components/fitness/SetLogger.tsx` (quick add set stub)
+  - Create `components/fitness/WorkoutCard.tsx` (history card stub)
+  - Create `components/fitness/ExerciseSelector.tsx` (FlashList integration stub)
+  - Add Reanimated animations (scale, fade, slide)
+  - Document component API and usage
+  - Note: Full implementation in Phase 2
+
+---
+
+### 0.6.D: Documentation Updates (1/1)
+
+**Goal:** Update all documentation to reflect UI stack changes
+
+- [ ] 0.6.7 **Update Project Documentation** (M - 2.5h)
+  - **TECHNICAL.md**: Add ADR-011 (React Native Reusables), ADR-012 (Single dark mode), ADR-016 (Vector Icons)
+  - **ARCHITECTURE.md**: Update `components/` structure (ui/, fitness/, shared/)
+  - **CONTRIBUTING.md**: Add component installation guide, styling guidelines
+  - **CLAUDE.md**: Update stack section, add design system quick reference
+  - **README.md**: Update tech stack list
+  - Create `docs/DESIGN_SYSTEM.md`: Colors, typography, spacing, components
+
+---
+
+## Phase 1: Authentication & Foundation (1/21)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
@@ -334,6 +442,28 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Supabase email notification
   - Success/error states
 
+- [ ] 1.6 **Implement email verification flow** (M - 2h) `[src/app/(auth)/verify-email.tsx]`
+  - Deep link handler for verification token
+  - Verification screen UI (loading, success, error states)
+  - Supabase email verification integration
+  - Auto-redirect to tabs on success
+  - Resend verification email option
+
+- [ ] 1.7 **Implement session refresh logic** (S - 1.5h) `[src/services/supabase/auth.ts]`
+  - Auto-refresh tokens before expiry
+  - Handle refresh failures gracefully
+  - Store refresh token in MMKV encrypted storage
+  - Silent refresh in background
+  - Logout on permanent refresh failure
+
+- [ ] 1.8 **Add biometric authentication** (M - 3h) `[src/services/auth/biometric.ts]`
+  - Install expo-local-authentication
+  - Face ID/Touch ID enrollment flow
+  - Biometric re-authentication for quick login
+  - Fallback to password if biometric fails
+  - Settings toggle to enable/disable
+  - Secure credential storage with MMKV encryption
+
 - [ ] 1.16 **Document Manual E2E Test Checklists** (S - 1.5h) `[e2e/manual/]`
   - Create `e2e/manual/sync-checklist.md` (Supabase sync scenarios)
   - Create `e2e/manual/offline-crud.md` (Offline CRUD operations)
@@ -363,14 +493,25 @@ Phase 6: Polish & Launch (0/9 tasks)
   - [src/app/(tabs)/analytics.tsx] - Analytics dashboard
   - [src/app/(tabs)/profile.tsx] - User profile & settings
 
-### 3. Core UI Components
+- [ ] 2.4 **Configure deep linking & navigation types** (M - 2h) `[app.json + types]`
+  - Configure app.json scheme: "halterofit://"
+  - Setup linking config for expo-router
+  - Create route handlers for auth tokens:
+    - verify-email?token=xxx
+    - reset-password?token=xxx
+  - TypeScript navigation types for type-safe routing
+  - Test deep links on physical device
+  - Document deep link patterns
 
-- [ ] 3.1 Create Button component (S - 2h) `[src/components/ui/Button.tsx]`
-  - Variants: primary, secondary, danger, ghost
-  - Sizes: small, medium, large
-  - Loading state with spinner
-  - Disabled state
-  - Haptic feedback on press
+- [ ] 2.5 **Create network status indicator & sync queue** (M - 2.5h) `[src/components/shared/NetworkStatus.tsx]`
+  - Offline badge indicator (top of screen)
+  - Sync queue counter (pending changes)
+  - Network connectivity monitoring (NetInfo)
+  - Auto-sync when connection restored
+  - Visual feedback during sync
+  - User-friendly "Working offline" message
+
+### 3. Core UI Components
 
 - [ ] 3.2 Create Input component (M - 3h) `[src/components/ui/Input.tsx]`
   - Types: text, email, password, number
@@ -418,6 +559,24 @@ Phase 6: Polish & Launch (0/9 tasks)
   - EXERCISEDB_API_KEY (if using paid tier)
   ```
 
+- [ ] 4.3 **Create user settings screen** (M - 3h) `[src/app/(tabs)/profile/settings.tsx]`
+  - Preferences section:
+    - Units (kg/lbs toggle with conversion)
+    - Language (future-ready, English only for MVP)
+  - Notifications section:
+    - Rest timer notifications toggle
+    - Weekly summary notifications toggle
+    - Achievement notifications toggle
+  - Privacy section:
+    - Biometric auth toggle
+    - Data export button (links to 17.4)
+    - Delete account button (links to 17.3)
+  - About section:
+    - App version
+    - Privacy policy link
+    - Terms of service link
+  - Store preferences in MMKV for instant access
+
 ### 5. Completion: CI/CD & Features
 
 - [x] 5.1 **Setup CI/CD pipeline with GitHub Actions** (M - 1.5h) ✅
@@ -444,7 +603,32 @@ Phase 6: Polish & Launch (0/9 tasks)
 
   **Badges:** CI status + Coverage in README.md
 
-- [ ] 5.2 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
+- [ ] 5.2 **Seed ExerciseDB to Supabase (popular exercises)** (M - 2h) `[scripts/seed-exercises.ts]`
+  - Sign up for ExerciseDB API (RapidAPI)
+  - Fetch 100 most popular exercises (barbell, dumbbell, bodyweight)
+  - Transform to Supabase schema
+  - Bulk insert to exercises table
+  - Mark as is_custom = false
+  - Sync to local WatermelonDB
+  - Enables Phase 2 testing with real exercises
+  - Note: Full 1,300+ import in Phase 3 (task 11.1)
+
+- [ ] 5.3 **Setup Maestro E2E testing framework** (L - 6h) `[e2e/maestro/]`
+  - Install Maestro CLI globally
+  - Create e2e/maestro/ directory structure
+  - Write auth flow tests:
+    - auth-login.yaml (email/password login)
+    - auth-register.yaml (new account creation)
+    - auth-verification.yaml (email verification flow)
+  - Write navigation tests:
+    - navigation-tabs.yaml (tab switching)
+    - navigation-deep-links.yaml (deep link handling)
+  - Configure Maestro for Development Build
+  - Document test execution in docs/testing/e2e-maestro.md
+  - CI integration: Run on EAS Build preview (Phase 5)
+  - Reference: Manual checklists from task 1.16
+
+- [ ] 5.4 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
 
   ```
   Features:
@@ -459,12 +643,21 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 2: Workout Logging (0/20)
+## Phase 2: Workout Logging (0/21)
 
 **Timeline:** Weeks 6-8 | **Priority:** HIGH
 **Goal:** Core workout logging functionality with excellent UX
 
 ### 6. Workout Session Core
+
+- [ ] 6.0 **Configure expo-notifications & background tasks** (S - 1h) `[src/services/notifications/]`
+  - Configure notification permissions (iOS/Android)
+  - Setup notification handlers (foreground, background, killed state)
+  - Configure notification categories (rest timer, achievements, weekly)
+  - Setup expo-background-fetch for timer persistence
+  - Test notifications on physical device
+  - Document notification setup in CONTRIBUTING.md
+  - Required before task 6.3 (Rest Timer)
 
 - [ ] 6.1 Update workout session state management (M - 3h) `[src/stores/workoutStore.ts]`
 
@@ -713,7 +906,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 3: Exercise Library & Testing (0/9)
+## Phase 3: Exercise Library & Testing (0/11)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
@@ -753,44 +946,20 @@ Reference: See task 0.5.18 for details
   Note: Jest infrastructure ready, just write the tests
   ```
 
-- [ ] 10.2 **Setup Maestro E2E Automation** (L - 6h) `[e2e/maestro/]`
-
-  ```
-  Tasks:
-  - Install Maestro CLI and dependencies
-  - Create e2e/maestro/ directory structure
-  - Write initial E2E tests (login, create workout, sync)
-  - Configure Maestro flows for critical user journeys
-  - Document Maestro setup in docs/E2E_STRATEGY.md
-  - Integrate with CI/CD (GitHub Actions + EAS Build)
-
-  Test files to create:
-  - e2e/maestro/auth-login.yaml
-  - e2e/maestro/workout-create-offline.yaml
-  - e2e/maestro/sync-offline-changes.yaml
-
-  Reference: Manual checklists from Phase 1 (task 1.16)
-  Framework: Maestro (YAML-based, simpler than Detox)
-  CI Integration: Run on EAS Build preview (not every commit)
-
-  Note: Requires manual E2E checklists from Phase 1 as baseline
-  ```
-
 ### 11. ExerciseDB API Integration
 
-- [ ] 11.1 **Integrate ExerciseDB API and seed Supabase** (L - 6h) `[CRITICAL TIME SAVER]`
+- [ ] 11.1 **Bulk import remaining ExerciseDB exercises** (L - 4h) `[CRITICAL TIME SAVER]`
 
   ```
   Tasks:
-  - Sign up for ExerciseDB on RapidAPI (free tier or paid)
-  - Fetch all exercises from API (1,300+ exercises)
-  - Transform to our schema (match exercises table)
-  - Bulk insert to Supabase exercises table
+  - Fetch remaining 1,200+ exercises from ExerciseDB API
+  - Transform to Supabase schema (match existing 100)
+  - Bulk insert to exercises table
   - Sync to local WatermelonDB
   - Mark as is_custom = false
 
-  Script:
-  - scripts/seed-exercises-from-exercisedb.ts
+  Note: 100 popular exercises already seeded in Phase 1 (task 5.2)
+  This task completes the full exercise library (1,300+ total)
 
   API: https://v2.exercisedb.io/docs
   Time saved: 100-200 hours vs manual creation
@@ -822,6 +991,16 @@ Reference: See task 0.5.18 for details
   ```
 
 ### 12. Custom Exercises & Management
+
+- [ ] 12.0 **Setup Supabase Storage & image upload** (M - 2h) `[src/services/storage/]`
+  - Create Supabase Storage bucket: "exercise-images"
+  - Configure RLS policies (user can upload own images)
+  - Setup expo-image-manipulator for compression
+  - Create upload utility (compress → upload → return URL)
+  - Image validation (max 5MB, jpg/png only)
+  - Delete old image when uploading new one
+  - Error handling and user feedback
+  - Required before task 12.2 (custom exercise images)
 
 - [ ] 12.1 Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
 
@@ -1060,7 +1239,7 @@ Reference: See task 0.5.18 for details
 
 ---
 
-## Phase 5: Polish, Monitoring & Beta Launch (0/15)
+## Phase 5: Polish, Monitoring & Beta Launch (0/16)
 
 **Timeline:** Weeks 13-14 | **Priority:** HIGH
 **ADDED:** Security, monitoring, compliance requirements
@@ -1160,6 +1339,15 @@ Reference: See task 0.5.18 for details
 
   Format: JSON (structured, human-readable)
   ```
+
+- [ ] 17.5 **Implement backup & restore data** (M - 3h) `[src/services/backup/]`
+  - Auto-backup to Supabase (workouts, exercises, settings)
+  - Manual backup option (export + upload)
+  - Restore from backup (download + import)
+  - Conflict resolution (local vs cloud)
+  - Last backup timestamp display
+  - Backup before account deletion (safety)
+  - Progress indicator during restore
 
 ### 18. Monitoring & Analytics
 

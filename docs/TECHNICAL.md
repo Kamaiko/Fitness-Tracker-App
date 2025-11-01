@@ -128,25 +128,27 @@
 
 **Current Production Stack (Development Build):**
 
-| Category             | Technology             | Version | Purpose                                      |
-| -------------------- | ---------------------- | ------- | -------------------------------------------- |
-| **Framework**        | Expo SDK               | 54.0.21 | React Native framework with managed workflow |
-| **Language**         | TypeScript             | 5.9     | Type-safe development                        |
-| **UI Library**       | React Native           | 0.81.5  | Mobile UI framework                          |
-| **Styling**          | NativeWind             | v4      | Tailwind CSS for React Native                |
-| **Database**         | WatermelonDB           | 0.28.0  | Offline-first reactive database              |
-| **Storage**          | MMKV                   | 4.0.0   | Encrypted key-value storage                  |
-| **State Management** | Zustand                | 5.0.8   | Lightweight global state                     |
-| **Server State**     | React Query (TanStack) | 5.90.5  | Installed, not yet used                      |
-| **Backend**          | Supabase               | 2.78.0  | PostgreSQL + Auth + Storage                  |
-| **Charts**           | Victory Native         | 41.20.1 | Data visualization (Skia-based)              |
-| **Lists**            | FlashList              | 2.2.0   | High-performance lists                       |
-| **Images**           | expo-image             | 3.0.10  | Optimized image loading with caching ✅      |
-| **Navigation**       | Expo Router            | 6.0.14  | File-based routing                           |
-| **Error Monitoring** | Sentry                 | 7.4.0   | Crash reporting and monitoring               |
-| **Build**            | EAS Build              | Latest  | Cloud-based native builds                    |
-| **Testing**          | Jest + Testing Library | Latest  | Unit and integration testing                 |
-| **Linting**          | ESLint + Prettier      | Latest  | Code quality and formatting                  |
+| Category             | Technology                | Version | Purpose                                      |
+| -------------------- | ------------------------- | ------- | -------------------------------------------- |
+| **Framework**        | Expo SDK                  | 54.0.21 | React Native framework with managed workflow |
+| **Language**         | TypeScript                | 5.9     | Type-safe development                        |
+| **UI Library**       | React Native              | 0.81.5  | Mobile UI framework                          |
+| **Styling**          | NativeWind                | v4      | Tailwind CSS for React Native                |
+| **UI Components**    | React Native Reusables    | Latest  | shadcn/ui for React Native                   |
+| **Icons**            | React Native Vector Icons | Latest  | 10,000+ icons (Material, Ionicons, FA)       |
+| **Database**         | WatermelonDB              | 0.28.0  | Offline-first reactive database              |
+| **Storage**          | MMKV                      | 4.0.0   | Encrypted key-value storage                  |
+| **State Management** | Zustand                   | 5.0.8   | Lightweight global state                     |
+| **Server State**     | React Query (TanStack)    | 5.90.5  | Installed, not yet used                      |
+| **Backend**          | Supabase                  | 2.78.0  | PostgreSQL + Auth + Storage                  |
+| **Charts**           | Victory Native            | 41.20.1 | Data visualization (Skia-based)              |
+| **Lists**            | FlashList                 | 2.2.0   | High-performance lists                       |
+| **Images**           | expo-image                | 3.0.10  | Optimized image loading with caching ✅      |
+| **Navigation**       | Expo Router               | 6.0.14  | File-based routing                           |
+| **Error Monitoring** | Sentry                    | 7.4.0   | Crash reporting and monitoring               |
+| **Build**            | EAS Build                 | Latest  | Cloud-based native builds                    |
+| **Testing**          | Jest + Testing Library    | Latest  | Unit and integration testing                 |
+| **Linting**          | ESLint + Prettier         | Latest  | Code quality and formatting                  |
 
 **Migration Status:** All native modules (WatermelonDB, MMKV, Victory Native) migrated in Phase 0.5.B (Tasks 0.5.20-0.5.26).
 
@@ -690,6 +692,102 @@ npm start
 **Alternatives:** Wger API (200 exercises), API Ninjas (1,000)
 
 **Status:** 📋 Planned (Phase 3)
+
+---
+
+### ADR-014: React Native Reusables for UI Components
+
+**Decision:** Use React Native Reusables (shadcn/ui port) as base component library
+
+**Context:** Phase 1 requires authentication UI (Login, Register screens). Need decision on component library vs custom components.
+
+**Rationale:**
+
+- Pre-built accessible components (Button, Input, Card, Form, Alert, Toast, etc.)
+- Built with NativeWind v4 (already in stack)
+- Source code installed in project (full customization control)
+- Class Variance Authority for type-safe variant management
+- Active maintenance and community support
+
+**Alternatives Considered:**
+
+- Custom components only: 20-30h additional development time
+- NativeBase: Material Design aesthetic not ideal for fitness app
+- Tamagui: Excellent but adds complexity with new styling system
+
+**Trade-offs:**
+
+- Additional ~50KB bundle size
+- Learning curve for shadcn/ui patterns
+- Some components may need fitness-specific customization
+
+**Status:** Phase 0.6 (Tasks 0.6.1, 0.6.4, 0.6.5)
+
+---
+
+### ADR-015: Single Dark Mode Design
+
+**Decision:** Implement single dark mode only (no light mode toggle)
+
+**Context:** Fitness apps are primarily used in gyms with low lighting. Need to decide on theming strategy.
+
+**Rationale:**
+
+- 95%+ of gym usage occurs in low-light environments
+- Simplifies implementation (no theme switching logic)
+- Reduces bundle size (single theme CSS)
+- Faster development (one design system to maintain)
+- Better battery life on OLED screens
+
+**Design Tokens:**
+
+- Background: #0A0A0A (near black)
+- Surface: #1A1A1A (cards, elevated elements)
+- Primary: #00E5FF (electric cyan - energy/motivation)
+- Success: #00FF88 (neon green)
+- Text: #FFFFFF with opacity variations
+
+**Trade-offs:**
+
+- No light mode for users who prefer it
+- Cannot leverage system theme preferences
+
+**Status:** Phase 0.6 (Task 0.6.3)
+
+---
+
+### ADR-016: React Native Vector Icons
+
+**Decision:** Use react-native-vector-icons for iconography
+
+**Context:** Need comprehensive icon library for fitness app UI.
+
+**Rationale:**
+
+- 10,000+ icons across 10+ icon packs (Material, Ionicons, FontAwesome, etc.)
+- Excellent fitness-specific icons (dumbbell, timer, trending-up, etc.)
+- Native font rendering (better performance than SVG)
+- Modular loading (only include needed packs)
+- Widely adopted in React Native ecosystem
+- Works seamlessly with Development Build
+
+**Primary Icon Packs:**
+
+- MaterialIcons (primary): Modern, comprehensive
+- Ionicons (secondary): Beautiful iOS/Android styles
+- FontAwesome (accents): Unique specialty icons
+
+**Alternatives Considered:**
+
+- Lucide React Native: Limited icon count (~1,400), fewer fitness icons
+- Custom SVG icons: Requires design work, less performant
+
+**Trade-offs:**
+
+- Requires native font linking (handled by Development Build)
+- Slightly larger app size (~500KB for all packs, can optimize)
+
+**Status:** Phase 0.6 (Task 0.6.2)
 
 ---
 

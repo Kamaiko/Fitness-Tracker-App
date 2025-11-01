@@ -78,35 +78,52 @@ app/
 
 ### 2. `/components` - UI Components
 
-**Purpose**: Reusable React components organized by feature
+**Purpose**: Reusable React components organized by feature and source
 
 ```
 components/
-├── workout/          # Workout-specific components
+├── ui/               # React Native Reusables components (shadcn/ui)
+│   ├── button.tsx    # Installed via CLI
+│   ├── input.tsx
+│   ├── card.tsx
+│   ├── form.tsx
+│   ├── alert.tsx
+│   ├── toast.tsx
+│   └── ...           # Other Reusables components
+├── fitness/          # Custom fitness-specific components
+│   ├── RestTimer.tsx
 │   ├── SetLogger.tsx
-│   ├── ExerciseCard.tsx
-│   └── RestTimer.tsx
-├── analytics/        # Charts & stats components
-│   └── ProgressChart.tsx
-├── ui/               # Generic UI components
-│   ├── Button.tsx
-│   ├── Input.tsx
-│   └── Card.tsx
-├── forms/            # Form components
-│   └── LoginForm.tsx
-├── navigation/       # Navigation components
-│   └── TabBar.tsx
-└── shared/           # Shared across features
+│   ├── WorkoutCard.tsx
+│   └── ExerciseSelector.tsx
+├── charts/           # Victory Native chart components
+│   ├── LineChart.tsx
+│   ├── BarChart.tsx
+│   └── ExampleLineChart.tsx
+├── lists/            # FlashList components
+│   ├── WorkoutList.tsx
+│   └── WorkoutListItem.tsx
+└── shared/           # Shared utility components
+    ├── CachedImage.tsx
     └── LoadingSpinner.tsx
 ```
 
+**Organization Notes:**
+
+- `ui/`: Components installed from React Native Reusables CLI (lowercase naming per shadcn convention)
+- `fitness/`: Custom components specific to workout tracking (not available in Reusables)
+- `charts/`: Victory Native visualization components
+- `lists/`: FlashList optimized list components
+- `shared/`: Utility components used across features (CachedImage, etc.)
+
 **Conventions**:
 
-- PascalCase file names
+- **React Native Reusables components** (ui/): lowercase file names (shadcn convention)
+- **Custom components** (fitness/, charts/, lists/, shared/): PascalCase file names
 - Export named components: `export function Button() {}`
 - Include types in same file for small components
 - Create `index.ts` for barrel exports when >3 components
-- Use NativeWind (Tailwind) for styling
+- Use NativeWind v4 (Tailwind) for styling
+- Icons via `react-native-vector-icons` (import from MaterialIcons, Ionicons, or FontAwesome)
 
 **Example**:
 

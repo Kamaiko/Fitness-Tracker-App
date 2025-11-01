@@ -48,12 +48,16 @@
 
 ## 🛠️ Tech Stack
 
-**Current:** Development Build + WatermelonDB + MMKV + Victory Native (Production-ready)
+**Current:** Development Build + WatermelonDB + MMKV + Victory Native + React Native Reusables (Production-ready)
 
-**Migration Completed:** Phase 0.5.B (Tasks 0.5.20-0.5.26) ✅
+**Migration Completed:** Phase 0.5.B (Tasks 0.5.20-0.5.26), Phase 0.6 IN PROGRESS
 - Database: WatermelonDB (reactive, offline-first)
 - Storage: MMKV (encrypted, 10-30x faster)
 - Charts: Victory Native (Skia-based)
+- UI Components: React Native Reusables (shadcn/ui base)
+- Icons: React Native Vector Icons (Material, Ionicons, FontAwesome)
+- Lists: FlashList (optimized scrolling)
+- Images: expo-image (memory-disk caching)
 - Build: EAS Development Build
 
 **See [TECHNICAL.md](../docs/TECHNICAL.md)** for complete stack details and Architecture Decision Records (ADRs).

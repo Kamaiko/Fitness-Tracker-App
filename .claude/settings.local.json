@@ -58,7 +58,8 @@
       "Bash(if exist c:DevToolsProjectsHalterofitfix_workouts.py del c:DevToolsProjectsHalterofitfix_workouts.py)",
       "Bash(gh run list:*)",
       "Bash(npm run format:*)",
-      "Bash(if not exist \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\" mkdir \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\")"
+      "Bash(if not exist \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\" mkdir \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\")",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []
