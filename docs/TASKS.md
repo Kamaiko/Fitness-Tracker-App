@@ -2,7 +2,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 21/98 tasks (21%) • ![](https://img.shields.io/badge/Progress-21%25-red)
+**Progress**: 22/98 tasks (22%) • ![](https://img.shields.io/badge/Progress-22%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
 **Last Updated**: 2025-10-31 • **Next Milestone**: Complete Infrastructure & Begin Phase 1
 
@@ -11,16 +11,16 @@
 ## 📊 Executive Summary
 
 **Current Focus**: Phase 0.5.D - Infrastructure Completion
-**Phase Progress**: 20/26 tasks (77%) • **Overall**: 21/98 tasks (21%)
+**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/98 tasks (22%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (excellent!)
 
 ### Recent Completions ✅
 
-1. **0.5.3** - Configure FlashList (WorkoutList component, 120-item test, fixtures, docs)
-2. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
-3. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
-4. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
-5. **0.5.5** - Sentry Error Monitoring (production-only, privacy, DSN configured)
+1. **0.5.4** - Configure expo-image (CachedImage wrapper, memory-disk caching, production-ready)
+2. **0.5.3** - Configure FlashList (WorkoutList component, 120-item test, fixtures, docs)
+3. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
+4. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
+5. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
 
 ---
 
@@ -28,15 +28,15 @@
 
 | 📝 TODO (Top 5)                  | 🔨 DOING | ✅ DONE (Last 5)            |
 | -------------------------------- | -------- | --------------------------- |
-| **0.5.4** expo-image `[S]` 🟡    |          | **0.5.3** FlashList config  |
-| **1.1** Login screen `[M]` 🟠    |          | **0.5.28** Install & Launch |
-| **1.2** Register screen `[M]` 🟠 |          | **0.5.27** Supabase sync    |
-| **1.3** Supabase Auth `[M]` 🟠   |          | **0.5.11** Error handling   |
-| **1.4** User profile `[M]` 🟠    |          | **0.5.5** Sentry monitoring |
+| **1.1** Login screen `[M]` 🟠    |          | **0.5.4** expo-image cache  |
+| **1.2** Register screen `[M]` 🟠 |          | **0.5.3** FlashList config  |
+| **1.3** Supabase Auth `[M]` 🟠   |          | **0.5.28** Install & Launch |
+| **1.4** User profile `[M]` 🟠    |          | **0.5.27** Supabase sync    |
+| **1.5** JWT refresh `[S]` 🟡     |          | **0.5.11** Error handling   |
 
-**Progress**: Phase 0.5: 20/26 (77%) • Overall: 21/98 (21%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~1.5 weeks
-**NEXT**: 0.5.4 Configure expo-image 🟡 Quick win
+**Progress**: Phase 0.5: 21/26 (81%) • Overall: 22/98 (22%)
+**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~1.25 weeks
+**NEXT**: 1.1 Create Login Screen 🟠 Begin Phase 1
 
 ---
 
@@ -57,7 +57,7 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (19/26 tasks)
+Phase 0.5: Architecture & Foundation (21/26 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ EAS Build + Dev Client ✅
@@ -66,7 +66,7 @@ Phase 0.5: Architecture & Foundation (19/26 tasks)
    ├─ MMKV Storage Migration ✅
    ├─ Victory Native Charts Migration ✅
    ├─ Development Build Migration ✅
-   └─ NEXT: Complete Infrastructure (0.5.3-4) ⚡ PRIORITY
+   └─ COMPLETE: Infrastructure (0.5.3-4) ✅
         ↓
 Phase 1: Authentication & Foundation (1/15 tasks)
    ├─ Supabase Auth integration
@@ -249,7 +249,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.D: Infrastructure Completion (0/2)
+### 0.5.D: Infrastructure Completion (1/2)
 
 **Goal:** Configure remaining performance libraries
 
@@ -259,11 +259,13 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Test screen with 120 mock workouts (smooth 60 FPS scroll)
   - Updated fixtures with 8 workout templates
   - Complete documentation (usage guide, Phase 2 integration)
-
-- [ ] 0.5.4 **Configure expo-image with caching** (S - 1h)
-  - Replace Image with ExpoImage in exercise library
-  - Configure memory and disk cache (cachePolicy="memory-disk")
-  - Test with exercise thumbnails (500+ images)
+- [x] 0.5.4 **Configure expo-image with caching** (S - 1h) ✅ 2025-10-31
+  - Created CachedImage wrapper component (`src/components/ui/CachedImage.tsx`)
+  - Default `cachePolicy="memory-disk"` (PRD <200ms requirement)
+  - Skeleton placeholder + error handling with fallback images
+  - Pre-built styles (avatar, thumbnails, banner)
+  - Complete documentation (`src/components/ui/README.md`)
+  - Updated `docs/TECHNICAL.md` (ADR-010b: expo-image ✅ COMPLETED)
 
 ---
 

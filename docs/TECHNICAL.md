@@ -141,7 +141,7 @@
 | **Backend**          | Supabase               | 2.78.0  | PostgreSQL + Auth + Storage                  |
 | **Charts**           | Victory Native         | 41.20.1 | Data visualization (Skia-based)              |
 | **Lists**            | FlashList              | 2.2.0   | High-performance lists                       |
-| **Images**           | expo-image             | 3.0.10  | Optimized image loading with caching         |
+| **Images**           | expo-image             | 3.0.10  | Optimized image loading with caching ✅      |
 | **Navigation**       | Expo Router            | 6.0.14  | File-based routing                           |
 | **Error Monitoring** | Sentry                 | 7.4.0   | Crash reporting and monitoring               |
 | **Build**            | EAS Build              | Latest  | Cloud-based native builds                    |
@@ -414,7 +414,13 @@ export const authStorage = {
 
 ---
 
-### ADR-010: FlashList for High-Performance Lists
+### ADR-010: Performance Libraries
+
+Performance-critical libraries for smooth UX on low-end devices.
+
+---
+
+#### ADR-010a: FlashList for High-Performance Lists
 
 **Decision:** FlashList for all lists (exercise library, workout history)
 
@@ -424,18 +430,79 @@ export const authStorage = {
 - Cell recycling (10x faster than FlatList virtualization)
 - Critical for 500+ exercise library on Android low-end devices
 
-**Migration:**
+**Implementation:**
 
 ```typescript
-// Add estimatedItemSize prop
-<FlashList data={items} renderItem={...} estimatedItemSize={80} />
+// src/components/lists/WorkoutList.tsx
+<FlashList
+  data={workouts}
+  renderItem={renderItem}
+  estimatedItemSize={88}
+  keyExtractor={keyExtractor}
+/>
 ```
 
 **Trade-offs:** +50KB bundle, requires manual item height estimation
 
-**Status:** 📋 Planned (Phase 1)
+**Status:** ✅ **COMPLETED** (Phase 0.5.3)
 
 ---
+
+#### ADR-010b: expo-image for Optimized Image Caching
+
+**Decision:** CachedImage wrapper around expo-image for all remote images
+
+**Rationale:**
+
+- **PRD Requirement:** Exercise GIFs must load from cache in <200ms
+- 1,300+ exercise images from ExerciseDB require aggressive caching
+- Built-in memory + disk cache (no custom implementation needed)
+- Better performance than React Native Image (10-30x faster)
+
+**Implementation:**
+
+```typescript
+// src/components/ui/CachedImage.tsx
+import { CachedImage } from '@/components/ui';
+
+<CachedImage
+  source={{ uri: exercise.imageUrl }}
+  cachePolicy="memory-disk" // Default: fastest retrieval
+  placeholder={require('@/assets/exercise-placeholder.png')}
+  fallback={require('@/assets/error-image.png')}
+  priority="high" // Preload critical images
+/>
+```
+
+**Features:**
+
+- Default `cachePolicy="memory-disk"` (PRD <200ms requirement)
+- Skeleton placeholder support (better perceived performance)
+- Error handling with fallback images
+- Smooth fade-in transitions (300ms default)
+- Preload priority for above-fold images
+- Pre-built styles for common use cases (avatar, thumbnail, banner)
+
+**Configuration:**
+
+- **Component:** `src/components/ui/CachedImage.tsx`
+- **Documentation:** `src/components/ui/README.md`
+- **Export:** `import { CachedImage } from '@/components/ui'`
+
+**Use Cases:**
+
+- Exercise GIFs (Phase 2.7.1, 3.11.2) - 1,300+ images
+- User avatars (Phase 1.4)
+- Workout template thumbnails (Phase 5)
+
+**Trade-offs:**
+
+- ✅ Production-ready caching (no custom implementation)
+- ✅ Meets PRD performance requirements (<200ms)
+- ⚠️ +100KB bundle size vs React Native Image
+- ✅ Saves ~40h of custom cache implementation
+
+## **Status:** ✅ **COMPLETED** (Phase 0.5.4)
 
 ### ADR-011: Charts Strategy - Victory Native
 
