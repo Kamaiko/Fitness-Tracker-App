@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { PortalHost } from '@rn-primitives/portal';
 import { Colors } from '@/constants';
 import { initSentry, setSentryUser } from '@/utils/sentry';
 import { useAuthStore } from '@/stores/auth/authStore';
@@ -13,6 +14,7 @@ import '../../global.css';
  * Initializes:
  * - Sentry (production-only error monitoring)
  * - WatermelonDB (lazy, on first database access)
+ * - PortalHost (for dropdowns, tooltips, modals)
  */
 export default function RootLayout() {
   // Initialize Sentry on app startup
@@ -44,6 +46,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
+      <PortalHost />
     </SafeAreaProvider>
   );
 }
