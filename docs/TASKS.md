@@ -7,10 +7,10 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
-6. [Phase 0.6: UI/UX Foundation (0/7)](#phase-06-uiux-foundation-07)
-7. [Phase 1: Authentication & Foundation (1/21)](#phase-1-authentication--foundation-115)
-8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-020)
-9. [Phase 3: Exercise Library & Testing (0/11)](#phase-3-exercise-library--testing-09)
+6. [Phase 0.6: UI/UX Foundation (2/9)](#phase-06-uiux-foundation-07)
+7. [Phase 1: Authentication & Foundation (1/20)](#phase-1-authentication--foundation-115)
+8. [Phase 2: Workout Logging (0/22)](#phase-2-workout-logging-020)
+9. [Phase 3: Exercise Library & Testing (0/7)](#phase-3-exercise-library--testing-09)
 10. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
 11. [Phase 5: Polish, Monitoring & Beta Launch (0/16)](#phase-5-polish-monitoring--beta-launch-015)
 
@@ -18,7 +18,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 22/113 tasks (19%)
+**Progress**: 24/111 tasks (22%)
 **Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
 **Last Updated**: 2025-11-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
 
@@ -27,32 +27,32 @@
 ## Executive Summary
 
 **Current Focus**: Phase 0.6.A - UI/UX Foundation (Component Library Setup)
-**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/113 tasks (19%)
+**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/111 tasks (20%)
 **Critical Blockers**: None • **Velocity**: ~4 tasks/week (excellent!)
 
 ### Recent Completions ✅
 
-1. **0.5.4** - Configure expo-image (CachedImage wrapper, memory-disk caching, production-ready)
-2. **0.5.3** - Configure FlashList (WorkoutList component, 120-item test, fixtures, docs)
-3. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
-4. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
-5. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
+1. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with variants, 3 packs, ComponentShowcase test)
+2. **0.6.1** - Install React Native Reusables (CVA, clsx, tailwind-merge, portal, PortalHost, cn utility)
+3. **0.5.4** - Configure expo-image (CachedImage wrapper, memory-disk caching, production-ready)
+4. **0.5.3** - Configure FlashList (WorkoutList component, 120-item test, fixtures, docs)
+5. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
 
 ---
 
 ## Kanban
 
-| TODO (Top 5)                               | DOING                                     | DONE (Last 5)               |
-| ------------------------------------------ | ----------------------------------------- | --------------------------- |
-| **0.6.3** Dark theme config `[M]` 🟠       | **0.6.1** React Native Reusables `[M]` 🟠 | **0.5.4** expo-image cache  |
-| **0.6.4** Install core components `[M]` 🟠 | **0.6.2** @expo/vector-icons `[S]` 🟠     | **0.5.3** FlashList config  |
-| **0.6.5** Navigation components `[S]` 🟠   |                                           | **0.5.28** Install & Launch |
-| **0.6.6** Create fitness components `[L]`  |                                           | **0.5.27** Supabase sync    |
-| **0.6.7** Component documentation `[S]`    |                                           | **0.5.11** Error handling   |
+| TODO (Top 5)                               | DOING                                | DONE (Last 5)                   |
+| ------------------------------------------ | ------------------------------------ | ------------------------------- |
+| **0.6.4** Install core components `[M]` 🟠 | **0.6.3** Dark theme config `[M]` 🟠 | **0.6.2** @expo/vector-icons ✅ |
+| **0.6.5** Navigation components `[S]` 🟠   |                                      | **0.6.1** RN Reusables deps ✅  |
+| **0.6.6** Setup environment `[S]` 🟠       |                                      | **0.5.4** expo-image cache      |
+| **0.6.7** Create TypeScript types `[M]` 🟠 |                                      | **0.5.3** FlashList config      |
+| **0.6.8** ExerciseDB import `[L]` 🟠       |                                      | **0.5.28** Install & Launch     |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 0/7 (0%) • Overall: 22/113 (19%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1.75 weeks
-**NEXT**: 0.6.1 & 0.6.2 Install UI Foundation (React Native Reusables + @expo/vector-icons) 🟠
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 2/9 (22%) • Overall: 24/111 (22%)
+**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~2.5 weeks
+**NEXT**: 0.6.3 Dark Theme Config → Then 0.6.4-0.6.5 Components → Infrastructure 🟠
 
 ---
 
@@ -309,12 +309,12 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 0.6: UI/UX Foundation (0/7)
+## Phase 0.6: UI/UX Foundation (2/9)
 
 **Timeline:** Week 8 | **Priority:** HIGH
-**Goal:** Modern UI library and design system for production-ready user experience
+**Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 0/7 tasks (0%) | **Est. Time:** ~10h (1.5 weeks at 4 tasks/week)
+**Progress:** 2/9 tasks (22%) | **Est. Time:** ~16-17h (2.5 weeks at 4 tasks/week)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -323,18 +323,18 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.A: Component Library Setup (0/3)
+### 0.6.A: Component Library Setup (2/3)
 
 **Goal:** Install and configure React Native Reusables with design system
 
-- [ ] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h)
+- [x] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h)
   - Install `@react-native-reusables/cli` and core dependencies
   - Install `class-variance-authority`, `clsx`, `tailwind-merge`
   - Configure `components.json` with project aliases
   - Setup Metro bundler integration
   - Verify installation with test component
 
-- [ ] 0.6.2 **Configure @expo/vector-icons** (S - 30min)
+- [x] 0.6.2 **Configure @expo/vector-icons** (S - 30min)
   - Verify `@expo/vector-icons` included in Expo SDK (already installed)
   - Choose primary icon pack (MaterialIcons, Ionicons, or FontAwesome)
   - Create icon wrapper component with default sizing and color
@@ -371,82 +371,142 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.C: Custom Fitness Components (0/1)
+### 0.6.C: Foundation Infrastructure (0/4)
 
-**Goal:** Create workout-specific components not available in Reusables
+**Goal:** Setup complete development infrastructure before Phase 1
 
-- [ ] 0.6.6 **Create Custom Fitness Components Stubs** (M - 2h)
-  - Create `components/fitness/RestTimer.tsx` (countdown stub)
-  - Create `components/fitness/SetLogger.tsx` (quick add set stub)
-  - Create `components/fitness/WorkoutCard.tsx` (history card stub)
-  - Create `components/fitness/ExerciseSelector.tsx` (FlashList integration stub)
-  - Add Reanimated animations (scale, fade, slide)
-  - Document component API and usage
-  - Note: Full implementation in Phase 2
+- [ ] 0.6.6 **Setup Environment Variables** (S - 30min) `[.env + .env.example]`
+  - Copy .env.example to .env
+  - Add required environment variables:
+    - EXPO_PUBLIC_SUPABASE_URL
+    - EXPO_PUBLIC_SUPABASE_ANON_KEY
+    - SENTRY_DSN
+    - EXERCISEDB_API_KEY (RapidAPI)
+  - Document setup in CONTRIBUTING.md
+  - Verify .env in .gitignore
+  - **Critical:** Required BEFORE task 0.6.8 (ExerciseDB import)
+
+- [ ] 0.6.7 **Create Core TypeScript Types** (M - 2h) `[src/types/]`
+  - Create src/types/database.ts (database tables, nutrition_phase)
+  - Create src/types/exercises.ts (exercise, set, workout types)
+  - Create src/types/user.ts (user, profile, nutrition phase types)
+  - Create src/types/analytics.ts (load metrics, fatigue ratios, reports)
+  - Create src/types/api.ts (API response types)
+  - Export via src/types/index.ts (barrel export)
+  - **Critical:** Required BEFORE Phase 1 features for autocomplete/type-safety
+
+- [ ] 0.6.8 **Bulk Import Complete ExerciseDB Library** (L - 5h) `[scripts/seed-exercisedb.ts]` `[CRITICAL TIME SAVER]`
+  - Sign up for ExerciseDB API (RapidAPI - free tier)
+  - Create script: scripts/seed-exercisedb.ts
+  - Fetch ALL 1,300+ exercises from ExerciseDB API v2
+  - Transform to Supabase schema (match exercises table)
+  - Bulk insert to exercises table (single transaction)
+  - Mark as is_custom = false
+  - Tag top 100 popular exercises (featured = true) for UI priority
+  - Sync to local WatermelonDB
+  - Write unit tests for transformation logic
+  - **Benefits:** Complete exercise library from start, no Phase 3 migration
+  - **Time saved:** 100-200 hours vs manual creation
+  - **API:** https://v2.exercisedb.io/docs
+  - **Note:** Replaces old tasks 5.2 + 11.1 (now complete library from Phase 0.6)
+
+- [ ] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) `[docs/DESIGN_SYSTEM.md]`
+  - Analyze competitor UX (Jefit, Strong, Hevy) for:
+    - Rest timer patterns (modal vs inline, auto-start, skip)
+    - Set logging UI (quick-add vs detailed, RIR picker)
+    - Workout cards (compact vs detailed, swipe actions)
+    - Exercise selection (search-first vs browse, filters)
+  - Create wireframes/sketches for 4 core components:
+    - RestTimer, SetLogger, WorkoutCard, ExerciseSelector
+  - Define interaction patterns (tap, swipe, long-press)
+  - Define animation triggers and sequences (Reanimated)
+  - Document design decisions in docs/DESIGN_SYSTEM.md
+  - Get user approval before Phase 2 implementation
+  - **Critical:** Required BEFORE Phase 2.0 (component implementation)
 
 ---
 
-### 0.6.D: Documentation Updates (0/1)
-
-**Goal:** Update all documentation to reflect UI stack changes
-
-- [ ] 0.6.7 **Update Project Documentation** (M - 2.5h)
-  - **TECHNICAL.md**: Add ADR-011 (React Native Reusables), ADR-012 (Single dark mode), ADR-016 (Vector Icons)
-  - **ARCHITECTURE.md**: Update `components/` structure (ui/, fitness/, shared/)
-  - **CONTRIBUTING.md**: Add component installation guide, styling guidelines
-  - **CLAUDE.md**: Update stack section, add design system quick reference
-  - **README.md**: Update tech stack list
-  - Create `docs/DESIGN_SYSTEM.md`: Colors, typography, spacing, components
-
 ---
 
-## Phase 1: Authentication & Foundation (1/21)
+## Phase 1: Authentication & Foundation (1/20)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
-### 1. Authentication Screens
+### 1. Infrastructure & Types
 
-- [ ] 1.1 Create login screen UI (M - 3h) `[src/app/(auth)/login.tsx]`
+**Goal:** Setup foundational infrastructure before implementing features
+
+- [ ] 1.1 **Write unit tests for validation utilities** (S - 1.5h) `[src/utils/__tests__/validation.test.ts]`
+  - Test email format validation (valid/invalid cases)
+  - Test password strength validation (8+ chars, special chars)
+  - Test edge cases (empty strings, SQL injection attempts)
+  - Use Jest + @testing-library/react-native
+  - TDD approach: Write tests BEFORE implementing validation.ts
+
+- [ ] 1.2 **Setup Supabase Storage & image upload** (M - 2h) `[src/services/supabase/storage.ts]`
+  - Configure storage bucket for profile images
+  - Create upload utility (compress images before upload)
+  - Create delete utility (cleanup old images)
+  - Setup RLS policies for user-owned images
+  - Test with example image upload
+
+- [ ] 1.3 **Configure expo-notifications & background tasks** (S - 1h) `[src/services/notifications.ts]`
+  - Setup push notification permissions
+  - Create notification scheduler for rest timer
+  - Create notification for workout reminders
+  - Test local notifications
+  - Defer: Push notifications to Phase 4
+
+- [ ] 1.4 **Add form validation utilities** (S - 2h) `[src/utils/validation.ts]`
+  - Email format validation (regex)
+  - Password strength validation (min 8 chars, etc.)
+  - Error message generation
+  - Generic form validation helpers
+  - **IMPORTANT:** Implement AFTER writing tests in task 1.1
+
+### 2. Authentication Screens
+
+- [ ] 1.5 **Create login screen UI** (M - 3h) `[src/app/(auth)/login.tsx]`
   - Email/password inputs (use Input component)
   - Login button (use Button component)
   - "Forgot password" link
   - "Create account" link
   - Loading state, error handling
 
-- [ ] 1.2 Create register screen UI (M - 3h) `[src/app/(auth)/register.tsx]`
+- [ ] 1.6 **Create register screen UI** (M - 3h) `[src/app/(auth)/register.tsx]`
   - Email/password inputs
   - Password confirmation
   - Terms acceptance checkbox
   - Register button
   - Validation (email format, password strength)
 
-- [ ] 1.3 Implement Supabase authentication integration (M - 4h) `[src/services/supabase/auth.ts]`
+- [ ] 1.7 **Implement Supabase authentication integration** (M - 4h) `[src/services/supabase/auth.ts]`
   - Sign up functionality
   - Sign in functionality
   - Sign out functionality
   - Session management with MMKV encrypted storage
   - Error handling (user-friendly messages)
 
-- [ ] 1.4 Add form validation utilities (S - 2h) `[src/utils/validation.ts]`
+- [ ] 1.8 **Implement password reset flow** (M - 3h) `[src/utils/validation.ts]`
   - Email format validation (regex)
   - Password strength validation (min 8 chars, etc.)
   - Error message generation
   - Generic form validation helpers
 
-- [ ] 1.5 Implement password reset flow (M - 3h) `[src/app/(auth)/reset-password.tsx]`
+- [ ] 1.9 **Implement email verification flow** (M - 3h) `[src/app/(auth)/reset-password.tsx]`
   - Request reset screen (email input)
   - Reset confirmation screen
   - Supabase email notification
   - Success/error states
 
-- [ ] 1.6 **Implement email verification flow** (M - 2h) `[src/app/(auth)/verify-email.tsx]`
+- [ ] 1.10 **Implement session refresh logic** (M - 2h) `[src/app/(auth)/verify-email.tsx]`
   - Deep link handler for verification token
   - Verification screen UI (loading, success, error states)
   - Supabase email verification integration
   - Auto-redirect to tabs on success
   - Resend verification email option
 
-- [ ] 1.7 **Implement session refresh logic** (S - 1.5h) `[src/services/supabase/auth.ts]`
+- [ ] 1.11 **Setup protected routes** (S - 1.5h) `[src/services/supabase/auth.ts]`
   - Auto-refresh tokens before expiry
   - Handle refresh failures gracefully
   - Store refresh token in MMKV encrypted storage
@@ -471,26 +531,26 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ### 2. Navigation Structure
 
-- [ ] 2.1 Create tab navigation layout (M - 3h) `[src/app/(tabs)/_layout.tsx]`
+- [ ] 2.2 Create tab navigation layout (M - 3h) `[src/app/(tabs)/_layout.tsx]`
   - Workout tab
   - Exercises tab
   - Analytics tab (renamed from "Stats")
   - Profile tab (renamed from "Settings")
   - Custom tab bar styling (dark theme)
 
-- [ ] 2.2 Implement navigation guards (S - 2h) `[src/app/_layout.tsx]`
+- [ ] 2.3 Implement navigation guards (S - 2h) `[src/app/_layout.tsx]`
   - Redirect to login if not authenticated
   - Redirect to tabs if authenticated
   - Loading screen during auth check
   - Deep linking support
 
-- [ ] 2.3 Create placeholder tab screens (M - 2h)
+- [ ] 2.4 Create placeholder tab screens (M - 2h)
   - [src/app/(tabs)/workout.tsx] - Workout logging screen
   - [src/app/(tabs)/exercises.tsx] - Exercise library screen
   - [src/app/(tabs)/analytics.tsx] - Analytics dashboard
   - [src/app/(tabs)/profile.tsx] - User profile & settings
 
-- [ ] 2.4 **Configure deep linking & navigation types** (M - 2h) `[app.json + types]`
+- [ ] 2.5 **Configure deep linking & navigation types** (M - 2h) `[app.json + types]`
   - Configure app.json scheme: "halterofit://"
   - Setup linking config for expo-router
   - Create route handlers for auth tokens:
@@ -500,7 +560,7 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Test deep links on physical device
   - Document deep link patterns
 
-- [ ] 2.5 **Create network status indicator & sync queue** (M - 2.5h) `[src/components/shared/NetworkStatus.tsx]`
+- [ ] 2.6 **Create network status indicator & sync queue** (M - 2.5h) `[src/components/shared/NetworkStatus.tsx]`
   - Offline badge indicator (top of screen)
   - Sync queue counter (pending changes)
   - Network connectivity monitoring (NetInfo)
@@ -640,7 +700,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 2: Workout Logging (0/21)
+## Phase 2: Workout Logging (0/22)
 
 **Timeline:** Weeks 6-8 | **Priority:** HIGH
 **Goal:** Core workout logging functionality with excellent UX
@@ -903,7 +963,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-## Phase 3: Exercise Library & Testing (0/11)
+## Phase 3: Exercise Library & Testing (0/7)
 
 **Timeline:** Weeks 9-10 | **Priority:** MEDIUM
 **MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
