@@ -2,41 +2,41 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 19/98 tasks (19%) • ![](https://img.shields.io/badge/Progress-19%25-red)
+**Progress**: 20/98 tasks (20%) • ![](https://img.shields.io/badge/Progress-20%25-red)
 **Timeline**: 16 weeks • Started 2025-01-20 • Target 2025-05-12
-**Last Updated**: 2025-01-31 • **Next Milestone**: Complete Development Build Migration & Infrastructure
+**Last Updated**: 2025-01-31 • **Next Milestone**: Complete Infrastructure & Begin Phase 1
 
 ---
 
 ## 📊 Executive Summary
 
-**Current Focus**: Phase 0.5.B - Development Build Migration
-**Phase Progress**: 18/26 tasks (69%) • **Overall**: 19/98 tasks (19%)
-**Critical Blockers**: None • **Velocity**: ~4 tasks/week (improved!)
+**Current Focus**: Phase 0.5.D - Infrastructure Completion
+**Phase Progress**: 19/26 tasks (73%) • **Overall**: 20/98 tasks (20%)
+**Critical Blockers**: None • **Velocity**: ~4 tasks/week (excellent!)
 
 ### Recent Completions ✅
 
-1. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
-2. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
-3. **0.5.5** - Sentry Error Monitoring (production-only, privacy, DSN configured)
-4. **5.1** - Setup CI/CD Pipeline with GitHub Actions
-5. **0.5.10** - Zustand Persist for Workout Store
+1. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
+2. **0.5.27** - Supabase Schema & Sync (migration, RLS policies, sync protocol, 37 tests)
+3. **0.5.11** - Error Handling Layer (custom errors, try/catch, security validation)
+4. **0.5.5** - Sentry Error Monitoring (production-only, privacy, DSN configured)
+5. **5.1** - Setup CI/CD Pipeline with GitHub Actions
 
 ---
 
 ## 📋 Kanban
 
-| 📝 TODO (Top 5)                   | 🔨 DOING | ✅ DONE (Last 5)            |
-| --------------------------------- | -------- | --------------------------- |
-| **0.5.28** Test & Verify `[M]` 🟠 |          | **0.5.27** Supabase sync    |
-| **0.5.3** FlashList `[S]` 🟡      |          | **0.5.11** Error handling   |
-| **0.5.4** expo-image `[S]` 🟡     |          | **0.5.5** Sentry monitoring |
-| **1.1** Login screen `[M]` 🟠     |          | **5.1** CI/CD Pipeline      |
-| **1.2** Register screen `[M]` 🟠  |          | **0.5.10** Workout persist  |
+| 📝 TODO (Top 5)                  | 🔨 DOING | ✅ DONE (Last 5)            |
+| -------------------------------- | -------- | --------------------------- |
+| **0.5.3** FlashList `[S]` 🟡     |          | **0.5.28** Install & Launch |
+| **0.5.4** expo-image `[S]` 🟡    |          | **0.5.27** Supabase sync    |
+| **1.1** Login screen `[M]` 🟠    |          | **0.5.11** Error handling   |
+| **1.2** Register screen `[M]` 🟠 |          | **0.5.5** Sentry monitoring |
+| **1.3** Supabase Auth `[M]` 🟠   |          | **5.1** CI/CD Pipeline      |
 
-**Progress**: Phase 0.5: 18/26 (69%) • Overall: 19/98 (19%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~2 weeks
-**NEXT**: 0.5.28 Test & Verify Development Build 🟠 IMPORTANT
+**Progress**: Phase 0.5: 19/26 (73%) • Overall: 20/98 (20%)
+**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.5 complete in ~1.5 weeks
+**NEXT**: 0.5.3 Configure FlashList 🟡 Quick win
 
 ---
 
@@ -45,7 +45,7 @@
 1. [📊 Executive Summary](#-executive-summary)
 2. [📋 Kanban](#-kanban)
 3. [🗺️ Development Roadmap](#development-roadmap)
-4. [Phase 0.5: Architecture & Foundation (18/26)](#phase-05-architecture--foundation-1826)
+4. [Phase 0.5: Architecture & Foundation (19/26)](#phase-05-architecture--foundation-1926)
 5. [Phase 1: Authentication & Foundation (1/15)](#phase-1-authentication--foundation-115)
 6. [Phase 2: Workout Logging (0/20)](#phase-2-workout-logging-020)
 7. [Phase 3: Exercise Library & Testing (0/9)](#phase-3-exercise-library--testing-09)
@@ -57,7 +57,7 @@
 ## Development Roadmap
 
 ```
-Phase 0.5: Architecture & Foundation (18/26 tasks)
+Phase 0.5: Architecture & Foundation (19/26 tasks)
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ EAS Build + Dev Client ✅
@@ -65,11 +65,8 @@ Phase 0.5: Architecture & Foundation (18/26 tasks)
    ├─ WatermelonDB Database Operations ✅
    ├─ MMKV Storage Migration ✅
    ├─ Victory Native Charts Migration ✅
-   └─ NEXT: Complete Critical Corrections ⚡ PRIORITY
-        ├─ Error handling layer (0.5.11)
-        ├─ Sentry monitoring (0.5.5)
-        ├─ Supabase sync (0.5.27-28)
-        └─ Infrastructure (0.5.3-4)
+   ├─ Development Build Migration ✅
+   └─ NEXT: Complete Infrastructure (0.5.3-4) ⚡ PRIORITY
         ↓
 Phase 1: Authentication & Foundation (1/15 tasks)
    ├─ Supabase Auth integration
@@ -118,23 +115,23 @@ Phase 6: Polish & Launch (0/9 tasks)
 | **3**     | 9      | 30-40h       | BLOCKED      | ← Phase 2 workout core           |
 | **4**     | 11     | 35-45h       | BLOCKED      | ← Phase 3 exercise library       |
 | **5**     | 15     | 40-50h       | BLOCKED      | ← Phase 4 analytics              |
-| **TOTAL** | **96** | **230-290h** | **19% done** | **12-15 weeks at 20h/week**      |
+| **TOTAL** | **96** | **230-290h** | **20% done** | **12-15 weeks at 20h/week**      |
 
-**⚠️ Critical Path:** Phase 0.5.B (Development Build Migration) must complete before infrastructure tasks.
+**⚠️ Critical Path:** Phase 0.5.D (Infrastructure) completes Phase 0.5, unblocking Phase 1.
 
 ---
 
-## Phase 0.5: Architecture & Foundation (18/26)
+## Phase 0.5: Architecture & Foundation (19/26)
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 17/26 tasks (65%) | **Est. Time Remaining:** ~9h (Phase 0.5 completion)
+**Progress:** 19/26 tasks (73%) | **Est. Time Remaining:** ~7h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 
-**Migration Status:** Database ✅ | Storage ✅ | Charts ✅ | Supabase Sync ⏳ (next)
+**Migration Status:** Database ✅ | Storage ✅ | Charts ✅ | Supabase Sync ✅ | Dev Build ✅
 **Achievement:** Migrated early at 13% project completion, avoiding 40-60% code rewrite later.
 
 ---
@@ -151,7 +148,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.5.B: Development Build Migration (9/10) 🔨 IN PROGRESS
+### 0.5.B: Development Build Migration (10/10) ✅ COMPLETE
 
 **Goal:** Migrate to production-ready stack while codebase is small
 
@@ -162,9 +159,7 @@ Phase 6: Polish & Launch (0/9 tasks)
 - react-native-chart-kit → Victory Native (professional charts)
 - Expo Go → Development Build (enables native modules)
 
-**Status:** 8/10 tasks complete. Final steps: Supabase sync + testing.
-
-**Estimated Time:** 4-6 hours | **Tasks:** 10
+**Status:** ✅ All tasks complete. Development Build ready for Phase 1.
 
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
   - EAS account configured, CLI installed, project linked
@@ -214,13 +209,11 @@ Phase 6: Polish & Launch (0/9 tasks)
   - 37 Jest tests created (workouts, exercises, sets + infrastructure)
   - **Bonus:** Test README (122 lines), setup README (328 lines), E2E strategy doc
 
-- [ ] 0.5.28 **Install & Launch Development Build** (S - 15min)
-  - [ ] Install dev build on physical device (or emulator)
-  - [ ] Verify app launches without crashes
-  - [ ] Verify hot reload works with code changes
-  - [x] TypeScript: `npm run type-check` passes ✅ (verified in CI)
-  - [x] Unit tests: 37/37 Jest tests pass ✅ (verified in CI)
-  - **Note:** Integration testing (auth, sync, UI interactions) deferred to Phase 1.16 (Manual E2E Checklists)
+- [x] 0.5.28 **Install & Launch Development Build** (S - 15min) ✅ 2025-01-31
+  - Used existing EAS build (fingerprint check: non-critical differences only)
+  - Installed APK on Android physical device
+  - App launches successfully, no crashes
+  - Hot reload verified and functional
 
 ---
 
