@@ -61,7 +61,12 @@
       "Bash(if not exist \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\" mkdir \"c:\\DevTools\\Projects\\Halterofit\\docs\\testing\")",
       "Bash(python:*)",
       "Bash(for file in docs/testing/*.md tests/**/*.md)",
-      "Bash(do [ -f \"$file\" ])"
+      "Bash(do [ -f \"$file\" ])",
+      "SlashCommand(/task-update)",
+      "Bash(if [ -d src/types ])",
+      "Bash(then ls -la src/types/)",
+      "Bash(else echo \"Directory not found\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []

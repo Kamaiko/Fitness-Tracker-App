@@ -7,7 +7,7 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
-6. [Phase 0.6: UI/UX Foundation (5/9)](#phase-06-uiux-foundation-59)
+6. [Phase 0.6: UI/UX Foundation (5/8)](#phase-06-uiux-foundation-58)
 7. [Phase 1: Authentication & Foundation (1/27)](#phase-1-authentication--foundation-127)
 8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-021)
 9. [Phase 3: Exercise Library & Testing (0/10)](#phase-3-exercise-library--testing-010)
@@ -18,7 +18,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 27/120 tasks (23%)
+**Progress**: 27/119 tasks (23%)
 **Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
 **Last Updated**: 2025-02-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
 
@@ -27,7 +27,7 @@
 ## Executive Summary
 
 **Current Focus**: Phase 0.6.C - Foundation Infrastructure (ExerciseDB Import)
-**Phase Progress**: 21/26 (Phase 0.5) + 5/9 (Phase 0.6) • **Overall**: 27/120 tasks (23%)
+**Phase Progress**: 21/26 (Phase 0.5) + 5/8 (Phase 0.6) • **Overall**: 27/119 tasks (23%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week (excellent!)
 
 ### Recent Completions ✅
@@ -42,17 +42,17 @@
 
 ## Kanban
 
-| TODO (Top 5)                               | DOING | DONE (Last 5)                |
-| ------------------------------------------ | ----- | ---------------------------- |
-| **0.6.8** ExerciseDB import `[L]` 🔥       |       | **0.6.4** Core components ✅ |
-| **0.6.7** Create TypeScript types `[M]` 🟠 |       | **0.6.3** Dark theme ✅      |
-| **0.6.6** Setup environment `[S]` 🟠       |       | **0.6.9** Design system ✅   |
-| **1.1** Validation tests `[S]` 🟠          |       | **0.6.2** @expo/vector-icons |
-| **1.2** Auth screens wireframes `[M]` 🟠   |       | **0.6.1** RN Reusables       |
+| TODO (Top 5)                            | DOING | DONE (Last 5)                |
+| --------------------------------------- | ----- | ---------------------------- |
+| **0.6.6** Environment vars `[S]` 🟠 70% |       | **0.6.4** Core components ✅ |
+| **0.6.8** ExerciseDB import `[L]` 🔥    |       | **0.6.3** Dark theme ✅      |
+| **1.1** Validation tests `[S]` 🟠       |       | **0.6.9** Design system ✅   |
+| **1.5** Login screen UI `[M]` 🟠        |       | **0.6.2** @expo/vector-icons |
+| **1.6** Register screen UI `[M]` 🟠     |       | **0.6.1** RN Reusables       |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 5/9 (56%) • Overall: 27/120 (23%)
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 5/8 (63%) • Overall: 27/119 (23%)
 **Velocity**: ~5 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1 week
-**NEXT**: 0.6.8 ExerciseDB Import 🔥 → Then 0.6.6-0.6.7 Infrastructure → Phase 1 Auth
+**NEXT**: 0.6.6 Environment (10min) 🟠 → 0.6.8 ExerciseDB Import 🔥 → Phase 1 Auth
 
 ---
 
@@ -72,7 +72,7 @@ Phase 0.5: Architecture & Foundation (21/26 tasks)
    ├─ Development Build Migration ✅
    └─ COMPLETE: Infrastructure (0.5.3-4) ✅
         ↓
-Phase 0.6: UI/UX Foundation (5/9 tasks) 56% ✅
+Phase 0.6: UI/UX Foundation (5/8 tasks) 63% ✅
    ├─ React Native Reusables (shadcn/ui base) ✅
    ├─ React Native Vector Icons integration ✅
    ├─ Single dark mode design system ✅
@@ -116,13 +116,13 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 | Phase     | Tasks   | Est. Time    | Status       | Dependencies                |
 | --------- | ------- | ------------ | ------------ | --------------------------- |
 | **0.5**   | 26      | 50-60h       | 81% DONE     | None (started)              |
-| **0.6**   | 9       | 16-19h       | IN PROGRESS  | ← Phase 0.5 complete        |
+| **0.6**   | 8       | 14-17h       | IN PROGRESS  | ← Phase 0.5 complete        |
 | **1**     | 27      | 54-67h       | BLOCKED      | ← Phase 0.6 UI foundation   |
 | **2**     | 21      | 51-61h       | BLOCKED      | ← Phase 1 auth              |
 | **3**     | 10      | 28-35h       | BLOCKED      | ← Phase 2 workout core      |
 | **4**     | 11      | 35-45h       | BLOCKED      | ← Phase 3 exercise library  |
 | **5**     | 16      | 43-53h       | BLOCKED      | ← Phase 4 analytics         |
-| **TOTAL** | **120** | **277-350h** | **23% done** | **14-18 weeks at 20h/week** |
+| **TOTAL** | **119** | **275-348h** | **23% done** | **14-18 weeks at 20h/week** |
 
 **⚠️ Critical Path:** Phase 0.5.D (Infrastructure) → Phase 0.6 (UI Foundation) → Phase 1 (Auth screens).
 
@@ -304,12 +304,12 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-## Phase 0.6: UI/UX Foundation (5/9)
+## Phase 0.6: UI/UX Foundation (5/8)
 
 **Timeline:** Week 8 | **Priority:** HIGH
 **Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 5/9 tasks (56%) | **Est. Time Remaining:** ~8-9h (1 week at 4 tasks/week)
+**Progress:** 5/8 tasks (63%) | **Est. Time Remaining:** ~6-7h (1 week at 4 tasks/week)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -364,29 +364,29 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-### 0.6.C: Foundation Infrastructure (1/4)
+### 0.6.C: Foundation Infrastructure (1/3)
 
 **Goal:** Setup complete development infrastructure before Phase 1
 
-- [ ] 0.6.6 **Setup Environment Variables** (S - 30min) `[.env + .env.example]`
-  - Copy .env.example to .env
-  - Add required environment variables:
-    - EXPO_PUBLIC_SUPABASE_URL
-    - EXPO_PUBLIC_SUPABASE_ANON_KEY
-    - SENTRY_DSN
-    - EXERCISEDB_API_KEY (RapidAPI)
-  - Document setup in CONTRIBUTING.md
-  - Verify .env in .gitignore
+- [ ] 0.6.6 **Setup Environment Variables** (S - 10min) `[.env + .env.example]` 🟠 **~70% DONE**
+  - ✅ Copy .env.example to .env (done)
+  - ✅ Add Supabase environment variables (done)
+  - ✅ Add Sentry DSN (done)
+  - ✅ Document setup in CONTRIBUTING.md (done)
+  - ✅ Verify .env in .gitignore (done)
+  - ❌ Add EXERCISEDB_API_KEY to .env
+  - ❌ Add EXERCISEDB_API_KEY to .env.example
   - **Critical:** Required BEFORE task 0.6.8 (ExerciseDB import)
 
-- [ ] 0.6.7 **Create Core TypeScript Types** (M - 2h) `[src/types/]`
-  - Create src/types/database.ts (database tables, nutrition_phase)
-  - Create src/types/exercises.ts (exercise, set, workout types)
-  - Create src/types/user.ts (user, profile, nutrition phase types)
-  - Create src/types/analytics.ts (load metrics, fatigue ratios, reports)
-  - Create src/types/api.ts (API response types)
-  - Export via src/types/index.ts (barrel export)
-  - **Critical:** Required BEFORE Phase 1 features for autocomplete/type-safety
+- [ ] 0.6.7 **Create Core TypeScript Types** (M - 2h) `[src/types/]` `[DEFERRED]`
+  - **Status:** DEFERRED - Create types just-in-time during Phase 1-4
+  - **Rationale:** YAGNI - WatermelonDB models already provide database types
+  - **Structure cleaned:** Removed empty subdirs, simplified index.ts with JIT approach
+  - **Just-in-Time plan:**
+    - Phase 1: Create auth.ts (login/register types)
+    - Phase 0.6.8: Create exercisedb.ts (API response types)
+    - Phase 4: Create analytics.ts (report types)
+  - Non-database types only (API responses, auth, form validation, UI state)
 
 - [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 3-4h) `[scripts/seed-exercisedb.ts]` 🔥 **NEXT PRIORITY**
 

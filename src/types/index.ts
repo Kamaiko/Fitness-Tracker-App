@@ -1,15 +1,27 @@
 /**
- * Types - Main Export
+ * Non-Database Types
  *
- * Centralized TypeScript type definitions.
+ * **Database types** → Use @/services/database/models (WatermelonDB models)
  *
- * NOTE: Database types are in '@/services/database' (colocated with implementation)
+ * **This folder is for:**
+ * - API responses (ExerciseDB, future APIs)
+ * - Auth types (tokens, session, errors)
+ * - Form validation types
+ * - UI state types
+ * - Utility types
+ *
+ * **Just-in-Time approach:**
+ * Create type files as needed during implementation:
+ * - Phase 1: auth.ts (login/register types)
+ * - Phase 0.6.8: exercisedb.ts (API response types)
+ * - Phase 4: analytics.ts (report types)
  *
  * USAGE:
- * import { ApiResponse, UserProfile, WorkoutTemplate } from '@/types';
+ * import { AuthError, ExerciseDBResponse } from '@/types';
  */
 
 // Export types here when implemented
-// export * from './api';
-// export * from './user';
-// export * from './workout';
+// Example:
+// export * from './auth';
+// export * from './exercisedb';
+// export * from './analytics';
