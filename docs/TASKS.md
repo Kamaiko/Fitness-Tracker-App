@@ -7,7 +7,7 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
-6. [Phase 0.6: UI/UX Foundation (2/9)](#phase-06-uiux-foundation-07)
+6. [Phase 0.6: UI/UX Foundation (5/9)](#phase-06-uiux-foundation-59)
 7. [Phase 1: Authentication & Foundation (1/20)](#phase-1-authentication--foundation-115)
 8. [Phase 2: Workout Logging (0/22)](#phase-2-workout-logging-020)
 9. [Phase 3: Exercise Library & Testing (0/7)](#phase-3-exercise-library--testing-09)
@@ -18,41 +18,41 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 24/111 tasks (22%)
+**Progress**: 27/111 tasks (24%)
 **Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
-**Last Updated**: 2025-11-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
+**Last Updated**: 2025-01-30 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6.A - UI/UX Foundation (Component Library Setup)
-**Phase Progress**: 21/26 tasks (81%) • **Overall**: 22/111 tasks (20%)
-**Critical Blockers**: None • **Velocity**: ~4 tasks/week (excellent!)
+**Current Focus**: Phase 0.6.C - Foundation Infrastructure (ExerciseDB Import)
+**Phase Progress**: 21/26 (Phase 0.5) + 5/9 (Phase 0.6) • **Overall**: 27/111 tasks (24%)
+**Critical Blockers**: None • **Velocity**: ~5 tasks/week (excellent!)
 
 ### Recent Completions ✅
 
-1. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with variants, 3 packs, ComponentShowcase test)
-2. **0.6.1** - Install React Native Reusables (CVA, clsx, tailwind-merge, portal, PortalHost, cn utility)
-3. **0.5.4** - Configure expo-image (CachedImage wrapper, memory-disk caching, production-ready)
-4. **0.5.3** - Configure FlashList (WorkoutList component, 120-item test, fixtures, docs)
-5. **0.5.28** - Install & Launch Development Build (Android APK, hot reload verified)
+1. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton - all validated)
+2. **0.6.3** - Validate dark theme (HEX colors confirmed, DESIGN_SYSTEM.md created)
+3. **0.6.9** - Design brainstorming (Competitor analysis, wireframes, interaction patterns)
+4. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with 3 packs)
+5. **0.6.1** - Install React Native Reusables (CVA, clsx, tailwind-merge)
 
 ---
 
 ## Kanban
 
-| TODO (Top 5)                               | DOING                                | DONE (Last 5)                   |
-| ------------------------------------------ | ------------------------------------ | ------------------------------- |
-| **0.6.4** Install core components `[M]` 🟠 | **0.6.3** Dark theme config `[M]` 🟠 | **0.6.2** @expo/vector-icons ✅ |
-| **0.6.5** Navigation components `[S]` 🟠   |                                      | **0.6.1** RN Reusables deps ✅  |
-| **0.6.6** Setup environment `[S]` 🟠       |                                      | **0.5.4** expo-image cache      |
-| **0.6.7** Create TypeScript types `[M]` 🟠 |                                      | **0.5.3** FlashList config      |
-| **0.6.8** ExerciseDB import `[L]` 🟠       |                                      | **0.5.28** Install & Launch     |
+| TODO (Top 5)                               | DOING | DONE (Last 5)                |
+| ------------------------------------------ | ----- | ---------------------------- |
+| **0.6.8** ExerciseDB import `[L]` 🔥       |       | **0.6.4** Core components ✅ |
+| **0.6.7** Create TypeScript types `[M]` 🟠 |       | **0.6.3** Dark theme ✅      |
+| **0.6.6** Setup environment `[S]` 🟠       |       | **0.6.9** Design system ✅   |
+| **1.1** Validation tests `[S]` 🟠          |       | **0.6.2** @expo/vector-icons |
+| **1.2** Auth screens wireframes `[M]` 🟠   |       | **0.6.1** RN Reusables       |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 2/9 (22%) • Overall: 24/111 (22%)
-**Velocity**: ~4 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~2.5 weeks
-**NEXT**: 0.6.3 Dark Theme Config → Then 0.6.4-0.6.5 Components → Infrastructure 🟠
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 5/9 (56%) • Overall: 27/111 (24%)
+**Velocity**: ~5 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1 week
+**NEXT**: 0.6.8 ExerciseDB Import 🔥 → Then 0.6.6-0.6.7 Infrastructure → Phase 1 Auth
 
 ---
 
@@ -323,51 +323,49 @@ Phase 6: Polish & Launch (0/9 tasks)
 
 ---
 
-### 0.6.A: Component Library Setup (2/3)
+### 0.6.A: Component Library Setup (3/3) ✅ COMPLETE
 
 **Goal:** Install and configure React Native Reusables with design system
 
-- [x] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h)
+- [x] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h) ✅ 2025-01-30
   - Install `@react-native-reusables/cli` and core dependencies
   - Install `class-variance-authority`, `clsx`, `tailwind-merge`
   - Configure `components.json` with project aliases
   - Setup Metro bundler integration
   - Verify installation with test component
 
-- [x] 0.6.2 **Configure @expo/vector-icons** (S - 30min)
+- [x] 0.6.2 **Configure @expo/vector-icons** (S - 30min) ✅ 2025-01-30
   - Verify `@expo/vector-icons` included in Expo SDK (already installed)
   - Choose primary icon pack (MaterialIcons, Ionicons, or FontAwesome)
   - Create icon wrapper component with default sizing and color
   - Test icons from multiple packs in example screen
   - Document icon usage patterns and available packs
 
-- [ ] 0.6.3 **Configure Single Dark Theme** (M - 2h)
-  - Update `tailwind.config.js` with dark mode colors
-  - Define design tokens (primary: #00E5FF, surface: #1A1A1A, etc.)
-  - Configure typography scale (display, headers, body, numbers)
-  - Setup spacing system (touch targets 44x44px minimum)
-  - Create `global.css` with base styles
-  - Test theme consistency across components
+- [x] 0.6.3 **Validate Dark Theme Configuration** (M - 1h) ✅ 2025-01-30
+  - Confirmed tailwind.config.js with HEX dark mode colors
+  - Validated design tokens (primary: #4299e1, background: #0A0A0A, etc.)
+  - Typography scale and spacing system already configured
+  - Created DESIGN_SYSTEM.md with competitor analysis and wireframes
+  - Components tested and rendering correctly
 
 ---
 
-### 0.6.B: Core Components Installation (0/2)
+### 0.6.B: Core Components Installation (1/2)
 
 **Goal:** Install essential UI components via CLI
 
-- [ ] 0.6.4 **Install Phase 1 Components (Auth)** (M - 1.5h)
-  - Run CLI: `npx @react-native-reusables/cli add button input label card form`
-  - Install: `alert toast progress skeleton` (feedback components)
-  - Customize Button variants (primary, secondary, danger)
-  - Customize Input for form fields (email, password)
-  - Test components in example screen with dark theme
+- [x] 0.6.4 **Install Phase 1 Components (Auth)** (M - 1.5h) ✅ 2025-01-30
+  - Installed via CLI: button, input, label, card, alert, progress, skeleton, text
+  - Fixed React imports in all RN Reusables components
+  - Adapted Alert component to use @expo/vector-icons instead of lucide-react-native
+  - Tested all components in ComponentShowcase (validation complete)
+  - Components functional with HEX color system (no CSS variables needed)
+  - Ready for Phase 1 Auth screens
 
-- [ ] 0.6.5 **Install Navigation Components** (S - 1h)
-  - Run CLI: `npx @react-native-reusables/cli add sheet tabs`
-  - Configure Sheet (bottom sheet) for modals
-  - Integrate with expo-router tabs
-  - Test sheet animations and dismissal
-  - Document usage patterns for modals
+- [ ] 0.6.5 **Install Navigation Components** (S - 1h) `[DEFERRED]`
+  - **Status:** SKIPPED - Not required for Phase 1 (Auth screens)
+  - Sheet/Tabs components can be installed later when needed (Phase 2+)
+  - Auth screens use simple stack navigation (expo-router default)
 
 ---
 
@@ -395,34 +393,69 @@ Phase 6: Polish & Launch (0/9 tasks)
   - Export via src/types/index.ts (barrel export)
   - **Critical:** Required BEFORE Phase 1 features for autocomplete/type-safety
 
-- [ ] 0.6.8 **Bulk Import Complete ExerciseDB Library** (L - 5h) `[scripts/seed-exercisedb.ts]` `[CRITICAL TIME SAVER]`
-  - Sign up for ExerciseDB API (RapidAPI - free tier)
-  - Create script: scripts/seed-exercisedb.ts
-  - Fetch ALL 1,300+ exercises from ExerciseDB API v2
-  - Transform to Supabase schema (match exercises table)
-  - Bulk insert to exercises table (single transaction)
-  - Mark as is_custom = false
-  - Tag top 100 popular exercises (featured = true) for UI priority
-  - Sync to local WatermelonDB
-  - Write unit tests for transformation logic
-  - **Benefits:** Complete exercise library from start, no Phase 3 migration
-  - **Time saved:** 100-200 hours vs manual creation
-  - **API:** https://v2.exercisedb.io/docs
-  - **Note:** Replaces old tasks 5.2 + 11.1 (now complete library from Phase 0.6)
+- [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 3-4h) `[scripts/seed-exercisedb.ts]` 🔥 **NEXT PRIORITY**
 
-- [ ] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) `[docs/DESIGN_SYSTEM.md]`
-  - Analyze competitor UX (Jefit, Strong, Hevy) for:
-    - Rest timer patterns (modal vs inline, auto-start, skip)
-    - Set logging UI (quick-add vs detailed, RIR picker)
-    - Workout cards (compact vs detailed, swipe actions)
-    - Exercise selection (search-first vs browse, filters)
-  - Create wireframes/sketches for 4 core components:
-    - RestTimer, SetLogger, WorkoutCard, ExerciseSelector
-  - Define interaction patterns (tap, swipe, long-press)
-  - Define animation triggers and sequences (Reanimated)
-  - Document design decisions in docs/DESIGN_SYSTEM.md
-  - Get user approval before Phase 2 implementation
-  - **Critical:** Required BEFORE Phase 2.0 (component implementation)
+  **Goal:** Import complete exercise library from ExerciseDB API to avoid 100-200h of manual data entry
+
+  **Step 1: RapidAPI Account Setup** (10min)
+  - Go to https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
+  - Click "Sign Up" (top-right) → Use Google/GitHub/Email
+  - Select "Basic" plan (FREE - 10,000 requests/month, 5 requests/second)
+  - Navigate to "Endpoints" tab
+  - Click "Test Endpoint" on any endpoint to subscribe to API
+  - Copy your API key from "X-RapidAPI-Key" header (top-right of code snippet)
+
+  **Step 2: Configure Environment Variables** (5min)
+  - Add to `.env` file:
+    ```
+    EXERCISEDB_API_KEY=your_rapidapi_key_here
+    EXERCISEDB_API_HOST=exercisedb.p.rapidapi.com
+    ```
+  - Add to `.env.example` (template):
+    ```
+    EXERCISEDB_API_KEY=your_rapidapi_key_here
+    EXERCISEDB_API_HOST=exercisedb.p.rapidapi.com
+    ```
+
+  **Step 3: Create Import Script** (2-3h)
+  - Create `scripts/seed-exercisedb.ts` with:
+    1. Fetch ALL exercises: `GET /exercises` (returns 1,300+ exercises)
+    2. Transform ExerciseDB format → Supabase schema:
+       - `bodyPart` → `muscle_group`
+       - `equipment` → `equipment`
+       - `name` → `name` (capitalize)
+       - `gifUrl` → `image_url`
+       - Infer `difficulty` from equipment (barbell=intermediate, machine=beginner, etc.)
+       - Set `is_custom = false`, `featured = false`
+    3. Tag top 100 popular exercises as `featured = true` (Bench Press, Squat, Deadlift, etc.)
+    4. Bulk insert to Supabase `exercises` table (single transaction)
+    5. Sync to WatermelonDB via `synchronize()`
+
+  **Step 4: Test & Validate** (30min)
+  - Run script: `npm run seed:exercisedb`
+  - Verify Supabase: ~1,300 rows in `exercises` table
+  - Verify WatermelonDB: Exercises synced locally
+  - Test image URLs work (ExerciseDB provides GIF animations)
+
+  **Benefits:**
+  - ✅ Complete exercise library from day 1 (no Phase 3 migration needed)
+  - ✅ Saves 100-200 hours of manual exercise creation
+  - ✅ Professional GIF animations included
+  - ✅ Covers all muscle groups and equipment types
+
+  **API Docs:** https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
+
+- [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
+  - Analyzed competitor UX (Strong, Hevy, fitness app patterns)
+  - Created low-fidelity wireframes for 4 core components:
+    - RestTimer (inline + notification pattern)
+    - SetLogger (quick-add with progressive disclosure)
+    - WorkoutCard (compact with swipe actions)
+    - ExerciseSelector (search-first with filters)
+  - Defined interaction patterns (tap, swipe, long-press, haptic feedback)
+  - Documented animation strategy (Reanimated v4, 200-300ms, interruptible)
+  - Created `docs/DESIGN_SYSTEM.md` with complete design decisions
+  - Confirmed color palette (#4299e1 primary blue - trust/focus over #00E5FF cyan)
 
 ---
 
