@@ -7,7 +7,7 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
-6. [Phase 0.6: UI/UX Foundation (5/8)](#phase-06-uiux-foundation-58)
+6. [Phase 0.6: UI/UX Foundation (6/8)](#phase-06-uiux-foundation-68)
 7. [Phase 1: Authentication & Foundation (1/27)](#phase-1-authentication--foundation-127)
 8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-021)
 9. [Phase 3: Exercise Library & Testing (0/10)](#phase-3-exercise-library--testing-010)
@@ -18,7 +18,7 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 27/119 tasks (23%)
+**Progress**: 28/119 tasks (24%)
 **Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
 **Last Updated**: 2025-02-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
 
@@ -27,32 +27,32 @@
 ## Executive Summary
 
 **Current Focus**: Phase 0.6.C - Foundation Infrastructure (ExerciseDB Import)
-**Phase Progress**: 21/26 (Phase 0.5) + 5/8 (Phase 0.6) • **Overall**: 27/119 tasks (23%)
+**Phase Progress**: 21/26 (Phase 0.5) + 6/8 (Phase 0.6) • **Overall**: 28/119 tasks (24%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week (excellent!)
 
 ### Recent Completions ✅
 
-1. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton - all validated)
-2. **0.6.3** - Validate dark theme (HEX colors confirmed, DESIGN_SYSTEM.md created)
-3. **0.6.9** - Design system (Competitor analysis, principles, 245-line doc, audit complete)
-4. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with 3 packs)
-5. **0.6.1** - Install React Native Reusables (CVA, clsx, tailwind-merge)
+1. **0.6.6** - Setup environment variables (Supabase, Sentry, ExerciseDB API configured)
+2. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton)
+3. **0.6.3** - Validate dark theme (HEX colors confirmed)
+4. **0.6.9** - Design system (Competitor analysis, 245-line doc, Agile approach)
+5. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with 3 packs)
 
 ---
 
 ## Kanban
 
-| TODO (Top 5)                         | DOING                                   | DONE (Last 5)                |
-| ------------------------------------ | --------------------------------------- | ---------------------------- |
-| **0.6.8** ExerciseDB import `[L]` 🔥 | **0.6.6** Environment vars `[S]` 🟠 70% | **0.6.4** Core components ✅ |
-| **1.1** Validation tests `[S]` 🟠    |                                         | **0.6.3** Dark theme ✅      |
-| **1.5** Login screen UI `[M]` 🟠     |                                         | **0.6.9** Design system ✅   |
-| **1.6** Register screen UI `[M]` 🟠  |                                         | **0.6.2** @expo/vector-icons |
-| **1.7** Supabase auth `[M]` 🟠       |                                         | **0.6.1** RN Reusables       |
+| TODO (Top 5)                         | DOING | DONE (Last 5)                   |
+| ------------------------------------ | ----- | ------------------------------- |
+| **0.6.8** ExerciseDB import `[L]` 🔥 |       | **0.6.6** Environment vars ✅   |
+| **1.1** Validation tests `[S]` 🟠    |       | **0.6.4** Core components ✅    |
+| **1.5** Login screen UI `[M]` 🟠     |       | **0.6.3** Dark theme ✅         |
+| **1.6** Register screen UI `[M]` 🟠  |       | **0.6.9** Design system ✅      |
+| **1.7** Supabase auth `[M]` 🟠       |       | **0.6.2** @expo/vector-icons ✅ |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 5/8 (63%) • Overall: 27/119 (23%)
-**Velocity**: ~5 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1 week
-**NEXT**: 0.6.6 Environment (10min) 🟠 → 0.6.8 ExerciseDB Import 🔥 → Phase 1 Auth
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 6/8 (75%) • Overall: 28/119 (24%)
+**Velocity**: ~6 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in 1-2 days
+**NEXT**: 0.6.8 ExerciseDB Import 🔥 (3-4h) → Phase 1 Auth screens
 
 ---
 
@@ -72,7 +72,7 @@ Phase 0.5: Architecture & Foundation (21/26 tasks)
    ├─ Development Build Migration ✅
    └─ COMPLETE: Infrastructure (0.5.3-4) ✅
         ↓
-Phase 0.6: UI/UX Foundation (5/8 tasks) 63% ✅
+Phase 0.6: UI/UX Foundation (6/8 tasks) 75% ✅
    ├─ React Native Reusables (shadcn/ui base) ✅
    ├─ React Native Vector Icons integration ✅
    ├─ Single dark mode design system ✅
@@ -304,12 +304,12 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-## Phase 0.6: UI/UX Foundation (5/8)
+## Phase 0.6: UI/UX Foundation (6/8)
 
 **Timeline:** Week 8 | **Priority:** HIGH
 **Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 5/8 tasks (63%) | **Est. Time Remaining:** ~6-7h (1 week at 4 tasks/week)
+**Progress:** 6/8 tasks (75%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -364,19 +364,20 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-### 0.6.C: Foundation Infrastructure (1/3)
+### 0.6.C: Foundation Infrastructure (2/3) ✅ READY FOR 0.6.8
 
 **Goal:** Setup complete development infrastructure before Phase 1
 
-- [ ] 0.6.6 **Setup Environment Variables** (S - 10min) `[.env + .env.example]` 🟠 **~70% DONE**
+- [x] 0.6.6 **Setup Environment Variables** (S - 10min) `[.env + .env.example]` ✅ 2025-02-01
   - ✅ Copy .env.example to .env (done)
   - ✅ Add Supabase environment variables (done)
   - ✅ Add Sentry DSN (done)
   - ✅ Document setup in CONTRIBUTING.md (done)
   - ✅ Verify .env in .gitignore (done)
-  - ❌ Add EXERCISEDB_API_KEY to .env
-  - ❌ Add EXERCISEDB_API_KEY to .env.example
-  - **Critical:** Required BEFORE task 0.6.8 (ExerciseDB import)
+  - ✅ Add EXERCISEDB_API_KEY to .env (3d01c2ef9fmsh94e6c584e843697p1013c5jsn5b78d34c0e9c)
+  - ✅ Add EXERCISEDB_API_HOST to .env (exercisedb.p.rapidapi.com)
+  - ✅ Add EXERCISEDB_API_KEY template to .env.example
+  - **Complete:** All environment variables configured for Phase 1 & ExerciseDB import
 
 - [ ] 0.6.7 **Create Core TypeScript Types** (M - 2h) `[src/types/]` `[DEFERRED]`
   - **Status:** DEFERRED - Create types just-in-time during Phase 1-4
