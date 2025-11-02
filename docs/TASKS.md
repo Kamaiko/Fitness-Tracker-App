@@ -42,13 +42,13 @@
 
 ## Kanban
 
-| TODO (Top 5)                            | DOING | DONE (Last 5)                |
-| --------------------------------------- | ----- | ---------------------------- |
-| **0.6.6** Environment vars `[S]` 🟠 70% |       | **0.6.4** Core components ✅ |
-| **0.6.8** ExerciseDB import `[L]` 🔥    |       | **0.6.3** Dark theme ✅      |
-| **1.1** Validation tests `[S]` 🟠       |       | **0.6.9** Design system ✅   |
-| **1.5** Login screen UI `[M]` 🟠        |       | **0.6.2** @expo/vector-icons |
-| **1.6** Register screen UI `[M]` 🟠     |       | **0.6.1** RN Reusables       |
+| TODO (Top 5)                         | DOING                                   | DONE (Last 5)                |
+| ------------------------------------ | --------------------------------------- | ---------------------------- |
+| **0.6.8** ExerciseDB import `[L]` 🔥 | **0.6.6** Environment vars `[S]` 🟠 70% | **0.6.4** Core components ✅ |
+| **1.1** Validation tests `[S]` 🟠    |                                         | **0.6.3** Dark theme ✅      |
+| **1.5** Login screen UI `[M]` 🟠     |                                         | **0.6.9** Design system ✅   |
+| **1.6** Register screen UI `[M]` 🟠  |                                         | **0.6.2** @expo/vector-icons |
+| **1.7** Supabase auth `[M]` 🟠       |                                         | **0.6.1** RN Reusables       |
 
 **Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 5/8 (63%) • Overall: 27/119 (23%)
 **Velocity**: ~5 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in ~1 week
