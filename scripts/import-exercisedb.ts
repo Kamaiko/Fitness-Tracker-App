@@ -66,22 +66,29 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 /**
  * ExerciseDB API response schema (runtime validation)
  * Detects breaking changes in ExerciseDB API
+ *
+ * NOTE: Field names match ExerciseDB API v2 actual structure (tested 2025-02)
+ * - API returns STRINGS (not arrays): bodyPart, target, equipment
+ * - API field "id" maps to Halterofit "exercisedb_id"
+ * - API field "gifUrl" maps to Halterofit "image_url"
+ * - Arrays converted in transformExercise()
  */
 const ExerciseDBSchema = z.object({
-  exerciseId: z.string().min(1, 'exerciseId required'),
+  id: z.string().min(1, 'id required'), // ExerciseDB unique ID
   name: z.string().min(1, 'name required'),
-  bodyParts: z.array(z.string()).default([]),
-  targetMuscles: z.array(z.string()).default([]),
-  secondaryMuscles: z.array(z.string()).default([]),
-  equipments: z.array(z.string()).default([]),
-  exerciseType: z.string().min(1, 'exerciseType required'),
-  instructions: z.array(z.string()).default([]),
-  exerciseTips: z.array(z.string()).default([]),
-  variations: z.array(z.string()).default([]),
+  bodyPart: z.string().default(''), // Anatomical region (single string, e.g., "chest")
+  target: z.string().default(''), // Primary muscle (single string, e.g., "pectorals")
+  secondaryMuscles: z.array(z.string()).default([]), // Supporting muscles (array)
+  equipment: z.string().default(''), // Required equipment (single string, e.g., "barbell")
+  instructions: z.array(z.string()).default([]), // Step-by-step guide
+  gifUrl: z.string().url().optional().default(''), // Exercise image URL
+  // Optional fields (may not be present in all API responses)
+  exerciseType: z.string().optional().default('weight_reps'),
+  exerciseTips: z.array(z.string()).optional().default([]),
+  variations: z.array(z.string()).optional().default([]),
   overview: z.string().optional().default(''),
-  imageUrl: z.string().url().optional().default(''),
   videoUrl: z.string().url().optional().default(''),
-  keywords: z.array(z.string()).default([]),
+  keywords: z.array(z.string()).optional().default([]),
 });
 
 type ExerciseDBExercise = z.infer<typeof ExerciseDBSchema>;
@@ -221,23 +228,33 @@ async function fetchExercisesFromAPI(): Promise<ExerciseDBExercise[]> {
 
 /**
  * Transform ExerciseDB format → Halterofit schema (1:1 mapping per ADR-019)
+ *
+ * Field Mapping:
+ * - id → exercisedb_id
+ * - bodyPart (string) → body_parts (array)
+ * - target (string) → target_muscles (array)
+ * - equipment (string) → equipments (array)
+ * - gifUrl → image_url
+ *
+ * NOTE: API returns single strings for bodyPart/target/equipment, but DB stores arrays
  */
 function transformExercise(exercise: ExerciseDBExercise): HalterofitExercise {
   return {
-    exercisedb_id: exercise.exerciseId,
+    exercisedb_id: exercise.id, // API: "id" → DB: "exercisedb_id"
     name: exercise.name,
-    body_parts: exercise.bodyParts,
-    target_muscles: exercise.targetMuscles,
-    secondary_muscles: exercise.secondaryMuscles,
-    equipments: exercise.equipments,
-    exercise_type: exercise.exerciseType,
+    // Convert single strings to arrays for consistency with DB schema
+    body_parts: exercise.bodyPart ? [exercise.bodyPart] : [], // API: "chest" → DB: ["chest"]
+    target_muscles: exercise.target ? [exercise.target] : [], // API: "pectorals" → DB: ["pectorals"]
+    secondary_muscles: exercise.secondaryMuscles, // Already array
+    equipments: exercise.equipment ? [exercise.equipment] : [], // API: "barbell" → DB: ["barbell"]
+    exercise_type: exercise.exerciseType, // Default: "weight_reps" if not provided
     instructions: exercise.instructions,
-    exercise_tips: exercise.exerciseTips,
-    variations: exercise.variations,
-    overview: exercise.overview,
-    image_url: exercise.imageUrl,
-    video_url: exercise.videoUrl,
-    keywords: exercise.keywords,
+    exercise_tips: exercise.exerciseTips, // Optional, defaults to []
+    variations: exercise.variations, // Optional, defaults to []
+    overview: exercise.overview, // Optional, defaults to ''
+    image_url: exercise.gifUrl, // API: "gifUrl" → DB: "image_url"
+    video_url: exercise.videoUrl, // Optional, defaults to ''
+    keywords: exercise.keywords, // Optional, defaults to []
   };
 }
 
