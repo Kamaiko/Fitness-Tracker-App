@@ -45,7 +45,6 @@ function workoutToPlain(workout: WorkoutModel): Workout {
     duration_seconds: workout.durationSeconds ?? undefined,
     title: workout.title ?? undefined,
     notes: workout.notes ?? undefined,
-    nutrition_phase: workout.nutritionPhase as 'bulk' | 'cut' | 'maintenance',
     // synced removed - using WatermelonDB sync protocol
     created_at: workout.createdAt.getTime(),
     updated_at: workout.updatedAt.getTime(),
@@ -89,7 +88,6 @@ export async function createWorkout(data: CreateWorkout): Promise<Workout> {
         if (data.duration_seconds) workout.durationSeconds = data.duration_seconds;
         if (data.title) workout.title = data.title;
         if (data.notes) workout.notes = data.notes;
-        workout.nutritionPhase = data.nutrition_phase;
         // Sync tracking handled by WatermelonDB
       });
     });
@@ -607,7 +605,6 @@ export async function updateWorkout(id: string, updates: UpdateWorkout): Promise
         if (updates.duration_seconds !== undefined) w.durationSeconds = updates.duration_seconds;
         if (updates.title !== undefined) w.title = updates.title;
         if (updates.notes !== undefined) w.notes = updates.notes;
-        if (updates.nutrition_phase) w.nutritionPhase = updates.nutrition_phase;
         // Sync tracking handled by WatermelonDB
       });
       return workout;

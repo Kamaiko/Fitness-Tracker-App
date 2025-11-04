@@ -18,26 +18,26 @@
 ---
 
 **Project**: Halterofit v0.1.0
-**Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 27/65 tasks (42%) • MVP Scope: Active tasks only (excludes deferred/optional)
-**Timeline**: 12-13 weeks • Started 2025-01-20 • Target 2025-04-20
-**Last Updated**: 2025-02-04 • **Next Milestone**: Complete ExerciseDB Import (Phase 0.6)
+**Status**: 🟡 In Progress (Phase 1)
+**Progress**: 28/65 tasks (43%) • MVP Scope: Active tasks only (excludes deferred/optional)
+**Timeline**: 11-12 weeks • Started 2025-01-20 • Target 2025-04-15
+**Last Updated**: 2025-02-04 • **Next Milestone**: Phase 1 Auth Screens (Login/Register/Supabase)
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6.C - ExerciseDB Import (1,300+ exercises)
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 6/7 (Phase 0.6 - 86%) • **Overall**: 27/65 tasks (42%)
+**Current Focus**: Phase 1 - Authentication & Foundation (Login/Register screens)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 7/7 (Phase 0.6 - 100%) ✅ • **Overall**: 28/65 tasks (43%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
 ### Recent Completions ✅
 
-1. **0.6.6** - Setup environment variables (Supabase, Sentry, ExerciseDB API configured)
-2. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton)
-3. **0.6.3** - Validate dark theme (HEX colors confirmed)
+1. **0.6.8** - ExerciseDB import (1,300+ exercises, import script, docs, schema cleanup)
+2. **0.6.6** - Setup environment variables (Supabase, Sentry, ExerciseDB API configured)
+3. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton)
 4. **0.6.9** - Design system (Competitor analysis, 245-line doc, Agile approach)
-5. **0.6.2** - Configure @expo/vector-icons (Icon wrapper with 3 packs)
+5. **0.6.3** - Validate dark theme (HEX colors confirmed)
 
 ---
 
@@ -45,17 +45,17 @@
 
 **Legend:** 🔥 High Priority | 🟠 Blocked/Pending | ✅ Done | `[S/M/L]` Size (Small/Medium/Large)
 
-| TODO (Top 5)                         | DOING | DONE (Last 5)                   |
-| ------------------------------------ | ----- | ------------------------------- |
-| **0.6.8** ExerciseDB import `[L]` 🔥 |       | **0.6.6** Environment vars ✅   |
-| **1.10** Login screen `[M]` 🟠       |       | **0.6.4** Core components ✅    |
-| **1.20** Register screen `[M]` 🟠    |       | **0.6.3** Dark theme ✅         |
-| **1.30** Supabase auth `[M]` 🟠      |       | **0.6.9** Design system ✅      |
-| **1.40** Password reset `[M]`        |       | **0.6.2** @expo/vector-icons ✅ |
+| TODO (Top 5)                     | DOING | DONE (Last 5)                  |
+| -------------------------------- | ----- | ------------------------------ |
+| **1.10** Login screen `[M]` 🟠   |       | **0.6.8** ExerciseDB import ✅ |
+| **1.20** Register screen `[M]`🟠 |       | **0.6.6** Environment vars ✅  |
+| **1.30** Supabase auth `[M]` 🟠  |       | **0.6.4** Core components ✅   |
+| **1.40** Password reset `[M]`    |       | **0.6.9** Design system ✅     |
+| **1.50** Protected routes `[S]`  |       | **0.6.3** Dark theme ✅        |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 6/7 (86%) • Overall: 27/65 (42%)
-**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 12-13 weeks
-**NEXT**: 0.6.8 ExerciseDB Import 🔥 (3-4h) → Phase 1 Auth screens
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 7/7 (100%) ✅ • Overall: 28/65 (43%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 COMPLETE, Phase 1 starts now, MVP in 11-12 weeks
+**NEXT**: Phase 1 Auth screens (1.10 Login → 1.20 Register → 1.30 Supabase integration)
 
 ---
 
@@ -75,15 +75,16 @@ Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
    ├─ Development Build Migration ✅
    └─ Infrastructure Complete ✅
         ↓
-Phase 0.6: UI/UX Foundation (6/7 tasks) 86% 🔄
+Phase 0.6: UI/UX Foundation (7/7 tasks) 100% ✅
    ├─ React Native Reusables ✅
    ├─ Vector Icons ✅
    ├─ Dark theme ✅
    ├─ Core components ✅
    ├─ Design system ✅
-   └─ ExerciseDB Import (NEXT) 🔥
+   ├─ ExerciseDB Import ✅
+   └─ Infrastructure Complete ✅
         ↓
-Phase 1: Authentication & Foundation (0/6 tasks)
+Phase 1: Authentication & Foundation (0/6 tasks) 🔄
    ├─ Login/Register screens
    ├─ Supabase Auth integration
    ├─ Password reset flow
@@ -123,16 +124,16 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time | Status       | Dependencies                |
-| --------- | ------ | --------- | ------------ | --------------------------- |
-| **0.5**   | 21     | 50-60h    | 100% DONE ✅ | None (started)              |
-| **0.6**   | 7      | 14-17h    | 86% DONE     | ← Phase 0.5 complete        |
-| **1**     | 6      | ~15h      | BLOCKED      | ← Phase 0.6 UI foundation   |
-| **2**     | 12     | ~31h      | BLOCKED      | ← Phase 1 auth              |
-| **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans             |
-| **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)     |
-| **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete       |
-| **TOTAL** | **65** | **~110h** | **42% done** | **12-13 weeks at 10h/week** |
+| Phase     | Tasks  | Est. Time | Status       | Dependencies                 |
+| --------- | ------ | --------- | ------------ | ---------------------------- |
+| **0.5**   | 21     | 50-60h    | 100% DONE ✅ | None (started)               |
+| **0.6**   | 7      | 14-17h    | 100% DONE ✅ | ← Phase 0.5 complete         |
+| **1**     | 6      | ~15h      | READY 🔄     | ← Phase 0.6 UI foundation ✅ |
+| **2**     | 12     | ~31h      | BLOCKED      | ← Phase 1 auth               |
+| **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans              |
+| **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)      |
+| **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete        |
+| **TOTAL** | **65** | **~110h** | **42% done** | **12-13 weeks at 10h/week**  |
 
 **⚠️ Critical Path:** Phase 0.6 (ExerciseDB) → Phase 1 (Auth) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
@@ -407,9 +408,9 @@ Phase 5: Polish & Deployment (0/5 tasks)
     - Phase 4: Create analytics.ts (report types)
   - Non-database types only (API responses, auth, form validation, UI state)
 
-- [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 2.5-3h) `[scripts/seed-exercisedb.ts]` 🔥 **NEXT PRIORITY**
+- [x] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 4h) ✅ 2025-02-04
 
-  **Goal:** Import complete exercise library from ExerciseDB API to avoid 100-200h of manual data entry
+  **Strategy:** Database Seeding at Build Time (Option A) - Import once, users sync from Supabase
 
   **✅ Step 1: RapidAPI Account Setup** - COMPLETE
   - RapidAPI account created
@@ -419,37 +420,38 @@ Phase 5: Polish & Deployment (0/5 tasks)
   **✅ Step 2: Configure Environment Variables** - COMPLETE
   - `.env` configured with EXERCISEDB_API_KEY
   - `.env` configured with EXERCISEDB_API_HOST (exercisedb.p.rapidapi.com)
-  - `.env.example` already includes ExerciseDB template
+  - `.env.example` updated with SUPABASE_SERVICE_ROLE_KEY template
 
-  **Step 3: Create Import Script** (2-3h) 🔥 **CURRENT TASK**
-  - Create `scripts/seed-exercisedb.ts` with:
-    1. Fetch ALL exercises: `GET /exercises` (returns 1,300+ exercises)
-    2. **Pure 1:1 mapping** (ADR-019 - Zero custom fields, zero transformations):
-       - Direct passthrough: ExerciseDB API response → Supabase `exercises` table
-       - 14 ExerciseDB fields (match schema.ts exactly):
-         - `exercisedb_id`, `name`, `body_parts` (JSON array)
-         - `target_muscles` (JSON array), `secondary_muscles` (JSON array)
-         - `equipments` (JSON array), `exercise_type`, `instructions` (JSON array)
-         - `exercise_tips` (JSON array), `variations` (JSON array)
-         - `overview`, `image_url`, `video_url`, `keywords` (JSON array)
-       - ⚠️ **IMPORTANT**: Use plural field names (`body_parts`, `equipments` with 's')
-       - ⚠️ **NO CUSTOM FIELDS**: NO is_custom, NO featured, NO difficulty, NO movement_pattern (per ADR-019, ADR-017)
-    3. Bulk insert to Supabase `exercises` table (single transaction, ~1,300 rows)
-    4. Sync to WatermelonDB via `synchronize()` (exercises available offline)
+  **✅ Step 3: Create Import Script** - COMPLETE
+  - Created `scripts/import-exercisedb.ts` with:
+    - Fetch ALL exercises from ExerciseDB API (1,300+ exercises)
+    - **Pure 1:1 mapping** (ADR-019 - Zero custom fields, zero transformations)
+    - 14 ExerciseDB fields: exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, exercise_type, instructions, exercise_tips, variations, overview, image_url, video_url, keywords
+    - Upsert to Supabase (handles re-runs for quarterly updates)
+    - Verification step (count exercises in Supabase)
+  - Created `scripts/README.md` with usage docs
+  - Created `scripts/tsconfig.json` for TypeScript support
+  - Added `npm run import-exercisedb` script to package.json
+  - Installed dependencies: ts-node, dotenv
 
-  **Step 4: Test & Validate** (30min)
-  - Run script: `npm run seed:exercisedb`
-  - Verify Supabase: ~1,300 rows in `exercises` table
-  - Verify WatermelonDB: Exercises synced locally
-  - Test image URLs work (ExerciseDB provides GIF animations)
+  **✅ Step 4: Documentation & Cleanup** - COMPLETE
+  - Added "ExerciseDB Import Strategy" section to DATABASE.md
+  - Cleaned up DATABASE.md (removed custom exercises mentions per ADR-017)
+  - Cleaned up schema.ts (removed nutrition_phase per SCOPE-SIMPLIFICATION.md)
+  - Updated TASKS.md Post-MVP Backlog:
+    - Expanded "Custom Exercise Creation" with migration path details
+    - Added "Auto-Sync ExerciseDB Updates" (Supabase Edge Function for automation)
 
-  **Benefits:**
-  - ✅ Complete exercise library from day 1 (no Phase 3 migration needed)
-  - ✅ Saves 100-200 hours of manual exercise creation
-  - ✅ Professional GIF animations included
-  - ✅ Covers all muscle groups and equipment types
+  **Next Steps:**
+  - Run `npm run import-exercisedb` when Supabase migrations are applied
+  - Re-run quarterly (every 3 months) for new exercises
+  - See [scripts/README.md](../scripts/README.md) for instructions
 
-  **API Docs:** https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
+  **References:**
+  - Import Script: [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts)
+  - Documentation: [scripts/README.md](../scripts/README.md)
+  - Strategy: [DATABASE.md § ExerciseDB Import Strategy](DATABASE.md#exercisedb-import-strategy)
+  - API Docs: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
 
 - [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
   - Analyzed competitor UX (Strong, Hevy, fitness app patterns)
@@ -893,6 +895,13 @@ Phase 5: Polish & Deployment (0/5 tasks)
 **Priority:** LOW (validate with users first)
 
 - **Custom exercise creation** (user-defined exercises with image upload)
+  - Migration path documented in [ADR-017](archives/ADR-017-No-Custom-Exercises-MVP.md)
+  - Add `is_custom` and `created_by` fields to exercises table
+  - RLS policies for user ownership
+  - Sync protocol update for cross-device custom exercises
+  - UI: "Create Custom Exercise" button in Exercise Library
+  - Form: name, muscle groups, instructions, equipment, image upload (Supabase Storage)
+  - **Estimated effort:** ~8-12h (Phase 3+)
 - **RPE/RIR tracking** (Rating of Perceived Exertion / Reps In Reserve)
 - **Auto-weight suggestions** (rule-based, context-aware recommendations)
 - **Load management** (acute/chronic load ratios, overtraining alerts)
@@ -908,6 +917,24 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 **Priority:** AS NEEDED
 
+- **Auto-Sync ExerciseDB Updates** (Supabase Edge Function)
+  - Automated weekly check for new ExerciseDB exercises
+  - Supabase Edge Function calls ExerciseDB API
+  - Upserts new exercises into PostgreSQL
+  - Users receive updates via WatermelonDB sync (automatic)
+  - Eliminates manual quarterly re-imports (current: `npm run import-exercisedb`)
+  - Rate limit management (free tier: 10,000 req/month)
+  - **Estimated effort:** ~6-8h (serverless architecture)
+  - **Dependencies:** MVP complete, validated user adoption
+- **Supabase MCP Server Installation** (Developer Experience Enhancement)
+  - Install Supabase MCP server for Claude Code integration
+  - Enables Claude to query Supabase database directly during development
+  - Faster debugging and development workflows (no manual SQL Editor navigation)
+  - Query optimization suggestions and schema validation
+  - **Estimated effort:** ~30-45 min (one-time setup)
+  - **Dependencies:** ExerciseDB import complete (already done)
+  - **Documentation:** [Supabase MCP GitHub](https://github.com/supabase-community/supabase-mcp-server)
+  - **Optional:** Not critical for MVP, but improves developer velocity
 - **Multi-language support (i18n)** - Defer until international expansion
 - **Social features** (share workouts, follow friends) - Defer until user base >1,000
 - **Coach-client relationship** (team accounts) - Defer until B2B validation

@@ -290,6 +290,89 @@ npm start
 # await database.adapter.getLocal('schema_version');
 ```
 
+### Database Schema Changes
+
+**When modifying the database schema, follow this 6-step checklist:**
+
+This process ensures Supabase (PostgreSQL) and WatermelonDB (SQLite) schemas stay in sync.
+
+**Checklist:**
+
+1. **Create Supabase migration**
+
+   ```bash
+   supabase migration new add_my_field
+   ```
+
+2. **Edit migration SQL file**
+   - File: `supabase/migrations/<timestamp>_add_my_field.sql`
+   - Add column, index, constraint, etc.
+
+3. **Apply migration to Supabase**
+   - Via SQL Editor: Copy-paste SQL
+   - Or via CLI: `supabase db push`
+
+4. **Update WatermelonDB schema**
+   - File: `src/services/database/watermelon/schema.ts`
+   - Add column to appropriate table
+   - Match data types: TEXT → 'string', BIGINT → 'number', JSONB → 'string'
+
+5. **Increment schema version**
+
+   ```typescript
+   // schema.ts
+   export const schema = appSchema({
+     version: 2, // Increment from 1 to 2
+     // ...
+   });
+   ```
+
+   - ⚠️ **Pre-commit hook will block commit if you forget this step!**
+
+6. **Create WatermelonDB migration** (if users have existing data)
+   - File: `src/services/database/watermelon/migrations.ts`
+   - Use `addColumns()` to add new fields
+   - See [WatermelonDB Migrations](https://nozbe.github.io/WatermelonDB/Advanced/Migrations.html)
+
+**Example:**
+
+```typescript
+// 1. Supabase migration (SQL)
+ALTER TABLE public.exercises ADD COLUMN difficulty TEXT;
+
+// 2. WatermelonDB schema (TypeScript)
+tableSchema({
+  name: 'exercises',
+  columns: [
+    // ... existing columns
+    { name: 'difficulty', type: 'string', isOptional: true },
+  ],
+}),
+
+// 3. Increment version
+version: 2,
+
+// 4. WatermelonDB migration (if needed)
+schemaMigrations({
+  migrations: [
+    {
+      toVersion: 2,
+      steps: [
+        addColumns({
+          table: 'exercises',
+          columns: [{ name: 'difficulty', type: 'string', isOptional: true }],
+        }),
+      ],
+    },
+  ],
+})
+```
+
+**Resources:**
+
+- [DATABASE.md](DATABASE.md) - Complete schema documentation
+- [WatermelonDB Migrations Guide](https://nozbe.github.io/WatermelonDB/Advanced/Migrations.html)
+
 ---
 
 ## CI/CD Architecture

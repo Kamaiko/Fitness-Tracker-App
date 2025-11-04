@@ -13,7 +13,6 @@ export interface User {
   id: string;
   email: string;
   preferred_unit: 'kg' | 'lbs';
-  nutrition_phase: 'bulk' | 'cut' | 'maintenance';
   created_at: number;
   updated_at: number;
 }
@@ -49,7 +48,6 @@ export interface Workout {
   duration_seconds?: number;
   title?: string;
   notes?: string;
-  nutrition_phase: 'bulk' | 'cut' | 'maintenance';
   // synced removed - internal WatermelonDB sync tracking
   created_at: number;
   updated_at: number;
@@ -110,9 +108,7 @@ export interface WorkoutExerciseWithDetails extends WorkoutExercise {
 /**
  * Create types (without auto-generated fields)
  */
-export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at'> & {
-  nutrition_phase: 'bulk' | 'cut' | 'maintenance';
-};
+export type CreateWorkout = Omit<Workout, 'id' | 'created_at' | 'updated_at'>;
 export type CreateWorkoutExercise = Omit<WorkoutExercise, 'id' | 'created_at' | 'updated_at'>;
 export type CreateExerciseSet = Omit<ExerciseSet, 'id' | 'created_at' | 'updated_at'>;
 

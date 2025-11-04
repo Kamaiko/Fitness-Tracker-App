@@ -10,7 +10,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-  version: 1,
+  version: 4, // Reflects 4 schema-changing migrations (initial + 3 updates)
   tables: [
     // Users table
     tableSchema({
@@ -18,10 +18,9 @@ export const schema = appSchema({
       columns: [
         { name: 'email', type: 'string' },
         { name: 'preferred_unit', type: 'string' }, // 'kg' or 'lbs'
-        { name: 'nutrition_phase', type: 'string' }, // 'bulk', 'cut', 'maintenance'
+        // NOTE: nutrition_phase removed per SCOPE-SIMPLIFICATION.md (not in MVP scope)
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
-        // NOTE: _changed and _status are managed automatically by WatermelonDB sync
       ],
     }),
 
@@ -49,7 +48,6 @@ export const schema = appSchema({
 
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
-        // NOTE: _changed and _status are managed automatically by WatermelonDB sync
       ],
     }),
 
@@ -63,10 +61,8 @@ export const schema = appSchema({
         { name: 'duration_seconds', type: 'number', isOptional: true },
         { name: 'title', type: 'string', isOptional: true },
         { name: 'notes', type: 'string', isOptional: true },
-        { name: 'nutrition_phase', type: 'string' }, // 'bulk', 'cut', 'maintenance' - captured at workout time
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
-        // NOTE: _changed and _status are managed automatically by WatermelonDB sync
       ],
     }),
 
@@ -83,7 +79,6 @@ export const schema = appSchema({
         { name: 'target_reps', type: 'number', isOptional: true },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
-        // NOTE: _changed and _status are managed automatically by WatermelonDB sync
       ],
     }),
 
@@ -107,7 +102,6 @@ export const schema = appSchema({
         { name: 'is_failure', type: 'boolean' },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
-        // NOTE: _changed and _status are managed automatically by WatermelonDB sync
       ],
     }),
   ],

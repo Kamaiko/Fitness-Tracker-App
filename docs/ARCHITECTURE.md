@@ -7,13 +7,15 @@
 - [📐 Overview](#overview)
 - [📂 Detailed Structure](#detailed-structure)
   - [1. `/app` - Navigation (Expo Router)](#1-app---navigation-expo-router)
-  - [2. `/components` - UI Components](#2-components---ui-components)
-  - [3. `/hooks` - Custom React Hooks](#3-hooks---custom-react-hooks)
-  - [4. `/services` - Business Logic](#4-services---business-logic)
-  - [5. `/stores` - Global State (Zustand)](#5-stores---global-state-zustand)
-  - [6. `/types` - TypeScript Definitions](#6-types---typescript-definitions)
-  - [7. `/utils` - Pure Utility Functions](#7-utils---pure-utility-functions)
-  - [8. `/constants` - App-wide Constants](#8-constants---app-wide-constants)
+  - [2. `/scripts` - Utility Scripts](#2-scripts---utility-scripts)
+  - [3. `/components` - UI Components](#3-components---ui-components)
+  - [4. `/hooks` - Custom React Hooks](#4-hooks---custom-react-hooks)
+  - [5. `/services` - Business Logic](#5-services---business-logic)
+  - [6. `/stores` - Global State (Zustand)](#6-stores---global-state-zustand)
+  - [7. `/types` - TypeScript Definitions](#7-types---typescript-definitions)
+  - [8. `/utils` - Pure Utility Functions](#8-utils---pure-utility-functions)
+  - [9. `/tests` - Test Infrastructure](#9-tests---test-infrastructure)
+  - [10. `/constants` - App-wide Constants](#10-constants---app-wide-constants)
 - [🔄 Data Flow](#data-flow)
 - [📦 Import Patterns](#import-patterns)
 - [🧪 Testing Strategy (Future)](#testing-strategy-future)
@@ -78,7 +80,62 @@ app/
 
 ---
 
-### 2. `/components` - UI Components
+### 2. `/scripts` - Utility Scripts
+
+**Purpose**: Node.js scripts for development and maintenance tasks
+
+```
+scripts/
+├── import-exercisedb.ts       # ExerciseDB API → Supabase import
+├── rollback-exercisedb.ts     # Delete all exercises (testing)
+├── tsconfig.json              # Node.js-specific TypeScript config
+└── README.md                  # Script documentation
+```
+
+**Why Separate `tsconfig.json`?**
+
+Scripts run in **Node.js** (not React Native), requiring different TypeScript configuration:
+
+| Configuration     | Root `tsconfig.json`      | `scripts/tsconfig.json`    |
+| ----------------- | ------------------------- | -------------------------- |
+| **Environment**   | React Native (mobile)     | Node.js (server-side)      |
+| **Module System** | ESNext (ES modules)       | CommonJS (require/exports) |
+| **Decorators**    | ✅ Enabled (WatermelonDB) | ❌ Not needed              |
+| **Compatibility** | Expo + Metro bundler      | ts-node (script execution) |
+
+**Usage:**
+
+```bash
+# Test import (dry-run - no data written)
+npm run import-exercisedb -- --dry-run
+
+# Run actual import
+npm run import-exercisedb
+
+# Rollback (delete all exercises)
+npm run rollback-exercisedb
+```
+
+**Conventions**:
+
+- Scripts use TypeScript (`.ts` extension)
+- Execute via `ts-node` with scripts-specific tsconfig
+- Environment variables from `.env` file
+- See: [scripts/README.md](../scripts/README.md) for complete documentation
+
+**Key Features:**
+
+- **Zod Runtime Validation**: Validates ExerciseDB API responses to prevent breaking changes
+- **Batch Processing**: Imports 100 exercises per batch for performance
+- **Timeout Protection**: 30s timeout with AbortController
+- **Dry-Run Mode**: Test import without modifying database
+- **Rollback Support**: Delete all imported exercises for testing
+
+**Industry Pattern**: Separate tsconfig for scripts is standard practice (Next.js, NestJS, Nx monorepos).
+
+---
+
+### 3. `/components` - UI Components
 
 **Purpose**: Reusable React components organized by feature and source
 
@@ -151,7 +208,7 @@ export function Button({ onPress, children, variant = 'primary' }: ButtonProps) 
 
 ---
 
-### 3. `/hooks` - Custom React Hooks
+### 4. `/hooks` - Custom React Hooks
 
 **Purpose**: Reusable stateful logic
 
@@ -208,7 +265,7 @@ export function useActiveWorkout() {
 
 ---
 
-### 4. `/services` - Business Logic Layer
+### 5. `/services` - Business Logic Layer
 
 **Purpose**: External services, API calls, database operations
 
@@ -261,7 +318,7 @@ export async function createWorkout(data: CreateWorkout): Promise<Workout> {
 
 ---
 
-### 5. `/stores` - Global State (Zustand)
+### 6. `/stores` - Global State (Zustand)
 
 **Purpose**: Application-wide state management
 
@@ -333,7 +390,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 ---
 
-### 6. `/types` - TypeScript Types
+### 7. `/types` - TypeScript Types
 
 **Purpose**: Shared type definitions (NOT colocated)
 
@@ -363,7 +420,7 @@ types/
 
 ---
 
-### 7. `/utils` - Pure Utility Functions
+### 8. `/utils` - Pure Utility Functions
 
 **Purpose**: Pure functions, no side effects
 
@@ -404,7 +461,68 @@ export function calculateOneRepMax(weight: number, reps: number): number {
 
 ---
 
-### 8. `/constants` - App Constants
+### 9. `/tests` - Test Infrastructure
+
+**Purpose**: Centralized test helpers, fixtures, and E2E documentation
+
+```
+tests/
+├── __helpers__/          # Reusable test utilities
+│   └── database/
+│       ├── test-database.ts    # LokiJS setup/teardown
+│       ├── factories.ts        # createTestWorkout, createTestExercise
+│       ├── queries.ts          # getAllRecords, countRecords
+│       ├── time.ts             # wait, dateInPast, dateInFuture
+│       └── assertions.ts       # assertDatesApproximatelyEqual
+│
+├── fixtures/             # Static test data (JSON)
+│   └── database/
+│       ├── workouts.json       # Sample workout data
+│       └── exercises.json      # Sample exercise data
+│
+├── e2e/                  # E2E test documentation
+│   └── manual/
+│       ├── offline-crud.md     # Offline CRUD scenarios
+│       └── sync-checklist.md   # Sync protocol validation
+│
+└── readme.md             # Infrastructure overview
+```
+
+**Conventions**:
+
+- **Test files**: `src/**/__tests__/*.test.ts` (Jest auto-discovery)
+- **Helpers import**: `@test-helpers/database/*` (NEVER relative imports)
+- **Export pattern**: Named exports only
+- **Pre-commit**: Tests MUST pass before commit
+- See: [docs/TESTING.md](TESTING.md) for complete testing guide
+
+**Test Helpers:**
+
+| Helper             | Purpose               | Example Usage                         |
+| ------------------ | --------------------- | ------------------------------------- |
+| `test-database.ts` | LokiJS setup/teardown | `createTestDatabase()`                |
+| `factories.ts`     | Create test data      | `createTestWorkout(database)`         |
+| `queries.ts`       | Query utilities       | `getAllRecords(database, 'workouts')` |
+| `time.ts`          | Time utilities        | `dateInPast(7, 'days')`               |
+| `assertions.ts`    | Custom assertions     | `assertDatesApproximatelyEqual()`     |
+
+**Mocks Location**: `__mocks__/` (root, NOT in tests/)
+
+| What                      | Where                | Why                 |
+| ------------------------- | -------------------- | ------------------- |
+| **External dependencies** | `__mocks__/` (root)  | Jest auto-discovery |
+| **Internal test utils**   | `tests/__helpers__/` | Custom test logic   |
+| **Static test data**      | `tests/fixtures/`    | JSON fixtures       |
+
+**Why root for mocks?** Jest convention - auto-discovers mocks adjacent to `node_modules`.
+
+**Current Coverage**: 37 unit tests (60-65% database layer)
+
+**See**: [docs/TESTING.md](TESTING.md) | [tests/readme.md](../tests/readme.md)
+
+---
+
+### 10. `/constants` - App Constants
 
 **Purpose**: Configuration values, colors, sizes
 

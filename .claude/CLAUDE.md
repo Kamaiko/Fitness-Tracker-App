@@ -77,21 +77,13 @@
 
 ## 🧪 Testing Strategy
 
-**Three-tier testing approach:**
+**Three-tier approach:** Unit tests (Jest + LokiJS) → Manual E2E (real SQLite) → Maestro automation (Phase 3+)
 
-| Test Type | Environment | What to Test | Tools | Status |
-|-----------|-------------|--------------|-------|--------|
-| **Unit** | Jest + LokiJS | CRUD, queries, relationships | Jest, @testing-library | ✅ Active (37 tests) |
-| **Integration** | Expo Dev Build | Sync protocol, migrations | Real SQLite + JSI | 🚧 Phase 1 (Manual) |
-| **E2E** | Real Device | Full user flows | Maestro (YAML) | 📅 Phase 3+ |
+**Current Status:** 36 unit tests, 60-65% database coverage
 
-**Key Limitation**: WatermelonDB sync protocol (`_changed`, `_status`, `synchronize()`) **CANNOT** be tested in Jest with LokiJS adapter. Requires real SQLite environment.
+**Key Limitation:** WatermelonDB sync protocol (`_changed`, `_status`) cannot be tested in Jest - requires real SQLite environment for E2E validation.
 
-**Current Coverage**: 60-65% database layer (Phase 0.5 foundation)
-
-**See:**
-- [Testing Guide](../docs/TESTING.md) - Complete testing strategy and navigation
-- [Test Infrastructure](../tests/README.md) - Helpers, fixtures, mocks
+**See [TESTING.md](../docs/TESTING.md)** for complete testing strategy, infrastructure, and practices.
 
 ---
 

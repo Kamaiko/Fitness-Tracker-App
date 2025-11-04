@@ -190,7 +190,6 @@ export async function createTestWorkout(
       workout.startedAt = workoutData.started_at ? new Date(workoutData.started_at) : new Date();
       workout.completedAt = workoutData.completed_at ? new Date(workoutData.completed_at) : null;
       workout.durationSeconds = workoutData.duration_seconds;
-      workout.nutritionPhase = workoutData.nutrition_phase;
     });
   })) as Workout;
 }

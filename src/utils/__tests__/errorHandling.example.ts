@@ -28,7 +28,6 @@ async function example1_UserNotAuthenticated() {
     await createWorkout({
       user_id: 'test-user-id',
       started_at: Date.now(),
-      nutrition_phase: 'bulk',
     });
 
     console.log('❌ ERROR: Should have thrown AuthError');
@@ -69,7 +68,6 @@ async function example2_UserIdMismatch() {
     await createWorkout({
       user_id: 'user-456', // Different user!
       started_at: Date.now(),
-      nutrition_phase: 'bulk',
     });
 
     console.log('❌ ERROR: Should have thrown AuthError');
@@ -140,7 +138,6 @@ async function example4_SuccessCase() {
     const workout = await createWorkout({
       user_id: userId, // Correct user ID
       started_at: Date.now(),
-      nutrition_phase: 'bulk',
       title: 'Push Day A',
     });
 
@@ -173,7 +170,6 @@ function Example5_ComponentUsage() {
       const workout = await createWorkout({
         user_id: userId,
         started_at: Date.now(),
-        nutrition_phase: 'bulk',
       });
 
       console.log('Workout created:', workout);

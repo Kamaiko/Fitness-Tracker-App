@@ -2,8 +2,8 @@
 
 **Architecture:** WatermelonDB + Supabase PostgreSQL
 **Sync Protocol:** Offline-first, reactive queries, bidirectional sync
-**Version:** Schema v2 (ExerciseDB-aligned)
-**Last Updated:** January 2025
+**Version:** Schema v4 (6 migrations: 4 schema-changing + 2 non-schema)
+**Last Updated:** February 2025
 
 ---
 
@@ -30,6 +30,7 @@
 - [Supabase Sync](#supabase-sync)
 - [Performance](#performance)
 - [Schema Evolution](#schema-evolution)
+- [Migration History](#migration-history)
 - [Resources](#resources)
 
 ---
@@ -90,14 +91,14 @@ Halterofit uses a **hybrid database architecture**:
 │  │              PostgreSQL Database                  │  │
 │  │                                                    │  │
 │  │  • workouts (user workout sessions)               │  │
-│  │  • exercises (1,300+ ExerciseDB + custom)        │  │
+│  │  • exercises (1,300+ ExerciseDB - read-only)     │  │
 │  │  • workout_exercises (join table)                │  │
 │  │  • exercise_sets (individual sets)               │  │
 │  │  • users (profiles, preferences)                 │  │
 │  │                                                    │  │
 │  │  Row-Level Security (RLS):                        │  │
 │  │  • Users only access their own workouts          │  │
-│  │  • Exercises are public (read-only)              │  │
+│  │  • Exercises are public, read-only (ExerciseDB)  │  │
 │  └───────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -178,7 +179,7 @@ CREATE POLICY "Users see own workouts"
 
 ### Exercises Table (ExerciseDB)
 
-**Purpose:** Store all exercises (1,300+ from ExerciseDB + user custom exercises)
+**Purpose:** Store all exercises (1,300+ from ExerciseDB - read-only library)
 
 **Schema Version:** v2 (ExerciseDB-aligned) - See [ADR-018](ADR-018-Align-Exercise-Schema-ExerciseDB.md)
 
@@ -600,6 +601,67 @@ import { Image } from 'expo-image';
 - First load: ~200-500ms (download + cache)
 - Subsequent loads: ~10-50ms (memory/disk cache)
 - Offline: Works after first load (disk cache persists)
+
+---
+
+### ExerciseDB Import Strategy
+
+**Approach:** Database Seeding at Build Time (Option A)
+
+Halterofit uses a **one-time import** strategy aligned with industry best practices (Jefit, Strong):
+
+**Import Process:**
+
+1. **Developer runs import script** (once before publishing app):
+
+   ```bash
+   # Test import (dry-run - no data written)
+   npm run import-exercisedb -- --dry-run
+
+   # Run actual import
+   npm run import-exercisedb
+   ```
+
+   - Script calls ExerciseDB API (1,300 exercises)
+   - **Zod validation:** Validates API responses to prevent breaking changes
+   - Inserts into Supabase PostgreSQL (batch processing: 100/batch)
+   - Duration: ~2-3 minutes
+
+   **Zod Validation Context:**
+   The import script uses Zod runtime validation to protect against ExerciseDB API schema changes:
+   - ✅ Detects field renames/removals (e.g., `bodyPart` → `bodyParts`)
+   - ✅ Graceful degradation (skips invalid exercises, doesn't crash)
+   - ✅ Detailed error logging (know exactly what failed)
+   - Future-proof: API changes won't break app
+
+   **See:** [TECHNICAL.md § Runtime Validation](TECHNICAL.md#runtime-validation--type-safety) for complete Zod patterns
+
+2. **User downloads app** (first launch):
+   - WatermelonDB sync() runs automatically
+   - Downloads exercises from Supabase → local SQLite
+   - Duration: ~30-60 seconds
+   - User sees: "Configuring exercise library..."
+
+3. **Offline-first experience**:
+   - All 1,300 exercises stored locally
+   - Search/filter works 100% offline
+   - Zero API calls during runtime
+
+**Update Frequency:** Quarterly (every 3 months)
+
+- ExerciseDB adds ~10-20 exercises/month
+- Re-run `npm run import-exercisedb` to fetch new exercises
+- Users receive updates via WatermelonDB sync
+
+**Post-MVP:** Automate with Supabase Edge Function (see [TASKS.md § Post-MVP Backlog](TASKS.md#post-mvp-backlog))
+
+**References:**
+
+- Import Script: [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts)
+- Script Docs: [scripts/README.md](../scripts/README.md)
+- **Supabase API Keys:** Use new `sb_secret_...` format (June 2025+, see [GitHub discussion](https://github.com/orgs/supabase/discussions/29260))
+- [ADR-017: No Custom Exercises in MVP](archives/ADR-017-No-Custom-Exercises-MVP.md)
+- [ADR-019: Pure ExerciseDB Schema](archives/ADR-019-Pure-ExerciseDB-Schema.md)
 
 ---
 
@@ -1155,8 +1217,8 @@ $$ LANGUAGE plpgsql;
 
 **Migration Strategy:**
 
-- WatermelonDB schema version incremented to v2
-- Supabase migration applied via timestamp-based migration file
+- WatermelonDB schema version incremented through v2, v3, v4 (4 schema-changing migrations)
+- Supabase migrations applied via timestamp-based files (6 total: 4 schema + 2 non-schema)
 - No data migration required (exercises reseeded from ExerciseDB)
 
 ### Future Schema Changes
@@ -1174,6 +1236,263 @@ $$ LANGUAGE plpgsql;
 3. Add WatermelonDB migration in `migrations.ts`
 4. Test migration on development database
 5. Deploy to production via EAS Build
+
+---
+
+## Migration History
+
+### Applied Migrations
+
+This section documents all database migrations applied to the Supabase PostgreSQL schema, providing an audit trail and reference for schema changes.
+
+---
+
+#### Migration 1: Initial Schema with Sync Protocol
+
+**File:** [`20250131120000_initial_schema_with_sync_protocol.sql`](../supabase/migrations/20250131120000_initial_schema_with_sync_protocol.sql)
+**Date Applied:** January 31, 2025
+**Purpose:** Bootstrap complete database schema for Halterofit MVP
+
+**Changes:**
+
+- Created all core tables: `workouts`, `exercises`, `workout_exercises`, `exercise_sets`, `users`
+- Added WatermelonDB sync protocol columns: `_changed`, `_status`
+- Implemented Row-Level Security (RLS) policies for all tables
+- Created GIN indexes for JSONB array queries (body_parts, target_muscles, equipments, keywords)
+- Added trigger function `update_changed_timestamp()` for automatic `_changed` tracking
+- Configured foreign key constraints with appropriate CASCADE/RESTRICT behaviors
+
+**Key Features:**
+
+- Offline-first sync support via `_changed` and `_status` columns
+- User data isolation via RLS policies
+- Public read-only access to exercises table
+- Performance-optimized indexes for common queries
+
+**References:**
+
+- [DATABASE.md § Schema Reference](#schema-reference)
+- [ADR-018: Align Exercise Schema with ExerciseDB](archives/ADR-018-Align-Exercise-Schema-ExerciseDB.md)
+
+---
+
+#### Migration 2: Add ExerciseDB ID Column
+
+**File:** [`20251104010000_add_exercisedb_id_column.sql`](../supabase/migrations/20251104010000_add_exercisedb_id_column.sql)
+**Date Applied:** November 4, 2025
+**Purpose:** Add unique identifier for ExerciseDB import upsert logic
+
+**Changes:**
+
+- Added `exercisedb_id TEXT NOT NULL UNIQUE` column to `exercises` table
+- Created `exercises_exercisedb_id_unique` constraint (prevents duplicates)
+- Created `idx_exercises_exercisedb_id` index for fast lookups
+- Backfilled existing rows with UUID fallback (for fresh databases)
+
+**Why This Was Needed:**
+Without `exercisedb_id`, the import script couldn't perform idempotent upserts. This column maps ExerciseDB API IDs (e.g., "0001", "0002") to Halterofit records, enabling:
+
+1. **Upsert logic during imports** - prevents duplicates
+2. **Quarterly updates** - maps new API data to existing records
+3. **Audit trail** - tracks which exercises come from ExerciseDB
+
+**Import Script Usage:**
+
+```typescript
+// scripts/import-exercisedb.ts (line 270)
+const { error } = await supabase.from('exercises').upsert(batch, {
+  onConflict: 'exercisedb_id', // Uses this column for conflict detection
+});
+```
+
+**References:**
+
+- [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts) - Import script that uses this column
+- [scripts/README.md § ExerciseDB Import](../scripts/README.md#exercisedb-import)
+
+---
+
+#### Migration 3: Fix Search Path Security Vulnerability
+
+**File:** [`20251104020000_fix_search_path_security.sql`](../supabase/migrations/20251104020000_fix_search_path_security.sql)
+**Date Applied:** November 4, 2025
+**Purpose:** Fix CVE-2018-1058 security vulnerability in `update_changed_timestamp()` function
+
+**Changes:**
+
+- Replaced `NOW()` with fully-qualified `pg_catalog.now()` in trigger function
+- Added `SET search_path = ''` to function configuration (empty search path)
+- Added `SECURITY DEFINER` to function declaration
+- Recreated triggers on all tables (CASCADE dropped them)
+
+**Security Context:**
+PostgreSQL's CVE-2018-1058 vulnerability allows malicious users to create fake functions (e.g., `public.now()`) that hijack legitimate function calls. By using an empty `search_path` and fully-qualified function names, we ensure the trigger function ONLY calls PostgreSQL's built-in `pg_catalog.now()`.
+
+**Attack Vector (Pre-Fix):**
+
+```sql
+-- Attacker creates malicious function
+CREATE FUNCTION public.now() RETURNS TIMESTAMP AS $$
+BEGIN
+  -- Malicious code here (data exfiltration, privilege escalation)
+  RETURN pg_catalog.now();
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger function calls NOW() → resolves to public.now() instead of pg_catalog.now()
+```
+
+**Fix:**
+
+```sql
+CREATE OR REPLACE FUNCTION update_changed_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- ✅ SECURE: Fully-qualified function name
+  NEW._changed := (EXTRACT(EPOCH FROM pg_catalog.now()) * 1000)::BIGINT;
+  NEW.updated_at := (EXTRACT(EPOCH FROM pg_catalog.now()) * 1000)::BIGINT;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''; -- ✅ CRITICAL: Force empty search_path
+```
+
+**References:**
+
+- [CVE-2018-1058 Details](https://www.postgresql.org/about/news/postgresql-103-968-9512-9417-and-9322-released-1834/)
+- Supabase Performance Advisor warning (resolved)
+
+---
+
+#### Migration 4: Cleanup Duplicate exercisedb_id Indexes
+
+**File:** [`20251104030000_cleanup_duplicate_exercisedb_id_indexes.sql`](../supabase/migrations/20251104030000_cleanup_duplicate_exercisedb_id_indexes.sql)
+**Date Applied:** November 4, 2025
+**Purpose:** Remove redundant index causing performance warning in Supabase
+
+**Changes:**
+
+- Dropped `exercises_exercisedb_id_key` constraint (redundant)
+- Kept `exercises_exercisedb_id_unique` constraint (primary enforcement)
+- Resolved Supabase Performance Advisor warning
+
+**Why This Was Needed:**
+PostgreSQL automatically creates an index for UNIQUE constraints. Migration 2 created both:
+
+1. Manual index: `idx_exercises_exercisedb_id` (for fast lookups)
+2. Constraint: `exercises_exercisedb_id_unique` (for uniqueness enforcement)
+
+This resulted in two identical indexes, causing:
+
+- ❌ Doubled storage for index (~10% of table size)
+- ❌ Doubled write overhead (UPDATE/INSERT operations)
+- ❌ Supabase Performance Advisor warning
+
+**Fix:**
+
+```sql
+-- Remove redundant constraint (keep _unique variant)
+ALTER TABLE public.exercises
+  DROP CONSTRAINT IF EXISTS exercises_exercisedb_id_key;
+```
+
+**Result:**
+
+- ✅ Single index: `exercises_exercisedb_id_unique` (handles both uniqueness and lookups)
+- ✅ Reduced storage overhead
+- ✅ Faster INSERT/UPDATE operations
+- ✅ Resolved Supabase warning
+
+**References:**
+
+- Supabase Performance Advisor (resolved)
+- PostgreSQL Index Documentation
+
+---
+
+### Applying Migrations
+
+**Via Supabase Dashboard (SQL Editor):**
+
+1. Navigate to: https://supabase.com/dashboard/project/_/sql
+2. Click **"+ New query"**
+3. Copy-paste migration SQL content
+4. Click **"Run"**
+5. Verify success: Check schema in Table Editor
+
+**Via Supabase CLI (for local development):**
+
+```bash
+# Apply all pending migrations
+supabase db push
+
+# Create new migration
+supabase migration new my_migration_name
+```
+
+**Verification Queries:**
+
+```sql
+-- Verify exercisedb_id column exists with correct constraints
+SELECT
+  column_name,
+  data_type,
+  is_nullable,
+  (SELECT constraint_name
+   FROM information_schema.constraint_column_usage ccu
+   JOIN information_schema.table_constraints tc ON ccu.constraint_name = tc.constraint_name
+   WHERE ccu.column_name = 'exercisedb_id'
+     AND ccu.table_name = 'exercises'
+     AND tc.constraint_type = 'UNIQUE') as unique_constraint
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND table_name = 'exercises'
+  AND column_name = 'exercisedb_id';
+
+-- Verify search_path is empty in trigger function
+SELECT proname, proconfig
+FROM pg_proc
+WHERE proname = 'update_changed_timestamp';
+-- Expected: proconfig = {search_path=}
+
+-- Check for duplicate indexes
+SELECT
+  schemaname,
+  tablename,
+  indexname,
+  indexdef
+FROM pg_indexes
+WHERE tablename = 'exercises'
+  AND indexname LIKE '%exercisedb_id%';
+-- Expected: Only "exercises_exercisedb_id_unique"
+```
+
+---
+
+### Schema Versioning
+
+**Current Version:** v4 (4 schema-changing migrations, 6 total Supabase migrations)
+
+**WatermelonDB Schema Version:** Defined in [`src/services/database/watermelon/schema.ts`](../src/services/database/watermelon/schema.ts)
+
+```typescript
+export const schema = appSchema({
+  version: 4, // Reflects 4 schema-changing migrations (initial + 3 updates)
+  tables: [
+    // ... table definitions
+  ],
+});
+```
+
+**Version History:**
+
+- **v1:** Initial schema with sync protocol
+- **v2:** ExerciseDB alignment (14-field schema)
+- **v3:** Removed Halterofit-specific fields
+- **v4:** Added exercisedb_id column + security/index fixes (2 non-schema migrations)
+
+**Migration Process:** See [CONTRIBUTING.md § Database Schema Changes](CONTRIBUTING.md#database-schema-changes) for complete 7-step workflow.
 
 ---
 

@@ -50,20 +50,6 @@ function formatDuration(seconds?: number): string {
 }
 
 /**
- * Get nutrition phase icon
- */
-function getNutritionIcon(phase: 'bulk' | 'cut' | 'maintenance'): string {
-  switch (phase) {
-    case 'bulk':
-      return '🟢';
-    case 'cut':
-      return '🔴';
-    case 'maintenance':
-      return '🟡';
-  }
-}
-
-/**
  * WorkoutListItem Component (Memoized)
  *
  * IMPORTANT: Memoized with memo() to prevent unnecessary re-renders
@@ -74,7 +60,6 @@ const WorkoutListItem = memo<WorkoutListItemProps>(({ item, onPress }) => {
     onPress?.(item);
   };
 
-  const nutritionIcon = getNutritionIcon(item.nutrition_phase);
   const dateStr = formatWorkoutDate(item.started_at);
   const durationStr = formatDuration(item.duration_seconds);
   const isCompleted = !!item.completed_at;
@@ -91,7 +76,6 @@ const WorkoutListItem = memo<WorkoutListItemProps>(({ item, onPress }) => {
         <Text className="text-base font-semibold text-foreground flex-1" numberOfLines={1}>
           {item.title || 'Untitled Workout'}
         </Text>
-        <Text className="text-xl ml-2">{nutritionIcon}</Text>
       </View>
 
       {/* Date + Duration */}

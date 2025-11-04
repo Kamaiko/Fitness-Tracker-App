@@ -1,1 +1,5 @@
+# Check schema.version incremented when creating migrations
+bash .husky/check-schema-version.sh || exit 1
+
+# Run lint-staged (format + lint)
 npx lint-staged

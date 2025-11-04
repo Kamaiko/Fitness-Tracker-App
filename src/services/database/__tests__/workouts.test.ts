@@ -74,7 +74,7 @@ describe('Workout CRUD Operations', () => {
      * Verifies workout creation with all optional fields.
      *
      * Tests:
-     * - Optional fields (notes, nutrition_phase, etc.) saved correctly
+     * - Optional fields (notes, etc.) saved correctly
      * - Nullable fields handled properly
      * - Duration calculated correctly
      */
@@ -90,14 +90,12 @@ describe('Workout CRUD Operations', () => {
         started_at: startedAt.toISOString(),
         completed_at: completedAt.toISOString(),
         duration_seconds: 3600,
-        nutrition_phase: 'bulk',
       });
 
       expect(workout.title).toBe('Full Body');
       expect(workout.notes).toBe('Great session, felt strong');
       expect(workout.isActive).toBe(false); // Completed workouts are not active
       expect(workout.durationSeconds).toBe(3600);
-      expect(workout.nutritionPhase).toBe('bulk');
 
       assertDatesApproximatelyEqual(workout.startedAt, startedAt, 1000);
       assertDatesApproximatelyEqual(workout.completedAt!, completedAt, 1000);
@@ -416,36 +414,30 @@ describe('Workout CRUD Operations', () => {
       await createTestWorkout(database, {
         user_id: user.id,
         completed_at: new Date().toISOString(),
-        nutrition_phase: 'bulk',
         title: 'Workout 1',
       });
 
       await createTestWorkout(database, {
         user_id: user.id,
         completed_at: new Date().toISOString(),
-        nutrition_phase: 'cut',
         title: 'Workout 2',
       });
 
       await createTestWorkout(database, {
         user_id: user.id,
         completed_at: null,
-        nutrition_phase: 'bulk',
         title: 'Workout 3',
       });
 
-      // Query: user's completed workouts during bulk phase
+      // Query: user's completed workouts
       const workouts = await database
         .get('workouts')
-        .query(
-          Q.where('user_id', user.id),
-          Q.where('completed_at', Q.notEq(null)),
-          Q.where('nutrition_phase', 'bulk')
-        )
+        .query(Q.where('user_id', user.id), Q.where('completed_at', Q.notEq(null)))
         .fetch();
 
-      expect(workouts).toHaveLength(1);
-      expect((workouts[0] as any).title).toBe('Workout 1');
+      expect(workouts).toHaveLength(2);
+      const titles = workouts.map((w: any) => w.title).sort();
+      expect(titles).toEqual(['Workout 1', 'Workout 2']);
     });
 
     /**

@@ -53,9 +53,6 @@ export default class Exercise extends Model {
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;
 
-  // NOTE: _changed and _status are managed automatically by WatermelonDB
-  // Access via: record._raw._changed and record._raw._status (or record.syncStatus)
-
   // ===== Computed properties for convenience =====
 
   /**
