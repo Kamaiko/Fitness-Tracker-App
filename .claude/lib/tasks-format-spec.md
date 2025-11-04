@@ -11,29 +11,58 @@
 
 **Regex:** `^[0-9]+\.[0-9]+$`
 
-**Format:** `X.Y` where:
+**Format:** `X.Y0` where:
 - `X` = Phase number (0-9)
-- `Y` = Task number (1-99, can go beyond)
+- `Y0` = Task number in **multiples of 10** (10, 20, 30, 40...)
+- Insert between tasks using Y1-Y9 or Y5 (e.g., 1.15, 1.11-1.19)
+
+**Rationale:** Spacing by 10 allows insertion of up to 9 tasks between any two existing tasks without renumbering chaos.
 
 **Rules:**
-- ✅ Use sequential numbering within phase
-- ✅ Example: `0.5.1`, `0.5.20`, `1.3`, `2.15`
+- ✅ Use multiples of 10 for initial task numbering (1.10, 1.20, 1.30...)
+- ✅ Insert between tasks with intermediate numbers (1.15, 1.25, 1.11-1.19)
+- ✅ Scalable: Up to 90 tasks per phase (1.10 through 1.900)
+- ✅ Examples: `0.5.10`, `1.20`, `2.100`, `3.15` (inserted)
 - ❌ NO letter suffixes: `0.5bis`, `0.5b`, `0.5a`
 - ❌ NO sub-levels: `0.5.10.1`, `0.5.B.1`
 - ❌ NO dashes: `0.5-10`, `1-3`
 
 **Examples:**
+
 ```markdown
-✅ VALID:
-- [ ] **0.5.1** Setup database
-- [ ] **0.5.20** EAS Build setup
-- [ ] **1.3** Create login screen
+✅ VALID (Initial numbering):
+- [ ] **1.10** Create login screen UI
+- [ ] **1.20** Create register screen UI
+- [ ] **1.30** Implement Supabase Auth
+- [ ] **1.40** Password reset flow
+
+✅ VALID (Insertion between tasks):
+Initial state:
+- [ ] **1.10** Create login screen
+- [ ] **1.20** Create register screen
+- [ ] **1.30** Implement auth
+
+Add task between 1.20 and 1.30:
+- [ ] **1.10** Create login screen
+- [ ] **1.20** Create register screen
+- [ ] **1.25** Add password validation (NEW - inserted)
+- [ ] **1.30** Implement auth
+
+✅ VALID (Multiple insertions):
+- [ ] **1.10** Create login screen
+- [ ] **1.11** Add email validation (inserted)
+- [ ] **1.12** Add password strength meter (inserted)
+- [ ] **1.13** Add form error handling (inserted)
+- [ ] **1.20** Create register screen
 
 ❌ INVALID:
+- [ ] **1.5** (not multiple of 10 for initial numbering)
 - [ ] **0.5bis.1** (letter suffix)
 - [ ] **0.5.B.1** (subsection in ID)
 - [ ] **0.5-10** (dash instead of dot)
 ```
+
+**Migration Note:** Phases 0.5 and 0.6 retain original numbering (0.5.1, 0.5.20, etc.) as they are already complete/in-progress. New phases (1-5) use spacing-by-10 convention.
 
 ---
 
@@ -157,9 +186,12 @@ phaseCompleted = count([x] in phase)
 phaseTotal = count(all tasks in phase)
 phasePercent = floor((phaseCompleted / phaseTotal) * 100)
 
-// Overall progress (Halterofit = 96 tasks total)
-overallCompleted = count([x] in entire doc)
-overallPercent = floor((overallCompleted / 96) * 100)
+// Overall progress (Halterofit MVP = 58 tasks)
+// Note: Changed from 119 to 58 after scope refinement (Feb 2025)
+// Post-MVP features moved to backlog (not counted in total)
+overallCompleted = count([x] in entire doc, excluding Post-MVP section)
+overallTotal = 58  // MVP scope only
+overallPercent = floor((overallCompleted / 58) * 100)
 
 // Badge color
 if (percent < 25) color = 'red'
@@ -377,10 +409,10 @@ N. [Phase Title (X/M)](#anchor-link)
 # 📋 Project Roadmap
 
 **Project**: Halterofit v0.1.0
-**Status**: 🟡 In Progress (Phase 0.5)
-**Progress**: 6/96 tasks (6%) • ![](https://img.shields.io/badge/Progress-6%25-red)
-**Timeline**: 14 weeks • Started 2025-01-20 • Target 2025-04-28
-**Last Updated**: 2025-10-29 • **Next Milestone**: Phase 0.5 Complete
+**Status**: 🟡 In Progress (Phase 0.6)
+**Progress**: 27/58 tasks (47%) • MVP Scope Refined
+**Timeline**: 10-12 weeks • Started 2025-01-20 • Target 2025-04-15
+**Last Updated**: 2025-02-04 • **Next Milestone**: Complete ExerciseDB Import (Phase 0.6)
 ```
 
 ### Kanban Example
@@ -390,38 +422,45 @@ N. [Phase Title (X/M)](#anchor-link)
 
 | 📝 TODO (Top 5) | 🔨 DOING | ✅ DONE (Last 5) |
 |-----------------|----------|------------------|
-| **0.5.2** Database schema `[M]` 🔴 | **0.5.1** Expo-sqlite ✅ | **0.5.18** Jest |
-| **0.5.3** FlashList `[S]` 🟡 | | **0.5.17** Dev tools |
-| **0.5.6** Statistics `[S]` 🟡 | | **0.5.8** Audit |
-| **0.5.4** Expo-image `[S]` 🟡 | | **0.5.7** Architecture |
-| **0.5.5** Sentry `[M]` 🟠 | | _(auto-rotate)_ |
+| **0.6.8** ExerciseDB import `[L]` 🔥 | | **0.6.6** Environment vars ✅ |
+| **1.10** Login screen `[M]` 🟠 | | **0.6.4** Core components ✅ |
+| **1.20** Register screen `[M]` 🟠 | | **0.6.3** Dark theme ✅ |
+| **1.30** Supabase auth `[M]` 🟠 | | **0.6.9** Design system ✅ |
+| **1.40** Password reset `[M]` | | **0.6.2** @expo/vector-icons ✅ |
 
-**Progress**: Phase 0.5: 6/15 (40%) • Overall: 6/96 (6%)
-**Velocity**: ~3 tasks/week • **ETA**: Phase 0.5 complete in ~2 weeks
+**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 6/8 (75%) • Overall: 27/58 (47%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 10-12 weeks
+**NEXT**: 0.6.8 ExerciseDB Import 🔥 (3-4h) → Phase 1 Auth screens
 ```
 
-### Phase Example
+### Phase Example (New Convention - Spacing by 10)
 
 ```markdown
-## Phase 0.5: Architecture & Foundation (6/15)
+## Phase 1: Authentication & Foundation (0/6)
 
-**Timeline**: Week 3 | **Priority**: 🔴 HIGHEST
-**Status**: 🟡 In Progress • **Progress**: 6/15 (40%)
+**Timeline**: Weeks 9-10 | **Priority**: HIGH
+**Goal**: Login/Register basics + Maestro E2E setup
+
+**Progress**: 0/6 tasks (0%) | **Est. Time**: ~15h (2 weeks)
+
+**Dependencies**: Phase 0.6 complete (UI components ready)
 
 ---
 
-### 0.5.A Infrastructure Setup (2/5)
+- [ ] 1.10 **Create login screen UI** (M - 2h) `[src/app/(auth)/login.tsx]`
+  - Email/password inputs (Input component from 0.6.4)
+  - Login button (Button component)
+  - "Forgot password" link → 1.40
+  - Loading state, error handling
 
-- [x] 0.5.1 **Setup expo-sqlite** (M - 4h) ✅
-  - Implemented in commit abc123
+- [ ] 1.20 **Create register screen UI** (M - 2h) `[src/app/(auth)/register.tsx]`
+  - Email/password inputs with validation
+  - Register button
+  - Link back to login (1.10)
 
-- [ ] 0.5.2 **Implement database schema** `[M - 3-4h]` 🔴
-  Create Supabase migration matching SQLite.
-  Files: supabase/migrations/001_initial_schema.sql
-  Refs: DATABASE.md § Supabase Sync
-
-- [ ] 0.5.3 **Install FlashList** `[S - 1h]` 🟡
-  npm install @shopify/flash-list
+- [ ] 1.30 **Implement Supabase Auth integration** (M - 3h) `[src/services/auth/]`
+  - Sign up/in/out functionality
+  - Session management (JWT tokens in MMKV)
 ```
 
 ---

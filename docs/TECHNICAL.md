@@ -295,7 +295,7 @@ await synchronize({
 - Slightly larger bundle (+50KB)
 - Peer dependency warnings (React 19.1 vs 19.2, non-blocking)
 
-**ROI:** 2-3h investment vs 10-20h saved over 14 weeks
+**ROI:** 2-3h investment vs 10-20h saved over 12-13 weeks
 
 **Status:** ✅ Implemented (Phase 0.5)
 
@@ -710,7 +710,7 @@ npm start
 
 **Alternatives:** Wger API (200 exercises), API Ninjas (1,000)
 
-**Status:** 📋 Planned (Phase 3)
+**Status:** 🚧 In Progress (Phase 0.6.8 - Next Priority)
 
 ---
 
@@ -834,9 +834,11 @@ See [DATABASE.md](./DATABASE.md) for complete schema documentation (WatermelonDB
 
 ---
 
-## Analytics & Algorithms
+## Analytics & Algorithms (Post-MVP - Phase 6)
 
-**Principle:** Use scientifically validated formulas (no reinventing). Science-based, context-aware analytics. Avoid AI/ML for MVP.
+**Status:** 🔮 Post-MVP - All analytics features deferred to Phase 6
+
+**Principle:** Use scientifically validated formulas (no reinventing). Science-based, context-aware analytics. Avoid AI/ML complexity.
 
 ### Core Calculations
 
@@ -1158,4 +1160,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventio
 
 ---
 
-**Last Updated:** October 2025 (Updated for Development Build strategy)
+**Last Updated:** February 2025 (MVP scope refinement: 65 tasks, Post-MVP Phase 6 analytics)

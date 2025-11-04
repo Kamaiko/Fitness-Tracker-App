@@ -1,9 +1,9 @@
 # Product Requirements Document: Halterofit
 
-**Version:** 1.0
-**Last Updated:** January 2025
+**Version:** 2.0
+**Last Updated:** February 2025
 **Document Status:** Active
-**Target Release:** MVP - 14 weeks from project start
+**Target Release:** MVP - 10-12 weeks from project start
 
 ---
 
@@ -27,17 +27,17 @@
 
 ### Document purpose
 
-This product requirements document defines the scope, features, and technical requirements for Halterofit MVP, an offline-first fitness tracking mobile application for serious bodybuilders and strength athletes. This document serves as the single source of truth for the development team during the 14-week MVP development cycle.
+This product requirements document defines the scope, features, and technical requirements for Halterofit MVP, an offline-first fitness tracking mobile application for serious bodybuilders and strength athletes. This document serves as the single source of truth for the development team during the 10-12 week MVP development cycle.
 
 ### Product summary
 
-Halterofit is a mobile fitness tracking application designed for serious lifters who demand intelligent progression analytics. Unlike existing apps that only track raw data, Halterofit provides context-aware analysis that accounts for exercise order, rest periods, nutrition phase (bulk/cut/maintenance), RIR/RPE, and training fatigue to deliver actionable insights for breaking plateaus and optimizing progression.
+Halterofit is a mobile fitness tracking application designed for serious lifters who demand reliable workout tracking and progression analytics. Built with offline-first architecture, Halterofit ensures zero data loss during workouts while providing essential analytics for progressive overload: 1RM estimation, volume tracking, and workout history analysis.
 
-**Core value proposition:** Intelligent workout tracking with scientific analytics that understand context, not just numbers.
+**Core value proposition:** Reliable workout tracking with offline-first architecture and essential progression analytics.
 
 **Target market:** Serious bodybuilders, strength athletes, and powerlifters who train 3-6 times per week and require data-driven insights for progressive overload.
 
-**Competitive differentiation:** Context-aware analytics (nutrition phase, exercise position, fatigue modeling), statistical plateau detection (Mann-Kendall test), advanced load tracking (acute/chronic ratios), personalized 1RM estimation adjusted by RIR, and comprehensive performance feedback (Workout Reports, Weekly Summaries).
+**Competitive differentiation:** Reliable offline-first architecture ensuring zero data loss, comprehensive exercise library (1,300+ ExerciseDB exercises), efficient workout logging (1-2 taps per set), workout templates for consistency, and basic progression analytics (1RM estimation, volume tracking, personal records).
 
 ---
 
@@ -66,28 +66,40 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Primary user goals:**
 
 - Log workouts quickly (1-2 taps per set) with guaranteed data reliability
-- Track progressive overload through context-aware metrics (weight, volume, intensity, fatigue)
-- Detect training plateaus early using statistical analysis
-- Understand progression in context of nutrition phase (bulk/cut/maintenance) and training variables
+- Track progressive overload through simple metrics (weight, volume, 1RM estimates)
+- View workout history and progression over time
+- Access comprehensive exercise library with 1,300+ exercises
 
 **Secondary user goals:**
 
 - Understand which muscle groups need more volume for balanced development
 - Calculate required plates for target weight (essential gym utility)
 - Manage rest periods with background timer and notifications
-- Track RPE/RIR for autoregulation and fatigue management
+- Create and reuse workout templates for consistency
 
 ### Non-goals
 
 **Explicitly excluded from MVP:**
 
-- AI-based recommendations (no training data at launch; use rule-based suggestions)
+- **All analytics features** (volume charts, progression tracking, 1RM estimation, plateau detection, personal records tracking) - deferred to post-MVP Phase 6
+- Advanced analytics (nutrition phase tracking, RIR/RPE-adjusted 1RM, Mann-Kendall plateau detection, acute/chronic load ratios)
+- Context-aware performance interpretation based on training variables
+- Fatigue modeling and overtraining detection
+- Plate calculator (deferred to post-MVP - nice-to-have utility)
+- Set history display (last 3-5 sets shown below input) - deferred to post-MVP
+- Notes per workout/exercise/set - deferred to post-MVP
+- Onboarding flow - deferred to post-MVP
+- Profile image upload - deferred to post-MVP (initials avatar only for MVP)
+- Biometric authentication (Face ID/Touch ID) - not needed, user logs in once
+- RPE/RIR tracking - deferred to post-MVP
+- AI-based recommendations (no training data at launch)
 - Energy readiness score (requires wearable integration for HRV/sleep data)
 - Social features, workout sharing, or community elements
 - Recovery optimization tools (need wearable data)
 - Nutrition tracking or meal planning
 - Video form analysis or coaching features
 - Integration with third-party fitness trackers (post-MVP)
+- Custom exercise creation - deferred to post-MVP (1,300+ ExerciseDB exercises sufficient)
 
 ---
 
@@ -105,29 +117,29 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 **Behaviors:**
 
-- Tracks every set with precision (weight, reps, perceived difficulty, context)
+- Tracks every set with precision (weight, reps, notes)
 - Plans workouts in advance or follows structured programs
-- Adjusts training expectations based on nutrition phase (bulk, cut, or maintenance)
+- Uses workout templates to maintain consistency week-to-week
 - Uses phone during rest periods (email, social media, workout tracking)
-- Values context-aware analytics that explain why performance changes
+- Reviews progression charts to ensure progressive overload
 
 **Pain points:**
 
-- Current apps show raw numbers without context (no nutrition phase awareness, exercise order impact, fatigue modeling)
-- No RIR/RPE tracking or intelligent analytics based on proximity to failure
-- Analytics are basic: only show 1RM/weight charts without trends, regressions, or plateau alerts
-- No load management (acute/chronic load ratios, overtraining detection)
+- Current apps have unreliable offline mode (data loss common in gyms with poor WiFi)
 - Excessive tapping required to log sets (7+ taps in some apps)
-- Difficult to identify plateaus without manual analysis or understand WHY they happen
+- Exercise libraries are incomplete or require tedious custom entry
+- Workout templates are difficult to create and manage
+- No quick access to exercise history during workouts
+- Analytics are too basic or overly complex without useful insights
 
 **Needs from the product:**
 
-- Quick set logging with context tracking (RIR, exercise position, rest periods)
-- Science-based analytics: statistical plateau detection (Mann-Kendall), load management (acute/chronic ratios), personalized 1RM with RIR adjustment
-- Nutrition phase tracking to contextualize performance (bulk/cut/maintenance)
-- Actionable insights: "Why am I plateauing? What should I change?"
-- Weekly summaries and workout reports with fatigue indicators
-- Reliable data capture without network dependency
+- Quick set logging (1-2 taps maximum) with auto-filled values
+- Reliable offline-first data capture with guaranteed zero data loss
+- Comprehensive exercise library (1,300+ exercises) with search and filters
+- Easy workout template creation and reuse for weekly consistency
+- Simple progression tracking (weight, volume, 1RM estimates)
+- Exercise history accessible during active workouts for reference
 
 ### Secondary persona: Strength athlete
 
@@ -142,26 +154,26 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 - Follows periodized training programs with precise loading schemes
 - Tracks 1RM progression and training percentages
-- Uses RPE/RIR scales for autoregulation (adjust daily based on readiness)
-- Monitors fatigue and adjusts intensity based on science-backed indicators
-- Reviews training logs to identify weak points and adjust programming
+- Reviews training logs frequently to identify weak points
+- Maintains consistent workout templates for program adherence
+- Analyzes volume trends to ensure balanced training
 
 **Pain points:**
 
-- Basic 1RM formulas don't account for RIR or individual response curves
-- Difficult to track RPE/RIR trends and relate them to performance outcomes
-- No fatigue modeling (acute vs chronic load ratios)
-- Cannot analyze volume distribution across movement patterns
-- Existing apps don't contextualize performance within training phases
+- Current apps have unreliable offline mode during training sessions
+- Difficult to track 1RM progression across different rep ranges
+- Cannot easily analyze volume distribution across movement patterns
+- Workout history is hard to navigate and compare
+- No quick access to personal records during training
 
 **Needs from the product:**
 
-- Personalized 1RM calculations adjusted by RIR and historical accuracy
-- RPE/RIR tracking with trends and fatigue indicators
-- Load management metrics (acute/chronic load, fatigue ratio, overtraining alerts)
-- Volume analysis by lift type and movement pattern
-- Science-based recommendations for deload, intensity adjustments
+- Reliable 1RM estimation using standard formulas (Epley)
+- Volume analysis by lift type, muscle group, and time period
+- Easy access to workout history and personal records
+- Simple progression charts showing strength gains over time
 - Export data for coach review or personal analysis
+- Workout templates for structured programming
 
 ### Role-based access
 
@@ -277,22 +289,22 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 **Requirements:**
 
-- **Context-aware metrics:** Nutrition phase tracking (bulk/cut/maintenance), exercise order impact, rest time analysis, set type classification (warmup/working/drop set)
-- **Load management:** Acute Load (7-day volume), Chronic Load (28-day average), Fatigue Ratio (AL/CL), overtraining alerts
-- **Advanced analytics:** Personalized 1RM adjusted by RIR and historical accuracy, plateau detection (Mann-Kendall test), regression analysis with trend lines
-- **Performance feedback:** Post-workout reports (performance score, fatigue estimate, recommendations), weekly summaries (volume trends, PR highlights, deload suggestions)
-- **Volume tracking:** By week/month/muscle group/movement pattern, visualized with trend lines and smoothing
-- **Progression visualization:** Multi-exercise comparisons, rolling metrics, phase-based analysis (mesocycle tracking)
+- **Basic 1RM estimation:** Standard Epley formula calculation from sets/reps/weight
+- **Volume tracking:** Total volume (sets × reps × weight) by week, month, and muscle group
+- **Personal records:** Track max weight, max reps, estimated 1RM per exercise
+- **Progression charts:** Weight progression over time with simple trend lines
+- **Exercise history:** Past performance for each exercise to guide progressive overload
+- **Workout summaries:** Post-workout summary showing duration, volume, PRs achieved
 
 **Acceptance criteria:**
 
-- Nutrition phase contextualization: "Performance stable in cut is expected, not a plateau"
-- Personalized 1RM uses RIR data: "100kg × 8 @ RIR2 = higher e1RM than 105kg × 6 @ RIR0"
-- Fatigue ratio alerts: "AL/CL = 1.5 → Consider deload this week"
-- Plateau detection with context: "No progress + nutrition = maintenance. No progress + bulk = true plateau"
-- Workout reports display within 2s of completing workout
-- Charts support zoom/pan, render 1000+ points in <500ms, show trend lines/regressions
-- Weekly summaries generated automatically every Monday morning
+- 1RM estimation uses standard Epley formula: weight × (1 + reps/30)
+- Volume calculations aggregate correctly by week, month, and muscle group
+- Personal records update automatically when new maxes achieved
+- Progression charts render smoothly with 1000+ data points in <500ms
+- Exercise history shows last 5 workouts for each exercise
+- Workout summaries display within 2s of completing workout
+- Charts support zoom/pan gestures for detailed inspection
 
 ### User experience features
 
@@ -304,22 +316,20 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Rest timer with background execution, notifications, and quick actions (+15s, Done)
 - Plate calculator modal accessible from weight input field
 - Superset/circuit support via exercise grouping
-- RPE tracking (1-10 scale) with optional per-set or end-of-workout entry
-- RIR tracking (0-5 scale) with non-intrusive UI (optional inline or summary)
 - Set history display showing last 3-5 sets from previous workouts
-- Rule-based weight suggestions (e.g., if RIR=0-1, suggest +2.5kg)
 - Workout templates: save, edit, and start from template
 - Dark theme optimized for gym lighting with high contrast
+- Quick weight adjustment buttons (+5kg, +2.5kg, -2.5kg, -5kg or lbs equivalent)
 
 **Acceptance criteria:**
 
 - Rest timer sends notification when complete even if app killed by system
 - Plate calculator supports user-configurable available plates in settings
 - Supersets display grouped exercises with clear visual indicators
-- RPE/RIR entry does not block set completion (always optional)
 - Set history loads instantly from WatermelonDB reactive queries
-- Weight suggestions appear as subtle hints, not forced recommendations
 - Templates save with exercise order, target sets/reps, and superset grouping
+- Weight adjustment buttons work in both kg and lbs based on user preference
+- Dark theme maintains readability in bright gym lighting
 
 ---
 
@@ -335,9 +345,13 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 **Authenticated users:**
 
-- App launch → Home/Workout tab (if active workout exists, show resume option)
-- Bottom tab navigation: Workout | Exercises | Analytics | Profile
-- Deep links (post-MVP): Workout detail, exercise detail, analytics chart
+- App launch → Workout tab (Planned sub-tab by default)
+- Bottom tab navigation: Workout | Profile
+- Workout sub-tabs: Find | Planned
+  - **Find**: Browse and save pre-made workout plans (Jefit-style templates)
+  - **Planned**: Active plan with workout days, exercise management, "Start Workout" buttons
+- Settings: Accessible via gear icon (top-right header)
+- Deep links (post-MVP): Workout detail, exercise detail, plan sharing
 
 ### Core user flows
 
@@ -355,7 +369,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 6. Rest timer auto-starts (3 minutes based on historical average)
 7. User adjusts weight using "+5kg" button → Weight updates to 105kg
 8. User taps plate calculator icon → Modal shows "Add per side: 20kg + 10kg + 2.5kg"
-9. User performs set, logs with 105kg × 6 reps, taps "RIR: 2"
+9. User performs set, logs with 105kg × 6 reps
 10. User completes all exercises, taps "End Workout"
 11. Workout saves to WatermelonDB, automatically syncs with Supabase
 12. Summary screen shows volume, duration, PRs achieved
@@ -386,29 +400,29 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Exercise GIFs load from cache instantly (expo-image caching)
 - No network requests during search (all data local)
 
-#### Flow 3: Analyze progression and identify plateau
+#### Flow 3: Analyze progression
 
-**Scenario:** User suspects bench press progress has stalled.
+**Scenario:** User wants to review bench press progress.
 
 **Steps:**
 
 1. User navigates to Analytics tab
-2. Dashboard shows weekly volume chart, recent PRs, plateau alerts
-3. Alert badge indicates "Bench Press: Potential Plateau Detected"
-4. User taps alert → Exercise detail screen displays:
+2. Dashboard shows weekly volume chart, recent PRs, progression graphs
+3. User taps "Bench Press" exercise → Exercise detail screen displays:
    - Strength progression chart (last 8 weeks)
-   - Trend line showing flat slope
-   - Statistical analysis: "No significant improvement detected (p=0.23)"
-   - Suggestion: "Consider deload week or increase volume"
-5. User taps volume distribution chart → Pie chart shows chest volume 15% below back volume
-6. User reviews suggestion: "Increase chest volume by 20% to balance push/pull ratio"
-7. User navigates to workout templates, adjusts Push Day template to add 2 sets
+   - Trend line showing weight progression over time
+   - Estimated 1RM progression
+   - Personal records (max weight, max reps)
+4. User reviews chart showing consistent 2.5kg increases per week
+5. User taps volume distribution chart → Pie chart shows volume by muscle group
+6. User confirms balanced training across push/pull movements
+7. User navigates back to workout screen feeling confident about progress
 
 **Success criteria:**
 
-- Plateau detection uses Mann-Kendall test with minimum 4 weeks of data
 - Charts render smoothly with zoom/pan gestures for detailed analysis
-- Suggestions are actionable and based on validated training principles
+- Exercise history loads in <1 second
+- Volume calculations are accurate and clearly displayed
 
 ### Advanced features
 
@@ -458,11 +472,11 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 ## Narrative
 
-I am a dedicated bodybuilder training 5 times per week, currently in a cutting phase. I open Halterofit for my Push Day workout and tap "Repeat Last Workout" to load my previous session. The app instantly shows Bench Press with my last weight and reps pre-filled, along with a suggestion based on my last RIR: "Last set: 100kg × 8 @ RIR2 → Try 102.5kg for progressive overload." I perform my first set at 102.5kg × 7 @ RIR2, tap the checkmark, and my rest timer automatically starts with a 3-minute countdown. I log all my sets quickly, tracking RIR on each one.
+I am a dedicated bodybuilder training 5 times per week. I arrive at the gym and open Halterofit for my Push Day workout. I tap "Repeat Last Workout" and the app instantly loads my previous session with all exercises and weights pre-filled. The first exercise is Bench Press showing 100kg × 8 reps from last week. I perform my set at 102.5kg × 8 reps, tap the checkmark, and my rest timer automatically starts with a 3-minute countdown.
 
-After completing the workout, I get an immediate Workout Report: "Performance Score: 8.5/10 | Fatigue: Moderate | Volume slightly below average due to cut phase - this is expected. Consider maintaining intensity rather than pushing for PRs this week." The report also shows my Acute/Chronic Load ratio is 1.2 (healthy range), and I'm on track with my weekly volume targets given my nutrition phase.
+I continue through my workout, using the quick weight adjustment buttons (+2.5kg, +5kg) to progress my lifts. When I'm unsure about plate loading, I tap the plate calculator icon which shows me exactly which plates to add per side. I swipe between exercises efficiently, logging each set with just 1-2 taps. The entire workout logging takes less than 3 minutes of interaction time despite completing 20 sets.
 
-Later that evening, I check the Analytics tab and see my Bench Press progression chart. Despite weight being stable for 3 weeks, the app doesn't flag a plateau - instead it contextualizes: "Maintaining strength during cut phase is excellent progress. Your personalized 1RM (adjusted by RIR data) actually increased 2kg." I also review my Weekly Summary showing volume distribution by muscle group, my consistency streak (23 workouts, 92% completion rate), and a recommendation: "Consider a deload week in 2 weeks based on cumulative fatigue indicators." I adjust my training plan accordingly, confident that my data tells the full story, not just raw numbers.
+After finishing, I tap "End Workout" and see a simple summary: 75 minutes duration, 15,000kg total volume, and a badge showing "New PR: Incline Dumbbell Press - 40kg × 10 reps." Later that evening, I check the Analytics tab and review my Bench Press progression chart. The trend line shows steady 2.5kg increases per week over the past 8 weeks, and my estimated 1RM has increased from 125kg to 132kg. I review my weekly volume chart and confirm I'm maintaining consistent training volume. Confident in my progress, I save my current workout as a template for next week.
 
 ---
 
@@ -488,7 +502,7 @@ Later that evening, I check the Analytics tab and see my Bench Press progression
 
 - Rest timer usage: Target 70%+ of workouts use timer
 - Plate calculator usage: Target 50%+ of workouts access calculator
-- RPE/RIR tracking: Target 40%+ of users enable tracking
+- Workout template usage: Target 60%+ of users create and use templates
 - Analytics screen views: Target 30%+ of weekly active users view analytics weekly
 
 ### Business metrics
@@ -756,54 +770,67 @@ CREATE POLICY "Exercises are public"
 - Jest testing infrastructure (COMPLETED ✓)
 - Professional dev tools: Husky, lint-staged, commitlint (COMPLETED ✓)
 
-**Phase 1: Authentication and Foundation (Weeks 4-5)**
+**Phase 1: Authentication & Foundation (Weeks 9-10)**
 
 - Login, registration, password reset screens
 - Supabase Auth integration with JWT session management
 - Form validation utilities (email format, password strength)
-- Core UI components (Button, Input, Card)
-- Tab navigation structure (Workout, Exercises, Analytics, Profile)
-- TypeScript type definitions for database schema
+- Core UI components already installed (Button, Input, Card, Alert, Progress, Skeleton)
+- Maestro E2E testing framework setup
+- Auth flow tests (login, register, password reset)
 
-**Phase 2: Workout Logging (Weeks 6-8)**
+**Phase 2: Workout Plans & Navigation (Weeks 11-14)**
 
-- Workout session state management with auto-save to WatermelonDB
-- Active workout screen with set logger (1-2 tap workflow)
-- Rest timer with background execution and notifications
-- Exercise selection modal with real-time search
-- Plate calculator with configurable available plates
-- Workout history and detail screens
-- RPE/RIR tracking with non-intrusive UX
+- Bottom tab navigation: Workout | Profile
+- Workout sub-tabs: Find | Planned (Jefit-style)
+- "All Plans" management modal (view saved plans, activate plan)
+- "Find" tab: Browse pre-made workout plan templates
+- "Planned" tab: Active plan with workout day cards, "Start Workout" buttons
+- "Create Plan" flow: New plan with workout days, exercise selector
+- Workout Day cards: Name, estimated time, exercise count, muscle group icon, 3-dots menu (rename/delete)
+- "Add a day" functionality
+- Exercise selector modal: Search 1,300+ ExerciseDB exercises with real-time filter
+- Add/remove exercises to workout days
 - Workout templates (save, edit, start from template)
 
-**Phase 3: Exercise Library (Weeks 9-10)**
+**Phase 3: Active Workout Tracking (Weeks 15-17)**
 
-- ExerciseDB API integration and Supabase seed operation
-- Exercise list screen with FlashList and real-time search
-- Exercise detail screen with GIF, instructions, personal history
-- Custom exercise creation with user-defined properties
-- Filter panel (muscle group, equipment, difficulty)
-- Favorites system with MMKV persistence
+- Active workout screen with swipeable exercise cards (ESSENTIAL feature)
+- Set logging interface: Weight input, reps input, warmup "W" marker toggle
+- Rest timer with background execution and push notifications (ESSENTIAL)
+- Auto-fill weight/reps from last workout (progressive overload assist)
+- Workout completion flow with duration/volume calculation
+- Workout history screen (past workouts with date, duration, volume)
+- Repeat workout from history
+- Maestro E2E workout tests (start workout, log set, rest timer, complete workout)
 
-**Phase 4: Analytics and Smart Features (Weeks 11-12)**
+**Phase 4: Profile & Settings (Week 18)**
 
-- Analytics dashboard with react-native-chart-kit
-- Volume tracking by week, month, muscle group
-- Strength progression charts with trend lines
-- Plateau detection using Mann-Kendall statistical test
-- 1RM calculations (Epley, Brzycki, Lombardi formulas)
-- Personal records tracking and badge system
-- Rule-based weight suggestions (non-AI)
+- Profile screen: Avatar (initials only), username/email, basic stats
+- Settings screen: Units (kg/lbs toggle), logout, account management
+- Account deletion (GDPR compliance with cascade delete)
+- Data export (GDPR compliance - JSON format via share sheet)
+- Logout functionality
 
-**Phase 5: Polish and Beta Launch (Weeks 13-14)**
+**Phase 5: Polish & Deployment (Week 19)**
 
-- Performance optimization (bundle size, cold start, memory)
-- Privacy Policy and Terms of Service creation
-- Data export (GDPR compliance) and account deletion
-- User analytics setup (PostHog or Mixpanel)
-- Onboarding flow with preferences setup
-- Beta testing guide and TestFlight/Play Store internal testing
-- App Store compliance checklist (privacy manifest, screenshots, descriptions)
+- Sentry error monitoring verification (already setup in Phase 0.5)
+- Performance optimization (bundle size <10MB, cold start <2s)
+- EAS production builds (Android APK, iOS IPA)
+- TestFlight/Play Store internal testing setup
+- Beta testing guide documentation
+- Privacy Policy and Terms of Service (minimal for MVP)
+
+**Post-MVP Features (Phase 6+):**
+
+- Analytics dashboard (volume charts, progression tracking, 1RM estimation, plateau detection, personal records)
+- Plate calculator
+- Set history display
+- Notes per workout/exercise
+- Onboarding flow
+- Profile image upload
+- Custom exercise creation
+- RPE/RIR tracking
 
 ### Critical path dependencies
 
@@ -972,27 +999,7 @@ The project successfully migrated to Development Build architecture early in dev
   - Rest timer auto-starts after set completion
   - Set history shows last 3-5 sets from previous workouts below input
 
-**US-009: Track RPE**
-
-- As a user, I want to optionally log RPE (Rate of Perceived Exertion) for each set to track intensity and manage fatigue.
-- Acceptance criteria:
-  - RPE selector with 1-10 scale visible as optional buttons
-  - Color-coded: green (1-5), yellow (6-7), orange (8-9), red (10)
-  - Tapping RPE value saves to set record, can be changed after set completion
-  - RPE is optional - set can be completed without selecting RPE
-  - Setting toggle in Profile/Settings to enable/disable RPE tracking
-
-**US-010: Track RIR**
-
-- As a user, I want to log RIR (Reps in Reserve) to gauge proximity to failure without making RPE calculations.
-- Acceptance criteria:
-  - RIR selector with 0-5 scale (0=failure, 5=very easy)
-  - Non-intrusive UI: small inline button or end-of-workout summary prompt
-  - User can enable RIR tracking in settings (default: disabled for simplicity)
-  - RIR saves to exercise_sets.rir field in database
-  - Analytics can display RIR trends over time for progressive overload analysis
-
-**US-011: Use rest timer**
+**US-009: Use rest timer**
 
 - As a user, I want an automatic rest timer that runs in the background and notifies me when rest is complete.
 - Acceptance criteria:
@@ -1145,18 +1152,17 @@ The project successfully migrated to Development Build architecture early in dev
   - Personal records marked with badge icons on chart
   - Zoom/pan gestures supported for detailed inspection
 
-**US-025: Detect plateaus**
+**US-023: Detect plateaus**
 
-- As a user, I want the app to notify me when my progress has stalled so that I can adjust my training.
+- As a user, I want to see when my progress has stalled so that I can adjust my training.
 - Acceptance criteria:
-  - Plateau detection runs Mann-Kendall statistical test on 4-8 week rolling window
-  - Algorithm identifies plateau when slope <0.5 kg/week AND p-value >0.05 (no significant trend)
-  - Alert badge appears on Analytics dashboard: "Bench Press: Plateau Detected"
-  - Tapping alert shows chart with flat trend line and statistical summary
-  - Suggestion provided: "Consider deload week, increase volume, or change exercise variation"
-  - Plateau detection requires minimum 4 weeks of consistent data (2+ workouts/week)
+  - Simple trend detection: if max weight hasn't increased in 4+ consecutive workouts, show notice
+  - Notice appears on exercise detail screen: "No progress in last 4 workouts"
+  - Trend line visualization shows flat slope over plateau period
+  - Basic suggestion provided: "Consider increasing weight, reps, or sets"
+  - Detection requires minimum 4 workouts of consistent data for same exercise
 
-**US-026: View personal records**
+**US-024: View personal records**
 
 - As a user, I want to see my personal bests for each exercise so that I can celebrate achievements.
 - Acceptance criteria:
@@ -1166,16 +1172,16 @@ The project successfully migrated to Development Build architecture early in dev
   - Tapping PR opens workout detail where record was set
   - Records sync across devices via Supabase
 
-**US-027: Calculate estimated 1RM**
+**US-025: Calculate estimated 1RM**
 
 - As a user, I want to see my estimated 1-rep max for exercises even if I never test it directly.
 - Acceptance criteria:
-  - 1RM calculated using average of three validated formulas: Epley [weight × (1 + reps/30)], Brzycki [weight × (36 / (37 - reps))], Lombardi [weight × reps^0.1]
+  - 1RM calculated using standard Epley formula: weight × (1 + reps/30)
   - Calculation most accurate for 1-10 rep range, shows warning for 10+ reps ("Estimate less accurate for high reps")
   - Estimated 1RM displayed in exercise detail screen and analytics charts
   - Historical 1RM progression chart shows trend over time
 
-**US-028: Analyze volume distribution**
+**US-026: Analyze volume distribution**
 
 - As a user, I want to see how my training volume is distributed across muscle groups to ensure balanced development.
 - Acceptance criteria:
@@ -1186,7 +1192,7 @@ The project successfully migrated to Development Build architecture early in dev
 
 ### Settings and preferences
 
-**US-029: Configure unit preferences**
+**US-027: Configure unit preferences**
 
 - As a user, I want to set my preferred units (kg/lbs, km/miles) so that all data displays in my preferred system.
 - Acceptance criteria:
@@ -1195,7 +1201,7 @@ The project successfully migrated to Development Build architecture early in dev
   - Unit preference saves to users.preferred_unit and users.preferred_distance_unit in Supabase
   - Syncs across devices via user profile sync
 
-**US-030: Configure rest timer defaults**
+**US-028: Configure rest timer defaults**
 
 - As a user, I want to set default rest timer durations for different exercise types so that the timer auto-starts with appropriate times.
 - Acceptance criteria:
@@ -1203,7 +1209,7 @@ The project successfully migrated to Development Build architecture early in dev
   - Override option: "Use historical average" (calculates average rest from past workouts)
   - Settings save to MMKV for instant access during workouts
 
-**US-031: Configure plate calculator**
+**US-029: Configure plate calculator**
 
 - As a user, I want to customize which plates are available at my gym so that the plate calculator shows accurate recommendations.
 - Acceptance criteria:
@@ -1212,7 +1218,7 @@ The project successfully migrated to Development Build architecture early in dev
   - Bar type selection: Olympic (20kg/45lbs), Standard (15kg/35lbs), Custom (user enters bar weight)
   - Settings save to MMKV, immediately reflected in plate calculator
 
-**US-032: Manage data and privacy**
+**US-030: Manage data and privacy**
 
 - As a user, I want control over my data including export, deletion, and privacy settings.
 - Acceptance criteria:
@@ -1222,7 +1228,7 @@ The project successfully migrated to Development Build architecture early in dev
 
 ### Onboarding and help
 
-**US-033: Complete onboarding**
+**US-031: Complete onboarding**
 
 - As a new user, I want to be guided through initial setup so that the app is configured to my preferences.
 - Acceptance criteria:
@@ -1232,15 +1238,15 @@ The project successfully migrated to Development Build architecture early in dev
   - Completion saves preferences to user profile and marks onboarding_complete in MMKV
   - User redirected to Home/Workout tab after completion
 
-**US-034: Access help documentation**
+**US-032: Access help documentation**
 
 - As a user, I want to access help articles or FAQs when I have questions about features.
 - Acceptance criteria:
-  - Help section in Profile/Settings with topics: "How to log a workout", "Understanding RPE and RIR", "Reading analytics charts", "Plate calculator guide", "Offline mode explained"
+  - Help section in Profile/Settings with topics: "How to log a workout", "Reading analytics charts", "Plate calculator guide", "Workout templates guide", "Offline mode explained"
   - Each topic opens in-app text screen with instructions and screenshots
   - "Contact Support" button opens email client with pre-filled subject
 
-**US-035: Provide feedback**
+**US-033: Provide feedback**
 
 - As a user, I want to report bugs or request features so that the app can improve.
 - Acceptance criteria:

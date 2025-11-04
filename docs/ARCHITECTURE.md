@@ -57,12 +57,14 @@ src/
 
 ```
 app/
-├── (tabs)/           # Tab navigation group
-│   ├── index.tsx     # Home screen
-│   ├── workout.tsx   # Workout screen
-│   ├── stats.tsx     # Analytics screen
-│   ├── settings.tsx  # Settings screen
-│   └── _layout.tsx   # Tab bar configuration
+├── (tabs)/           # Tab navigation group (2 tabs)
+│   ├── workout/      # Workout tab with sub-tabs
+│   │   ├── find.tsx      # Find: Browse pre-made plans
+│   │   ├── planned.tsx   # Planned: Active plan
+│   │   └── _layout.tsx   # Sub-tab configuration
+│   ├── profile.tsx   # Profile screen
+│   └── _layout.tsx   # Tab bar configuration (Workout | Profile)
+├── settings.tsx      # Settings screen (accessed via gear icon)
 ├── index.tsx         # Root redirect
 └── _layout.tsx       # Global layout + DB init
 ```
@@ -159,7 +161,7 @@ hooks/
 │   ├── useActiveWorkout.ts
 │   ├── useSetLogger.ts
 │   └── index.ts
-├── analytics/
+├── analytics/        # 🔮 Post-MVP (Phase 6)
 │   ├── useWorkoutStats.ts
 │   └── index.ts
 ├── auth/
@@ -225,7 +227,7 @@ services/
 │   ├── mmkvStorage.ts
 │   └── index.ts
 ├── api/              # External APIs (ExerciseDB)
-├── analytics/        # Analytics calculations
+├── analytics/        # 🔮 Post-MVP (Phase 6) - Analytics calculations
 └── notifications/    # Push notifications
 ```
 
@@ -271,7 +273,7 @@ stores/
 ├── workout/
 │   ├── workoutStore.ts
 │   └── index.ts
-├── analytics/
+├── analytics/        # 🔮 Post-MVP (Phase 6)
 │   └── analyticsStore.ts
 ├── settings/
 │   └── settingsStore.ts

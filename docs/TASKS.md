@@ -8,27 +8,28 @@
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/26)](#phase-05-architecture--foundation-2126)
 6. [Phase 0.6: UI/UX Foundation (6/8)](#phase-06-uiux-foundation-68)
-7. [Phase 1: Authentication & Foundation (1/27)](#phase-1-authentication--foundation-127)
-8. [Phase 2: Workout Logging (0/21)](#phase-2-workout-logging-021)
-9. [Phase 3: Exercise Library & Testing (0/10)](#phase-3-exercise-library--testing-010)
-10. [Phase 4: Analytics & Smart Features (0/11)](#phase-4-analytics--smart-features-011)
-11. [Phase 5: Polish, Monitoring & Beta Launch (0/16)](#phase-5-polish-monitoring--beta-launch-016)
+7. [Phase 1: Authentication & Foundation (0/6)](#phase-1-authentication--foundation-06)
+8. [Phase 2: Workout Plans & Navigation (0/12)](#phase-2-workout-plans--navigation-012)
+9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
+10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
+11. [Phase 5: Polish & Deployment (0/5)](#phase-5-polish--deployment-05)
+12. [Post-MVP Backlog](#post-mvp-backlog)
 
 ---
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6)
-**Progress**: 28/119 tasks (24%)
-**Timeline**: 17 weeks • Started 2025-01-20 • Target 2025-05-19
-**Last Updated**: 2025-02-01 • **Next Milestone**: Complete Infrastructure & UI Foundation (Phase 0.6)
+**Progress**: 27/65 tasks (42%) • MVP Scope: Active tasks only (excludes deferred/optional)
+**Timeline**: 12-13 weeks • Started 2025-01-20 • Target 2025-04-20
+**Last Updated**: 2025-02-04 • **Next Milestone**: Complete ExerciseDB Import (Phase 0.6)
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6.C - Foundation Infrastructure (ExerciseDB Import)
-**Phase Progress**: 21/26 (Phase 0.5) + 6/8 (Phase 0.6) • **Overall**: 28/119 tasks (24%)
-**Critical Blockers**: None • **Velocity**: ~5 tasks/week (excellent!)
+**Current Focus**: Phase 0.6.C - ExerciseDB Import (1,300+ exercises)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 6/7 (Phase 0.6 - 86%) • **Overall**: 27/65 tasks (42%)
+**Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
 ### Recent Completions ✅
 
@@ -42,26 +43,28 @@
 
 ## Kanban
 
+**Legend:** 🔥 High Priority | 🟠 Blocked/Pending | ✅ Done | `[S/M/L]` Size (Small/Medium/Large)
+
 | TODO (Top 5)                         | DOING | DONE (Last 5)                   |
 | ------------------------------------ | ----- | ------------------------------- |
 | **0.6.8** ExerciseDB import `[L]` 🔥 |       | **0.6.6** Environment vars ✅   |
-| **1.1** Validation tests `[S]` 🟠    |       | **0.6.4** Core components ✅    |
-| **1.5** Login screen UI `[M]` 🟠     |       | **0.6.3** Dark theme ✅         |
-| **1.6** Register screen UI `[M]` 🟠  |       | **0.6.9** Design system ✅      |
-| **1.7** Supabase auth `[M]` 🟠       |       | **0.6.2** @expo/vector-icons ✅ |
+| **1.10** Login screen `[M]` 🟠       |       | **0.6.4** Core components ✅    |
+| **1.20** Register screen `[M]` 🟠    |       | **0.6.3** Dark theme ✅         |
+| **1.30** Supabase auth `[M]` 🟠      |       | **0.6.9** Design system ✅      |
+| **1.40** Password reset `[M]`        |       | **0.6.2** @expo/vector-icons ✅ |
 
-**Progress**: Phase 0.5: 21/26 (81%) • Phase 0.6: 6/8 (75%) • Overall: 28/119 (24%)
-**Velocity**: ~6 tasks/week (excellent!) • **ETA**: Phase 0.6 complete in 1-2 days
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 6/7 (86%) • Overall: 27/65 (42%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 12-13 weeks
 **NEXT**: 0.6.8 ExerciseDB Import 🔥 (3-4h) → Phase 1 Auth screens
 
 ---
 
 ## Development Roadmap
 
-**Note:** Phase progress details are in the [Phase Timeline & Effort](#phase-timeline--effort) table and individual phase headers below. This visual shows high-level flow and completion status.
+**Note:** MVP scope = 65 active tasks (excludes 7 deferred/optional tasks). Analytics and advanced features moved to Post-MVP backlog.
 
 ```
-Phase 0.5: Architecture & Foundation (21/26 tasks)
+Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
    ├─ Initial setup ✅
    ├─ Dev tools setup ✅
    ├─ EAS Build + Dev Client ✅
@@ -70,70 +73,84 @@ Phase 0.5: Architecture & Foundation (21/26 tasks)
    ├─ MMKV Storage Migration ✅
    ├─ Victory Native Charts Migration ✅
    ├─ Development Build Migration ✅
-   └─ COMPLETE: Infrastructure (0.5.3-4) ✅
+   └─ Infrastructure Complete ✅
         ↓
-Phase 0.6: UI/UX Foundation (6/8 tasks) 75% ✅
-   ├─ React Native Reusables (shadcn/ui base) ✅
-   ├─ React Native Vector Icons integration ✅
-   ├─ Single dark mode design system ✅
-   ├─ Core components (Button, Input, Card, Alert) ✅
-   ├─ Design system documentation ✅
-   └─ ExerciseDB Import (next priority) 🔥
+Phase 0.6: UI/UX Foundation (6/7 tasks) 86% 🔄
+   ├─ React Native Reusables ✅
+   ├─ Vector Icons ✅
+   ├─ Dark theme ✅
+   ├─ Core components ✅
+   ├─ Design system ✅
+   └─ ExerciseDB Import (NEXT) 🔥
         ↓
-Phase 1: Authentication & Foundation (1/27 tasks)
-   ├─ Supabase Auth integration
+Phase 1: Authentication & Foundation (0/6 tasks)
    ├─ Login/Register screens
-   ├─ CI/CD pipeline ✅
-   └─ Type definitions
+   ├─ Supabase Auth integration
+   ├─ Password reset flow
+   ├─ Protected routes
+   └─ Maestro E2E setup
         ↓
-Phase 2: Workout Logging (0/21 tasks)
+Phase 2: Workout Plans & Navigation (0/12 tasks)
+   ├─ Bottom tabs (Workout, Profile)
+   ├─ Workout sub-tabs (Find, Planned)
+   ├─ Jefit-style Plan system
+   ├─ "All Plans" management
+   ├─ Exercise selector (1,300+ ExerciseDB)
+   └─ Workout Day creation/editing
+        ↓
+Phase 3: Active Workout Tracking (0/9 tasks)
    ├─ Active workout screen
-   ├─ Set logging interface
-   ├─ Rest timer
+   ├─ Swipe gestures between exercises
+   ├─ Set logging (W marker, weight, reps)
+   ├─ Rest timer + notifications
+   ├─ Auto-fill from last workout
    └─ Workout history
         ↓
-Phase 3: Exercise Library & Testing (0/10 tasks)
-   ├─ ExerciseDB API integration (1,300+ exercises)
-   ├─ Exercise selector
-   ├─ Custom exercises
-   └─ Search & filters
+Phase 4: Profile & Settings (0/5 tasks)
+   ├─ Profile screen
+   ├─ Settings (units, logout)
+   └─ GDPR compliance (export, delete)
         ↓
-Phase 4: Analytics & Smart Features (0/11 tasks)
-   ├─ Progress charts (Victory Native)
-   ├─ Volume tracking
-   ├─ Plateau detection (simple trend)
-   └─ Workout reports
+Phase 5: Polish & Deployment (0/5 tasks)
+   ├─ Sentry verification
+   ├─ Performance optimization
+   └─ TestFlight/Play Store
         ↓
-Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
-   ├─ Onboarding flow
-   ├─ Sentry monitoring
-   ├─ Privacy compliance (GDPR)
-   └─ Beta testing program
+    🎉 MVP COMPLETE
+
+    (Post-MVP: Analytics, Plate Calculator, Set History, etc.)
 ```
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks   | Est. Time    | Status       | Dependencies                |
-| --------- | ------- | ------------ | ------------ | --------------------------- |
-| **0.5**   | 26      | 50-60h       | 81% DONE     | None (started)              |
-| **0.6**   | 8       | 14-17h       | IN PROGRESS  | ← Phase 0.5 complete        |
-| **1**     | 27      | 54-67h       | BLOCKED      | ← Phase 0.6 UI foundation   |
-| **2**     | 21      | 51-61h       | BLOCKED      | ← Phase 1 auth              |
-| **3**     | 10      | 28-35h       | BLOCKED      | ← Phase 2 workout core      |
-| **4**     | 11      | 35-45h       | BLOCKED      | ← Phase 3 exercise library  |
-| **5**     | 16      | 43-53h       | BLOCKED      | ← Phase 4 analytics         |
-| **TOTAL** | **119** | **275-348h** | **23% done** | **14-18 weeks at 20h/week** |
+| Phase     | Tasks  | Est. Time | Status       | Dependencies                |
+| --------- | ------ | --------- | ------------ | --------------------------- |
+| **0.5**   | 21     | 50-60h    | 100% DONE ✅ | None (started)              |
+| **0.6**   | 7      | 14-17h    | 86% DONE     | ← Phase 0.5 complete        |
+| **1**     | 6      | ~15h      | BLOCKED      | ← Phase 0.6 UI foundation   |
+| **2**     | 12     | ~31h      | BLOCKED      | ← Phase 1 auth              |
+| **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans             |
+| **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)     |
+| **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete       |
+| **TOTAL** | **65** | **~110h** | **42% done** | **12-13 weeks at 10h/week** |
 
-**⚠️ Critical Path:** Phase 0.5.D (Infrastructure) → Phase 0.6 (UI Foundation) → Phase 1 (Auth screens).
+**⚠️ Critical Path:** Phase 0.6 (ExerciseDB) → Phase 1 (Auth) → Phase 2 (Plans) → Phase 3 (Active Workout)
+
+**📊 MVP Scope Change:**
+
+- Original: 119 tasks, 17 weeks
+- Refined: 65 active tasks, 12-13 weeks (~45% reduction)
+- Excludes: 7 deferred/optional tasks + 47 Post-MVP features
+- Analytics, advanced features → Post-MVP backlog
 
 ---
 
-## Phase 0.5: Architecture & Foundation (21/26)
+## Phase 0.5: Architecture & Foundation (21/21) ✅ COMPLETE
 
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 21/121 tasks (81%) | **Est. Time Remaining:** ~5h (Phase 0.5 completion)
+**Progress:** 21/21 tasks (100%) | **Status:** COMPLETE ✅ | **Optional tasks deferred:** 5 tasks in section 0.5.E
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
@@ -266,7 +283,8 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   - Test screen with 120 mock workouts (smooth 60 FPS scroll)
   - Updated fixtures with 8 workout templates
   - Complete documentation (usage guide, Phase 2 integration)
-- [x] 0.5.4 **Configure expo-image with caching** (S - 1h) ✅ 2025-10-31
+
+- [x] 0.5.4 **Configure expo-image with caching** (S - 1h) ✅ 2025-01-31
   - Created CachedImage wrapper component (`src/components/ui/CachedImage.tsx`)
   - Default `cachePolicy="memory-disk"` (PRD <200ms requirement)
   - Skeleton placeholder + error handling with fallback images
@@ -304,12 +322,12 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-## Phase 0.6: UI/UX Foundation (6/8)
+## Phase 0.6: UI/UX Foundation (6/7)
 
 **Timeline:** Week 8 | **Priority:** HIGH
 **Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 6/121 tasks (75%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only)
+**Progress:** 6/7 tasks (86%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only) | **Deferred tasks:** 2 (0.6.5, 0.6.7)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -416,16 +434,18 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   **Step 3: Create Import Script** (2-3h)
   - Create `scripts/seed-exercisedb.ts` with:
     1. Fetch ALL exercises: `GET /exercises` (returns 1,300+ exercises)
-    2. Transform ExerciseDB format → Supabase schema:
-       - `bodyPart` → `muscle_group`
-       - `equipment` → `equipment`
-       - `name` → `name` (capitalize)
-       - `gifUrl` → `image_url`
-       - Infer `difficulty` from equipment (barbell=intermediate, machine=beginner, etc.)
-       - Set `is_custom = false`, `featured = false`
-    3. Tag top 100 popular exercises as `featured = true` (Bench Press, Squat, Deadlift, etc.)
-    4. Bulk insert to Supabase `exercises` table (single transaction)
-    5. Sync to WatermelonDB via `synchronize()`
+    2. **Pure 1:1 mapping** (ADR-019 - Zero custom fields, zero transformations):
+       - Direct passthrough: ExerciseDB API response → Supabase `exercises` table
+       - 14 ExerciseDB fields (match schema.ts exactly):
+         - `exercisedb_id`, `name`, `body_parts` (JSON array)
+         - `target_muscles` (JSON array), `secondary_muscles` (JSON array)
+         - `equipments` (JSON array), `exercise_type`, `instructions` (JSON array)
+         - `exercise_tips` (JSON array), `variations` (JSON array)
+         - `overview`, `image_url`, `video_url`, `keywords` (JSON array)
+       - ⚠️ **IMPORTANT**: Use plural field names (`body_parts`, `equipments` with 's')
+       - ⚠️ **NO CUSTOM FIELDS**: NO is_custom, NO featured, NO difficulty, NO movement_pattern (per ADR-019, ADR-017)
+    3. Bulk insert to Supabase `exercises` table (single transaction, ~1,300 rows)
+    4. Sync to WatermelonDB via `synchronize()` (exercises available offline)
 
   **Step 4: Test & Validate** (30min)
   - Run script: `npm run seed:exercisedb`
@@ -455,1071 +475,458 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-## Phase 1: Authentication & Foundation (1/30)
+## Phase 1: Authentication & Foundation (0/6)
 
-**Timeline:** Weeks 4-5 | **Priority:** HIGH
+**Timeline:** Weeks 9-10 | **Priority:** HIGH
+**Goal:** Login/Register basics + Maestro E2E setup
 
-### 1. Infrastructure & Types
+**Progress:** 0/6 tasks (0%) | **Est. Time:** ~15h (2 weeks)
 
-**Goal:** Setup foundational infrastructure before implementing features
+**Dependencies:** Phase 0.6 complete (UI components ready)
 
-- [ ] 1.1 **Write unit tests for validation utilities** (S - 1.5h) `[src/utils/__tests__/validation.test.ts]`
-  - Test email format validation (valid/invalid cases)
-  - Test password strength validation (8+ chars, special chars)
-  - Test edge cases (empty strings, SQL injection attempts)
-  - Use Jest + @testing-library/react-native
-  - TDD approach: Write tests BEFORE implementing validation.ts
+**Key Note:** Biometric auth removed (not needed - user logs in once). Simple email/password authentication only.
 
-- [ ] 1.2 **Setup Supabase Storage & image upload** (M - 2h) `[src/services/supabase/storage.ts]`
-  - Configure storage bucket for profile images
-  - Create upload utility (compress images before upload)
-  - Create delete utility (cleanup old images)
-  - Setup RLS policies for user-owned images
-  - Test with example image upload
+---
 
-- [ ] 1.3 **Configure expo-notifications & background tasks** (S - 1h) `[src/services/notifications.ts]`
-  - Setup push notification permissions
-  - Create notification scheduler for rest timer
-  - Create notification for workout reminders
-  - Test local notifications
-  - Defer: Push notifications to Phase 4
+- [ ] 1.10 **Create login screen UI** (M - 2h) `[src/app/(auth)/login.tsx]`
+      **Components**: Button, Input, Label, Alert (from 0.6.4 - React Native Reusables)
+  - Email/password inputs (Input + Label components)
+  - Login button (Button component with loading state)
+  - "Forgot password" link → 1.40
+  - "Create account" link → 1.20
+  - Error handling with Alert component
+  - Dark theme styling (#4299e1 primary blue)
 
-- [ ] 1.4 **Add form validation utilities** (S - 2h) `[src/utils/validation.ts]`
-  - Email format validation (regex)
-  - Password strength validation (min 8 chars, etc.)
-  - Error message generation
-  - Generic form validation helpers
-  - **IMPORTANT:** Implement AFTER writing tests in task 1.1
-
-### 2. Authentication Screens
-
-- [ ] 1.5 **Create login screen UI** (M - 3h) `[src/app/(auth)/login.tsx]`
-  - Email/password inputs (use Input component)
-  - Login button (use Button component)
-  - "Forgot password" link
-  - "Create account" link
-  - Loading state, error handling
-
-- [ ] 1.6 **Create register screen UI** (M - 3h) `[src/app/(auth)/register.tsx]`
-  - Email/password inputs
-  - Password confirmation
+- [ ] 1.20 **Create register screen UI** (M - 2h) `[src/app/(auth)/register.tsx]`
+      **Components**: Button, Input, Label, Alert (from 0.6.4 - React Native Reusables)
+  - Email/password inputs with validation (Input + Label)
+  - Password confirmation field
   - Terms acceptance checkbox
-  - Register button
-  - Validation (email format, password strength)
+  - Register button (Button component with loading state)
+  - Link back to login (1.10)
+  - Validation: email format, password ≥8 chars
+  - Error display with Alert component
 
-- [ ] 1.7 **Implement Supabase authentication integration** (M - 4h) `[src/services/supabase/auth.ts]`
+- [ ] 1.30 **Implement Supabase Auth integration** (M - 3h) `[src/services/auth/]`
   - Sign up functionality
   - Sign in functionality
   - Sign out functionality
-  - Session management with MMKV encrypted storage
-  - Error handling (user-friendly messages)
+  - Session management (JWT tokens in MMKV)
+  - Error handling with user-friendly messages
+  - Auth state persistence across app restarts
 
-- [ ] 1.8 **Implement password reset flow** (M - 3h) `[src/utils/validation.ts]`
-  - Email format validation (regex)
-  - Password strength validation (min 8 chars, etc.)
-  - Error message generation
-  - Generic form validation helpers
-
-- [ ] 1.9 **Implement email verification flow** (M - 3h) `[src/app/(auth)/reset-password.tsx]`
+- [ ] 1.40 **Implement password reset flow** (M - 2h) `[src/app/(auth)/reset-password.tsx]`
   - Request reset screen (email input)
-  - Reset confirmation screen
-  - Supabase email notification
+  - Supabase password reset email
+  - Deep link handler for reset token
+  - New password form
   - Success/error states
 
-- [ ] 1.10 **Implement session refresh logic** (M - 2h) `[src/app/(auth)/verify-email.tsx]`
-  - Deep link handler for verification token
-  - Verification screen UI (loading, success, error states)
-  - Supabase email verification integration
-  - Auto-redirect to tabs on success
-  - Resend verification email option
-
-- [ ] 1.11 **Setup protected routes** (S - 1.5h) `[src/services/supabase/auth.ts]`
-  - Auto-refresh tokens before expiry
-  - Handle refresh failures gracefully
-  - Store refresh token in MMKV encrypted storage
-  - Silent refresh in background
-  - Logout on permanent refresh failure
-
-- [ ] 1.12 **Add biometric authentication** (M - 3h) `[src/services/auth/biometric.ts]`
-  - Install expo-local-authentication
-  - Face ID/Touch ID enrollment flow
-  - Biometric re-authentication for quick login
-  - Fallback to password if biometric fails
-  - Settings toggle to enable/disable
-  - Secure credential storage with MMKV encryption
-
-- [ ] 1.13 **Create workout templates system** (L - 4h) `[src/services/database/templates.ts]`
-  - Create workout_templates table with WatermelonDB schema
-  - CRUD operations: save active workout as template
-  - Template fields: name, exercises[], sets[], rest_times[]
-  - Template loading: populate active workout from template
-  - Template management UI: list, edit, delete templates
-  - Integration: "Save as Template" button in workout screen
-  - Benefits: Jefit-style routine reuse (core feature)
-
-- [ ] 1.14 **Implement rest timer with auto-start** (M - 3h) `[src/components/workout/RestTimer.tsx]`
-  - Auto-start timer after set completion (configurable delay)
-  - Visual countdown (circular progress + seconds remaining)
-  - Audio notification when rest period complete
-  - Pause/resume/skip controls
-  - Background timer support (continues when app backgrounded)
-  - Notification support: expo-notifications integration
-  - Benefits: Jefit-style pacing (essential for gym efficiency)
-
-- [ ] 1.15 **Implement auto-save system** (M - 2.5h) `[src/hooks/workout/useAutoSave.ts]`
-  - Debounced auto-save (500ms after last edit)
-  - WatermelonDB batch writes for performance
-  - Visual feedback: "Saving..." / "Saved" indicator
-  - Integration: useWorkoutStore with MMKV persistence
-  - Error handling: Retry failed saves with exponential backoff
-  - Benefits: Jefit-style reliability (never lose workout data)
-
-- [ ] 1.19 **Document Manual E2E Test Checklists** (S - 1.5h) `[e2e/manual/]`
-  - Create `e2e/manual/sync-checklist.md` (Supabase sync scenarios)
-  - Create `e2e/manual/offline-crud.md` (Offline CRUD operations)
-  - Create `e2e/manual/auth-flows.md` (Login/logout/reset password)
-  - Document prerequisites (Dev Build, test account, network toggle)
-  - Include pass/fail criteria for each scenario
-  - Reference: `src/services/database/__tests__/README.md` § E2E Testing
-
-### 2. Navigation Structure
-
-- [ ] 2.2 Create tab navigation layout (M - 3h) `[src/app/(tabs)/_layout.tsx]`
-  - Workout tab
-  - Exercises tab
-  - Analytics tab (renamed from "Stats")
-  - Profile tab (renamed from "Settings")
-  - Custom tab bar styling (dark theme)
-
-- [ ] 2.3 Implement navigation guards (S - 2h) `[src/app/_layout.tsx]`
+- [ ] 1.50 **Setup protected routes & navigation guards** (S - 1.5h) `[src/app/_layout.tsx]`
   - Redirect to login if not authenticated
-  - Redirect to tabs if authenticated
+  - Redirect to Workout tab if authenticated
   - Loading screen during auth check
-  - Deep linking support
+  - Deep linking support for auth flows
 
-- [ ] 2.4 Create placeholder tab screens (M - 2h)
-  - [src/app/(tabs)/workout.tsx] - Workout logging screen
-  - [src/app/(tabs)/exercises.tsx] - Exercise library screen
-  - [src/app/(tabs)/analytics.tsx] - Analytics dashboard
-  - [src/app/(tabs)/profile.tsx] - User profile & settings
+- [ ] 1.60 **Setup Maestro E2E + Auth tests** (L - 4h) `[.maestro/auth/]`
+  - Install Maestro CLI globally
+  - Create .maestro/auth/ directory
+  - Write auth-login.yaml (email/password login flow)
+  - Write auth-register.yaml (new account creation)
+  - Write auth-password-reset.yaml (reset flow)
+  - Document test execution in docs/TESTING.md
+  - Run tests on Development Build to verify
 
-- [ ] 2.5 **Configure deep linking & navigation types** (M - 2h) `[app.json + types]`
-  - Configure app.json scheme: "halterofit://"
-  - Setup linking config for expo-router
-  - Create route handlers for auth tokens:
-    - verify-email?token=xxx
-    - reset-password?token=xxx
-  - TypeScript navigation types for type-safe routing
-  - Test deep links on physical device
-  - Document deep link patterns
+---
 
-- [ ] 2.6 **Create network status indicator & sync queue** (M - 2.5h) `[src/components/shared/NetworkStatus.tsx]`
-  - Offline badge indicator (top of screen)
-  - Sync queue counter (pending changes)
-  - Network connectivity monitoring (NetInfo)
-  - Auto-sync when connection restored
-  - Visual feedback during sync
-  - User-friendly "Working offline" message
+---
 
-### 3. Core UI Components
+## Phase 2: Workout Plans & Navigation (0/12)
 
-- [ ] 3.2 Create Input component (M - 3h) `[src/components/ui/Input.tsx]`
-  - Types: text, email, password, number
-  - Error state with message
-  - Label and helper text
-  - Icons (left/right)
-  - Auto-focus, keyboard type
+**Timeline:** Weeks 11-14 | **Priority:** CRITICAL
+**Goal:** Jefit-style navigation with Find/Planned tabs + Plan management
+
+**Progress:** 0/12 tasks (0%) | **Est. Time:** ~31h (4 weeks)
+
+**Dependencies:**
+
+- Phase 1 complete (Auth required for user-specific plans)
+- Phase 0.6.8 complete (ExerciseDB needed for plan creation)
+
+**Key Screens:** See `docs/images/emptyPlan.jpeg` and `docs/images/FullPlan.jpeg`
+
+---
+
+- [ ] 2.10 **Create bottom tab navigation** (M - 2h) `[src/app/(tabs)/_layout.tsx]`
+  - 2 main tabs: Workout, Profile
+  - Tab icons (from @expo/vector-icons)
+  - Active/inactive states
+  - Dark theme styling
+  - Tab bar positioned at bottom
+
+- [ ] 2.20 **Create Workout sub-tabs** (M - 3h) `[src/app/(tabs)/workout/_layout.tsx]`
+  - 2 sub-tabs: Find, Planned
+  - Horizontal tab bar (top of screen)
+  - Sub-tab switching animations
+  - Default to "Planned" tab on first load
+  - Settings icon (gear) in header → Phase 4.30
+
+- [ ] 2.30 **Create "All Plans" modal** (M - 2h) `[src/components/workout/AllPlansModal.tsx]`
+  - Modal triggered by "All Plans" button (top-right)
+  - List of saved plans (FlashList)
+  - Each item: Plan name, days count, last modified date
+  - Tap to activate plan → switches to "Planned" tab
+  - Empty state: "No saved plans yet"
+  - Close button
+
+- [ ] 2.40 **Create "Find" tab UI** (M - 3h) `[src/app/(tabs)/workout/find.tsx]`
+  - Browse pre-made workout plans
+  - Plan cards: Name, image, description, days count, difficulty
+  - Tap plan → View plan details
+  - "Save Plan" button → Adds to "All Plans" (2.30)
+  - FlashList for performance
+  - Search/filter (optional for MVP, defer if time constraint)
+
+- [ ] 2.50 **Seed 1-2 workout plan templates** (S - 1h) `[scripts/seed-plans.ts]`
+  - Create 1-2 example plans (e.g., "PPL 5x/week", "Upper/Lower 4x/week")
+  - Insert to Supabase workout_plans table
+  - Mark as is_template = true (public templates)
+  - Include exercises from ExerciseDB (requires 0.6.8 complete)
+  - Sync to WatermelonDB
+
+- [ ] 2.60 **Implement "Create Plan" flow** (L - 4h) `[src/app/(tabs)/workout/create-plan.tsx]`
+  - Button in "Planned" tab header (top-right)
+  - On tap: Create new plan with name "New Workout"
+  - Initialize with 1 day: "MON Workout Day #1"
+  - Redirect to "Planned" tab showing new plan
+  - Replace current active plan display
+  - Store plan in WatermelonDB + Supabase
+
+- [ ] 2.70 **Implement Plan CRUD operations** (M - 2h) `[src/services/database/plans.ts]`
+  - Rename plan (tap plan name in header)
+  - Delete plan (confirmation dialog)
+  - Activate plan (switch active plan)
+  - Duplicate plan (optional for MVP)
+  - WatermelonDB + Supabase sync
+
+- [ ] 2.80 **Create Workout Day card component** (M - 3h) `[src/components/workout/WorkoutDayCard.tsx]`
+  - Card design from emptyPlan.jpeg/FullPlan.jpeg
+  - Left: Muscle group icon (auto-generated from exercises)
+  - Center: Day name, Est. time, exercises count, last completed date
+  - Right: 3-dots menu (rename, delete), chevron (view details)
+  - Blue border for current day
+  - Drag handle for reordering (optional for MVP)
+
+- [ ] 2.90 **Implement "Add a day" functionality** (M - 2h) `[src/components/workout/AddDayButton.tsx]`
+  - Button below last workout day card
+  - On tap: Create new day "Workout Day #N" (N = count + 1)
+  - Auto-scroll to new day
+  - Update plan in WatermelonDB + Supabase
+
+- [ ] 2.100 **Implement Workout Day CRUD** (M - 2h) `[src/components/workout/WorkoutDayMenu.tsx]`
+  - 3-dots menu opens bottom sheet
+  - Options: Rename, Delete (with confirmation)
+  - Rename: Inline text input or modal
+  - Delete: Remove day from plan, shift remaining days
+  - Update plan in WatermelonDB + Supabase
+
+- [ ] 2.110 **Create exercise selector modal** (L - 4h) `[src/components/workout/ExerciseSelector.tsx]`
+      **Tech**: WatermelonDB reactive queries + FlashList + expo-image (all installed ✓)
+  - Modal with search bar (auto-focused)
+  - **Real-time search** (300ms debounce) on 1,300+ ExerciseDB exercises:
+    ```typescript
+    exercises.query(Q.where('name', Q.like(`%${term}%`))).observeWithColumns(['name', 'body_parts', 'equipments']);
+    ```
+  - Filter by body_parts, equipments (bottom sheet with JSON array queries)
+  - Exercise cards: Name, GIF thumbnail (expo-image cached), body parts, equipments
+  - FlashList for performance (estimatedItemSize: 80)
+  - Tap exercise → Add to workout day
+  - Close modal after adding
+
+  **Jefit Pattern**: Real-time search with instant results (confirmed via research)
+
+- [ ] 2.120 **Add exercises to workout days** (M - 3h) `[src/app/(tabs)/workout/day-details/[dayId].tsx]`
+  - "Day Details" tab/screen showing exercises for selected day
+  - Exercise list (FlashList): Name, sets, reps, rest time
+  - "Add Exercise" button → Opens 2.110 selector
+  - Drag to reorder exercises (optional for MVP)
+  - Tap exercise → Edit sets/reps (modal or inline)
+  - Delete exercise (swipe or 3-dots menu)
+  - Save changes to WatermelonDB + Supabase
+
+---
+
+---
+
+## Phase 3: Active Workout Tracking (0/9)
+
+**Timeline:** Weeks 15-17 | **Priority:** CRITICAL
+**Goal:** Start workout → Swipe exercises → Log sets → Rest timer
+
+**Progress:** 0/9 tasks (0%) | **Est. Time:** ~27h (3 weeks)
+
+**Dependencies:** Phase 2 complete (need plans and exercises to start workout)
+
+**Key Features:** Swipe gestures (ESSENTIAL), Warmup sets "W" marker (ESSENTIAL), Rest timer with notifications (ESSENTIAL)
+
+---
+
+- [ ] 3.10 **Create active workout screen UI** (L - 4h) `[src/app/(tabs)/workout/active.tsx]`
+  - Full-screen view (hide tabs while workout active)
+  - Header: Workout name, duration timer, "End Workout" button
+  - Exercise cards (swipeable, one visible at a time)
+  - Footer: Rest timer display, set logging interface
+  - Skeleton state while loading
+
+- [ ] 3.20 **Implement swipe gesture between exercises** (M - 3h) `[src/components/workout/ExerciseSwiper.tsx]`
+      **Tech**: react-native-gesture-handler + react-native-reanimated v4 (both installed ✓)
+  - Horizontal Pan gesture (swipe left/right to navigate exercises)
+  - **Spring animations** (per DESIGN_SYSTEM.md):
+    ```typescript
+    withSpring(targetValue, { damping: 20, stiffness: 90 });
+    ```
+  - Timing: 200-300ms transitions
+  - Exercise indicator (1/5, 2/5, etc.) with animated progress
+  - Edge case: Disable swipe during set input (prevent accidental navigation)
+  - Haptic feedback on exercise change (`Haptics.impactAsync()`)
+
+  **Jefit Pattern**: Swipe left/right navigation confirmed (research: "seamless exercise selection by swiping")
+
+- [ ] 3.30 **Create set logging interface** (L - 4h) `[src/components/workout/SetLogger.tsx]`
+  - Set list: Display all sets for current exercise
+  - Each set row: Set # (or "W" for warmup), Weight input, Reps input, Checkmark
+  - Warmup toggle: Tap set # to toggle "W" marker
+  - Quick weight buttons: +5kg, +2.5kg, -2.5kg, -5kg (or lbs)
+  - Tap checkmark → Save set to WatermelonDB
+  - Visual: Completed sets grayed out, current set highlighted
+
+- [ ] 3.40 **Auto-fill weight/reps from last workout** (M - 2h) `[logic layer]`
+  - Query WatermelonDB for last completed workout with same exercise
+  - Pre-fill weight and reps for all sets
+  - User can edit before saving
+  - Handle first-time exercise (no history): Empty fields
+  - Display "Last workout: 100kg × 8 reps" as hint
+
+- [ ] 3.50 **Implement rest timer with notifications** (M - 4h) `[src/components/workout/RestTimer.tsx]`
+      **Tech**: expo-notifications (already installed ✓)
+  - Auto-start after set logged (default 90s, adjustable in settings)
+  - Circular progress indicator (Reanimated v4)
+  - Countdown timer (MM:SS format)
+  - Controls: +15s, -15s, Skip, Restart
+  - Audio + haptic feedback at 0:00
+  - **Local scheduled notification** when timer complete (works even if app killed)
+    - Use `Notifications.scheduleNotificationAsync()` with trigger delay
+    - Background/killed state support (Android/iOS)
+
+  **Jefit Learning**: Recent Jefit versions had negative UX feedback - timer "too dominant", blocks set selection. **Design balance**: Timer visible but NOT blocking UI interactions
+
+- [ ] 3.60 **Configure notification permissions & channels** (S - 1h) `[src/services/notifications/]`
+      **Tech**: expo-notifications (already installed ✓)
+  - Request notification permissions on first timer use
+  - Setup notification channels (Android): "Rest Timer" channel
+  - Configure notification behavior (sound, vibration, priority)
+  - Handle notification tap → navigate to active workout screen
+  - Test notifications in background/killed states (physical device)
+
+- [ ] 3.70 **Implement workout completion flow** (M - 2h) `[workout end logic]`
+  - "End Workout" button (confirmation dialog)
+  - Calculate total duration, volume, exercises completed
+  - Set completed_at timestamp
+  - Save to WatermelonDB, sync to Supabase
+  - Navigate to workout summary screen (simple version, no analytics)
+  - Clear active workout state
+
+- [ ] 3.80 **Create workout history screen** (M - 3h) `[src/app/(tabs)/workout/history.tsx]`
+  - List of past workouts (FlashList, paginated 20/page)
+  - Each item: Date, duration, exercises count, volume
+  - Tap → View workout detail (exercises, sets, reps logged)
+  - Swipe actions: "Repeat" (start new workout from this template), "Delete"
+  - Empty state: "No workouts logged yet"
+
+- [ ] 3.90 **Add Maestro E2E workout tests** (L - 3h) `[.maestro/workout/]`
+  - Write workout-start.yaml (start workout from plan)
+  - Write workout-log-set.yaml (log set, verify saved)
+  - Write workout-swipe.yaml (swipe between exercises)
+  - Write workout-rest-timer.yaml (rest timer flow)
+  - Write workout-complete.yaml (end workout, verify history)
+  - Run tests on Development Build to verify
+
+---
+
+---
+
+## Phase 4: Profile & Settings (0/5)
+
+**Timeline:** Week 18 | **Priority:** MEDIUM
+**Goal:** Profile screen, settings, GDPR compliance
+
+**Progress:** 0/5 tasks (0%) | **Est. Time:** ~11h (1-2 weeks)
+
+**Dependencies:** None (can develop in parallel with Phase 3)
+
+**Key Features:** Units (kg/lbs), Logout, Account deletion, Data export
+
+---
+
+- [ ] 4.10 **Create Profile screen UI** (M - 2h) `[src/app/(tabs)/profile.tsx]`
+  - Avatar (initials, no image upload for MVP)
+  - Username/email display
+  - Stats: Total workouts, total volume, streak
+  - Buttons: Settings, Logout
   - Dark theme styling
 
-- [ ] 3.3 Create Card component (S - 2h) `[src/components/ui/Card.tsx]`
-  - Standard card with elevation/shadow
-  - Header section (optional title, subtitle)
-  - Content section
-  - Footer section (optional actions)
-  - Pressable variant
-
-### 4. TypeScript Types & Configuration
-
-- [ ] 4.1 Create useful TypeScript types (M - 2h) `[src/types/]`
-
-  ```
-  Files to create:
-  - src/types/database.ts (database tables interfaces including preferred_unit)
-  - src/types/exercises.ts (exercise, set, workout types)
-  - src/types/user.ts (user, profile, user preferences types)
-  - src/types/analytics.ts (load metrics, fatigue ratios, workout reports)
-  - src/types/api.ts (API response types)
-
-  Note: Types needed throughout Phase 1-2 development
-  ```
-
-- [ ] 4.2 Setup development environment file (S - 30min)
-
-  ```
-  Tasks:
-  - Copy .env.example to .env
-  - Add all required environment variables
-  - Document in CONTRIBUTING.md
-  - Add .env to .gitignore (already done)
-
-  Variables needed:
-  - EXPO_PUBLIC_SUPABASE_URL
-  - EXPO_PUBLIC_SUPABASE_ANON_KEY
-  - SENTRY_DSN
-  - EXERCISEDB_API_KEY (if using paid tier)
-  ```
-
-- [ ] 4.3 **Create user settings screen** (M - 3h) `[src/app/(tabs)/profile/settings.tsx]`
-  - Preferences section:
-    - Units (kg/lbs toggle with conversion)
-    - Language (future-ready, English only for MVP)
-  - Notifications section:
-    - Rest timer notifications toggle
-    - Weekly summary notifications toggle
-    - Achievement notifications toggle
-  - Privacy section:
-    - Biometric auth toggle
-    - Data export button (links to 17.4)
-    - Delete account button (links to 17.3)
-  - About section:
-    - App version
-    - Privacy policy link
-    - Terms of service link
-  - Store preferences in MMKV for instant access
-
-### 5. Completion: CI/CD & Features
-
-- [x] 5.1 **Setup CI/CD pipeline with GitHub Actions** (M - 1.5h) ✅
-
-  **Completed:** 2025-10-30 • **Refactored** with parallel architecture
-
-  **Architecture:**
-  - ⚡ **4 parallel jobs**: code-quality, unit-tests, security-scan, dependabot-auto-merge
-  - 💾 **Caching**: TypeScript (.tsbuildinfo), ESLint (.eslintcache), Jest
-  - 🔒 **Security**: npm audit HIGH/CRITICAL vulnerabilities fail build
-  - 📊 **Performance**: ~30s (down from ~65s, 2.2x faster)
-  - 🎯 **Coverage**: Reports uploaded, threshold ready for Phase 1 (40%)
-  - 📝 **Documentation**: Complete CI/CD architecture guide in CONTRIBUTING.md
-
-  **CD Workflows (Phase 2+):**
-  - cd-preview.yml: EAS preview builds (disabled, manual only)
-  - cd-production.yml: EAS production builds (disabled, manual only)
-
-  **Dependabot Auto-Merge:**
-  - ✅ GitHub Actions: All versions
-  - ✅ Dev dependencies: Minor/patch
-  - ✅ Runtime: Patch/minor only
-  - ❌ Runtime major: Manual review with detailed comment
-
-  **Badges:** CI status + Coverage in README.md
-
-- [ ] 5.2 **Seed ExerciseDB to Supabase (popular exercises)** (M - 2h) `[scripts/seed-exercises.ts]`
-  - Sign up for ExerciseDB API (RapidAPI)
-  - Fetch 100 most popular exercises (barbell, dumbbell, bodyweight)
-  - Transform to Supabase schema
-  - Bulk insert to exercises table
-  - Mark as is_custom = false
-  - Sync to local WatermelonDB
-  - Enables Phase 2 testing with real exercises
-  - Note: Full 1,300+ import in Phase 3 (task 11.1)
-
-- [ ] 5.3 **Setup Maestro E2E testing framework** (L - 6h) `[e2e/maestro/]`
-  - Install Maestro CLI globally
-  - Create e2e/maestro/ directory structure
-  - Write auth flow tests:
-    - auth-login.yaml (email/password login)
-    - auth-register.yaml (new account creation)
-    - auth-verification.yaml (email verification flow)
-  - Write navigation tests:
-    - navigation-tabs.yaml (tab switching)
-    - navigation-deep-links.yaml (deep link handling)
-  - Configure Maestro for Development Build
-  - Document test execution in docs/testing/e2e-maestro.md
-  - CI integration: Run on EAS Build preview (Phase 5)
-  - Reference: Manual checklists from task 1.19
-
-- [ ] 5.4 Add user preferences management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
-
-  ```
-  Features:
-  - Current phase display (kg/lbs)
-  - Phase duration tracker
-  - Simple toggle to change phase
-  - Explanation of how phase affects analytics
-  - History of past phases (optional for MVP)
-
-  Updates users.preferred_unit and preferred_unit_started_at
-  ```
-
----
-
-## Phase 2: Workout Logging (0/20)
-
-**Timeline:** Weeks 6-8 | **Priority:** HIGH
-**Goal:** Core workout logging functionality with excellent UX
-
-### 6. Workout Session Core
-
-- [ ] 6.0 **Configure expo-notifications & background tasks** (S - 1h) `[src/services/notifications/]`
-  - Configure notification permissions (iOS/Android)
-  - Setup notification handlers (foreground, background, killed state)
-  - Configure notification categories (rest timer, achievements, weekly)
-  - Setup expo-background-fetch for timer persistence
-  - Test notifications on physical device
-  - Document notification setup in CONTRIBUTING.md
-  - Required before task 6.3 (Rest Timer)
-
-- [ ] 6.1 Update workout session state management (M - 3h) `[src/stores/workoutStore.ts]`
-
-  ```
-  State to manage:
-  - Current workout (in progress)
-  - Current exercise
-  - Sets logged
-  - Rest timer state
-  - Auto-save to WatermelonDB
-
-  Include:
-  - Actions for starting/ending workout
-  - Actions for adding exercise
-  - Actions for logging set
-  - Selectors for workout statistics
-  ```
-
-- [ ] 6.2 Design workout active screen (L - 8h) `[src/app/(tabs)/workout/active.tsx]` `[CRITICAL UX]`
-
-  ```
-  Features:
-  - Exercise list (FlashList)
-  - Current exercise highlighted
-  - Set logging interface (minimize taps - see TECHNICAL.md UX section)
-  - Auto-fill last weight/reps
-  - Quick weight adjustment buttons (+2.5kg, +5kg, -2.5kg, -5kg)
-  - Rest timer (visible, background-capable)
-  - Workout duration timer
-  - Save/End workout button
-  - Swipe gestures for navigation
-
-  Components needed:
-  - ActiveWorkoutHeader
-  - ExerciseListItem
-  - SetLogger (inline editing)
-  - RestTimer
-  - WorkoutSummary
-  ```
-
-- [ ] 6.3 Implement rest timer with notifications (M - 4h) `[src/components/workout/RestTimer.tsx]`
-
-  ```
-  Features:
-  - Auto-start after set completion (based on average rest time)
-  - Background timer (continues when app minimized)
-  - Push notification when complete
-  - Quick actions in notification (+15s, Done)
-  - Skip/Add time buttons in UI
-  - Haptic feedback (10s, 5s, 0s countdown)
-  - Sound notification (toggle in settings)
-
-  Expo packages:
-  - expo-notifications
-  - expo-haptics
-  - expo-background-fetch (keep timer alive)
-  ```
-
-- [ ] 6.4 Create workout history screen (M - 4h) `[src/app/(tabs)/workout/history.tsx]`
-
-  ```
-  Features:
-  - List of past workouts (FlashList, paginated)
-  - Filter by date range
-  - Search by exercise name
-  - Tap to view workout details
-  - Swipe actions: Repeat, Delete
-  - Calendar view (optional)
-
-  Uses:
-  - WatermelonDB reactive queries with .observe()
-  - Pagination with Q.take/Q.skip
-  ```
-
-- [ ] 6.5 Create workout detail/summary screen (M - 3h) `[src/app/(tabs)/workout/[id].tsx]`
-  ```
-  Shows:
-  - Workout date, duration
-  - All exercises with sets (weight, reps, weight/reps)
-  - Volume statistics
-  - Personal records achieved
-  - Notes
-  - Actions: Repeat workout, Edit, Delete, Share
-  ```
-
-### 7. Exercise Selection & Management
-
-- [ ] 7.1 Create exercise selection modal (L - 6h) `[src/components/workout/ExerciseSelector.tsx]` `[CRITICAL UX]`
-
-  ```
-  Features:
-  - Real-time search (debounced 300ms)
-  - Filter by: Muscle group, Equipment, Difficulty
-  - Recently used exercises (top of list)
-  - Favorited exercises (starred)
-  - FlashList for 500+ exercises performance
-  - Exercise images/GIFs preview
-  - Quick add button (no need to go back)
-
-  Data source:
-  - WatermelonDB local exercises table
-  - No API calls (data already seeded from ExerciseDB)
-  ```
-
-- [ ] 7.2 Implement search algorithm (M - 3h) `[src/utils/search.ts]`
-
-  ```
-  Search strategy:
-  - Full-text search on exercise name, muscle groups
-  - Fuzzy matching (typos)
-  - Ranking: exact match > starts with > contains
-  - WatermelonDB Q.where() with Q.like() for pattern matching
-  ```
-
-- [ ] 7.3 Create favorites/starred system (S - 2h) `[src/stores/favoritesStore.ts]`
-  ```
-  - Store favorited exercise IDs in MMKV (simple array)
-  - Toggle favorite function
-  - Filter exercises to show only favorites
-  - Zustand store for reactive UI
-  ```
-
-### 8. Set Logging Interface
-
-- [ ] 8.1 Create set logging component (L - 6h) `[src/components/workout/SetLogger.tsx]` `[CRITICAL UX]`
-
-  ```
-  Design (minimize taps):
-  - Pre-populated weight/reps from last set
-  - Inline number inputs (no modals)
-  - Quick buttons: +2.5kg, +5kg, -2.5kg, -5kg
-  - Checkmark to complete set
-  - Optional RIR button (small, non-intrusive)
-
-  See TECHNICAL.md UX Best Practices § Quick Set Logging
-  ```
-
-  ```
-  - Scale 1-10 (visual buttons)
-  - Optional per-set
-  - Can be toggled in settings
-  - Color-coded (green 1-5, yellow 6-7, orange 8-9, red 10)
-  ```
-
-  ```
-  Options (see TECHNICAL.md UX section):
-  - Option A: End-of-workout prompt for all sets
-  - Option B: Optional inline button per set
-  - Settings toggle: Enable RIR | Prompt timing
-
-  Scale 0-5 (0 = failure, 5 = easy)
-  ```
-
-- [ ] 8.4 Add set history display (M - 3h) `[src/components/workout/SetHistory.tsx]`
-
-  ```
-  Shows below current set input:
-  - Last 3-5 sets for this exercise
-  - From previous workouts
-  - Format: "100kg × 8 reps  - 2 days ago"
-  - Helps user choose progressive overload
-  ```
-
-### 9. Workout Management Features
-
-- [ ] 9.1 Implement "Start Empty Workout" (S - 2h)
-
-  ```
-  - Create new workout in WatermelonDB
-  - Navigate to active workout screen
-  - User adds exercises as they go
-  ```
-
-- [ ] 9.2 Implement "Repeat Last Workout" (M - 3h)
-
-  ```
-  - Fetch last workout for selected exercise or full workout
-  - Pre-populate exercises and target sets
-  - User logs actual performance
-  - Show comparison with last time
-  ```
-
-- [ ] 9.4 Implement workout notes (S - 2h) `[src/components/workout/NotesInput.tsx]`
-
-  ```
-  - Text area for workout notes
-  - Saved to workouts.notes field
-  - Also per-exercise notes (workout_exercises.notes)
-  - Also per-set notes (exercise_sets.notes)
-  ```
-
-- [ ] 9.5 Add workout duration timer (S - 2h) `[src/components/workout/WorkoutTimer.tsx]`
-
-  ```
-  - Start when workout starts (workouts.started_at)
-  - Display in header (MM:SS format)
-  - Continues in background
-  - Save total duration on workout end
-  ```
-
-- [ ] 9.6 **Implement Plate Calculator** (M - 4h) `[src/utils/plateCalculator.ts + Modal]` `[ESSENTIAL FEATURE]`
-
-  ```
-  Feature:
-  - Small button/icon next to weight input
-  - Opens modal showing plate breakdown
-  - "Add per side: 20kg + 10kg + 2.5kg"
-  - Support Olympic (20kg/45lbs) and Standard (15kg) bars
-  - User-configurable available plates in settings
-
-  See TECHNICAL.md UX Best Practices § Plate Calculator
-  ```
-
-- [ ] 9.7 Add quick weight change buttons (S - 2h)
-  ```
-  - Buttons: +5kg, +2.5kg, -2.5kg, -5kg (or lbs equivalent)
-  - Located around weight input
-  - One-tap weight adjustment
-  - Haptic feedback on tap
-  ```
-
----
-
-## Phase 3: Exercise Library & Testing (0/10)
-
-**Timeline:** Weeks 9-10 | **Priority:** MEDIUM
-**MAJOR CHANGE:** Using ExerciseDB API instead of manual creation
-
-### 10. Automated Testing
-
-**Note:** Jest infrastructure already setup in Phase 0.5 (task 0.5.18) ✅
-
-```
-COMPLETED in Phase 0.5 (task 0.5.18):
-- ✅ Installed Jest + React Native Testing Library
-- ✅ Configured jest.config.js with jest-expo preset
-- ✅ Created jest.setup.js with Expo mocks
-- ✅ Added test scripts to package.json
-- ✅ Created 3 example test files (7 tests passing)
-
-Reference: See task 0.5.18 for details
-```
-
-- [ ] 10.1 **Write unit tests for critical features** (L - 6h)
-
-  ```
-  Priority areas (60% coverage target):
-  - src/utils/calculations/__tests__/ (1RM, volume, plate calculator)
-  - src/utils/validators/__tests__/ (form validation, weight/reps)
-  - src/utils/formatters/__tests__/ (weight, date, duration formatting)
-  - src/services/database/__tests__/ (CRUD operations, sync logic)
-
-  Test count target: 30-40 tests covering critical paths
-  Focus: Data integrity, calculation accuracy, edge cases
-
-  Files to create:
-  - src/utils/calculations/__tests__/oneRepMax.test.ts
-  - src/utils/validators/__tests__/workout.test.ts
-  - src/services/database/__tests__/workouts.test.ts
-
-  Note: Jest infrastructure ready, just write the tests
-  ```
-
-### 11. ExerciseDB API Integration
-
-- [ ] 11.1 **Bulk import remaining ExerciseDB exercises** (L - 4h) `[CRITICAL TIME SAVER]`
-
-  ```
-  Tasks:
-  - Fetch remaining 1,200+ exercises from ExerciseDB API
-  - Transform to Supabase schema (match existing 100)
-  - Bulk insert to exercises table
-  - Sync to local WatermelonDB
-  - Mark as is_custom = false
-
-  Note: 100 popular exercises already seeded in Phase 1 (task 5.2)
-  This task completes the full exercise library (1,300+ total)
-
-  API: https://v2.exercisedb.io/docs
-  Time saved: 100-200 hours vs manual creation
-  ```
-
-- [ ] 11.2 Design exercise list screen (M - 4h) `[src/app/(tabs)/exercises/index.tsx]`
-
-  ```
-  Features:
-  - FlashList for performance (500+ items)
-  - Search bar (real-time, local WatermelonDB query)
-  - Filters: Muscle group, Equipment, Difficulty
-  - Show exercise GIF thumbnail (expo-image with caching)
-  - Tap to view details
-  - Quick add to workout button
-  ```
-
-- [ ] 11.3 Create exercise detail screen (M - 4h) `[src/app/(tabs)/exercises/[id].tsx]`
-  ```
-  Shows:
-  - Exercise name
-  - GIF/video demonstration (from ExerciseDB)
-  - Target muscles (highlighted)
-  - Equipment needed
-  - Instructions (step-by-step)
-  - Difficulty level
-  - Personal history (if user has logged this exercise)
-  - Actions: Add to favorites, Add to workout, View history
-  ```
-
-**Note:** Custom exercise creation deferred per ADR-017 (Read-only exercise library for MVP).
-Focus on ExerciseDB's 1,300+ exercises for Phase 0-3. Custom exercises in Phase 4+ if validated by users.
-
-### 12. Custom Exercises & Management
-
-- [ ] 12.0 **Setup Supabase Storage & image upload** (M - 2h) `[src/services/storage/]`
-  - Create Supabase Storage bucket: "exercise-images"
-  - Configure RLS policies (user can upload own images)
-  - Setup expo-image-manipulator for compression
-  - Create upload utility (compress → upload → return URL)
-  - Image validation (max 5MB, jpg/png only)
-  - Delete old image when uploading new one
-  - Error handling and user feedback
-  - Required before task 12.2 (custom exercise images)
-
-- [ ] 12.1 **[DEFERRED - Phase 4+]** Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
-
-  ```
-  Form:
-  - Exercise name (required)
-  - Type: strength, cardio, timed, bodyweight
-  - Category: compound, isolation
-  - Muscle groups (multi-select)
-  - Equipment (select)
-  - Instructions (text area)
-  - Difficulty (select)
-  - Mark as is_custom = true, created_by = current user
-
-  Saved to:
-  - Supabase exercises table
-  - WatermelonDB local
-  ```
-
-- [ ] 12.2 **[DEFERRED - Phase 4+]** Add exercise images/videos (optional for custom) (M - 3h)
-
-  ```
-  - Upload to Supabase Storage
-  - Image picker (expo-image-picker)
-  - Video recording (expo-camera)
-  - Store URL in exercises.image_url / video_url
-  - Display in exercise detail screen
-  ```
-
-- [ ] 12.3 Create exercise filters (M - 3h) `[src/components/exercises/FilterPanel.tsx]`
-
-  ```
-  Filters:
-  - Muscle group: Chest, Back, Shoulders, Legs, Arms, Core, Full body
-  - Equipment: Barbell, Dumbbell, Machine, Bodyweight, Cable, Other
-  - Difficulty: Beginner, Intermediate, Advanced
-  - Type: Strength, Cardio, Timed
-  - Custom vs ExerciseDB
-
-  Implementation:
-  - Bottom sheet modal
-  - Multiple selection (checkboxes)
-  - Apply filters to WatermelonDB query
-  - Show active filter count badge
-  ```
-
-**Section removed - tasks renumbered above**
-
-- [ ] 12.4 Show exercise history (M - 4h) `[src/components/exercises/ExerciseHistory.tsx]`
-
-  ```
-  For selected exercise, show:
-  - Chart: Weight progression over time (Victory Native)
-  - Chart: Volume progression (sets × reps × weight)
-  - List: Last 10 workouts with this exercise
-  - Personal records: Max weight, Max reps, Max volume
-  - Average RPE/RIR
-  ```
-
-- [ ] 12.5 Implement progression tracking (M - 4h)
-  ```
-  Calculate and display:
-  - Week-over-week change (%)
-  - Month-over-month change (%)
-  - All-time progress (first vs last workout)
-  - Estimated 1RM progression
-  - Visual indicators: ⬆️ improving, ➡️ plateau, ⬇️ regressing
-  ```
-
----
-
-## Phase 4: Basic Analytics & Reports (0/9)
-
-**Timeline:** Weeks 11-12 | **Priority:** MEDIUM
-**Goal:** Simple, Jefit-style analytics - volume charts, PRs, history, basic trends
-
-### 13. Progress Dashboard
-
-- [ ] 13.1 Create analytics dashboard (L - 6h) `[src/app/(tabs)/analytics/index.tsx]`
-
-  ```
-  Sections:
-  - Weekly volume chart (bar chart - Victory Native)
-  - Strength progression (line chart - selected exercises)
-  - Workout frequency (calendar heatmap)
-  - Personal records (list with badges)
-  - Body part split (pie chart or bars)
-
-  Charts library: Victory Native (professional charts)
-  Data source: WatermelonDB aggregation queries
-  ```
-
-- [ ] 13.2 Implement basic volume tracking (M - 3h) `[src/lib/analytics/volume.ts]`
-
-  ```
-  Calculations:
-  - Total volume: Σ (sets × reps × weight)
-  - Volume by muscle group
-  - Volume by week/month
-  - Volume by exercise type
-
-  Store aggregated data in WatermelonDB for performance
-  ```
-
-- [ ] 13.3 Add strength progression charts (M - 4h) `[src/components/analytics/StrengthChart.tsx]`
-  ```
-  Features:
-  - Select exercise(s) to compare
-  - X-axis: Time (weeks/months)
-  - Y-axis: Weight or Estimated 1RM
-  - Show trend line (linear regression)
-  - Highlight PRs with markers
-  - Pinch to zoom (Victory Native gestures)
-  ```
-
-### 14. Advanced Analytics (Science-Based)
-
-- [ ] 14.1 **Implement basic trend analysis** (M - 3h) `[src/lib/analytics/trends.ts]`
-
-  ```
-  Algorithm:
-  - Linear regression for trend direction
-  - Analyze last 4-8 weeks of data
-  - Return: trend (increasing/stable/decreasing), slope
-  - Simple statistical analysis (simple-statistics library)
-
-  Display as arrows: ⬆️ improving, ➡️ stable, ⬇️ declining
-  ```
-
-- [ ] 14.3 Implement 1RM calculator (S - 2h) `[src/lib/analytics/oneRepMax.ts]`
-
-  ```
-  Formula: Epley (weight × (1 + reps/30))
-  - Calculate for working sets (3-12 rep range optimal)
-  - Track personal records by exercise
-  - Display in exercise history and analytics
-
-  Simple and reliable - standard formula used by Jefit and competitors
-  ```
-
-- [ ] 14.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
-
-  ```
-  Analysis:
-  - Volume per muscle group (pie chart)
-  - Volume per movement pattern (push/pull/legs)
-  - Volume per exercise category (compound vs isolation)
-  - Volume per day of week (bar chart)
-  - Recommendations: "Increase chest volume by 15% to match back"
-  - Simple distribution analysis
-  ```
-
-- [ ] 14.5 Add workout frequency & consistency analysis (M - 3h)
-  ```
-  Metrics:
-  - Workouts per week (average, trend)
-  - Most common workout days
-  - Consistency score (%) - missed vs planned
-  - Streak tracking (current, longest)
-  - Calendar heatmap visualization
-  - Session completion rate (started vs finished)
-  ```
-
-### 15. Performance Feedback & Reports
-
-- [ ] 15.1 **Create post-workout summary** (M - 3h) `[src/components/analytics/WorkoutSummary.tsx]`
-
-  ```
-  Displayed after "End Workout":
-  - Total volume (sets × reps × weight)
-  - Total duration
-  - Exercises completed
-  - Personal records achieved (if any)
-  - Simple motivational message
-
-  Keep it concise (3-4 lines max), positive, clear
-  ```
-
-- [ ] 15.2 **Create weekly summary** (M - 3h) `[src/components/analytics/WeeklySummary.tsx]`
-
-  ```
-  Generated every Monday morning:
-  - Total volume (vs previous week)
-  - Personal records achieved
-  - Workouts completed (consistency)
-  - Most trained muscle groups
-
-  Push notification: "Your Weekly Summary is ready!"
-  ```
-
----
-
-## Phase 5: Polish, Monitoring & Beta Launch (0/16)
-
-**Timeline:** Weeks 13-14 | **Priority:** HIGH
-**ADDED:** Security, monitoring, compliance requirements
-
-### 16. Performance Optimization
-
-- [ ] 16.1 Optimize bundle size (M - 3h)
-
-  ```
-  - Run react-native-bundle-visualizer
-  - Identify large dependencies
-  - Code splitting for heavy features (charts, analytics)
-  - Lazy load screens with React.lazy()
-  - Remove unused dependencies
-  - Target: <10MB bundle size
-  ```
-
-- [ ] 16.2 Improve cold start time (M - 3h)
-
-  ```
-  - Profile app launch with Sentry Performance
-  - Defer non-critical initialization
-  - Optimize WatermelonDB initial queries
-  - Use skeleton screens during load
-  - Target: <2s cold start
-  ```
-
-- [ ] 16.3 Add offline functionality verification (M - 2h)
-
-  ```
-  Test scenarios:
-  - Start workout offline → Log sets → Go online → Verify sync
-  - Edit workout offline → Go online → Verify sync
-  - Conflict resolution (edit same workout on 2 devices offline)
-
-  Ensure:
-  - No "Network error" shown during workouts
-  - Sync queue indicator visible
-  - User notified when sync completes
-  ```
-
-### 17. Security & Compliance `[REQUIRED FOR APP STORE]`
-
-- [ ] 17.1 **Create Privacy Policy** (M - 3h) `[REQUIRED]`
-
-  ```
-  Must include:
-  - What data is collected (email, workouts, performance metrics)
-  - How it's used (app functionality, analytics)
-  - Third-party services (Supabase, Sentry, ExerciseDB)
-  - User rights (access, deletion, export)
-  - GDPR/CCPA compliance statements
-
-  Host on website or in-app screen
-  Link in app settings + login/register screens
-  ```
-
-- [ ] 17.2 **Create Terms of Service** (M - 2h) `[REQUIRED]`
-
-  ```
-  Must include:
-  - Liability disclaimers (NOT medical advice)
-  - User-generated content policy
-  - Account termination conditions
-  - Acceptable use policy
-  - Changes to terms
-
-  Link in register screen (user must accept)
-  ```
-
-- [ ] 17.3 **Implement data deletion flow** (M - 3h) `[GDPR REQUIRED]`
-
-  ```
-  Feature in Profile/Settings:
-  - "Delete My Account" button (destructive action)
-  - Confirmation dialog with warnings
-  - Delete all data from Supabase (cascades via foreign keys)
+- [ ] 4.20 **Implement logout functionality** (S - 1h) `[auth service]`
+  - "Logout" button in Profile screen
+  - Clear Supabase session
+  - Clear MMKV auth tokens
+  - Clear WatermelonDB user data (optional for MVP)
+  - Redirect to login screen
+
+- [ ] 4.30 **Create Settings screen** (M - 2h) `[src/app/(tabs)/profile/settings.tsx]`
+  - Accessible from gear icon (top-right header)
+  - Units section: kg/lbs toggle
+  - Account section: Export data, Delete account
+  - Save preferences to Supabase + MMKV
+  - Dark theme styling
+
+- [ ] 4.40 **Implement account deletion (GDPR)** (M - 3h) `[GDPR compliance]`
+  - "Delete Account" button in Settings (destructive style)
+  - Confirmation dialog: "This will permanently delete all your data"
+  - Cascade delete: Supabase foreign keys delete all workouts, plans, sets
   - Clear WatermelonDB local database
   - Clear MMKV storage
-  - Sign out user
+  - Logout and redirect to login
 
-  See TECHNICAL.md § Compliance code examples
-  ```
-
-- [ ] 17.4 **Implement data export** (M - 3h) `[GDPR REQUIRED]`
-
-  ```
-  Feature in Profile/Settings:
-  - "Export My Data" button
-  - Generate JSON file with all user data:
-    - Profile, preferences
-    - All workouts with exercises and sets
-    - Custom exercises
-    - Analytics history
-  - Share via system share sheet
-  - Email option
-
-  Format: JSON (structured, human-readable)
-  ```
-
-- [ ] 17.5 **Implement backup & restore data** (M - 3h) `[src/services/backup/]`
-  - Auto-backup to Supabase (workouts, exercises, settings)
-  - Manual backup option (export + upload)
-  - Restore from backup (download + import)
-  - Conflict resolution (local vs cloud)
-  - Last backup timestamp display
-  - Backup before account deletion (safety)
-  - Progress indicator during restore
-
-### 18. Monitoring & Analytics
-
-- [ ] 18.1 **Setup user analytics** (M - 3h) `[PostHog or Mixpanel]`
-
-  ```
-  Track events:
-  - User registration
-  - Workout started/completed
-  - Exercise added
-  - Set logged
-  - Feature usage (templates, plate calculator, etc.)
-  - Screen views
-
-  Privacy:
-  - No PII (use UUID as identifier)
-  - Respect user opt-out
-  - GDPR-compliant
-
-  Free tier: PostHog (1M events/month)
-  ```
-
-- [ ] 18.2 **Verify Sentry monitoring** (S - 1h)
-
-  ```
-  Test:
-  - Error reporting (throw test error)
-  - Performance monitoring (slow query simulation)
-  - Crash reporting (native crash simulation)
-  - User context attached
-
-  Setup alerts:
-  - Crash rate >0.5% → Email notification
-  - Error rate >5% → Slack notification (if team)
-  ```
-
-- [ ] 18.3 Setup performance monitoring (M - 2h)
-
-  ```
-  Monitor with Sentry:
-  - Screen load times (target <500ms)
-  - API call durations (target <1s)
-  - Database query times (target <200ms)
-  - Cold start time (target <2s)
-
-  Set up dashboards for:
-  - App performance overview
-  - User experience metrics
-  - Error trends
-  ```
-
-### 19. Beta Launch Preparation
-
-- [ ] 19.1 Create onboarding flow (M - 4h) `[src/app/(onboarding)/]`
-
-  ```
-  Screens:
-  - Welcome screen
-  - Feature highlights (3-4 screens with images)
-  - Preferences setup:
-    - Units (kg/lbs)
-    - Experience level
-    - Goals (optional)
-  - Skip option
-
-  Show once on first launch
-  Store completion in MMKV
-  ```
-
-- [ ] 19.2 Add user feedback system (M - 3h)
-
-  ```
-  Options:
-  - In-app feedback form
-  - "Report Bug" button
-  - "Request Feature" button
-  - Email to support@halterofit.com (or similar)
-
-  Integration:
-  - Send to email via Supabase Edge Function
-  - OR use service like UserVoice, Canny
-  ```
-
-- [ ] 19.3 Prepare beta release (M - 4h)
-
-  ```
-  Tasks:
-  - Create app icon (512×512, 1024×1024 versions)
-  - Create splash screen
-  - Create app screenshots (iOS, Android)
-  - Write app description for stores
-  - Set up TestFlight (iOS) and Internal Testing (Android)
-  - Configure EAS Build for production
-
-  EAS Build:
-  - eas build --platform ios --profile production
-  - eas build --platform android --profile production
-  - eas submit (when ready)
-  ```
-
-- [ ] 19.4 Write beta testing guide (S - 1h)
-
-  ```
-  Document for beta testers:
-  - How to install (TestFlight/Play Store link)
-  - What to test
-  - How to report bugs
-  - Known limitations
-  - Feedback form link
-  ```
-
-- [ ] 19.5 App Store compliance checklist (M - 2h)
-
-  ```
-  iOS:
-  - Privacy manifest (iOS 17+)
-  - Required reason API declarations
-  - Age rating (4+ suitable)
-  - App icon (all sizes)
-  - Screenshots (all device sizes)
-
-  Android:
-  - Privacy policy URL
-  - Content rating questionnaire
-  - Target SDK version (latest)
-  - App icon (adaptive icon)
-  - Screenshots (phone, tablet)
-  ```
+- [ ] 4.50 **Implement data export (GDPR)** (M - 3h) `[GDPR compliance]`
+  - "Export My Data" button in Settings
+  - Generate JSON file: Profile, plans, workouts, exercises, sets
+  - Include metadata: export_date, user_id, total_workouts
+  - Share via system share sheet (email, cloud storage)
+  - Show success message with file path
 
 ---
 
-**Last Updated:** Auto-updated by task-tracker agent
-**Next Review:** After Phase 0.5 completion
+---
+
+## Phase 5: Polish & Deployment (0/5)
+
+**Timeline:** Week 19 | **Priority:** HIGH
+**Goal:** Production-ready MVP
+
+**Progress:** 0/5 tasks (0%) | **Est. Time:** ~9h (1 week)
+
+**Dependencies:** Phases 1-4 complete (all MVP features done)
+
+---
+
+- [ ] 5.10 **Verify Sentry monitoring** (S - 1h) `[already setup in 0.5.5]`
+  - Test error reporting (throw test error)
+  - Verify crash reports appear in Sentry dashboard
+  - Verify performance monitoring (slow query simulation)
+  - Setup alerts: Crash rate >0.5%, error rate >5%
+  - Confirm production-only tracking (disabled in dev)
+
+- [ ] 5.20 **Performance optimization** (M - 3h) `[bundle + cold start]`
+  - Run react-native-bundle-visualizer
+  - Identify large dependencies, remove unused
+  - Code splitting for heavy features (charts defer to post-MVP)
+  - Optimize WatermelonDB initial queries
+  - Lazy load screens with React.lazy()
+  - Target: <10MB bundle, <2s cold start
+
+- [ ] 5.30 **Create EAS production build** (M - 2h) `[EAS Build]`
+  - Create production profile in eas.json
+  - Configure environment variables for production
+  - Build Android: eas build --platform android --profile production
+  - Build iOS: eas build --platform ios --profile production
+  - Test builds on physical devices
+
+- [ ] 5.40 **Setup TestFlight/Play Store internal testing** (M - 2h)
+  - iOS: Submit to TestFlight via eas submit
+  - Android: Submit to Play Store Internal Testing
+  - Add 5-10 internal testers (friends, colleagues)
+  - Document installation instructions
+
+- [ ] 5.50 **Create beta testing guide** (S - 1h) `[docs/BETA_TESTING_GUIDE.md]`
+  - Installation instructions (TestFlight/Play Store links)
+  - What to test (critical user flows)
+  - How to report bugs (email, form, GitHub issues)
+  - Known limitations
+  - Expected timeline for fixes
+
+---
+
+---
+
+## Post-MVP Backlog
+
+**Note:** These features are OUT OF SCOPE for MVP. They will be prioritized post-launch based on user feedback and product-market fit validation.
+
+**Total Post-MVP tasks:** ~60+ features deferred from original roadmap
+
+---
+
+### Analytics & Progression
+
+**Priority:** HIGH (first post-MVP features to implement)
+
+- Volume tracking (weekly/monthly charts with Victory Native)
+- Personal records tracking with badges and celebrations
+- Strength progression charts (line charts, trend analysis)
+- 1RM estimation (Epley formula: weight × (1 + reps/30))
+- Plateau detection (Mann-Kendall statistical test with simple-statistics library)
+- Workout summaries (post-workout report: duration, volume, PRs)
+- Weekly summary notifications (Monday morning push notifications)
+- Volume distribution analysis (pie charts by muscle group)
+
+**Estimated effort:** ~35-45h (Phase 4 from original roadmap)
+
+---
+
+### UX Enhancements
+
+**Priority:** MEDIUM
+
+- **Plate calculator** (modal from weight input showing required plates per side)
+- **Set history** (last 3-5 sets display below input for progressive overload reference)
+- **Notes per workout/exercise/set** (text area for observations)
+- **Onboarding flow** (3-4 screens with feature highlights on first launch)
+- **Profile image upload** (Supabase Storage integration, expo-image-picker)
+- **Superset/circuit support** (exercise grouping with visual indicators)
+
+**Estimated effort:** ~20-25h
+
+---
+
+### Advanced Features
+
+**Priority:** LOW (validate with users first)
+
+- **Custom exercise creation** (user-defined exercises with image upload)
+- **RPE/RIR tracking** (Rating of Perceived Exertion / Reps In Reserve)
+- **Auto-weight suggestions** (rule-based, context-aware recommendations)
+- **Load management** (acute/chronic load ratios, overtraining alerts)
+- **Context-aware analytics** (nutrition phase tracking: bulk/cut/maintenance)
+- **Exercise video demonstrations** (user-recorded, Supabase Storage)
+- **Advanced E2E testing** (full Maestro suite covering all user flows)
+
+**Estimated effort:** ~40-50h
+
+---
+
+### Infrastructure & Polish
+
+**Priority:** AS NEEDED
+
+- **Multi-language support (i18n)** - Defer until international expansion
+- **Social features** (share workouts, follow friends) - Defer until user base >1,000
+- **Coach-client relationship** (team accounts) - Defer until B2B validation
+- **Performance dashboards** (Sentry Performance monitoring) - Already setup, just add custom metrics
+- **Biometric authentication** (Face ID/Touch ID) - Not critical (user logs in once)
+
+**Estimated effort:** ~15-20h (polish items only)
+
+---
+
+**Last Updated:** 2025-02-04
+**Next Review:** After Phase 1 completion (Auth screens done)

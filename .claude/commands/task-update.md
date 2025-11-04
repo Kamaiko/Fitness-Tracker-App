@@ -62,11 +62,11 @@ When you run `/task-update`, Claude analyzes:
 📋 Kanban Board
 
 TODO (5):           DOING (0):      DONE (5):
-0.5.2 DB schema 🔴                  0.5.18 Jest ✅
-0.5.3 FlashList 🟡                  0.5.17 Dev tools
+0.6.8 ExerciseDB 🔥                 0.6.6 Env vars ✅
+1.10 Login screen 🟠                0.6.4 Components ✅
 ...                                 ...
 
-⏭️ Next: Start 0.5.2 Database schema [M - 3-4h] 🔴
+⏭️ Next: Start 0.6.8 ExerciseDB import [L - 3-4h] 🔥
    No blockers, critical priority
 
 Start this task? [Y/n]
@@ -84,24 +84,24 @@ Type `Y` → Task moves to DOING column
 ```
 🔍 Analyzing recent work...
 
-✅ Detected completion: 0.5.2 Implement database schema
+✅ Detected completion: 0.6.8 Bulk import ExerciseDB library
    Evidence:
-   • 6 commits in last 2 hours
-   • Files: supabase/migrations/001_initial_schema.sql ✓
+   • 3 commits in last 2 hours
+   • Files: scripts/seed-exercisedb.ts ✓
    • Matches task description
 
 📊 Auto-updated (16 levels):
    ✓ Task marked [x] in TASKS.md
-   ✓ Phase 0.5: 6/28 → 7/28 (25%)
-   ✓ Overall: 6/98 → 7/98 (7%)
-   ✓ Kanban: 0.5.2 moved DOING → DONE
+   ✓ Phase 0.6: 6/8 → 7/8 (88%)
+   ✓ Overall: 27/58 → 28/58 (48%)
+   ✓ Kanban: 0.6.8 moved DOING → DONE
    ✓ Progress badge updated
    ✓ Table of Contents synced
    ✓ Velocity & ETA recalculated
 
 ⏭️ Next recommended:
-   0.5.3 Install FlashList [S - 1h] 🟡
-   Quick win, no dependencies
+   1.10 Create login screen UI [M - 2h] 🟠
+   Phase 1 ready to start, UI components installed
 
 Start this task? [Y/n]
 ```
@@ -120,8 +120,8 @@ If Claude detects multiple possible completions:
 🤔 Multiple tasks detected:
 
 Which task did you complete?
-1. 0.5.2 Database schema (6 commits, supabase/*)
-2. 0.5.3 FlashList (2 commits, package.json)
+1. 1.10 Create login screen UI (4 commits, src/app/(auth)/login.tsx)
+2. 1.20 Create register screen UI (2 commits, src/app/(auth)/register.tsx)
 
 [1/2]: _
 ```
@@ -134,8 +134,8 @@ One command updates **16 levels** automatically:
 
 #### Core Updates (1-3)
 1. ✅ Task checkbox: `[ ]` → `[x]`
-2. 📊 Phase progress: `6/15` → `7/15`
-3. 🎯 Overall progress: `6/98` → `7/98`
+2. 📊 Phase progress: `6/8` → `7/8`
+3. 🎯 Overall progress: `27/58` → `28/58` (MVP scope = 58 tasks)
 
 #### Visual Updates (4-9)
 4. 📋 Kanban DOING → DONE: Move task, remove "(started)"
@@ -286,12 +286,12 @@ Start this task? [Y/n]
 
 ### Blocked Dependencies
 ```
-⚠️ Cannot start 1.3 - Dependencies not satisfied:
-   • 1.1 Create login screen (pending)
-   • 1.2 Create register screen (pending)
+⚠️ Cannot start 1.30 - Dependencies not satisfied:
+   • 1.10 Create login screen (pending)
+   • 1.20 Create register screen (pending)
 
 Recommended: Complete dependencies first
-Alternative: 1.4 (no blockers, similar priority)
+Alternative: 1.40 (no blockers, similar priority)
 ```
 
 ---
@@ -303,10 +303,25 @@ Alternative: 1.4 (no blockers, similar priority)
 If auto-detect fails, you can specify:
 
 ```bash
-/task-update 0.5.3    # Mark specific task complete
+/task-update 1.20    # Mark specific task complete
 ```
 
 But 99% of the time, just `/task-update` is enough.
+
+### Task ID Convention (New in v5.0)
+
+**Numbering by 10s (scalable):**
+- Initial tasks use multiples of 10: **1.10**, **1.20**, **1.30**, **1.40**
+- Insert tasks between existing ones: **1.15**, **1.25**, **1.11-1.19**
+- Example workflow:
+  ```
+  Initial:  1.10 Login, 1.20 Register, 1.30 Auth
+  Add task: 1.10 Login, 1.20 Register, 1.25 Validation (NEW), 1.30 Auth
+  ```
+
+**Benefit:** No renumbering chaos when adding/removing tasks mid-phase
+
+**Migration Note:** Phases 0.5 and 0.6 retain original numbering (already complete/in-progress). New phases (1-5) use spacing-by-10.
 
 ---
 
@@ -352,16 +367,5 @@ Shows full kanban + metrics in <2 seconds.
 
 ## 📚 Reference
 
-**Format Spec**: `.claude/lib/tasks-format-spec.md` - Validation rules
+**Format Spec**: `.claude/lib/tasks-format-spec.md` (v5.0 - MVP scope 58 tasks, spacing by 10)
 **Kanban Structure**: See TASKS.md § Kanban
-
----
-
-**Version**: 2.1 (Enhanced)
-**Last Updated**: 2025-10-29
-**Philosophy**: Maximum automation, minimum friction, rigorous updates
-
-**Changes in v2.1:**
-- Documented complete 16-level cascade system
-- Simplified confidence algorithm (removed complex %)
-- Updated examples with accurate task counts (98 total)
