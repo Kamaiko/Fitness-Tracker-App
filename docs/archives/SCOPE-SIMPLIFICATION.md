@@ -495,8 +495,8 @@ docs/
 3. ✅ Remove advanced analytics features?
 4. ✅ Focus 100% on workout tracking excellence?
 
-**Approved by:** ******\_******
-**Date:** ******\_******
+**Approved by:** **\*\***\_**\*\***
+**Date:** **\*\***\_**\*\***
 
 ---
 
