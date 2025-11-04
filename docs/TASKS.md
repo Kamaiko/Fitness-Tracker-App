@@ -407,31 +407,21 @@ Phase 5: Polish & Deployment (0/5 tasks)
     - Phase 4: Create analytics.ts (report types)
   - Non-database types only (API responses, auth, form validation, UI state)
 
-- [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 3-4h) `[scripts/seed-exercisedb.ts]` 🔥 **NEXT PRIORITY**
+- [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 2.5-3h) `[scripts/seed-exercisedb.ts]` 🔥 **NEXT PRIORITY**
 
   **Goal:** Import complete exercise library from ExerciseDB API to avoid 100-200h of manual data entry
 
-  **Step 1: RapidAPI Account Setup** (10min)
-  - Go to https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
-  - Click "Sign Up" (top-right) → Use Google/GitHub/Email
-  - Select "Basic" plan (FREE - 10,000 requests/month, 5 requests/second)
-  - Navigate to "Endpoints" tab
-  - Click "Test Endpoint" on any endpoint to subscribe to API
-  - Copy your API key from "X-RapidAPI-Key" header (top-right of code snippet)
+  **✅ Step 1: RapidAPI Account Setup** - COMPLETE
+  - RapidAPI account created
+  - Basic plan subscribed (FREE - 10,000 requests/month)
+  - API key obtained
 
-  **Step 2: Configure Environment Variables** (5min)
-  - Add to `.env` file:
-    ```
-    EXERCISEDB_API_KEY=your_rapidapi_key_here
-    EXERCISEDB_API_HOST=exercisedb.p.rapidapi.com
-    ```
-  - Add to `.env.example` (template):
-    ```
-    EXERCISEDB_API_KEY=your_rapidapi_key_here
-    EXERCISEDB_API_HOST=exercisedb.p.rapidapi.com
-    ```
+  **✅ Step 2: Configure Environment Variables** - COMPLETE
+  - `.env` configured with EXERCISEDB_API_KEY
+  - `.env` configured with EXERCISEDB_API_HOST (exercisedb.p.rapidapi.com)
+  - `.env.example` already includes ExerciseDB template
 
-  **Step 3: Create Import Script** (2-3h)
+  **Step 3: Create Import Script** (2-3h) 🔥 **CURRENT TASK**
   - Create `scripts/seed-exercisedb.ts` with:
     1. Fetch ALL exercises: `GET /exercises` (returns 1,300+ exercises)
     2. **Pure 1:1 mapping** (ADR-019 - Zero custom fields, zero transformations):
