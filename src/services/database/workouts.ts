@@ -448,20 +448,20 @@ export async function getWorkoutWithDetails(workoutId: string): Promise<WorkoutW
             id: exercise.id,
             exercisedb_id: exercise.exercisedbId,
             name: exercise.name,
-            category: exercise.category as 'compound' | 'isolation' | 'cardio' | 'stretching',
-            exercise_type: exercise.exerciseType as 'strength' | 'cardio' | 'timed' | 'bodyweight',
-            muscle_groups: exercise.muscleGroups,
-            primary_muscle: exercise.primaryMuscle,
-            equipment: exercise.equipment as
-              | 'barbell'
-              | 'dumbbell'
-              | 'machine'
-              | 'bodyweight'
-              | 'cable'
-              | 'other',
-            instructions: exercise.instructions ?? undefined,
-            difficulty: exercise.difficulty as 'beginner' | 'intermediate' | 'advanced',
+            body_parts: exercise.bodyParts,
+            target_muscles: exercise.targetMuscles,
+            secondary_muscles: exercise.secondaryMuscles,
+            equipments: exercise.equipments,
+            exercise_type: exercise.exerciseType,
+            instructions: exercise.instructions,
+            exercise_tips: exercise.exerciseTips,
+            variations: exercise.variations,
+            overview: exercise.overview ?? undefined,
             image_url: exercise.imageUrl ?? undefined,
+            video_url: exercise.videoUrl ?? undefined,
+            keywords: exercise.keywords,
+            movement_pattern: exercise.movementPattern as 'compound' | 'isolation',
+            difficulty: exercise.difficulty as 'beginner' | 'intermediate' | 'advanced',
             created_at: exercise.createdAt.getTime(),
             updated_at: exercise.updatedAt.getTime(),
           },

@@ -40,26 +40,26 @@ describe('Exercise CRUD Operations', () => {
     test('creates exercise with required fields', async () => {
       const exercise = await createTestExercise(database, {
         name: 'Bench Press',
-        category: 'strength',
-        primary_muscle: 'chest',
+        movement_pattern: 'compound',
+        target_muscles: ['Pectoralis Major'],
       });
 
       expect(exercise.name).toBe('Bench Press');
-      expect(exercise.category).toBe('strength');
-      expect(exercise.primaryMuscle).toBe('chest');
+      expect(exercise.movementPattern).toBe('compound');
+      expect(exercise.targetMuscles).toEqual(['Pectoralis Major']);
     });
 
     test('creates exercise with optional equipment and instructions', async () => {
       const exercise = await createTestExercise(database, {
         name: 'Squat',
-        category: 'strength',
-        primary_muscle: 'legs',
-        equipment: 'barbell',
-        instructions: 'Keep chest up, drive through heels',
+        movement_pattern: 'compound',
+        target_muscles: ['Quadriceps'],
+        equipments: ['Barbell'],
+        instructions: ['Keep chest up', 'Drive through heels'],
       });
 
-      expect(exercise.equipment).toBe('barbell');
-      expect(exercise.instructions).toBe('Keep chest up, drive through heels');
+      expect(exercise.equipments).toEqual(['Barbell']);
+      expect(exercise.instructions).toEqual(['Keep chest up', 'Drive through heels']);
     });
 
     // NOTE: Test "creates exercise with sync protocol columns" removed
@@ -78,30 +78,28 @@ describe('Exercise CRUD Operations', () => {
       expect(found.name).toBe('Deadlift');
     });
 
-    test('reads exercises by muscle group', async () => {
-      await createTestExercise(database, { name: 'Bench Press', primary_muscle: 'chest' });
-      await createTestExercise(database, { name: 'Incline Press', primary_muscle: 'chest' });
-      await createTestExercise(database, { name: 'Squat', primary_muscle: 'legs' });
+    test('reads exercises by body part', async () => {
+      await createTestExercise(database, { name: 'Bench Press', body_parts: ['Chest'] });
+      await createTestExercise(database, { name: 'Incline Press', body_parts: ['Chest'] });
+      await createTestExercise(database, { name: 'Squat', body_parts: ['Legs'] });
 
-      const chestExercises = await database
-        .get('exercises')
-        .query(Q.where('primary_muscle', 'chest'))
-        .fetch();
+      const exercises = (await getAllRecords(database, 'exercises')) as Exercise[];
+      const chestExercises = exercises.filter((ex) => ex.bodyParts.includes('Chest'));
 
       expect(chestExercises).toHaveLength(2);
     });
 
-    test('reads exercises by category', async () => {
-      await createTestExercise(database, { name: 'Bench Press', category: 'strength' });
-      await createTestExercise(database, { name: 'Running', category: 'cardio' });
+    test('reads exercises by movement pattern', async () => {
+      await createTestExercise(database, { name: 'Bench Press', movement_pattern: 'compound' });
+      await createTestExercise(database, { name: 'Cable Fly', movement_pattern: 'isolation' });
 
-      const strengthExercises = (await database
+      const compoundExercises = (await database
         .get('exercises')
-        .query(Q.where('category', 'strength'))
+        .query(Q.where('movement_pattern', 'compound'))
         .fetch()) as Exercise[];
 
-      expect(strengthExercises).toHaveLength(1);
-      expect(strengthExercises[0]?.name).toBe('Bench Press');
+      expect(compoundExercises).toHaveLength(1);
+      expect(compoundExercises[0]?.name).toBe('Bench Press');
     });
   });
 

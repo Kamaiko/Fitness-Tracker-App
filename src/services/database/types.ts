@@ -20,17 +20,27 @@ export interface User {
 
 export interface Exercise {
   id: string;
-  exercisedb_id: string; // Original ExerciseDB ID (e.g., "0002")
+
+  // ===== ExerciseDB fields (1:1 mapping) =====
+  exercisedb_id: string; // Original ExerciseDB ID (e.g., "K6NnTv0")
   name: string;
-  category: 'compound' | 'isolation' | 'cardio' | 'stretching';
-  exercise_type: 'strength' | 'cardio' | 'timed' | 'bodyweight';
-  muscle_groups: string; // JSON string array: ['chest', 'triceps']
-  primary_muscle: string;
-  equipment: 'barbell' | 'dumbbell' | 'machine' | 'bodyweight' | 'cable' | 'other';
-  instructions?: string;
+  body_parts: string[]; // Anatomical regions: ["Chest", "Shoulders"]
+  target_muscles: string[]; // Primary muscles: ["Pectoralis Major"]
+  secondary_muscles: string[]; // Supporting muscles: ["Triceps", "Deltoids"]
+  equipments: string[]; // Required equipment: ["Barbell", "Bench"]
+  exercise_type: string; // "weight_reps" | "cardio" | "duration" | "stretching"
+  instructions: string[]; // Step-by-step guide (array of strings)
+  exercise_tips: string[]; // Safety and technique recommendations
+  variations: string[]; // Alternative exercise versions
+  overview?: string; // Descriptive summary
+  image_url?: string; // Exercise image URL
+  video_url?: string; // Exercise video URL
+  keywords: string[]; // Search optimization terms
+
+  // ===== Halterofit-specific fields (analytics) =====
+  movement_pattern: 'compound' | 'isolation'; // Derived from ExerciseDB for context-aware analytics
   difficulty: 'beginner' | 'intermediate' | 'advanced';
-  image_url?: string;
-  created_by?: string;
+
   created_at: number;
   updated_at: number;
 }

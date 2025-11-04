@@ -26,21 +26,31 @@ export const schema = appSchema({
     }),
 
     // Exercises table (1,300+ from ExerciseDB - read-only)
+    // NOTE: Schema aligned with ExerciseDB nomenclature (ADR-018)
     // NOTE: Custom exercises removed in MVP (ADR-017)
-    // May be added in Phase 3+ based on beta user feedback
     tableSchema({
       name: 'exercises',
       columns: [
+        // ===== ExerciseDB fields (1:1 mapping) =====
         { name: 'exercisedb_id', type: 'string', isIndexed: true }, // Original ExerciseDB ID
         { name: 'name', type: 'string', isIndexed: true },
-        { name: 'category', type: 'string', isIndexed: true },
-        { name: 'exercise_type', type: 'string' }, // 'strength', 'cardio', 'flexibility'
-        { name: 'muscle_groups', type: 'string' }, // JSON array as string
-        { name: 'primary_muscle', type: 'string' },
-        { name: 'equipment', type: 'string', isIndexed: true },
-        { name: 'instructions', type: 'string' },
-        { name: 'difficulty', type: 'string' }, // 'beginner', 'intermediate', 'expert'
-        { name: 'image_url', type: 'string', isOptional: true },
+        { name: 'body_parts', type: 'string' }, // JSON array: ["Chest", "Shoulders"] (anatomical regions)
+        { name: 'target_muscles', type: 'string' }, // JSON array: ["Pectoralis Major"] (primary muscles)
+        { name: 'secondary_muscles', type: 'string' }, // JSON array: ["Triceps", "Deltoids"] (supporting muscles)
+        { name: 'equipments', type: 'string' }, // JSON array: ["Barbell", "Bench"] (required equipment)
+        { name: 'exercise_type', type: 'string' }, // "weight_reps" | "cardio" | "duration" | "stretching"
+        { name: 'instructions', type: 'string' }, // JSON array: step-by-step guide
+        { name: 'exercise_tips', type: 'string' }, // JSON array: safety and technique recommendations
+        { name: 'variations', type: 'string' }, // JSON array: alternative exercise versions
+        { name: 'overview', type: 'string', isOptional: true }, // Descriptive summary
+        { name: 'image_url', type: 'string', isOptional: true }, // Exercise image URL
+        { name: 'video_url', type: 'string', isOptional: true }, // Exercise video URL
+        { name: 'keywords', type: 'string' }, // JSON array: search optimization terms
+
+        // ===== Halterofit-specific fields (analytics) =====
+        { name: 'movement_pattern', type: 'string', isIndexed: true }, // "compound" | "isolation" (derived from ExerciseDB data)
+        { name: 'difficulty', type: 'string' }, // "beginner" | "intermediate" | "advanced"
+
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
         // NOTE: _changed and _status are managed automatically by WatermelonDB sync

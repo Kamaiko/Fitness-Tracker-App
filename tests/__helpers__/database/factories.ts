@@ -203,15 +203,24 @@ export interface TestExerciseData {
   id?: string;
   exercisedb_id?: string;
   name?: string;
-  category?: string;
-  primary_muscle?: string;
-  muscle_groups?: string;
-  equipment?: string | null;
-  instructions?: string | null;
+  body_parts?: string[];
+  target_muscles?: string[];
+  secondary_muscles?: string[];
+  equipments?: string[];
+  exercise_type?: string;
+  instructions?: string[];
+  exercise_tips?: string[];
+  variations?: string[];
+  overview?: string | null;
+  image_url?: string | null;
+  video_url?: string | null;
+  keywords?: string[];
+  movement_pattern?: 'compound' | 'isolation';
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
 }
 
 /**
- * Creates test exercise data with sensible defaults.
+ * Creates test exercise data with sensible defaults (ExerciseDB-aligned schema).
  *
  * @param {Partial<TestExerciseData>} overrides - Optional field overrides
  * @returns {TestExerciseData} Exercise data ready for creation
@@ -229,17 +238,33 @@ export function createTestExerciseData(
     id,
     exercisedb_id: overrides.exercisedb_id || `test-ex-${id}`,
     name: overrides.name || `Test Exercise ${idCounter}`,
-    category: overrides.category || 'strength',
-    primary_muscle: overrides.primary_muscle || 'chest',
-    muscle_groups: overrides.muscle_groups || JSON.stringify(['chest']),
-    equipment: overrides.equipment !== undefined ? overrides.equipment : 'barbell',
-    instructions: overrides.instructions !== undefined ? overrides.instructions : null,
+    body_parts: overrides.body_parts || ['Chest'],
+    target_muscles: overrides.target_muscles || ['Pectoralis Major'],
+    secondary_muscles: overrides.secondary_muscles || ['Triceps'],
+    equipments: overrides.equipments || ['Barbell'],
+    exercise_type: overrides.exercise_type || 'weight_reps',
+    instructions: overrides.instructions || [
+      'Step 1: Setup position',
+      'Step 2: Execute movement',
+      'Step 3: Return to start',
+    ],
+    exercise_tips: overrides.exercise_tips || ['Maintain proper form', 'Control the weight'],
+    variations: overrides.variations || ['Incline variation', 'Decline variation'],
+    overview:
+      overrides.overview !== undefined
+        ? overrides.overview
+        : 'A compound exercise for upper body strength',
+    image_url: overrides.image_url !== undefined ? overrides.image_url : null,
+    video_url: overrides.video_url !== undefined ? overrides.video_url : null,
+    keywords: overrides.keywords || ['chest', 'press', 'compound'],
+    movement_pattern: overrides.movement_pattern || 'compound',
+    difficulty: overrides.difficulty || 'intermediate',
     ...overrides,
   };
 }
 
 /**
- * Creates and persists a test exercise in the database.
+ * Creates and persists a test exercise in the database (ExerciseDB-aligned schema).
  *
  * @param {Database} database - WatermelonDB instance
  * @param {Partial<TestExerciseData>} overrides - Optional field overrides
@@ -249,7 +274,8 @@ export function createTestExerciseData(
  * ```typescript
  * const exercise = await createTestExercise(database, {
  *   name: 'Squat',
- *   muscle_group: 'legs'
+ *   body_parts: ['Legs'],
+ *   target_muscles: ['Quadriceps']
  * });
  * ```
  */
@@ -265,13 +291,24 @@ export async function createTestExercise(
       exercise._raw.id = exerciseData.id;
       exercise.exercisedbId = exerciseData.exercisedb_id!;
       exercise.name = exerciseData.name!;
-      exercise.category = exerciseData.category!;
-      exercise.exerciseType = exerciseData.category || 'strength'; // Use category as type
-      exercise.muscleGroups = exerciseData.muscle_groups!;
-      exercise.primaryMuscle = exerciseData.primary_muscle!;
-      exercise.equipment = exerciseData.equipment || '';
-      exercise.instructions = exerciseData.instructions || '';
-      exercise.difficulty = 'intermediate'; // Default difficulty
+
+      // ExerciseDB fields (arrays handled by @json decorator)
+      exercise.bodyParts = exerciseData.body_parts!;
+      exercise.targetMuscles = exerciseData.target_muscles!;
+      exercise.secondaryMuscles = exerciseData.secondary_muscles!;
+      exercise.equipments = exerciseData.equipments!;
+      exercise.exerciseType = exerciseData.exercise_type!;
+      exercise.instructions = exerciseData.instructions!;
+      exercise.exerciseTips = exerciseData.exercise_tips!;
+      exercise.variations = exerciseData.variations!;
+      exercise.overview = exerciseData.overview || '';
+      exercise.imageUrl = exerciseData.image_url || '';
+      exercise.videoUrl = exerciseData.video_url || '';
+      exercise.keywords = exerciseData.keywords!;
+
+      // Halterofit-specific fields
+      exercise.movementPattern = exerciseData.movement_pattern!;
+      exercise.difficulty = exerciseData.difficulty!;
     });
   })) as Exercise;
 }
