@@ -25,10 +25,13 @@ export const schema = appSchema({
       ],
     }),
 
-    // Exercises table (1,300+ from ExerciseDB + custom)
+    // Exercises table (1,300+ from ExerciseDB - read-only)
+    // NOTE: Custom exercises removed in MVP (ADR-017)
+    // May be added in Phase 3+ based on beta user feedback
     tableSchema({
       name: 'exercises',
       columns: [
+        { name: 'exercisedb_id', type: 'string', isIndexed: true }, // Original ExerciseDB ID
         { name: 'name', type: 'string', isIndexed: true },
         { name: 'category', type: 'string', isIndexed: true },
         { name: 'exercise_type', type: 'string' }, // 'strength', 'cardio', 'flexibility'
@@ -38,8 +41,6 @@ export const schema = appSchema({
         { name: 'instructions', type: 'string' },
         { name: 'difficulty', type: 'string' }, // 'beginner', 'intermediate', 'expert'
         { name: 'image_url', type: 'string', isOptional: true },
-        { name: 'is_custom', type: 'boolean' },
-        { name: 'created_by', type: 'string', isOptional: true },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
         // NOTE: _changed and _status are managed automatically by WatermelonDB sync

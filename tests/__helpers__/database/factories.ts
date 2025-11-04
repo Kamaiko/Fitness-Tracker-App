@@ -201,6 +201,7 @@ export async function createTestWorkout(
 
 export interface TestExerciseData {
   id?: string;
+  exercisedb_id?: string;
   name?: string;
   category?: string;
   primary_muscle?: string;
@@ -223,8 +224,10 @@ export interface TestExerciseData {
 export function createTestExerciseData(
   overrides: Partial<TestExerciseData> = {}
 ): TestExerciseData {
+  const id = overrides.id || generateTestId('exercise');
   return {
-    id: overrides.id || generateTestId('exercise'),
+    id,
+    exercisedb_id: overrides.exercisedb_id || `test-ex-${id}`,
     name: overrides.name || `Test Exercise ${idCounter}`,
     category: overrides.category || 'strength',
     primary_muscle: overrides.primary_muscle || 'chest',
@@ -260,6 +263,7 @@ export async function createTestExercise(
   return (await database.write(async () => {
     return await exercisesCollection.create((exercise: any) => {
       exercise._raw.id = exerciseData.id;
+      exercise.exercisedbId = exerciseData.exercisedb_id!;
       exercise.name = exerciseData.name!;
       exercise.category = exerciseData.category!;
       exercise.exerciseType = exerciseData.category || 'strength'; // Use category as type
@@ -268,7 +272,6 @@ export async function createTestExercise(
       exercise.equipment = exerciseData.equipment || '';
       exercise.instructions = exerciseData.instructions || '';
       exercise.difficulty = 'intermediate'; // Default difficulty
-      exercise.isCustom = false; // Default to not custom
     });
   })) as Exercise;
 }

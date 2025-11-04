@@ -1,7 +1,8 @@
 /**
  * Exercise Model
  *
- * Represents exercises from ExerciseDB API (1,300+) and custom user exercises.
+ * Represents exercises from ExerciseDB API (1,300+).
+ * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
  * Indexed for fast search by name, category, equipment.
  */
 
@@ -11,6 +12,7 @@ import { field, date, readonly } from '@nozbe/watermelondb/decorators';
 export default class Exercise extends Model {
   static table = 'exercises';
 
+  @field('exercisedb_id') exercisedbId!: string; // Original ExerciseDB ID (e.g., "0002")
   @field('name') name!: string;
   @field('category') category!: string; // e.g., 'strength', 'cardio'
   @field('exercise_type') exerciseType!: string;
@@ -20,8 +22,6 @@ export default class Exercise extends Model {
   @field('instructions') instructions!: string;
   @field('difficulty') difficulty!: string; // 'beginner' | 'intermediate' | 'expert'
   @field('image_url') imageUrl?: string;
-  @field('is_custom') isCustom!: boolean;
-  @field('created_by') createdBy?: string;
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;
@@ -37,4 +37,10 @@ export default class Exercise extends Model {
       return [];
     }
   }
+
+  // FUTURE: Custom exercises (Phase 3+)
+  // If beta users validate need, add:
+  // - @field('is_custom') isCustom?: boolean
+  // - @field('created_by') createdBy?: string
+  // See docs/ADR-017-No-Custom-Exercises-MVP.md
 }

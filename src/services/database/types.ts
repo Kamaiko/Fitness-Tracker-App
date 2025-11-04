@@ -20,6 +20,7 @@ export interface User {
 
 export interface Exercise {
   id: string;
+  exercisedb_id: string; // Original ExerciseDB ID (e.g., "0002")
   name: string;
   category: 'compound' | 'isolation' | 'cardio' | 'stretching';
   exercise_type: 'strength' | 'cardio' | 'timed' | 'bodyweight';
@@ -29,7 +30,6 @@ export interface Exercise {
   instructions?: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   image_url?: string;
-  is_custom: boolean;
   created_by?: string;
   created_at: number;
   updated_at: number;
