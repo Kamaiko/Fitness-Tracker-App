@@ -101,7 +101,7 @@ Phase 3: Exercise Library & Testing (0/10 tasks)
 Phase 4: Analytics & Smart Features (0/11 tasks)
    ├─ Progress charts (Victory Native)
    ├─ Volume tracking
-   ├─ Plateau detection (Mann-Kendall)
+   ├─ Plateau detection (simple trend)
    └─ Workout reports
         ↓
 Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
@@ -133,7 +133,7 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 21/26 tasks (81%) | **Est. Time Remaining:** ~5h (Phase 0.5 completion)
+**Progress:** 21/121 tasks (81%) | **Est. Time Remaining:** ~5h (Phase 0.5 completion)
 
 **Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
 **Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
@@ -309,7 +309,7 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 **Timeline:** Week 8 | **Priority:** HIGH
 **Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 6/8 tasks (75%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only)
+**Progress:** 6/121 tasks (75%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -443,7 +443,7 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 - [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
   - Analyzed competitor UX (Strong, Hevy, fitness app patterns)
-  - Documented design principles (Offline-first, Gym-optimized, Context-aware)
+  - Documented design principles (Offline-first, Gym-optimized, Basic)
   - Defined interaction patterns (Quick-add, Inline editing, Swipe actions, Multi-modal feedback)
   - Documented animation strategy (Reanimated v4, 200-300ms timing, spring curves)
   - Created `docs/DESIGN_SYSTEM.md` with strategic design insights (245 lines)
@@ -455,7 +455,7 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
 ---
 
-## Phase 1: Authentication & Foundation (1/27)
+## Phase 1: Authentication & Foundation (1/30)
 
 **Timeline:** Weeks 4-5 | **Priority:** HIGH
 
@@ -548,7 +548,33 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   - Settings toggle to enable/disable
   - Secure credential storage with MMKV encryption
 
-- [ ] 1.16 **Document Manual E2E Test Checklists** (S - 1.5h) `[e2e/manual/]`
+- [ ] 1.13 **Create workout templates system** (L - 4h) `[src/services/database/templates.ts]`
+  - Create workout_templates table with WatermelonDB schema
+  - CRUD operations: save active workout as template
+  - Template fields: name, exercises[], sets[], rest_times[]
+  - Template loading: populate active workout from template
+  - Template management UI: list, edit, delete templates
+  - Integration: "Save as Template" button in workout screen
+  - Benefits: Jefit-style routine reuse (core feature)
+
+- [ ] 1.14 **Implement rest timer with auto-start** (M - 3h) `[src/components/workout/RestTimer.tsx]`
+  - Auto-start timer after set completion (configurable delay)
+  - Visual countdown (circular progress + seconds remaining)
+  - Audio notification when rest period complete
+  - Pause/resume/skip controls
+  - Background timer support (continues when app backgrounded)
+  - Notification support: expo-notifications integration
+  - Benefits: Jefit-style pacing (essential for gym efficiency)
+
+- [ ] 1.15 **Implement auto-save system** (M - 2.5h) `[src/hooks/workout/useAutoSave.ts]`
+  - Debounced auto-save (500ms after last edit)
+  - WatermelonDB batch writes for performance
+  - Visual feedback: "Saving..." / "Saved" indicator
+  - Integration: useWorkoutStore with MMKV persistence
+  - Error handling: Retry failed saves with exponential backoff
+  - Benefits: Jefit-style reliability (never lose workout data)
+
+- [ ] 1.19 **Document Manual E2E Test Checklists** (S - 1.5h) `[e2e/manual/]`
   - Create `e2e/manual/sync-checklist.md` (Supabase sync scenarios)
   - Create `e2e/manual/offline-crud.md` (Offline CRUD operations)
   - Create `e2e/manual/auth-flows.md` (Login/logout/reset password)
@@ -618,9 +644,9 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
 
   ```
   Files to create:
-  - src/types/database.ts (database tables interfaces including nutrition_phase)
+  - src/types/database.ts (database tables interfaces including preferred_unit)
   - src/types/exercises.ts (exercise, set, workout types)
-  - src/types/user.ts (user, profile, nutrition phase types)
+  - src/types/user.ts (user, profile, user preferences types)
   - src/types/analytics.ts (load metrics, fatigue ratios, workout reports)
   - src/types/api.ts (API response types)
 
@@ -710,24 +736,24 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   - Configure Maestro for Development Build
   - Document test execution in docs/testing/e2e-maestro.md
   - CI integration: Run on EAS Build preview (Phase 5)
-  - Reference: Manual checklists from task 1.16
+  - Reference: Manual checklists from task 1.19
 
-- [ ] 5.4 Add nutrition phase management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
+- [ ] 5.4 Add user preferences management screen (M - 3h) `[src/app/(tabs)/profile/nutrition.tsx]`
 
   ```
   Features:
-  - Current phase display (bulk/cut/maintenance)
+  - Current phase display (kg/lbs)
   - Phase duration tracker
   - Simple toggle to change phase
   - Explanation of how phase affects analytics
   - History of past phases (optional for MVP)
 
-  Updates users.nutrition_phase and nutrition_phase_started_at
+  Updates users.preferred_unit and preferred_unit_started_at
   ```
 
 ---
 
-## Phase 2: Workout Logging (0/21)
+## Phase 2: Workout Logging (0/20)
 
 **Timeline:** Weeks 6-8 | **Priority:** HIGH
 **Goal:** Core workout logging functionality with excellent UX
@@ -820,7 +846,7 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   ```
   Shows:
   - Workout date, duration
-  - All exercises with sets (weight, reps, RPE, RIR)
+  - All exercises with sets (weight, reps, weight/reps)
   - Volume statistics
   - Personal records achieved
   - Notes
@@ -879,16 +905,12 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   See TECHNICAL.md UX Best Practices § Quick Set Logging
   ```
 
-- [ ] 8.2 Implement RPE tracking system (M - 3h) `[src/components/workout/RPESelector.tsx]`
-
   ```
   - Scale 1-10 (visual buttons)
   - Optional per-set
   - Can be toggled in settings
   - Color-coded (green 1-5, yellow 6-7, orange 8-9, red 10)
   ```
-
-- [ ] 8.3 Implement RIR tracking (non-intrusive UX) (M - 3h) `[src/components/workout/RIRTracker.tsx]`
 
   ```
   Options (see TECHNICAL.md UX section):
@@ -905,17 +927,8 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   Shows below current set input:
   - Last 3-5 sets for this exercise
   - From previous workouts
-  - Format: "100kg × 8 reps (RPE 8) - 2 days ago"
+  - Format: "100kg × 8 reps  - 2 days ago"
   - Helps user choose progressive overload
-  ```
-
-- [ ] 8.5 Implement auto-suggestions for weight/reps (M - 4h)
-  ```
-  Logic:
-  - If last workout RIR = 0-1 → Suggest +2.5kg
-  - If last workout RIR = 2-3 → Suggest +1 rep
-  - If last workout RIR = 4-5 → Suggest same weight, more reps
-  - Show suggestion subtly (not forcing)
   ```
 
 ### 9. Workout Management Features
@@ -935,18 +948,6 @@ Phase 5: Polish, Monitoring & Beta Launch (0/16 tasks)
   - Pre-populate exercises and target sets
   - User logs actual performance
   - Show comparison with last time
-  ```
-
-- [ ] 9.3 Create workout templates (L - 6h) `[src/app/(tabs)/workout/templates.tsx]`
-
-  ```
-  - Save current workout as template
-  - Name and describe template
-  - List of saved templates
-  - Start workout from template
-  - Edit/Delete templates
-
-  Uses workout_templates tables (see schema)
   ```
 
 - [ ] 9.4 Implement workout notes (S - 2h) `[src/components/workout/NotesInput.tsx]`
@@ -1074,6 +1075,9 @@ Reference: See task 0.5.18 for details
   - Actions: Add to favorites, Add to workout, View history
   ```
 
+**Note:** Custom exercise creation deferred per ADR-017 (Read-only exercise library for MVP).
+Focus on ExerciseDB's 1,300+ exercises for Phase 0-3. Custom exercises in Phase 4+ if validated by users.
+
 ### 12. Custom Exercises & Management
 
 - [ ] 12.0 **Setup Supabase Storage & image upload** (M - 2h) `[src/services/storage/]`
@@ -1086,7 +1090,7 @@ Reference: See task 0.5.18 for details
   - Error handling and user feedback
   - Required before task 12.2 (custom exercise images)
 
-- [ ] 12.1 Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
+- [ ] 12.1 **[DEFERRED - Phase 4+]** Implement custom exercise creation (M - 4h) `[src/app/(tabs)/exercises/create.tsx]`
 
   ```
   Form:
@@ -1104,7 +1108,7 @@ Reference: See task 0.5.18 for details
   - WatermelonDB local
   ```
 
-- [ ] 12.2 Add exercise images/videos (optional for custom) (M - 3h)
+- [ ] 12.2 **[DEFERRED - Phase 4+]** Add exercise images/videos (optional for custom) (M - 3h)
 
   ```
   - Upload to Supabase Storage
@@ -1156,10 +1160,10 @@ Reference: See task 0.5.18 for details
 
 ---
 
-## Phase 4: Analytics & Smart Features (0/11)
+## Phase 4: Basic Analytics & Reports (0/9)
 
-**Timeline:** Weeks 11-12 | **Priority:** HIGH
-**MAJOR CHANGES:** Enhanced with context-aware analytics, load management, personalized 1RM, workout reports
+**Timeline:** Weeks 11-12 | **Priority:** MEDIUM
+**Goal:** Simple, Jefit-style analytics - volume charts, PRs, history, basic trends
 
 ### 13. Progress Dashboard
 
@@ -1177,16 +1181,14 @@ Reference: See task 0.5.18 for details
   Data source: WatermelonDB aggregation queries
   ```
 
-- [ ] 13.2 Implement context-aware volume tracking (M - 4h) `[src/lib/analytics/volume.ts]`
+- [ ] 13.2 Implement basic volume tracking (M - 3h) `[src/lib/analytics/volume.ts]`
 
   ```
-  Calculations (see TECHNICAL.md Analytics section):
-  - Total volume: Σ (sets × reps × weight) - exclude warmup sets
-  - Effective volume: Weight by exercise position and RIR
-  - Volume by muscle group, movement pattern
-  - Volume by week/month with nutrition phase context
-  - Compound vs isolation volume (1.5x multiplier for compounds)
-  - Acute Load (7-day), Chronic Load (28-day), Fatigue Ratio
+  Calculations:
+  - Total volume: Σ (sets × reps × weight)
+  - Volume by muscle group
+  - Volume by week/month
+  - Volume by exercise type
 
   Store aggregated data in WatermelonDB for performance
   ```
@@ -1204,48 +1206,27 @@ Reference: See task 0.5.18 for details
 
 ### 14. Advanced Analytics (Science-Based)
 
-- [ ] 14.1 **Implement context-aware plateau detection** (M - 5h) `[src/lib/analytics/plateau.ts]` `[CRITICAL]`
+- [ ] 14.1 **Implement basic trend analysis** (M - 3h) `[src/lib/analytics/trends.ts]`
 
   ```
-  Algorithm (see TECHNICAL.md):
-  - Use Mann-Kendall trend test (simple-statistics library)
-  - Linear regression for slope
+  Algorithm:
+  - Linear regression for trend direction
   - Analyze last 4-8 weeks of data
-  - CONTEXT-AWARE: Check user nutrition phase
-    - If cut: stable = success (not plateau)
-    - If bulk: stable = true plateau
-    - If maintenance: evaluate normally
-  - Return: isPlateau (boolean), trend, confidence, contextMessage
+  - Return: trend (increasing/stable/decreasing), slope
+  - Simple statistical analysis (simple-statistics library)
 
-  Science-based statistical analysis, NOT AI/ML
+  Display as arrows: ⬆️ improving, ➡️ stable, ⬇️ declining
   ```
 
-- [ ] 14.2 Implement load management system (M - 4h) `[src/lib/analytics/loadManagement.ts]` `[NEW - CRITICAL]`
+- [ ] 14.3 Implement 1RM calculator (S - 2h) `[src/lib/analytics/oneRepMax.ts]`
 
   ```
-  Metrics from sports science literature:
-  - Acute Load: Sum of volume (last 7 days)
-  - Chronic Load: Average volume (last 28 days)
-  - Fatigue Ratio: Acute / Chronic
-    - >1.5 = HIGH FATIGUE → suggest deload
-    - 0.8-1.5 = OPTIMAL
-    - <0.8 = DETRAINING → increase volume
-  - Overtraining alerts based on sustained high ratios
+  Formula: Epley (weight × (1 + reps/30))
+  - Calculate for working sets (3-12 rep range optimal)
+  - Track personal records by exercise
+  - Display in exercise history and analytics
 
-  Display in dashboard and post-workout reports
-  ```
-
-- [ ] 14.3 Implement personalized 1RM with RIR adjustment (M - 3h) `[src/lib/analytics/personalized1RM.ts]` `[NEW]`
-
-  ```
-  Enhancement over basic formulas:
-  - Calculate base 1RM (avg of Epley, Brzycki, Lombardi)
-  - Adjust by RIR: each RIR point = ~3.3% additional capacity
-  - Example: 100kg × 8 @ RIR2 = higher e1RM than 105kg × 6 @ RIR0
-  - Only use "working sets" (exclude warmups, RIR ≤ 3)
-  - Track personal accuracy factor over time
-
-  Compare PRs using adjusted 1RM, not just raw weight
+  Simple and reliable - standard formula used by Jefit and competitors
   ```
 
 - [ ] 14.4 Implement volume distribution analysis (M - 3h) `[src/lib/analytics/volumeDistribution.ts]`
@@ -1257,13 +1238,13 @@ Reference: See task 0.5.18 for details
   - Volume per exercise category (compound vs isolation)
   - Volume per day of week (bar chart)
   - Recommendations: "Increase chest volume by 15% to match back"
-  - Contextualize by nutrition phase
+  - Simple distribution analysis
   ```
 
 - [ ] 14.5 Add workout frequency & consistency analysis (M - 3h)
   ```
   Metrics:
-  - Workouts per week (average, trend, by nutrition phase)
+  - Workouts per week (average, trend)
   - Most common workout days
   - Consistency score (%) - missed vs planned
   - Streak tracking (current, longest)
@@ -1273,52 +1254,29 @@ Reference: See task 0.5.18 for details
 
 ### 15. Performance Feedback & Reports
 
-- [ ] 15.1 **Create post-workout report system** (L - 6h) `[src/components/analytics/WorkoutReport.tsx]` `[NEW - CRITICAL]`
+- [ ] 15.1 **Create post-workout summary** (M - 3h) `[src/components/analytics/WorkoutSummary.tsx]`
 
   ```
-  Displayed immediately after "End Workout":
-  - Performance Score (1-10) based on:
-    - Volume vs historical average (adjusted by nutrition phase)
-    - Intensity (avg RIR, set completion)
-    - Consistency (adherence to plan/template)
-  - Fatigue Estimate: Acute/Chronic Load ratio
-    - "Low" / "Moderate" / "High"
-  - Contextualized Feedback:
-    - "Volume down 8% in cut - expected and healthy"
-    - "Maintained intensity despite fatigue - excellent"
-  - Recommendations:
-    - "Consider extra rest day this week" (high fatigue)
-    - "Good recovery indicators, push hard next session"
+  Displayed after "End Workout":
+  - Total volume (sets × reps × weight)
+  - Total duration
+  - Exercises completed
+  - Personal records achieved (if any)
+  - Simple motivational message
 
-  Keep it concise (3-4 lines max), actionable, science-based
+  Keep it concise (3-4 lines max), positive, clear
   ```
 
-- [ ] 15.2 **Create weekly summary system** (L - 5h) `[src/components/analytics/WeeklySummary.tsx]` `[NEW]`
+- [ ] 15.2 **Create weekly summary** (M - 3h) `[src/components/analytics/WeeklySummary.tsx]`
 
   ```
-  Generated every Monday morning (background task):
-  - Volume trends (by muscle group, vs previous week)
+  Generated every Monday morning:
+  - Total volume (vs previous week)
   - Personal records achieved
-  - Consistency metrics (workouts completed, streak)
-  - Load management status (acute/chronic ratio)
-  - Deload recommendation if needed (sustained high fatigue)
-  - Nutrition phase context ("Week 3 of cut, strength maintained")
+  - Workouts completed (consistency)
+  - Most trained muscle groups
 
   Push notification: "Your Weekly Summary is ready!"
-  ```
-
-- [ ] 15.3 Add context-aware weight suggestions (M - 4h) `[src/lib/suggestions/weightSuggestions.ts]`
-
-  ```
-  Science-based rules (NOT AI):
-  - If last RIR = 0-1 AND nutrition = bulk → "+2.5kg"
-  - If last RIR = 0-1 AND nutrition = cut → "Maintain weight"
-  - If last RIR = 4-5 → "+1 rep or +2.5kg"
-  - If plateau + bulk → "Consider deload or variation"
-  - If fatigue ratio >1.4 → "Maintain or reduce volume"
-  - If performance declining 2+ weeks → "Check recovery"
-
-  Show as subtle suggestions, consider all context
   ```
 
 ---
