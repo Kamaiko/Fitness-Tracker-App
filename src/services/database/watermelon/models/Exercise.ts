@@ -2,9 +2,9 @@
  * Exercise Model
  *
  * Represents exercises from ExerciseDB API (1,300+).
- * Schema aligned with ExerciseDB nomenclature (ADR-018).
+ * Pure 1:1 mapping with ExerciseDB (14 fields, zero custom additions) (ADR-019).
  * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
- * Indexed for fast search by name, movement_pattern, equipments.
+ * Indexed for fast search by name, body_parts, equipments.
  */
 
 import { Model } from '@nozbe/watermelondb';
@@ -49,10 +49,6 @@ export default class Exercise extends Model {
   @field('overview') overview?: string; // Descriptive summary
   @field('image_url') imageUrl?: string; // Exercise image URL
   @field('video_url') videoUrl?: string; // Exercise video URL
-
-  // ===== Halterofit-specific fields (analytics) =====
-  @field('movement_pattern') movementPattern!: 'compound' | 'isolation'; // Derived from ExerciseDB for analytics
-  @field('difficulty') difficulty!: 'beginner' | 'intermediate' | 'advanced';
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;

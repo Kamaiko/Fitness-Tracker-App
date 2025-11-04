@@ -26,7 +26,7 @@ export const schema = appSchema({
     }),
 
     // Exercises table (1,300+ from ExerciseDB - read-only)
-    // NOTE: Schema aligned with ExerciseDB nomenclature (ADR-018)
+    // NOTE: Pure 1:1 mapping with ExerciseDB (14 fields, zero custom additions) (ADR-019)
     // NOTE: Custom exercises removed in MVP (ADR-017)
     tableSchema({
       name: 'exercises',
@@ -46,10 +46,6 @@ export const schema = appSchema({
         { name: 'image_url', type: 'string', isOptional: true }, // Exercise image URL
         { name: 'video_url', type: 'string', isOptional: true }, // Exercise video URL
         { name: 'keywords', type: 'string' }, // JSON array: search optimization terms
-
-        // ===== Halterofit-specific fields (analytics) =====
-        { name: 'movement_pattern', type: 'string', isIndexed: true }, // "compound" | "isolation" (derived from ExerciseDB data)
-        { name: 'difficulty', type: 'string' }, // "beginner" | "intermediate" | "advanced"
 
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },

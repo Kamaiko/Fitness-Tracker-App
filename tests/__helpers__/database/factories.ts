@@ -257,7 +257,6 @@ export function createTestExerciseData(
     image_url: overrides.image_url !== undefined ? overrides.image_url : null,
     video_url: overrides.video_url !== undefined ? overrides.video_url : null,
     keywords: overrides.keywords || ['chest', 'press', 'compound'],
-    movement_pattern: overrides.movement_pattern || 'compound',
     difficulty: overrides.difficulty || 'intermediate',
     ...overrides,
   };

@@ -66,7 +66,8 @@
       "Bash(if [ -d src/types ])",
       "Bash(then ls -la src/types/)",
       "Bash(else echo \"Directory not found\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,7 +1,7 @@
 # ADR-018: Align Exercise Schema with ExerciseDB Nomenclature
 
 **Date:** 2025-02-03
-**Status:** ✅ Accepted
+**Status:** ✅ Accepted (Partially Superseded by ADR-019)
 **Deciders:** Patrick Patenaude (Product Owner), Claude (Technical Advisor)
 **Phase:** 0.5 - Architecture & Foundation
 
@@ -42,6 +42,8 @@ During ExerciseDB integration planning (Phase 0.6), we identified significant mi
 ---
 
 ## Decision
+
+**⚠️ UPDATE (2025-02-03):** This ADR is partially superseded by [ADR-019](./ADR-019-Pure-ExerciseDB-Schema.md). The Halterofit-specific fields (`movement_pattern` and `difficulty`) described below have been removed. The exercises table now contains ONLY the 14 ExerciseDB fields for true 1:1 mapping.
 
 **We will refactor the `exercises` table schema to match ExerciseDB nomenclature exactly**, while adding Halterofit-specific fields only where necessary for our unique analytics features.
 

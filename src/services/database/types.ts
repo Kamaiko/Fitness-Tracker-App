@@ -37,10 +37,6 @@ export interface Exercise {
   video_url?: string; // Exercise video URL
   keywords: string[]; // Search optimization terms
 
-  // ===== Halterofit-specific fields (analytics) =====
-  movement_pattern: 'compound' | 'isolation'; // Derived from ExerciseDB for context-aware analytics
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-
   created_at: number;
   updated_at: number;
 }

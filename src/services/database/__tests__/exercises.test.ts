@@ -40,19 +40,16 @@ describe('Exercise CRUD Operations', () => {
     test('creates exercise with required fields', async () => {
       const exercise = await createTestExercise(database, {
         name: 'Bench Press',
-        movement_pattern: 'compound',
         target_muscles: ['Pectoralis Major'],
       });
 
       expect(exercise.name).toBe('Bench Press');
-      expect(exercise.movementPattern).toBe('compound');
       expect(exercise.targetMuscles).toEqual(['Pectoralis Major']);
     });
 
     test('creates exercise with optional equipment and instructions', async () => {
       const exercise = await createTestExercise(database, {
         name: 'Squat',
-        movement_pattern: 'compound',
         target_muscles: ['Quadriceps'],
         equipments: ['Barbell'],
         instructions: ['Keep chest up', 'Drive through heels'],
@@ -87,19 +84,6 @@ describe('Exercise CRUD Operations', () => {
       const chestExercises = exercises.filter((ex) => ex.bodyParts.includes('Chest'));
 
       expect(chestExercises).toHaveLength(2);
-    });
-
-    test('reads exercises by movement pattern', async () => {
-      await createTestExercise(database, { name: 'Bench Press', movement_pattern: 'compound' });
-      await createTestExercise(database, { name: 'Cable Fly', movement_pattern: 'isolation' });
-
-      const compoundExercises = (await database
-        .get('exercises')
-        .query(Q.where('movement_pattern', 'compound'))
-        .fetch()) as Exercise[];
-
-      expect(compoundExercises).toHaveLength(1);
-      expect(compoundExercises[0]?.name).toBe('Bench Press');
     });
   });
 

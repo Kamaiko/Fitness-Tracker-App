@@ -460,8 +460,6 @@ export async function getWorkoutWithDetails(workoutId: string): Promise<WorkoutW
             image_url: exercise.imageUrl ?? undefined,
             video_url: exercise.videoUrl ?? undefined,
             keywords: exercise.keywords,
-            movement_pattern: exercise.movementPattern as 'compound' | 'isolation',
-            difficulty: exercise.difficulty as 'beginner' | 'intermediate' | 'advanced',
             created_at: exercise.createdAt.getTime(),
             updated_at: exercise.updatedAt.getTime(),
           },
