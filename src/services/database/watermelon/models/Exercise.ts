@@ -1,11 +1,11 @@
 /**
  * Exercise Model
  *
- * Represents exercises from GitHub ExerciseDB dataset (1,500+).
- * 1:1 mapping with GitHub dataset structure (8 fields).
+ * Represents exercises from GitHub ExerciseDB dataset (1,500 exercises).
+ * 8 fields: exercisedb_id, name, body_parts, target_muscles,
+ *           secondary_muscles, equipments, instructions, gif_url
  * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
- * Indexed for fast search by name, body_parts, equipments.
- * Animated GIFs (gifUrl) provided by GitHub ExerciseDB dataset.
+ * Animated GIFs provided by GitHub ExerciseDB CDN.
  */
 
 import { Model } from '@nozbe/watermelondb';
@@ -31,19 +31,15 @@ const sanitizeStringArray = (raw: unknown): string[] => {
 export default class Exercise extends Model {
   static table = 'exercises';
 
-  // ===== ExerciseDB V1 API fields =====
-  @field('exercisedb_id') exercisedbId!: string; // Original ExerciseDB ID (e.g., "0001")
+  @field('exercisedb_id') exercisedbId!: string;
   @field('name') name!: string;
 
-  @json('body_parts', sanitizeStringArray) bodyParts!: string[]; // ["chest"] (single region)
-  @json('target_muscles', sanitizeStringArray) targetMuscles!: string[]; // ["pectorals"] (single muscle)
-  @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[]; // ["triceps", "deltoids"]
-  @json('equipments', sanitizeStringArray) equipments!: string[]; // ["barbell"] (single equipment)
-
-  @json('instructions', sanitizeStringArray) instructions!: string[]; // Step-by-step array
-  @field('gif_url') gifUrl?: string; // Animated exercise demonstration (optional)
-
-  // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
+  @json('body_parts', sanitizeStringArray) bodyParts!: string[];
+  @json('target_muscles', sanitizeStringArray) targetMuscles!: string[];
+  @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[];
+  @json('equipments', sanitizeStringArray) equipments!: string[];
+  @json('instructions', sanitizeStringArray) instructions!: string[];
+  @field('gif_url') gifUrl?: string;
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;

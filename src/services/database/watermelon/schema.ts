@@ -24,22 +24,21 @@ export const schema = appSchema({
       ],
     }),
 
-    // Exercises table (1,300+ from ExerciseDB V1 - read-only)
-    // NOTE: ExerciseDB V1 API structure (10 fields, images deferred to post-MVP)
+    // Exercises table (1,500 from GitHub ExerciseDB dataset - read-only)
+    // NOTE: GitHub dataset structure (8 fields with animated GIFs)
     // NOTE: Custom exercises removed in MVP (ADR-017)
     tableSchema({
       name: 'exercises',
       columns: [
-        // ===== ExerciseDB V1 API fields =====
-        { name: 'exercisedb_id', type: 'string', isIndexed: true }, // Original ExerciseDB ID
+        // GitHub ExerciseDB dataset fields (8 total)
+        { name: 'exercisedb_id', type: 'string', isIndexed: true },
         { name: 'name', type: 'string', isIndexed: true },
-        { name: 'body_parts', type: 'string' }, // JSON array: ["chest"] (single anatomical region from V1)
-        { name: 'target_muscles', type: 'string' }, // JSON array: ["pectorals"] (single primary muscle from V1)
-        { name: 'secondary_muscles', type: 'string' }, // JSON array: ["triceps", "deltoids"] (supporting muscles)
-        { name: 'equipments', type: 'string' }, // JSON array: ["barbell"] (single equipment from V1)
+        { name: 'body_parts', type: 'string' }, // JSON array: ["chest"]
+        { name: 'target_muscles', type: 'string' }, // JSON array: ["pectorals"]
+        { name: 'secondary_muscles', type: 'string' }, // JSON array: ["triceps", "deltoids"]
+        { name: 'equipments', type: 'string' }, // JSON array: ["barbell"]
         { name: 'instructions', type: 'string' }, // JSON array: step-by-step guide
-        { name: 'gif_url', type: 'string', isOptional: true }, // GitHub ExerciseDB provides animated exercise demonstrations
-        // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
+        { name: 'gif_url', type: 'string', isOptional: true }, // Animated exercise GIF
 
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },

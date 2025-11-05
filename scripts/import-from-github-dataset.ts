@@ -1,23 +1,17 @@
 /**
- * Import Script: GitHub ExerciseDB Dataset (V2 Format)
+ * Import Script: GitHub ExerciseDB Dataset
  *
- * Imports 1,500 exercises from downloaded GitHub dataset to Supabase.
+ * Imports 1,500 exercises from GitHub ExerciseDB dataset to Supabase.
  * Dataset: https://github.com/ExerciseDB/exercisedb-api/blob/main/src/data/exercises.json
  *
- * Run: npm run import-github-dataset
- * Dry-run: npm run import-github-dataset -- --dry-run
- *
- * Why GitHub Dataset vs RapidAPI?
- * - RapidAPI free tier: 10 exercises only
- * - GitHub dataset: 1,500+ exercises, open source (AGPL v3)
- * - One-time download, zero runtime API dependencies
+ * Run: npm run import-exercises
+ * Dry-run: npm run import-exercises -- --dry-run
  *
  * Features:
- * - ✅ Format transformation (GitHub V2 → Halterofit V1)
- * - ✅ Zod validation
- * - ✅ Batch processing (100 exercises/batch)
- * - ✅ Detailed logging
- * - ✅ Dry-run mode
+ * - Zod validation for data integrity
+ * - Batch processing (100 exercises/batch)
+ * - Detailed logging
+ * - Dry-run mode for testing
  */
 
 /* eslint-disable no-console */
@@ -54,7 +48,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 // ============================================================================
 
 /**
- * GitHub ExerciseDB V2 format
+ * GitHub ExerciseDB dataset format (8 fields)
  */
 const GitHubExerciseSchema = z.object({
   exerciseId: z.string().min(1),
@@ -88,7 +82,7 @@ interface HalterofitExercise {
 // ============================================================================
 
 /**
- * Transform GitHub V2 format → Halterofit format
+ * Transform GitHub dataset format → Halterofit database format
  */
 function transformExercise(github: GitHubExercise): HalterofitExercise {
   return {

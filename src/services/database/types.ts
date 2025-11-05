@@ -20,16 +20,15 @@ export interface User {
 export interface Exercise {
   id: string;
 
-  // ===== GitHub ExerciseDB dataset fields =====
-  exercisedb_id: string; // Original ExerciseDB ID (e.g., "trmte8s")
+  // GitHub ExerciseDB dataset fields (8 total)
+  exercisedb_id: string;
   name: string;
-  body_parts: string[]; // Anatomical region: ["chest"]
-  target_muscles: string[]; // Primary muscle: ["pectorals"]
-  secondary_muscles: string[]; // Supporting muscles: ["triceps", "deltoids"]
-  equipments: string[]; // Required equipment: ["barbell"]
-  instructions: string[]; // Step-by-step guide (array of strings)
-  gif_url?: string; // Animated exercise demonstration from GitHub ExerciseDB
-  // NOTE: description, difficulty, category removed - not in GitHub dataset
+  body_parts: string[];
+  target_muscles: string[];
+  secondary_muscles: string[];
+  equipments: string[];
+  instructions: string[];
+  gif_url?: string;
 
   created_at: number;
   updated_at: number;

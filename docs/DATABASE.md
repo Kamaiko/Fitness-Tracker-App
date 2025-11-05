@@ -1,9 +1,9 @@
-# 📦 Database Guide - Halterofit
+# Database Guide - Halterofit
 
 **Architecture:** WatermelonDB + Supabase PostgreSQL
 **Sync Protocol:** Offline-first, reactive queries, bidirectional sync
-**Version:** Schema v5 (7 migrations: 5 schema-changing + 2 non-schema)
-**Last Updated:** November 2025
+**Version:** Schema v7 (WatermelonDB), v5-v7 (Supabase migrations)
+**Last Updated:** 2025-11-06
 
 ---
 
@@ -37,18 +37,18 @@
 
 ## Overview
 
-Halterofit uses a **hybrid database architecture**:
+Halterofit uses a hybrid database architecture:
 
 - **WatermelonDB (Local):** Offline-first reactive database (SQLite) for instant reads/writes
 - **Supabase (Cloud):** PostgreSQL backend for cross-device sync and data persistence
-- **ExerciseDB (Seeded):** 1,300+ exercises imported once, stored locally and in cloud
+- **ExerciseDB (Seeded):** 1,500 exercises from GitHub dataset, imported once, stored locally and in cloud
 
-**Key Principles:**
+Key Principles:
 
 - **Offline-first:** All operations work without internet (gym environments)
-- **Reactive:** UI auto-updates on data changes via `.observe()` queries
+- **Reactive:** UI auto-updates on data changes via observe() queries
 - **Zero data loss:** Guaranteed persistence with automatic conflict resolution
-- **ExerciseDB-aligned:** Exercise schema matches ExerciseDB V1 API structure (images deferred to post-MVP)
+- **ExerciseDB-aligned:** Exercise schema matches GitHub ExerciseDB dataset structure (8 fields + animated GIFs)
 
 ---
 
@@ -179,9 +179,9 @@ CREATE POLICY "Users see own workouts"
 
 ### Exercises Table (ExerciseDB)
 
-**Purpose:** Store all exercises (1,300+ from ExerciseDB V1 API - read-only library)
+**Purpose:** Store all exercises (1,500 from GitHub ExerciseDB dataset - read-only library)
 
-**Schema Version:** v5 (ExerciseDB V1-aligned) - Images deferred to post-MVP
+**Schema Version:** v7 (GitHub dataset-aligned with animated GIFs)
 
 **WatermelonDB Schema:**
 
@@ -189,7 +189,7 @@ CREATE POLICY "Users see own workouts"
 tableSchema({
   name: 'exercises',
   columns: [
-    // ExerciseDB V1 fields
+    // GitHub ExerciseDB dataset fields
     { name: 'exercisedb_id', type: 'string', isIndexed: true },
     { name: 'name', type: 'string', isIndexed: true },
     { name: 'body_parts', type: 'string' }, // JSON array: ["waist"]
@@ -197,11 +197,7 @@ tableSchema({
     { name: 'secondary_muscles', type: 'string' }, // JSON array: ["hip flexors"]
     { name: 'equipments', type: 'string' }, // JSON array: ["body weight"]
     { name: 'instructions', type: 'string' }, // JSON array: ["Step 1", "Step 2"]
-
-    // V1-specific fields
-    { name: 'description', type: 'string' }, // Detailed exercise description
-    { name: 'difficulty', type: 'string' }, // "beginner" | "intermediate" | "advanced"
-    { name: 'category', type: 'string' }, // "strength" | "cardio" | "stretching"
+    { name: 'gif_url', type: 'string', isOptional: true }, // Animated exercise demonstration
 
     { name: 'created_at', type: 'number' },
     { name: 'updated_at', type: 'number' },
@@ -215,7 +211,7 @@ tableSchema({
 CREATE TABLE public.exercises (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
-  -- ExerciseDB V1 fields
+  -- GitHub ExerciseDB dataset fields
   exercisedb_id TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   body_parts JSONB NOT NULL DEFAULT '[]',
@@ -223,11 +219,7 @@ CREATE TABLE public.exercises (
   secondary_muscles JSONB NOT NULL DEFAULT '[]',
   equipments JSONB NOT NULL DEFAULT '[]',
   instructions JSONB NOT NULL DEFAULT '[]',
-
-  -- V1-specific fields
-  description TEXT NOT NULL DEFAULT '',
-  difficulty TEXT NOT NULL DEFAULT 'beginner',
-  category TEXT NOT NULL DEFAULT 'strength',
+  gif_url TEXT, -- Animated exercise GIF from GitHub ExerciseDB
 
   created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
   updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
@@ -255,16 +247,14 @@ CREATE POLICY "Exercises are public"
 
 **Key Fields:**
 
-- `exercisedb_id`: Unique ID from ExerciseDB (e.g., "0001", "0002")
-- `name`: Exercise name (e.g., "3/4 sit-up", "Barbell Bench Press")
+- `exercisedb_id`: Unique ID from GitHub dataset (e.g., "trmte8s", "LMGXZn8")
+- `name`: Exercise name (e.g., "band shrug", "barbell bench press")
 - `body_parts`: Anatomical regions (JSON array): `["waist"]`, `["chest"]`
 - `target_muscles`: Primary muscles (JSON array): `["abs"]`, `["pectorals"]`
 - `secondary_muscles`: Supporting muscles (JSON array): `["hip flexors", "lower back"]`
 - `equipments`: Required equipment (JSON array): `["body weight"]`, `["barbell"]`
-- `instructions`: Step-by-step execution (JSON array): `["Lie flat...", "Engaging abs..."]`
-- `description`: Detailed exercise description (V1 field)
-- `difficulty`: Difficulty level - "beginner", "intermediate", or "advanced" (V1 field)
-- `category`: Exercise category - "strength", "cardio", or "stretching" (V1 field)
+- `instructions`: Step-by-step execution (JSON array): `["Step:1 Lie flat...", "Step:2 Engaging abs..."]`
+- `gif_url`: Animated exercise demonstration URL (e.g., "https://static.exercisedb.dev/media/trmte8s.gif")
 
 ---
 
@@ -448,101 +438,78 @@ CREATE TABLE public.users (
 
 ### Nomenclature Mapping
 
-Halterofit uses **ExerciseDB V1 API** as the primary exercise data source (1,300+ exercises). Our schema is **aligned** with ExerciseDB V1 structure with conversions for optimal local database performance.
+Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data source (1,500 exercises). Our schema is aligned with the GitHub dataset structure.
 
-**Current Version:** V1 Dataset (RapidAPI)
-**Images:** Deferred to post-MVP (AI-generated or open-source GitHub repos)
+**Current Version:** GitHub dataset (static JSON file)
+**Images:** Animated GIFs provided by GitHub ExerciseDB CDN
 
-**ExerciseDB V1 → Halterofit Field Mapping:**
+**GitHub ExerciseDB → Halterofit Field Mapping:**
 
-| ExerciseDB Field   | Halterofit Field    | Type       | Conversion                                   |
-| ------------------ | ------------------- | ---------- | -------------------------------------------- |
-| `id`               | `exercisedb_id`     | string     | Direct mapping                               |
-| `name`             | `name`              | string     | Direct mapping                               |
-| `bodyPart`         | `body_parts`        | JSON array | **STRING → ARRAY** ("waist" → ["waist"])     |
-| `target`           | `target_muscles`    | JSON array | **STRING → ARRAY** ("abs" → ["abs"])         |
-| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping (already array)               |
-| `equipment`        | `equipments`        | JSON array | **STRING → ARRAY** ("barbell" → ["barbell"]) |
-| `instructions`     | `instructions`      | JSON array | Direct mapping                               |
-| `description` ✨   | `description`       | string     | V1: Detailed exercise description            |
-| `difficulty` ✨    | `difficulty`        | string     | V1: "beginner"\|"intermediate"\|"advanced"   |
-| `category` ✨      | `category`          | string     | V1: "strength"\|"cardio"\|"stretching"       |
+| GitHub Field       | Halterofit Field    | Type       | Conversion         |
+| ------------------ | ------------------- | ---------- | ------------------ |
+| `exerciseId`       | `exercisedb_id`     | string     | Direct mapping     |
+| `name`             | `name`              | string     | Direct mapping     |
+| `bodyParts`        | `body_parts`        | JSON array | Direct mapping     |
+| `targetMuscles`    | `target_muscles`    | JSON array | Direct mapping     |
+| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping     |
+| `equipments`       | `equipments`        | JSON array | Direct mapping     |
+| `instructions`     | `instructions`      | JSON array | Direct mapping     |
+| `gifUrl`           | `gif_url`           | string     | Direct mapping     |
 
-**Note:** ✨ = Bonus V1 fields not in original V2 design
-
-**ExerciseDB V1 API Response Format:**
+**GitHub ExerciseDB Dataset Format:**
 
 ```json
 {
-  "id": "0001",
-  "name": "3/4 sit-up",
-  "bodyPart": "waist",
-  "target": "abs",
-  "secondaryMuscles": ["hip flexors", "lower back"],
-  "equipment": "body weight",
+  "exerciseId": "trmte8s",
+  "name": "band shrug",
+  "gifUrl": "https://static.exercisedb.dev/media/trmte8s.gif",
+  "targetMuscles": ["traps"],
+  "bodyParts": ["neck"],
+  "equipments": ["band"],
+  "secondaryMuscles": ["shoulders"],
   "instructions": [
-    "Lie flat on your back with your knees bent and feet flat on the ground.",
-    "Place your hands behind your head with your elbows pointing outwards.",
-    "Engaging your abs, slowly lift your upper body off the ground.",
-    "Pause for a moment at the top, then slowly lower back down.",
-    "Repeat for the desired number of repetitions."
-  ],
-  "description": "The 3/4 sit-up is an abdominal exercise performed with body weight. It involves curling the torso up to a 45-degree angle, engaging the abs, hip flexors, and lower back.",
-  "difficulty": "beginner",
-  "category": "strength"
+    "Step:1 Stand with your feet shoulder-width apart and place the band under your feet, holding the ends with your hands.",
+    "Step:2 Keep your arms straight and relaxed, and let the band hang in front of your thighs.",
+    "Step:3 Engage your traps by shrugging your shoulders upward, lifting the band as high as possible.",
+    "Step:4 Hold the contraction for a moment, then slowly lower your shoulders back down to the starting position.",
+    "Step:5 Repeat for the desired number of repetitions."
+  ]
 }
 ```
 
-**Halterofit Database Format (WatermelonDB):**
+**Halterofit Database Format:**
 
 ```typescript
 {
   id: "uuid-generated",
-  exercisedb_id: "0001",
-  name: "3/4 sit-up",
-  body_parts: ["waist"],           // Converted from string → array
-  target_muscles: ["abs"],         // Converted from string → array
-  secondary_muscles: ["hip flexors", "lower back"],
-  equipments: ["body weight"],     // Converted from string → array
-  instructions: ["Lie flat...", "Place hands...", "Engaging abs...", "Pause...", "Repeat..."],
-  description: "The 3/4 sit-up is an abdominal exercise...",
-  difficulty: "beginner",
-  category: "strength",
+  exercisedb_id: "trmte8s",
+  name: "band shrug",
+  body_parts: ["neck"],
+  target_muscles: ["traps"],
+  secondary_muscles: ["shoulders"],
+  equipments: ["band"],
+  instructions: ["Step:1 Stand...", "Step:2 Keep...", "Step:3 Engage...", "Step:4 Hold...", "Step:5 Repeat..."],
+  gif_url: "https://static.exercisedb.dev/media/trmte8s.gif",
   created_at: 1234567890,
   updated_at: 1234567890
 }
 ```
 
-**V1 vs V2 Comparison:**
-
-| Feature          | V1 (Current)     | V2 (Future)        |
-| ---------------- | ---------------- | ------------------ |
-| Exercise Count   | 1,300            | 5,000+             |
-| Images           | ❌ Not available | ✅ Included        |
-| Videos           | ❌ Not available | ✅ Included        |
-| Exercise Tips    | ❌ Not available | ✅ Included        |
-| Variations       | ❌ Not available | ✅ Included        |
-| Difficulty Level | ✅ Included      | ❌ Not available   |
-| Category         | ✅ Included      | ❌ Not available   |
-| Description      | ✅ Included      | ❌ (uses overview) |
-
 ### Field Reference
 
-#### ExerciseDB V1 Fields
+#### GitHub ExerciseDB Dataset Fields
 
 **`body_parts` (JSONB Array):**
 
 - Anatomical regions targeted by exercise
 - Examples: `["waist"]`, `["chest"]`, `["back"]`
 - Used for: Filtering exercises by body part
-- Note: V1 API returns strings, converted to arrays in import script
 
 **`target_muscles` (JSONB Array):**
 
 - Primary muscles targeted (main movers)
 - Examples: `["abs"]`, `["pectorals"]`, `["lats"]`
 - Used for: Volume distribution analytics, muscle group filtering
-- Note: V1 API returns strings, converted to arrays in import script
 
 **`secondary_muscles` (JSONB Array):**
 
@@ -555,92 +522,78 @@ Halterofit uses **ExerciseDB V1 API** as the primary exercise data source (1,300
 - Required equipment
 - Examples: `["body weight"]`, `["barbell"]`, `["dumbbell", "bench"]`
 - Used for: Equipment-based filtering (home gym vs commercial gym)
-- Note: V1 API returns strings, converted to arrays in import script
 
 **`instructions` (JSONB Array):**
 
 - Step-by-step execution instructions
-- Format: Array of strings, each a single instruction step
+- Format: Array of strings, each starting with "Step:N"
 - Used for: Exercise detail screen, form guidance
 
-**`description` (TEXT):**
+**`gif_url` (TEXT):**
 
-- Detailed exercise description (V1-specific field)
-- Example: "The 3/4 sit-up is an abdominal exercise performed with body weight. It involves curling the torso up to a 45-degree angle..."
-- Used for: Exercise overview, search context
-
-**`difficulty` (TEXT):**
-
-- Difficulty level (V1-specific field)
-- Values: "beginner", "intermediate", "advanced"
-- Used for: Exercise filtering, workout plan generation
-
-**`category` (TEXT):**
-
-- Exercise category (V1-specific field)
-- Values: "strength", "cardio", "stretching"
-- Used for: Exercise categorization, workout type filtering
+- Animated exercise demonstration URL
+- Example: "https://static.exercisedb.dev/media/trmte8s.gif"
+- Used for: Exercise detail screen, proper form visualization
+- Hosted by: GitHub ExerciseDB CDN
 
 ---
 
 ### ExerciseDB Import Strategy
 
-**Approach:** Database Seeding at Build Time (Option A)
+**Approach:** Database Seeding from GitHub Dataset
 
-Halterofit uses a **one-time import** strategy aligned with industry best practices (Jefit, Strong):
+Halterofit uses a one-time import strategy from the GitHub ExerciseDB dataset:
 
 **Import Process:**
 
-1. **Developer runs import script** (once before publishing app):
+1. **Download dataset** (one-time):
+   - Download exercisedb-full-dataset.json from GitHub repository
+   - Contains 1,500 exercises with animated GIFs
+   - Place in scripts/ directory (gitignored due to 1.3MB size)
+
+2. **Developer runs import script**:
 
    ```bash
    # Test import (dry-run - no data written)
-   npm run import-exercisedb -- --dry-run
+   npm run import-exercises -- --dry-run
 
    # Run actual import
-   npm run import-exercisedb
+   npm run import-exercises
    ```
 
-   - Script calls ExerciseDB API (1,300 exercises)
-   - **Zod validation:** Validates API responses to prevent breaking changes
+   - Script reads local JSON file (no API calls)
+   - Zod validation ensures data integrity
    - Inserts into Supabase PostgreSQL (batch processing: 100/batch)
-   - Duration: ~2-3 minutes
+   - Duration: 2-3 minutes for 1,500 exercises
 
-   **Zod Validation Context:**
-   The import script uses Zod runtime validation to protect against ExerciseDB API schema changes:
-   - ✅ Detects field renames/removals (e.g., `bodyPart` → `bodyParts`)
-   - ✅ Graceful degradation (skips invalid exercises, doesn't crash)
-   - ✅ Detailed error logging (know exactly what failed)
-   - Future-proof: API changes won't break app
+   **Zod Validation:**
+   The import script uses Zod runtime validation to protect against dataset schema changes:
+   - Detects field renames/removals
+   - Graceful degradation (skips invalid exercises)
+   - Detailed error logging
 
-   **See:** [TECHNICAL.md § Runtime Validation](TECHNICAL.md#runtime-validation--type-safety) for complete Zod patterns
-
-2. **User downloads app** (first launch):
-   - WatermelonDB sync() runs automatically
-   - Downloads exercises from Supabase → local SQLite
-   - Duration: ~30-60 seconds
+3. **User downloads app** (first launch):
+   - WatermelonDB sync runs automatically
+   - Downloads exercises from Supabase to local SQLite
+   - Duration: 30-60 seconds
    - User sees: "Configuring exercise library..."
 
-3. **Offline-first experience**:
-   - All 1,300 exercises stored locally
+4. **Offline-first experience**:
+   - All 1,500 exercises stored locally
    - Search/filter works 100% offline
    - Zero API calls during runtime
 
 **Update Frequency:** Quarterly (every 3 months)
 
-- ExerciseDB adds ~10-20 exercises/month
-- Re-run `npm run import-exercisedb` to fetch new exercises
+- GitHub dataset updates periodically
+- Re-download dataset and re-run import script
 - Users receive updates via WatermelonDB sync
-
-**Post-MVP:** Automate with Supabase Edge Function (see [TASKS.md § Post-MVP Backlog](TASKS.md#post-mvp-backlog))
 
 **References:**
 
-- Import Script: [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts)
-- Script Docs: [scripts/README.md](../scripts/README.md)
-- **Supabase API Keys:** Use new `sb_secret_...` format (June 2025+, see [GitHub discussion](https://github.com/orgs/supabase/discussions/29260))
-- [ADR-017: No Custom Exercises in MVP](archives/ADR-017-No-Custom-Exercises-MVP.md)
-- [ADR-019: Pure ExerciseDB Schema](archives/ADR-019-Pure-ExerciseDB-Schema.md)
+- Import Script: scripts/import-from-github-dataset.ts
+- Rollback Script: scripts/rollback-exercisedb.ts
+- Dataset Source: https://github.com/ExerciseDB/exercisedb-api
 
 ---
 
@@ -648,13 +601,12 @@ Halterofit uses a **one-time import** strategy aligned with industry best practi
 
 ### Exercise Model
 
-**File:** `src/services/database/watermelon/models/Exercise.ts`
+**File:** src/services/database/watermelon/models/Exercise.ts
 
 ```typescript
 import { Model } from '@nozbe/watermelondb';
 import { field, json, readonly, date } from '@nozbe/watermelondb/decorators';
 
-// Sanitizer for JSON array fields
 const sanitizeStringArray = (raw: any): string[] => {
   if (Array.isArray(raw)) return raw.map(String);
   if (typeof raw === 'string') {
@@ -672,7 +624,6 @@ const sanitizeStringArray = (raw: any): string[] => {
 export default class Exercise extends Model {
   static table = 'exercises';
 
-  // ExerciseDB V1 fields
   @field('exercisedb_id') exercisedbId!: string;
   @field('name') name!: string;
 
@@ -680,18 +631,13 @@ export default class Exercise extends Model {
   @json('target_muscles', sanitizeStringArray) targetMuscles!: string[];
   @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[];
   @json('equipments', sanitizeStringArray) equipments!: string[];
-
   @json('instructions', sanitizeStringArray) instructions!: string[];
 
-  // V1-specific fields
-  @field('description') description!: string;
-  @field('difficulty') difficulty!: string;
-  @field('category') category!: string;
+  @field('gif_url') gifUrl?: string;
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;
 
-  // Computed properties
   get primaryMuscle(): string | undefined {
     return this.targetMuscles[0];
   }
@@ -702,10 +648,6 @@ export default class Exercise extends Model {
 
   get requiresEquipment(): boolean {
     return this.equipments.length > 0 && !this.equipments.includes('body weight');
-  }
-
-  get isBeginner(): boolean {
-    return this.difficulty === 'beginner';
   }
 }
 ```
@@ -1173,30 +1115,32 @@ $$ LANGUAGE plpgsql;
 
 ## Schema Evolution
 
-### Current Version: v5 (ExerciseDB V1-Aligned)
+### Current Version: v7 (GitHub ExerciseDB Dataset)
 
-**Migration:** v4→v5 ([migration v5 in migrations.ts](../src/services/database/watermelon/migrations.ts))
+**WatermelonDB:** Schema version 7
+**Supabase:** Migrations v5, v6, v7
 
-**Changes from v4:**
+**Migration History:**
 
-- ❌ **REMOVED** (7 fields): `exercise_type`, `image_url`, `video_url`, `exercise_tips`, `variations`, `overview`, `keywords`
-- ✅ **ADDED** (3 V1 fields): `description`, `difficulty`, `category`
+- v1-v4: Initial schema development
+- v5: Consolidated schema (8 incremental migrations merged into 1)
+- v6: Removed description, difficulty, category (not in GitHub dataset)
+- v7: Added gif_url (GitHub ExerciseDB provides animated GIFs)
 
 **Rationale:**
 
-ExerciseDB V1 API (via RapidAPI) provides text-only data with 1,300 exercises. V2 dataset (with images/videos) exists but is not available for production use. Images deferred to post-MVP backlog.
+GitHub ExerciseDB dataset provides 1,500 exercises with 8 fields including animated GIFs. This is a static dataset import (not an API), providing reliable offline-first functionality.
 
 **Deprecated Fields:**
 
-- ❌ `nutrition_phase` (users table) - **REMOVED** per [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md)
-- ❌ `nutrition_phase` (workouts table) - **REMOVED** (not in MVP scope)
-- ❌ V2-only fields (exercise_type, images, videos, tips, etc.) - **REMOVED** (not in V1 API)
+- nutrition_phase (users table) - Removed per scope simplification
+- description, difficulty, category (exercises table) - Not in GitHub dataset
 
 **Migration Strategy:**
 
-- WatermelonDB schema version incremented through v2, v3, v4, v5 (5 schema-changing migrations)
-- Supabase migrations applied via timestamp-based files (6 total: 4 schema + 2 non-schema)
-- No data migration required (exercises reseeded from ExerciseDB V1)
+- WatermelonDB schema version incremented: v5 → v6 → v7
+- Supabase migrations applied via timestamp-based SQL files
+- Exercises reseeded from GitHub dataset after schema changes
 
 ### Future Schema Changes
 
@@ -1218,31 +1162,37 @@ ExerciseDB V1 API (via RapidAPI) provides text-only data with 1,300 exercises. V
 
 ## Migration History
 
-### Consolidated Migration v5 (2025-11-05)
+### Migration v5: Consolidated Schema (2025-11-05)
 
-**File:** [`20251105000000_consolidated_schema_v5.sql`](../supabase/migrations/20251105000000_consolidated_schema_v5.sql)
+**File:** supabase/migrations/20251105000000_consolidated_schema_v5.sql
 
 **Purpose:** Single consolidated migration replacing 8 incremental migrations
 
 **Changes:**
 
 - Replaced 8 incremental migrations with single consolidated schema
-- Final state: exercises 14 cols (ExerciseDB V1), users 7 cols
-- Applied via `supabase db reset` (complete rebuild)
+- Created 5 tables: users, exercises, workouts, workout_exercises, exercise_sets
+- Initial exercise schema included description, difficulty, category fields
+- Applied via supabase db reset (complete rebuild)
 
-**Schema v5 Final State:**
+### Migration v6-v7: GitHub Dataset Alignment (2025-11-06)
 
-- **users**: 7 columns (email, preferred_unit + metadata)
-- **exercises**: 14 columns (ExerciseDB V1: exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, instructions, description, difficulty, category + metadata)
-- **workouts**: 12 columns (user_id, started_at, completed_at, duration_seconds, title, notes + metadata)
-- **workout_exercises**: 12 columns (workout_id, exercise_id, order_index, superset_group, notes, target_sets, target_reps + metadata)
-- **exercise_sets**: 21 columns (workout_exercise_id, set_number, weight, weight_unit, reps, duration_seconds, distance_meters, rpe, rir, rest_time_seconds, is_warmup, is_failure, notes, completed_at + metadata)
+**File:** supabase/migrations/20251106000000_schema_v6_v7_github_dataset.sql
 
-**Rationale:**
+**Purpose:** Align schema with GitHub ExerciseDB dataset structure
 
-- Previous incremental migrations created inconsistent state
-- Consolidation provides single source of truth
-- Simplified maintenance and future migrations
+**Changes:**
+
+- v6: Removed description, difficulty, category (not in GitHub dataset)
+- v7: Added gif_url (GitHub ExerciseDB provides animated GIFs)
+
+**Final Schema State:**
+
+- **users**: 7 columns (id, email, preferred_unit + metadata)
+- **exercises**: 13 columns (id, exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, instructions, gif_url + metadata)
+- **workouts**: 12 columns (id, user_id, started_at, completed_at, duration_seconds, title, notes + metadata)
+- **workout_exercises**: 12 columns (id, workout_id, exercise_id, order_index, superset_group, notes, target_sets, target_reps + metadata)
+- **exercise_sets**: 19 columns (id, workout_exercise_id, set_number, weight, weight_unit, reps, duration_seconds, distance_meters, rpe, rir, rest_time_seconds, is_warmup, is_failure, notes, completed_at + metadata)
 
 **Attack Vector (Pre-Fix - CVE-2018-1058):**
 
@@ -1337,20 +1287,18 @@ WHERE tablename = 'exercises'
 
 ### Schema Versioning
 
-**Current Version:** v5 (Consolidated Schema)
+**Current Version:** v7 (GitHub ExerciseDB Dataset)
 
-**WatermelonDB Schema Version:** Defined in [`src/services/database/watermelon/schema.ts`](../src/services/database/watermelon/schema.ts)
+**WatermelonDB Schema Version:** Defined in src/services/database/watermelon/schema.ts
 
 ```typescript
 export const schema = appSchema({
-  version: 5, // ExerciseDB V1 + WatermelonDB Sync
+  version: 7, // GitHub ExerciseDB dataset with animated GIFs
   tables: [
     // ... table definitions
   ],
 });
 ```
-
-**Version:** v5 - Consolidated schema (ExerciseDB V1 + WatermelonDB sync protocol)
 
 ---
 
@@ -1381,6 +1329,5 @@ export const schema = appSchema({
 
 ---
 
-**Last Updated:** November 2025
-**Schema Version:** v5 (ExerciseDB V1-aligned)
-**Maintainer:** AI-assisted development
+**Last Updated:** 2025-11-06
+**Schema Version:** v7 (GitHub ExerciseDB dataset with animated GIFs)

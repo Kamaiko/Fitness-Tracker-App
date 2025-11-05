@@ -493,7 +493,7 @@ Performance-critical libraries for smooth UX on low-end devices.
 **Rationale:**
 
 - **PRD Requirement:** Exercise GIFs must load from cache in <200ms
-- 1,300+ exercise images from ExerciseDB require aggressive caching
+- 1,500 exercise GIFs from GitHub ExerciseDB require aggressive caching
 - Built-in memory + disk cache (no custom implementation needed)
 - Better performance than React Native Image (10-30x faster)
 
@@ -529,7 +529,7 @@ import { CachedImage } from '@/components/ui';
 
 **Use Cases:**
 
-- Exercise GIFs (Phase 2.7.1, 3.11.2) - 1,300+ images
+- Exercise GIFs (Phase 2.7.1, 3.11.2) - 1,500 animated GIFs
 - User avatars (Phase 1.4)
 - Workout template thumbnails (Phase 5)
 
@@ -704,9 +704,9 @@ npm start
 
 ---
 
-### ADR-013: ExerciseDB API Integration
+### ADR-013: ExerciseDB Dataset Integration
 
-**Decision:** Seed exercise library from ExerciseDB API (1,300+ exercises)
+**Decision:** Seed exercise library from GitHub ExerciseDB dataset (1,500 exercises)
 
 **Rationale:**
 
@@ -717,7 +717,7 @@ npm start
 **Implementation:**
 
 ```typescript
-// One-time seed: ExerciseDB → Supabase → WatermelonDB
+// One-time seed: GitHub dataset → Supabase → WatermelonDB
 // Runtime: No API calls (local WatermelonDB search/filtering)
 ```
 
@@ -1243,7 +1243,7 @@ async function getUserProfile(userId: string): Promise<UserProfile> {
 
 ### External API Validation
 
-**Example: ExerciseDB API Import**
+**Example: ExerciseDB Dataset Import**
 
 See [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts) for production example.
 
@@ -1251,7 +1251,7 @@ See [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts) for producti
 import { z } from 'zod';
 
 // Define expected API schema
-const ExerciseDBSchema = z.object({
+const GitHubExerciseSchema = z.object({
   exerciseId: z.string().min(1, 'exerciseId required'),
   name: z.string().min(1, 'name required'),
   bodyParts: z.array(z.string()).default([]),
@@ -1265,7 +1265,7 @@ function validateExercises(rawData: unknown[]) {
   const errors = [];
 
   rawData.forEach((item, index) => {
-    const result = ExerciseDBSchema.safeParse(item);
+    const result = GitHubExerciseSchema.safeParse(item);
 
     if (result.success) {
       validated.push(result.data);

@@ -86,7 +86,7 @@ app/
 
 ```
 scripts/
-├── import-exercisedb.ts       # ExerciseDB API → Supabase import
+├── import-from-github-dataset.ts  # GitHub dataset → Supabase import
 ├── rollback-exercisedb.ts     # Delete all exercises (testing)
 ├── tsconfig.json              # Node.js-specific TypeScript config
 └── README.md                  # Script documentation
@@ -125,7 +125,7 @@ npm run rollback-exercisedb
 
 **Key Features:**
 
-- **Zod Runtime Validation**: Validates ExerciseDB API responses to prevent breaking changes
+- **Zod Runtime Validation**: Validates GitHub ExerciseDB dataset to prevent breaking changes
 - **Batch Processing**: Imports 100 exercises per batch for performance
 - **Timeout Protection**: 30s timeout with AbortController
 - **Dry-Run Mode**: Test import without modifying database
@@ -290,7 +290,7 @@ services/
 ├── storage/          # MMKV encrypted storage
 │   ├── mmkvStorage.ts
 │   └── index.ts
-├── api/              # External APIs (ExerciseDB)
+├── api/              # External APIs (if needed)
 ├── analytics/        # 🔮 Post-MVP (Phase 6) - Analytics calculations
 └── notifications/    # Push notifications
 ```
