@@ -377,6 +377,9 @@ schemaMigrations({
 
 ## CI/CD Architecture
 
+> 📖 **For complete technical documentation** (Git hooks internals, GitHub Actions details, Dependabot configuration, troubleshooting):
+> → See **[DEVOPS_PIPELINE.md](DEVOPS_PIPELINE.md)**
+
 ### Overview
 
 Halterofit uses **GitHub Actions** for continuous integration and deployment with a **parallel job architecture** designed for speed and clarity.

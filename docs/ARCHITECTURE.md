@@ -677,4 +677,7 @@ src/
 - Memoization strategies
 - Bundle size analysis
 
-**See:** [TECHNICAL.md § Performance Guidelines](./TECHNICAL.md#-performance-guidelines) for details.
+**See also:**
+
+- [TECHNICAL.md § Performance Guidelines](./TECHNICAL.md#-performance-guidelines) - Performance optimization details
+- [DEVOPS_PIPELINE.md](./DEVOPS_PIPELINE.md) - CI/CD pipeline technical documentation
