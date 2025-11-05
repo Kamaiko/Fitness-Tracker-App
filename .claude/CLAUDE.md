@@ -98,6 +98,40 @@ See individual command files for detailed usage instructions.
 
 ---
 
+## 🗄️ Database Migrations
+
+### Supabase CLI
+
+**Create Migration:**
+```bash
+supabase migration new feature_name
+```
+
+**Apply Migrations:**
+```bash
+supabase db push
+```
+
+**Reset DB:**
+```bash
+supabase db reset  # Destroys + recreates from migrations
+```
+
+### Best Practices
+
+1. One logical change per migration
+2. Test with `supabase db reset` before committing
+3. Never edit applied migrations - create new one
+4. Sync WatermelonDB schema version when changing Supabase schema
+
+### WatermelonDB Sync
+
+When changing schema:
+1. Update `src/services/database/watermelon/schema.ts` (increment version)
+2. Add migration in `src/services/database/watermelon/migrations.ts`
+
+---
+
 ## 📚 Documentation Quick Reference
 
 **Choose the right document for your need:**
