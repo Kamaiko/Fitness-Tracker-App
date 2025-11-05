@@ -451,6 +451,7 @@ export async function getWorkoutWithDetails(workoutId: string): Promise<WorkoutW
             secondary_muscles: exercise.secondaryMuscles,
             equipments: exercise.equipments,
             instructions: exercise.instructions,
+            gif_url: exercise.gifUrl,
             created_at: exercise.createdAt.getTime(),
             updated_at: exercise.updatedAt.getTime(),
           },

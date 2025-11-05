@@ -7,7 +7,7 @@
  * IMPORTANT: _changed and _status columns are managed automatically by WatermelonDB
  * when using the sync protocol. They do NOT need to be added via migrations.
  *
- * Current schema version: 6
+ * Current schema version: 7
  *
  * Migration History:
  * - v1 → v2: ExerciseDB alignment (14-field schema)
@@ -17,6 +17,7 @@
  *   * Removed: exercise_type, exercise_tips, variations, overview, image_url, video_url, keywords
  *   * Added: description, difficulty, category
  * - v5 → v6: Removed description, difficulty, category (not in GitHub ExerciseDB dataset)
+ * - v6 → v7: Added gif_url (GitHub ExerciseDB provides animated exercise GIFs)
  *
  * NOTE: v2-v4 are placeholder migrations (no steps).
  *
@@ -57,6 +58,13 @@ export default schemaMigrations({
       steps: [
         // No steps needed - WatermelonDB ignores columns not in schema
         // Removed: description, difficulty, category (not in GitHub ExerciseDB dataset)
+      ],
+    },
+    {
+      toVersion: 7,
+      steps: [
+        // No steps needed - WatermelonDB will create gif_url column on next sync
+        // Added: gif_url (GitHub ExerciseDB provides animated exercise GIFs)
       ],
     },
   ],

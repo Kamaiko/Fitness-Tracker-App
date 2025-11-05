@@ -17,8 +17,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --maxWorkers=2",
-    "import-exercisedb": "ts-node --project scripts/tsconfig.json scripts/import-exercisedb.ts",
-    "import-github-dataset": "ts-node --project scripts/tsconfig.json scripts/import-from-github-dataset.ts",
+    "import-exercises": "ts-node --project scripts/tsconfig.json scripts/import-from-github-dataset.ts",
     "rollback-exercisedb": "ts-node --project scripts/tsconfig.json scripts/rollback-exercisedb.ts",
     "prepare": "husky"
   },

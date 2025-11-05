@@ -2,10 +2,10 @@
  * Exercise Model
  *
  * Represents exercises from GitHub ExerciseDB dataset (1,500+).
- * 1:1 mapping with GitHub dataset structure (7 fields).
+ * 1:1 mapping with GitHub dataset structure (8 fields).
  * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
  * Indexed for fast search by name, body_parts, equipments.
- * Images (gifUrl) deferred to post-MVP.
+ * Animated GIFs (gifUrl) provided by GitHub ExerciseDB dataset.
  */
 
 import { Model } from '@nozbe/watermelondb';
@@ -41,6 +41,7 @@ export default class Exercise extends Model {
   @json('equipments', sanitizeStringArray) equipments!: string[]; // ["barbell"] (single equipment)
 
   @json('instructions', sanitizeStringArray) instructions!: string[]; // Step-by-step array
+  @field('gif_url') gifUrl?: string; // Animated exercise demonstration (optional)
 
   // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
 

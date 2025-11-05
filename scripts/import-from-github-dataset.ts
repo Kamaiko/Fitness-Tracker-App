@@ -80,6 +80,7 @@ interface HalterofitExercise {
   secondary_muscles: string[];
   equipments: string[];
   instructions: string[];
+  gif_url?: string;
 }
 
 // ============================================================================
@@ -98,6 +99,7 @@ function transformExercise(github: GitHubExercise): HalterofitExercise {
     secondary_muscles: github.secondaryMuscles,
     equipments: github.equipments,
     instructions: github.instructions,
+    gif_url: github.gifUrl,
   };
 }
 

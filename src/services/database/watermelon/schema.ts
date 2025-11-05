@@ -10,7 +10,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-  version: 6, // V6: Removed description, difficulty, category (not in GitHub ExerciseDB dataset)
+  version: 7, // V7: Added gif_url (GitHub ExerciseDB dataset provides exercise GIF URLs)
   tables: [
     // Users table
     tableSchema({
@@ -38,8 +38,8 @@ export const schema = appSchema({
         { name: 'secondary_muscles', type: 'string' }, // JSON array: ["triceps", "deltoids"] (supporting muscles)
         { name: 'equipments', type: 'string' }, // JSON array: ["barbell"] (single equipment from V1)
         { name: 'instructions', type: 'string' }, // JSON array: step-by-step guide
+        { name: 'gif_url', type: 'string', isOptional: true }, // GitHub ExerciseDB provides animated exercise demonstrations
         // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
-        // NOTE: Images deferred to post-MVP (AI-generated or GitHub open-source)
 
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },

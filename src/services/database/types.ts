@@ -28,8 +28,8 @@ export interface Exercise {
   secondary_muscles: string[]; // Supporting muscles: ["triceps", "deltoids"]
   equipments: string[]; // Required equipment: ["barbell"]
   instructions: string[]; // Step-by-step guide (array of strings)
+  gif_url?: string; // Animated exercise demonstration from GitHub ExerciseDB
   // NOTE: description, difficulty, category removed - not in GitHub dataset
-  // NOTE: Images (gifUrl) deferred to post-MVP
 
   created_at: number;
   updated_at: number;
