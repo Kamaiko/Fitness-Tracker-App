@@ -1225,6 +1225,7 @@ ExerciseDB V1 API (via RapidAPI) provides text-only data with 1,300 exercises. V
 **Purpose:** Single consolidated migration replacing 8 incremental migrations
 
 **Changes:**
+
 - Replaced 8 incremental migrations with single consolidated schema
 - Final state: exercises 14 cols (ExerciseDB V1), users 7 cols
 - Applied via `supabase db reset` (complete rebuild)
@@ -1238,6 +1239,7 @@ ExerciseDB V1 API (via RapidAPI) provides text-only data with 1,300 exercises. V
 - **exercise_sets**: 21 columns (workout_exercise_id, set_number, weight, weight_unit, reps, duration_seconds, distance_meters, rpe, rir, rest_time_seconds, is_warmup, is_failure, notes, completed_at + metadata)
 
 **Rationale:**
+
 - Previous incremental migrations created inconsistent state
 - Consolidation provides single source of truth
 - Simplified maintenance and future migrations
