@@ -302,15 +302,31 @@ await synchronize({
 
 ---
 
-### ADR-006: Relative Imports (No Path Aliases)
+### ADR-006: Path Aliases with TypeScript
 
-**Decision:** Relative imports for MVP
+**Decision:** Use `@/` path aliases for imports (TypeScript native)
 
-**Rationale:** Avoid babel-plugin-module-resolver complexity
+**Rationale:**
 
-**Future:** Add `@/` aliases when codebase exceeds 50 files
+- Codebase exceeded 50 files (68 TS/TSX files as of Phase 0.6)
+- TypeScript `paths` in tsconfig.json (no babel plugin needed)
+- Cleaner imports: `import { Button } from '@/components/ui/button'`
+- Better refactoring support (rename/move files)
 
-**Status:** ✅ Implemented
+**Configuration:**
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+**Status:** ✅ Implemented (Phase 0.5)
 
 ---
 

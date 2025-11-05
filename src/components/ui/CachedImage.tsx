@@ -21,9 +21,9 @@
  * - Automatic cache management by expo-image
  *
  * @example
- * // Basic usage
+ * // Basic usage with static image (MVP - exercise images deferred to post-MVP)
  * <CachedImage
- *   source={{ uri: exercise.imageUrl }}
+ *   source={require('@/assets/exercise-placeholder.png')}
  *   contentFit="cover"
  *   className="w-20 h-20 rounded-lg"
  * />
@@ -31,12 +31,21 @@
  * @example
  * // With skeleton placeholder and error handling
  * <CachedImage
- *   source={{ uri: exercise.imageUrl }}
- *   placeholder={require('@/assets/exercise-placeholder.png')}
- *   fallback={require('@/assets/error-image.png')}
+ *   source={require('@/assets/user-avatar.png')}
+ *   placeholder={require('@/assets/avatar-skeleton.png')}
+ *   fallback={require('@/assets/avatar-default.png')}
  *   priority="high"
  *   onError={(error) => console.error('Image load failed:', error)}
  * />
+ *
+ * @example
+ * // Post-MVP: Exercise images from GitHub/AI (when image_url field added)
+ * // <CachedImage
+ * //   source={{ uri: exercise.image_url }}
+ * //   placeholder={require('@/assets/exercise-placeholder.png')}
+ * //   fallback={require('@/assets/exercise-error.png')}
+ * //   cachePolicy="memory-disk"
+ * // />
  *
  * @see docs/TECHNICAL.md - ADR-010: Performance Libraries
  * @see components/ui/README.md - Complete usage guide

@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(npm test:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git restore:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npx eslint:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix(database): Correct schema v4 migration and remove nutrition_phase\n\nCritical bug discovered during documentation audit:\n- Schema correctly removed nutrition_phase per SCOPE-SIMPLIFICATION.md\n- Models/services/UI incorrectly retained nutrition_phase references\n- Tests failed (31/36) due to undefined field access\n\nFixes applied:\n- Remove nutrition_phase from User and Workout models\n- Remove nutrition_phase from service layer (workouts.ts) and types\n- Remove nutrition_phase from UI (WorkoutListItem) and example tests\n- Add placeholder migrations v2-v4 for WatermelonDB validation\n- Update test factories and assertions\n- Result: All 36 tests passing ✅\n\nDocumentation updates:\n- Refactor TESTING.md (integrated tests/readme.md as SSoT)\n- Update schema version v2→v4 across all docs\n- Condense CLAUDE.md testing section\n- Correct test count 37→36\n\nCode cleanup:\n- Remove 12 redundant comments (orphaned TODOs, duplicate NOTEs)\n- Keep 20 valuable comments (Phase refs, ADR refs)\n\nScripts improvements (industry-standard):\n- Fix Zod v3+ API (.errors → .issues) with null-safety\n- Add eslint-disable for CLI tools (console.log required)\n- TypeScript strict mode compliant\nEOF\n)\")",
+      "Bash(npm run test:*)",
+      "Bash(awk:*)",
+      "Bash(npx lint-staged:*)",
+      "Bash(npx commitlint:*)",
+      "Bash(gh run view:*)",
+      "Bash(npx prettier:*)",
+      "Bash(ts-node:*)",
+      "Bash(npm run test:coverage:*)",
+      "Bash(npx ts-node:*)"
     ],
     "deny": [],
     "ask": []

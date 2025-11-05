@@ -20,21 +20,18 @@ export interface User {
 export interface Exercise {
   id: string;
 
-  // ===== ExerciseDB fields (1:1 mapping) =====
-  exercisedb_id: string; // Original ExerciseDB ID (e.g., "K6NnTv0")
+  // ===== ExerciseDB V1 API fields =====
+  exercisedb_id: string; // Original ExerciseDB ID (e.g., "0001")
   name: string;
-  body_parts: string[]; // Anatomical regions: ["Chest", "Shoulders"]
-  target_muscles: string[]; // Primary muscles: ["Pectoralis Major"]
-  secondary_muscles: string[]; // Supporting muscles: ["Triceps", "Deltoids"]
-  equipments: string[]; // Required equipment: ["Barbell", "Bench"]
-  exercise_type: string; // "weight_reps" | "cardio" | "duration" | "stretching"
+  body_parts: string[]; // Anatomical region: ["chest"] (converted from V1 string)
+  target_muscles: string[]; // Primary muscle: ["pectorals"] (converted from V1 string)
+  secondary_muscles: string[]; // Supporting muscles: ["triceps", "deltoids"]
+  equipments: string[]; // Required equipment: ["barbell"] (converted from V1 string)
   instructions: string[]; // Step-by-step guide (array of strings)
-  exercise_tips: string[]; // Safety and technique recommendations
-  variations: string[]; // Alternative exercise versions
-  overview?: string; // Descriptive summary
-  image_url?: string; // Exercise image URL
-  video_url?: string; // Exercise video URL
-  keywords: string[]; // Search optimization terms
+  description: string; // V1: Detailed exercise description
+  difficulty: 'beginner' | 'intermediate' | 'advanced'; // V1: Difficulty level
+  category: string; // V1: "strength" | "cardio" | "stretching"
+  // NOTE: Images deferred to post-MVP (AI-generated or GitHub open-source)
 
   created_at: number;
   updated_at: number;

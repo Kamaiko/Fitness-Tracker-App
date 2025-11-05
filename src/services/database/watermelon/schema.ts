@@ -10,7 +10,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-  version: 4, // Reflects 4 schema-changing migrations (initial + 3 updates)
+  version: 5, // V5: Migrated to ExerciseDB V1 API structure (removed 7 fields, added 3)
   tables: [
     // Users table
     tableSchema({
@@ -24,27 +24,24 @@ export const schema = appSchema({
       ],
     }),
 
-    // Exercises table (1,300+ from ExerciseDB - read-only)
-    // NOTE: Pure 1:1 mapping with ExerciseDB (14 fields, zero custom additions) (ADR-019)
+    // Exercises table (1,300+ from ExerciseDB V1 - read-only)
+    // NOTE: ExerciseDB V1 API structure (10 fields, images deferred to post-MVP)
     // NOTE: Custom exercises removed in MVP (ADR-017)
     tableSchema({
       name: 'exercises',
       columns: [
-        // ===== ExerciseDB fields (1:1 mapping) =====
+        // ===== ExerciseDB V1 API fields =====
         { name: 'exercisedb_id', type: 'string', isIndexed: true }, // Original ExerciseDB ID
         { name: 'name', type: 'string', isIndexed: true },
-        { name: 'body_parts', type: 'string' }, // JSON array: ["Chest", "Shoulders"] (anatomical regions)
-        { name: 'target_muscles', type: 'string' }, // JSON array: ["Pectoralis Major"] (primary muscles)
-        { name: 'secondary_muscles', type: 'string' }, // JSON array: ["Triceps", "Deltoids"] (supporting muscles)
-        { name: 'equipments', type: 'string' }, // JSON array: ["Barbell", "Bench"] (required equipment)
-        { name: 'exercise_type', type: 'string' }, // "weight_reps" | "cardio" | "duration" | "stretching"
+        { name: 'body_parts', type: 'string' }, // JSON array: ["chest"] (single anatomical region from V1)
+        { name: 'target_muscles', type: 'string' }, // JSON array: ["pectorals"] (single primary muscle from V1)
+        { name: 'secondary_muscles', type: 'string' }, // JSON array: ["triceps", "deltoids"] (supporting muscles)
+        { name: 'equipments', type: 'string' }, // JSON array: ["barbell"] (single equipment from V1)
         { name: 'instructions', type: 'string' }, // JSON array: step-by-step guide
-        { name: 'exercise_tips', type: 'string' }, // JSON array: safety and technique recommendations
-        { name: 'variations', type: 'string' }, // JSON array: alternative exercise versions
-        { name: 'overview', type: 'string', isOptional: true }, // Descriptive summary
-        { name: 'image_url', type: 'string', isOptional: true }, // Exercise image URL
-        { name: 'video_url', type: 'string', isOptional: true }, // Exercise video URL
-        { name: 'keywords', type: 'string' }, // JSON array: search optimization terms
+        { name: 'description', type: 'string' }, // V1: Detailed exercise description (replaces overview)
+        { name: 'difficulty', type: 'string' }, // V1: "beginner" | "intermediate" | "advanced"
+        { name: 'category', type: 'string' }, // V1: "strength" | "cardio" | "stretching"
+        // NOTE: Images deferred to post-MVP (AI-generated or GitHub open-source)
 
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },

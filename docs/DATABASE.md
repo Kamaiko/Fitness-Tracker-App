@@ -2,8 +2,8 @@
 
 **Architecture:** WatermelonDB + Supabase PostgreSQL
 **Sync Protocol:** Offline-first, reactive queries, bidirectional sync
-**Version:** Schema v4 (6 migrations: 4 schema-changing + 2 non-schema)
-**Last Updated:** February 2025
+**Version:** Schema v5 (7 migrations: 5 schema-changing + 2 non-schema)
+**Last Updated:** November 2025
 
 ---
 
@@ -48,7 +48,7 @@ Halterofit uses a **hybrid database architecture**:
 - **Offline-first:** All operations work without internet (gym environments)
 - **Reactive:** UI auto-updates on data changes via `.observe()` queries
 - **Zero data loss:** Guaranteed persistence with automatic conflict resolution
-- **ExerciseDB-aligned:** Exercise schema matches ExerciseDB v2 nomenclature exactly
+- **ExerciseDB-aligned:** Exercise schema matches ExerciseDB V1 API structure (images deferred to post-MVP)
 
 ---
 
@@ -179,9 +179,9 @@ CREATE POLICY "Users see own workouts"
 
 ### Exercises Table (ExerciseDB)
 
-**Purpose:** Store all exercises (1,300+ from ExerciseDB - read-only library)
+**Purpose:** Store all exercises (1,300+ from ExerciseDB V1 API - read-only library)
 
-**Schema Version:** v2 (ExerciseDB-aligned) - See [ADR-018](ADR-018-Align-Exercise-Schema-ExerciseDB.md)
+**Schema Version:** v5 (ExerciseDB V1-aligned) - Images deferred to post-MVP
 
 **WatermelonDB Schema:**
 
@@ -189,21 +189,19 @@ CREATE POLICY "Users see own workouts"
 tableSchema({
   name: 'exercises',
   columns: [
-    // ExerciseDB fields (1:1 mapping)
+    // ExerciseDB V1 fields
     { name: 'exercisedb_id', type: 'string', isIndexed: true },
     { name: 'name', type: 'string', isIndexed: true },
-    { name: 'body_parts', type: 'string' }, // JSON array: ["Chest", "Shoulders"]
-    { name: 'target_muscles', type: 'string' }, // JSON array: ["Pectoralis Major"]
-    { name: 'secondary_muscles', type: 'string' }, // JSON array: ["Triceps"]
-    { name: 'equipments', type: 'string' }, // JSON array: ["Barbell"]
-    { name: 'exercise_type', type: 'string' }, // "weight_reps" | "duration" | "reps_only"
+    { name: 'body_parts', type: 'string' }, // JSON array: ["waist"]
+    { name: 'target_muscles', type: 'string' }, // JSON array: ["abs"]
+    { name: 'secondary_muscles', type: 'string' }, // JSON array: ["hip flexors"]
+    { name: 'equipments', type: 'string' }, // JSON array: ["body weight"]
     { name: 'instructions', type: 'string' }, // JSON array: ["Step 1", "Step 2"]
-    { name: 'exercise_tips', type: 'string' }, // JSON array: ["Keep core tight"]
-    { name: 'variations', type: 'string' }, // JSON array: ["Incline variation"]
-    { name: 'overview', type: 'string', isOptional: true },
-    { name: 'image_url', type: 'string', isOptional: true },
-    { name: 'video_url', type: 'string', isOptional: true },
-    { name: 'keywords', type: 'string' }, // JSON array: ["chest", "press"]
+
+    // V1-specific fields
+    { name: 'description', type: 'string' }, // Detailed exercise description
+    { name: 'difficulty', type: 'string' }, // "beginner" | "intermediate" | "advanced"
+    { name: 'category', type: 'string' }, // "strength" | "cardio" | "stretching"
 
     { name: 'created_at', type: 'number' },
     { name: 'updated_at', type: 'number' },
@@ -217,21 +215,19 @@ tableSchema({
 CREATE TABLE public.exercises (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
-  -- ExerciseDB fields (1:1 mapping)
+  -- ExerciseDB V1 fields
   exercisedb_id TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   body_parts JSONB NOT NULL DEFAULT '[]',
   target_muscles JSONB NOT NULL DEFAULT '[]',
   secondary_muscles JSONB NOT NULL DEFAULT '[]',
   equipments JSONB NOT NULL DEFAULT '[]',
-  exercise_type TEXT NOT NULL,
   instructions JSONB NOT NULL DEFAULT '[]',
-  exercise_tips JSONB NOT NULL DEFAULT '[]',
-  variations JSONB NOT NULL DEFAULT '[]',
-  overview TEXT,
-  image_url TEXT,
-  video_url TEXT,
-  keywords JSONB NOT NULL DEFAULT '[]',
+
+  -- V1-specific fields
+  description TEXT NOT NULL DEFAULT '',
+  difficulty TEXT NOT NULL DEFAULT 'beginner',
+  category TEXT NOT NULL DEFAULT 'strength',
 
   created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
   updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
@@ -247,7 +243,6 @@ CREATE INDEX idx_exercises_exercisedb_id ON public.exercises(exercisedb_id);
 CREATE INDEX idx_exercises_body_parts ON public.exercises USING GIN (body_parts);
 CREATE INDEX idx_exercises_target_muscles ON public.exercises USING GIN (target_muscles);
 CREATE INDEX idx_exercises_equipments ON public.exercises USING GIN (equipments);
-CREATE INDEX idx_exercises_keywords ON public.exercises USING GIN (keywords);
 
 -- Row-Level Security (exercises are public read-only)
 ALTER TABLE public.exercises ENABLE ROW LEVEL SECURITY;
@@ -261,13 +256,15 @@ CREATE POLICY "Exercises are public"
 **Key Fields:**
 
 - `exercisedb_id`: Unique ID from ExerciseDB (e.g., "0001", "0002")
-- `name`: Exercise name (e.g., "Barbell Bench Press")
-- `body_parts`: Anatomical regions (JSON array): `["Chest", "Shoulders"]`
-- `target_muscles`: Primary muscles (JSON array): `["Pectoralis Major"]`
-- `secondary_muscles`: Supporting muscles (JSON array): `["Triceps", "Anterior Deltoid"]`
-- `equipments`: Required equipment (JSON array): `["Barbell"]`
-- `image_url`: ExerciseDB CDN image URL (cached by expo-image)
-- `video_url`: ExerciseDB CDN video URL (optional)
+- `name`: Exercise name (e.g., "3/4 sit-up", "Barbell Bench Press")
+- `body_parts`: Anatomical regions (JSON array): `["waist"]`, `["chest"]`
+- `target_muscles`: Primary muscles (JSON array): `["abs"]`, `["pectorals"]`
+- `secondary_muscles`: Supporting muscles (JSON array): `["hip flexors", "lower back"]`
+- `equipments`: Required equipment (JSON array): `["body weight"]`, `["barbell"]`
+- `instructions`: Step-by-step execution (JSON array): `["Lie flat...", "Engaging abs..."]`
+- `description`: Detailed exercise description (V1 field)
+- `difficulty`: Difficulty level - "beginner", "intermediate", or "advanced" (V1 field)
+- `category`: Exercise category - "strength", "cardio", or "stretching" (V1 field)
 
 ---
 
@@ -461,91 +458,114 @@ CREATE POLICY "Users see own profile"
 
 ### Nomenclature Mapping
 
-Halterofit uses **ExerciseDB v2** as the primary exercise data source. Our schema is **1:1 aligned** with ExerciseDB fields to ensure zero-friction import and maintainability.
+Halterofit uses **ExerciseDB V1 API** as the primary exercise data source (1,300+ exercises). Our schema is **aligned** with ExerciseDB V1 structure with conversions for optimal local database performance.
 
-**ExerciseDB → Halterofit Field Mapping:**
+**Current Version:** V1 Dataset (RapidAPI)
+**Images:** Deferred to post-MVP (AI-generated or open-source GitHub repos)
 
-| ExerciseDB Field   | Halterofit Field    | Type       | Description                            |
-| ------------------ | ------------------- | ---------- | -------------------------------------- |
-| `id`               | `exercisedb_id`     | string     | ExerciseDB unique ID ("0001")          |
-| `name`             | `name`              | string     | Exercise name ("Barbell Bench Press")  |
-| `bodyPart`         | `body_parts`        | JSON array | Anatomical regions (["Chest"])         |
-| `target`           | `target_muscles`    | JSON array | Primary muscles (["Pectoralis Major"]) |
-| `secondaryMuscles` | `secondary_muscles` | JSON array | Supporting muscles (["Triceps"])       |
-| `equipment`        | `equipments`        | JSON array | Required equipment (["Barbell"])       |
-| `instructions`     | `instructions`      | JSON array | Step-by-step instructions              |
-| `gifUrl`           | `image_url`         | string     | CDN image URL                          |
-| `videoUrl`         | `video_url`         | string     | CDN video URL (optional)               |
+**ExerciseDB V1 → Halterofit Field Mapping:**
 
-**ExerciseDB Field Format:**
+| ExerciseDB Field   | Halterofit Field    | Type       | Conversion                                   |
+| ------------------ | ------------------- | ---------- | -------------------------------------------- |
+| `id`               | `exercisedb_id`     | string     | Direct mapping                               |
+| `name`             | `name`              | string     | Direct mapping                               |
+| `bodyPart`         | `body_parts`        | JSON array | **STRING → ARRAY** ("waist" → ["waist"])     |
+| `target`           | `target_muscles`    | JSON array | **STRING → ARRAY** ("abs" → ["abs"])         |
+| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping (already array)               |
+| `equipment`        | `equipments`        | JSON array | **STRING → ARRAY** ("barbell" → ["barbell"]) |
+| `instructions`     | `instructions`      | JSON array | Direct mapping                               |
+| `description` ✨   | `description`       | string     | V1: Detailed exercise description            |
+| `difficulty` ✨    | `difficulty`        | string     | V1: "beginner"\|"intermediate"\|"advanced"   |
+| `category` ✨      | `category`          | string     | V1: "strength"\|"cardio"\|"stretching"       |
+
+**Note:** ✨ = Bonus V1 fields not in original V2 design
+
+**ExerciseDB V1 API Response Format:**
 
 ```json
 {
   "id": "0001",
-  "name": "Barbell Bench Press",
-  "bodyPart": ["chest"],
-  "target": ["pectorals"],
-  "secondaryMuscles": ["triceps", "anterior deltoid"],
-  "equipment": ["barbell"],
+  "name": "3/4 sit-up",
+  "bodyPart": "waist",
+  "target": "abs",
+  "secondaryMuscles": ["hip flexors", "lower back"],
+  "equipment": "body weight",
   "instructions": [
-    "Lie flat on bench with feet on floor",
-    "Grip barbell slightly wider than shoulders",
-    "Lower bar to mid-chest",
-    "Press bar back to starting position"
+    "Lie flat on your back with your knees bent and feet flat on the ground.",
+    "Place your hands behind your head with your elbows pointing outwards.",
+    "Engaging your abs, slowly lift your upper body off the ground.",
+    "Pause for a moment at the top, then slowly lower back down.",
+    "Repeat for the desired number of repetitions."
   ],
-  "gifUrl": "https://exercisedb.io/api/v2/exercises/0001/gif"
+  "description": "The 3/4 sit-up is an abdominal exercise performed with body weight. It involves curling the torso up to a 45-degree angle, engaging the abs, hip flexors, and lower back.",
+  "difficulty": "beginner",
+  "category": "strength"
 }
 ```
 
-**Halterofit Database Format:**
+**Halterofit Database Format (WatermelonDB):**
 
 ```typescript
 {
   id: "uuid-generated",
   exercisedb_id: "0001",
-  name: "Barbell Bench Press",
-  body_parts: ["Chest"],
-  target_muscles: ["Pectoralis Major"],
-  secondary_muscles: ["Triceps", "Anterior Deltoid"],
-  equipments: ["Barbell"],
-  exercise_type: "weight_reps",
-  instructions: ["Lie flat on bench...", "Grip barbell...", "Lower bar...", "Press bar..."],
-  exercise_tips: ["Keep shoulder blades retracted", "Maintain arch in lower back"],
-  variations: ["Incline Bench Press", "Close-Grip Bench Press"],
-  overview: "A compound pushing exercise targeting the chest, shoulders, and triceps.",
-  image_url: "https://exercisedb.io/api/v2/exercises/0001/gif",
-  video_url: null,
-  keywords: ["chest", "press", "barbell", "compound"]
+  name: "3/4 sit-up",
+  body_parts: ["waist"],           // Converted from string → array
+  target_muscles: ["abs"],         // Converted from string → array
+  secondary_muscles: ["hip flexors", "lower back"],
+  equipments: ["body weight"],     // Converted from string → array
+  instructions: ["Lie flat...", "Place hands...", "Engaging abs...", "Pause...", "Repeat..."],
+  description: "The 3/4 sit-up is an abdominal exercise...",
+  difficulty: "beginner",
+  category: "strength",
+  created_at: 1234567890,
+  updated_at: 1234567890
 }
 ```
 
+**V1 vs V2 Comparison:**
+
+| Feature          | V1 (Current)     | V2 (Future)        |
+| ---------------- | ---------------- | ------------------ |
+| Exercise Count   | 1,300            | 5,000+             |
+| Images           | ❌ Not available | ✅ Included        |
+| Videos           | ❌ Not available | ✅ Included        |
+| Exercise Tips    | ❌ Not available | ✅ Included        |
+| Variations       | ❌ Not available | ✅ Included        |
+| Difficulty Level | ✅ Included      | ❌ Not available   |
+| Category         | ✅ Included      | ❌ Not available   |
+| Description      | ✅ Included      | ❌ (uses overview) |
+
 ### Field Reference
 
-#### ExerciseDB Fields (1:1 Mapping)
+#### ExerciseDB V1 Fields
 
 **`body_parts` (JSONB Array):**
 
 - Anatomical regions targeted by exercise
-- Examples: `["Chest"]`, `["Back", "Arms"]`, `["Legs"]`
+- Examples: `["waist"]`, `["chest"]`, `["back"]`
 - Used for: Filtering exercises by body part
+- Note: V1 API returns strings, converted to arrays in import script
 
 **`target_muscles` (JSONB Array):**
 
 - Primary muscles targeted (main movers)
-- Examples: `["Pectoralis Major"]`, `["Latissimus Dorsi"]`, `["Quadriceps"]`
+- Examples: `["abs"]`, `["pectorals"]`, `["lats"]`
 - Used for: Volume distribution analytics, muscle group filtering
+- Note: V1 API returns strings, converted to arrays in import script
 
 **`secondary_muscles` (JSONB Array):**
 
 - Supporting/synergist muscles
-- Examples: `["Triceps", "Anterior Deltoid"]`
+- Examples: `["hip flexors", "lower back"]`, `["triceps", "anterior deltoid"]`
 - Used for: Comprehensive muscle engagement tracking
 
 **`equipments` (JSONB Array):**
 
-- Required equipment (normalized to "bodyweight" for consistency)
-- Examples: `["Barbell"]`, `["Dumbbell", "Bench"]`, `["bodyweight"]`
+- Required equipment
+- Examples: `["body weight"]`, `["barbell"]`, `["dumbbell", "bench"]`
 - Used for: Equipment-based filtering (home gym vs commercial gym)
+- Note: V1 API returns strings, converted to arrays in import script
 
 **`instructions` (JSONB Array):**
 
@@ -553,54 +573,23 @@ Halterofit uses **ExerciseDB v2** as the primary exercise data source. Our schem
 - Format: Array of strings, each a single instruction step
 - Used for: Exercise detail screen, form guidance
 
-**`exercise_tips` (JSONB Array):**
+**`description` (TEXT):**
 
-- Pro tips for form, safety, and effectiveness
-- Format: Array of strings, each a single tip
-- Used for: Enhanced exercise detail screen
+- Detailed exercise description (V1-specific field)
+- Example: "The 3/4 sit-up is an abdominal exercise performed with body weight. It involves curling the torso up to a 45-degree angle..."
+- Used for: Exercise overview, search context
 
-**`variations` (JSONB Array):**
+**`difficulty` (TEXT):**
 
-- Alternative variations of the exercise
-- Examples: `["Incline Bench Press", "Decline Bench Press"]`
-- Used for: Exercise discovery, progression suggestions
+- Difficulty level (V1-specific field)
+- Values: "beginner", "intermediate", "advanced"
+- Used for: Exercise filtering, workout plan generation
 
-**`keywords` (JSONB Array):**
+**`category` (TEXT):**
 
-- Searchable keywords for fuzzy matching
-- Examples: `["chest", "press", "barbell", "compound"]`
-- Used for: Full-text search optimization
-
-### Image/Video URLs
-
-**Storage Strategy:** URL-based (not stored locally)
-
-ExerciseDB provides CDN-hosted images and videos. Halterofit stores URLs and relies on `expo-image` caching for performance.
-
-**Image URL Format:**
-
-```
-https://exercisedb.io/api/v2/exercises/{exercisedb_id}/gif
-```
-
-**Caching Strategy:**
-
-```typescript
-import { Image } from 'expo-image';
-
-<Image
-  source={{ uri: exercise.imageUrl }}
-  cachePolicy="memory-disk" // Aggressive caching
-  placeholder={{ blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4' }}
-  style={{ width: 300, height: 300 }}
-/>
-```
-
-**Performance:**
-
-- First load: ~200-500ms (download + cache)
-- Subsequent loads: ~10-50ms (memory/disk cache)
-- Offline: Works after first load (disk cache persists)
+- Exercise category (V1-specific field)
+- Values: "strength", "cardio", "stretching"
+- Used for: Exercise categorization, workout type filtering
 
 ---
 
@@ -693,7 +682,7 @@ const sanitizeStringArray = (raw: any): string[] => {
 export default class Exercise extends Model {
   static table = 'exercises';
 
-  // ExerciseDB fields (1:1 mapping)
+  // ExerciseDB V1 fields
   @field('exercisedb_id') exercisedbId!: string;
   @field('name') name!: string;
 
@@ -702,16 +691,12 @@ export default class Exercise extends Model {
   @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[];
   @json('equipments', sanitizeStringArray) equipments!: string[];
 
-  @field('exercise_type') exerciseType!: string;
-
   @json('instructions', sanitizeStringArray) instructions!: string[];
-  @json('exercise_tips', sanitizeStringArray) exerciseTips!: string[];
-  @json('variations', sanitizeStringArray) variations!: string[];
-  @json('keywords', sanitizeStringArray) keywords!: string[];
 
-  @field('overview') overview?: string;
-  @field('image_url') imageUrl?: string;
-  @field('video_url') videoUrl?: string;
+  // V1-specific fields
+  @field('description') description!: string;
+  @field('difficulty') difficulty!: string;
+  @field('category') category!: string;
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;
@@ -726,7 +711,11 @@ export default class Exercise extends Model {
   }
 
   get requiresEquipment(): boolean {
-    return this.equipments.length > 0 && !this.equipments.includes('bodyweight');
+    return this.equipments.length > 0 && !this.equipments.includes('body weight');
+  }
+
+  get isBeginner(): boolean {
+    return this.difficulty === 'beginner';
   }
 }
 ```
@@ -1194,32 +1183,30 @@ $$ LANGUAGE plpgsql;
 
 ## Schema Evolution
 
-### Current Version: v2 (ExerciseDB-Aligned)
+### Current Version: v5 (ExerciseDB V1-Aligned)
 
-**Migration:** [20251103233000_align_exercises_with_exercisedb.sql](../supabase/migrations/20251103233000_align_exercises_with_exercisedb.sql)
+**Migration:** v4→v5 ([migration v5 in migrations.ts](../src/services/database/watermelon/migrations.ts))
 
-**Changes from v1:**
+**Changes from v4:**
 
-- ✅ Renamed `muscle_groups` → `target_muscles`
-- ✅ Renamed `equipment` → `equipments` (JSON array)
-- ✅ Added `body_parts` (JSON array)
-- ✅ Added `secondary_muscles` (JSON array)
-- ✅ Added `exercise_tips` (JSON array)
-- ✅ Added `variations` (JSON array)
-- ✅ Added `video_url`
-- ✅ Added `keywords` (JSON array)
-- ✅ Added `exercisedb_id` (unique identifier)
+- ❌ **REMOVED** (7 fields): `exercise_type`, `image_url`, `video_url`, `exercise_tips`, `variations`, `overview`, `keywords`
+- ✅ **ADDED** (3 V1 fields): `description`, `difficulty`, `category`
+
+**Rationale:**
+
+ExerciseDB V1 API (via RapidAPI) provides text-only data with 1,300 exercises. V2 dataset (with images/videos) exists but is not available for production use. Images deferred to post-MVP backlog.
 
 **Deprecated Fields:**
 
 - ❌ `nutrition_phase` (users table) - **REMOVED** per [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md)
 - ❌ `nutrition_phase` (workouts table) - **REMOVED** (not in MVP scope)
+- ❌ V2-only fields (exercise_type, images, videos, tips, etc.) - **REMOVED** (not in V1 API)
 
 **Migration Strategy:**
 
-- WatermelonDB schema version incremented through v2, v3, v4 (4 schema-changing migrations)
+- WatermelonDB schema version incremented through v2, v3, v4, v5 (5 schema-changing migrations)
 - Supabase migrations applied via timestamp-based files (6 total: 4 schema + 2 non-schema)
-- No data migration required (exercises reseeded from ExerciseDB)
+- No data migration required (exercises reseeded from ExerciseDB V1)
 
 ### Future Schema Changes
 
@@ -1472,13 +1459,13 @@ WHERE tablename = 'exercises'
 
 ### Schema Versioning
 
-**Current Version:** v4 (4 schema-changing migrations, 6 total Supabase migrations)
+**Current Version:** v5 (5 schema-changing migrations, 6 total Supabase migrations)
 
 **WatermelonDB Schema Version:** Defined in [`src/services/database/watermelon/schema.ts`](../src/services/database/watermelon/schema.ts)
 
 ```typescript
 export const schema = appSchema({
-  version: 4, // Reflects 4 schema-changing migrations (initial + 3 updates)
+  version: 5, // Reflects 5 schema-changing migrations (initial + 4 updates)
   tables: [
     // ... table definitions
   ],
@@ -1491,6 +1478,7 @@ export const schema = appSchema({
 - **v2:** ExerciseDB alignment (14-field schema)
 - **v3:** Removed Halterofit-specific fields
 - **v4:** Added exercisedb_id column + security/index fixes (2 non-schema migrations)
+- **v5:** ExerciseDB V1 API alignment (removed 7 V2 fields, added 3 V1 fields)
 
 **Migration Process:** See [CONTRIBUTING.md § Database Schema Changes](CONTRIBUTING.md#database-schema-changes) for complete 7-step workflow.
 
@@ -1523,6 +1511,6 @@ export const schema = appSchema({
 
 ---
 
-**Last Updated:** January 2025
-**Schema Version:** v2 (ExerciseDB-aligned)
+**Last Updated:** November 2025
+**Schema Version:** v5 (ExerciseDB V1-aligned)
 **Maintainer:** AI-assisted development

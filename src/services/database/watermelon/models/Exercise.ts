@@ -1,10 +1,11 @@
 /**
  * Exercise Model
  *
- * Represents exercises from ExerciseDB API (1,300+).
- * Pure 1:1 mapping with ExerciseDB (14 fields, zero custom additions) (ADR-019).
+ * Represents exercises from ExerciseDB V1 API (1,300+).
+ * 1:1 mapping with ExerciseDB V1 structure (10 fields).
  * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
  * Indexed for fast search by name, body_parts, equipments.
+ * Images deferred to post-MVP (AI-generated or GitHub open-source).
  */
 
 import { Model } from '@nozbe/watermelondb';
@@ -13,7 +14,7 @@ import { field, date, readonly, json } from '@nozbe/watermelondb/decorators';
 /**
  * Sanitize string array from any input (handles arrays, JSON strings, or invalid data)
  */
-const sanitizeStringArray = (raw: any): string[] => {
+const sanitizeStringArray = (raw: unknown): string[] => {
   if (Array.isArray(raw)) return raw.map(String);
   if (typeof raw === 'string') {
     if (raw === '') return [];
@@ -30,25 +31,20 @@ const sanitizeStringArray = (raw: any): string[] => {
 export default class Exercise extends Model {
   static table = 'exercises';
 
-  // ===== ExerciseDB fields (1:1 mapping) =====
-  @field('exercisedb_id') exercisedbId!: string; // Original ExerciseDB ID (e.g., "K6NnTv0")
+  // ===== ExerciseDB V1 API fields =====
+  @field('exercisedb_id') exercisedbId!: string; // Original ExerciseDB ID (e.g., "0001")
   @field('name') name!: string;
 
-  @json('body_parts', sanitizeStringArray) bodyParts!: string[]; // ["Chest", "Shoulders"]
-  @json('target_muscles', sanitizeStringArray) targetMuscles!: string[]; // ["Pectoralis Major"]
-  @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[]; // ["Triceps", "Deltoids"]
-  @json('equipments', sanitizeStringArray) equipments!: string[]; // ["Barbell", "Bench"]
-
-  @field('exercise_type') exerciseType!: string; // "weight_reps" | "cardio" | "duration" | "stretching"
+  @json('body_parts', sanitizeStringArray) bodyParts!: string[]; // ["chest"] (single region)
+  @json('target_muscles', sanitizeStringArray) targetMuscles!: string[]; // ["pectorals"] (single muscle)
+  @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[]; // ["triceps", "deltoids"]
+  @json('equipments', sanitizeStringArray) equipments!: string[]; // ["barbell"] (single equipment)
 
   @json('instructions', sanitizeStringArray) instructions!: string[]; // Step-by-step array
-  @json('exercise_tips', sanitizeStringArray) exerciseTips!: string[]; // Safety/technique tips
-  @json('variations', sanitizeStringArray) variations!: string[]; // Alternative versions
-  @json('keywords', sanitizeStringArray) keywords!: string[]; // Search terms
 
-  @field('overview') overview?: string; // Descriptive summary
-  @field('image_url') imageUrl?: string; // Exercise image URL
-  @field('video_url') videoUrl?: string; // Exercise video URL
+  @field('description') description!: string; // V1: Detailed exercise description
+  @field('difficulty') difficulty!: string; // V1: "beginner" | "intermediate" | "advanced"
+  @field('category') category!: string; // V1: "strength" | "cardio" | "stretching"
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;

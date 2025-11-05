@@ -78,7 +78,7 @@ Can I test this in Jest with LokiJS (in-memory)?
 | **Manual E2E**           | 🐌 15-20 min | ✅ High    | Real device + SQLite     | Sync protocol, migrations, offline flows     |
 | **Maestro (Phase 3+)**   | 🟢 2-5 min   | ✅ High    | Real device + automation | Repeatable user journeys                     |
 
-**Current:** 37 unit tests (60-65% coverage) + Manual E2E validation
+**Current:** 36 unit tests (60-65% coverage) + Manual E2E validation
 
 **Strategy:** Unit tests for fast feedback → Manual E2E for unknowns → Automate high-value flows (Phase 3+)
 

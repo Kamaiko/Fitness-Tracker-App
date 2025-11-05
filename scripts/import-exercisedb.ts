@@ -64,37 +64,32 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 // ============================================================================
 
 /**
- * ExerciseDB API response schema (runtime validation)
+ * ExerciseDB V1 API response schema (runtime validation)
  * Detects breaking changes in ExerciseDB API
  *
- * NOTE: Field names match ExerciseDB API v2 actual structure (tested 2025-02)
+ * NOTE: Field names match ExerciseDB V1 API actual structure (tested Feb 2025)
  * - API returns STRINGS (not arrays): bodyPart, target, equipment
  * - API field "id" maps to Halterofit "exercisedb_id"
- * - API field "gifUrl" maps to Halterofit "image_url"
  * - Arrays converted in transformExercise()
+ * - V1 includes: description, difficulty, category (not in V2 docs)
  */
 const ExerciseDBSchema = z.object({
   id: z.string().min(1, 'id required'), // ExerciseDB unique ID
   name: z.string().min(1, 'name required'),
-  bodyPart: z.string().default(''), // Anatomical region (single string, e.g., "chest")
-  target: z.string().default(''), // Primary muscle (single string, e.g., "pectorals")
+  bodyPart: z.string().default(''), // Anatomical region (single string, e.g., "waist")
+  target: z.string().default(''), // Primary muscle (single string, e.g., "abs")
   secondaryMuscles: z.array(z.string()).default([]), // Supporting muscles (array)
-  equipment: z.string().default(''), // Required equipment (single string, e.g., "barbell")
+  equipment: z.string().default(''), // Required equipment (single string, e.g., "body weight")
   instructions: z.array(z.string()).default([]), // Step-by-step guide
-  gifUrl: z.string().url().optional().default(''), // Exercise image URL
-  // Optional fields (may not be present in all API responses)
-  exerciseType: z.string().optional().default('weight_reps'),
-  exerciseTips: z.array(z.string()).optional().default([]),
-  variations: z.array(z.string()).optional().default([]),
-  overview: z.string().optional().default(''),
-  videoUrl: z.string().url().optional().default(''),
-  keywords: z.array(z.string()).optional().default([]),
+  description: z.string().default(''), // V1: Detailed exercise description
+  difficulty: z.string().default('beginner'), // V1: "beginner" | "intermediate" | "advanced"
+  category: z.string().default('strength'), // V1: "strength" | "cardio" | "stretching"
 });
 
 type ExerciseDBExercise = z.infer<typeof ExerciseDBSchema>;
 
 /**
- * Halterofit database exercise schema
+ * Halterofit database exercise schema (V1 structure)
  */
 interface HalterofitExercise {
   exercisedb_id: string;
@@ -103,14 +98,10 @@ interface HalterofitExercise {
   target_muscles: string[];
   secondary_muscles: string[];
   equipments: string[];
-  exercise_type: string;
   instructions: string[];
-  exercise_tips: string[];
-  variations: string[];
-  overview: string;
-  image_url: string;
-  video_url: string;
-  keywords: string[];
+  description: string;
+  difficulty: string;
+  category: string;
 }
 
 // ============================================================================
@@ -227,14 +218,16 @@ async function fetchExercisesFromAPI(): Promise<ExerciseDBExercise[]> {
 }
 
 /**
- * Transform ExerciseDB format → Halterofit schema (1:1 mapping per ADR-019)
+ * Transform ExerciseDB V1 format → Halterofit schema
  *
  * Field Mapping:
  * - id → exercisedb_id
  * - bodyPart (string) → body_parts (array)
  * - target (string) → target_muscles (array)
  * - equipment (string) → equipments (array)
- * - gifUrl → image_url
+ * - description → description
+ * - difficulty → difficulty
+ * - category → category
  *
  * NOTE: API returns single strings for bodyPart/target/equipment, but DB stores arrays
  */
@@ -243,18 +236,15 @@ function transformExercise(exercise: ExerciseDBExercise): HalterofitExercise {
     exercisedb_id: exercise.id, // API: "id" → DB: "exercisedb_id"
     name: exercise.name,
     // Convert single strings to arrays for consistency with DB schema
-    body_parts: exercise.bodyPart ? [exercise.bodyPart] : [], // API: "chest" → DB: ["chest"]
-    target_muscles: exercise.target ? [exercise.target] : [], // API: "pectorals" → DB: ["pectorals"]
+    body_parts: exercise.bodyPart ? [exercise.bodyPart] : [], // API: "waist" → DB: ["waist"]
+    target_muscles: exercise.target ? [exercise.target] : [], // API: "abs" → DB: ["abs"]
     secondary_muscles: exercise.secondaryMuscles, // Already array
-    equipments: exercise.equipment ? [exercise.equipment] : [], // API: "barbell" → DB: ["barbell"]
-    exercise_type: exercise.exerciseType, // Default: "weight_reps" if not provided
+    equipments: exercise.equipment ? [exercise.equipment] : [], // API: "body weight" → DB: ["body weight"]
     instructions: exercise.instructions,
-    exercise_tips: exercise.exerciseTips, // Optional, defaults to []
-    variations: exercise.variations, // Optional, defaults to []
-    overview: exercise.overview, // Optional, defaults to ''
-    image_url: exercise.gifUrl, // API: "gifUrl" → DB: "image_url"
-    video_url: exercise.videoUrl, // Optional, defaults to ''
-    keywords: exercise.keywords, // Optional, defaults to []
+    // V1 fields
+    description: exercise.description,
+    difficulty: exercise.difficulty,
+    category: exercise.category,
   };
 }
 

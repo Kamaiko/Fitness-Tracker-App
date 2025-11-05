@@ -7,8 +7,8 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/21)](#phase-05-architecture--foundation-2121)
-6. [Phase 0.6: UI/UX Foundation (6/7)](#phase-06-uiux-foundation-67)
-7. [Phase 1: Authentication & Foundation (0/6)](#phase-1-authentication--foundation-06)
+6. [Phase 0.6: UI/UX Foundation (6/8)](#phase-06-uiux-foundation-68)
+7. [Phase 1: Authentication & Foundation (0/16)](#phase-1-authentication--foundation-016)
 8. [Phase 2: Workout Plans & Navigation (0/12)](#phase-2-workout-plans--navigation-012)
 9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
 10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
@@ -20,17 +20,17 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6 - Finalizing)
-**Progress**: 27/72 tasks (38%) • MVP Scope: 65 active + 7 deferred tasks
-**Timeline**: 12-13 weeks • Started 2025-01-20 • Target 2025-04-15
-**Last Updated**: 2025-11-04 • **Next Milestone**: Complete 0.6.8 ExerciseDB Import → Phase 1 Auth
+**Progress**: 27/85 tasks (32%) • MVP Scope: 78 active + 7 deferred tasks
+**Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
+**Last Updated**: 2025-11-04 • **Next Milestone**: Complete 0.6.10 Schema Fix → 0.6.8 ExerciseDB → Phase 1 Auth
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6 - Finalizing ExerciseDB Import (0.6.8)
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 6/7 (Phase 0.6 - 86%) • **Overall**: 27/72 tasks (38%)
-**Critical Blockers**: 0.6.8 ExerciseDB import (apply migrations + run script) • **Velocity**: ~5 tasks/week
+**Current Focus**: Phase 0.6 - Critical Schema Fix (0.6.10) then ExerciseDB Import (0.6.8)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 6/8 (Phase 0.6 - 75%) • **Overall**: 27/85 tasks (32%)
+**Critical Blockers**: 0.6.10 Schema fix (nutrition_phase) 🔥 + 0.6.8 ExerciseDB import • **Velocity**: ~5 tasks/week
 
 ### Recent Completions ✅
 
@@ -46,23 +46,23 @@
 
 **Legend:** 🔥 High Priority | 🟠 Blocked/Pending | ✅ Done | `[S/M/L]` Size (Small/Medium/Large)
 
-| TODO (Top 5)                         | DOING | DONE (Last 5)                 |
-| ------------------------------------ | ----- | ----------------------------- |
-| **0.6.8** ExerciseDB import `[L]` 🔥 |       | **0.6.9** Design system ✅    |
-| **1.10** Login screen `[M]` 🟠       |       | **0.6.6** Environment vars ✅ |
-| **1.20** Register screen `[M]`🟠     |       | **0.6.4** Core components ✅  |
-| **1.30** Supabase auth `[M]` 🟠      |       | **0.6.3** Dark theme ✅       |
-| **1.40** Password reset `[M]`        |       | **0.6.2** Vector icons ✅     |
+| TODO (Top 5)                             | DOING | DONE (Last 5)                 |
+| ---------------------------------------- | ----- | ----------------------------- |
+| **0.6.10** Schema fix `[XS]` 🔥 CRITICAL |       | **0.6.9** Design system ✅    |
+| **0.6.8** ExerciseDB import `[L]` 🔥     |       | **0.6.6** Environment vars ✅ |
+| **1.10** Login screen `[M]` 🟠           |       | **0.6.4** Core components ✅  |
+| **1.15** Auth test infra `[S]` 🔥        |       | **0.6.3** Dark theme ✅       |
+| **1.20** Register screen `[M]` 🟠        |       | **0.6.2** Vector icons ✅     |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 6/7 (86%) • Overall: 27/72 (38%)
-**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 12-13 weeks
-**NEXT**: 0.6.8 ExerciseDB Import 🔥 (apply migrations + run import script) → Phase 1 Auth
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 6/8 (75%) • Phase 1: 0/16 (0%) • Overall: 27/85 (32%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 2 days, MVP in 13.5-14 weeks
+**NEXT**: 0.6.10 Schema Fix 🔥 (apply migration) → 0.6.8 ExerciseDB → Phase 1 Auth
 
 ---
 
 ## Development Roadmap
 
-**Note:** MVP scope = 72 tasks total (65 active + 7 deferred). Analytics and advanced features moved to Post-MVP backlog.
+**Note:** MVP scope = 85 tasks total (78 active + 7 deferred). Analytics and advanced features moved to Post-MVP backlog.
 
 ```
 Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
@@ -76,21 +76,24 @@ Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
    ├─ Development Build Migration ✅
    └─ Infrastructure Complete ✅
         ↓
-Phase 0.6: UI/UX Foundation (6/7 tasks) 86% 🟡
+Phase 0.6: UI/UX Foundation (6/8 tasks) 75% 🟡
    ├─ React Native Reusables ✅
    ├─ Vector Icons ✅
    ├─ Dark theme ✅
    ├─ Core components ✅
    ├─ Design system ✅
+   ├─ Schema Fix 🔥 (migration created, needs execution)
    ├─ ExerciseDB Import 🟡 (script ready, needs execution)
-   └─ Infrastructure 86% complete
+   └─ Infrastructure 75% complete
         ↓
-Phase 1: Authentication & Foundation (0/6 tasks) 🔄
+Phase 1: Authentication & Foundation (0/16 tasks) 🔄
    ├─ Login/Register screens
    ├─ Supabase Auth integration
    ├─ Password reset flow
    ├─ Protected routes
-   └─ Maestro E2E setup
+   ├─ Maestro E2E setup
+   ├─ Testing Infrastructure (7 tasks) 🆕
+   └─ Database Enhancements (3 tasks) 🆕
         ↓
 Phase 2: Workout Plans & Navigation (0/12 tasks)
    ├─ Bottom tabs (Workout, Profile)
@@ -125,23 +128,25 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time | Status             | Dependencies                   |
-| --------- | ------ | --------- | ------------------ | ------------------------------ |
-| **0.5**   | 21     | 50-60h    | 100% DONE ✅       | None (started)                 |
-| **0.6**   | 7      | 14-17h    | 86% IN PROGRESS 🟡 | ← Phase 0.5 complete           |
-| **1**     | 6      | ~15h      | BLOCKED 🟠         | ← Phase 0.6 (0.6.8 incomplete) |
-| **2**     | 12     | ~31h      | BLOCKED            | ← Phase 1 auth                 |
-| **3**     | 9      | ~27h      | BLOCKED            | ← Phase 2 plans                |
-| **4**     | 5      | ~11h      | BLOCKED            | ← Phase 3 (parallel OK)        |
-| **5**     | 5      | ~9h       | BLOCKED            | ← Phases 1-4 complete          |
-| **TOTAL** | **72** | **~125h** | **38% done**       | **12-13 weeks at 10h/week**    |
+| Phase     | Tasks  | Est. Time | Status             | Dependencies                       |
+| --------- | ------ | --------- | ------------------ | ---------------------------------- |
+| **0.5**   | 21     | 50-60h    | 100% DONE ✅       | None (started)                     |
+| **0.6**   | 8      | 15-18h    | 75% IN PROGRESS 🟡 | ← Phase 0.5 complete               |
+| **1**     | 16     | ~31h      | BLOCKED 🟠         | ← Phase 0.6 (0.6.10+0.6.8 blocker) |
+| **2**     | 12     | ~31h      | BLOCKED            | ← Phase 1 auth                     |
+| **3**     | 9      | ~27h      | BLOCKED            | ← Phase 2 plans                    |
+| **4**     | 5      | ~11h      | BLOCKED            | ← Phase 3 (parallel OK)            |
+| **5**     | 5      | ~9h       | BLOCKED            | ← Phases 1-4 complete              |
+| **TOTAL** | **85** | **~156h** | **32% done**       | **13.5-14 weeks at 10h/week**      |
 
-**⚠️ Critical Path:** Phase 0.6 (ExerciseDB) → Phase 1 (Auth) → Phase 2 (Plans) → Phase 3 (Active Workout)
+**⚠️ Critical Path:** Phase 0.6 (Schema Fix 🔥 → ExerciseDB) → Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
-**📊 MVP Scope Change:**
+**📊 MVP Scope Update (Post-Audit):**
 
 - Original: 119 tasks, 17 weeks
-- Refined: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
+- Pre-Audit: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
+- **Post-Audit: 85 total (78 active + 7 deferred) tasks, 13.5-14 weeks** 🆕
+- **Added**: 13 tasks (+31h) for quality/reliability (schema fix, auth tests, DB enhancements)
 - Excludes: 7 deferred/optional tasks + 47 Post-MVP features
 - Analytics, advanced features → Post-MVP backlog
 
@@ -324,12 +329,12 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ---
 
-## Phase 0.6: UI/UX Foundation (6/7)
+## Phase 0.6: UI/UX Foundation (6/8)
 
 **Timeline:** Week 8 | **Priority:** HIGH
 **Goal:** Complete UI foundation and infrastructure setup for production-ready development
 
-**Progress:** 6/7 tasks (86%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only) | **Deferred tasks:** 2 (0.6.5, 0.6.7)
+**Progress:** 6/8 tasks (75%) | **Est. Time Remaining:** ~4-5h (ExerciseDB import + schema fix) | **Deferred tasks:** 2 (0.6.5, 0.6.7)
 
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
 **Design:** Single dark mode, modern fitness aesthetic, animations-first
@@ -428,9 +433,10 @@ Phase 5: Polish & Deployment (0/5 tasks)
   **✅ Step 3: Create Import Script** - COMPLETE
   - Created `scripts/import-exercisedb.ts` (387 lines, production-ready)
   - Created `scripts/rollback-exercisedb.ts` (rollback script)
-  - Fetch ALL exercises from ExerciseDB API (1,300+ exercises)
-  - **Pure 1:1 mapping** (ADR-019 - Zero custom fields, zero transformations)
-  - 14 ExerciseDB fields: exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, exercise_type, instructions, exercise_tips, variations, overview, image_url, video_url, keywords
+  - Fetch ALL exercises from ExerciseDB V1 API (1,300 exercises)
+  - **Pure 1:1 mapping** with V1 structure (ADR-019)
+  - 10 ExerciseDB V1 fields: exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, instructions, description, difficulty, category
+  - Images deferred to post-MVP (see Post-MVP Backlog § Exercise Images)
   - Upsert to Supabase (handles re-runs for quarterly updates)
   - Zod validation, --dry-run mode, batch processing
   - Added `npm run import-exercisedb` script to package.json
@@ -472,20 +478,31 @@ Phase 5: Polish & Deployment (0/5 tasks)
   - **Audit completed (2025-02-01):** Condensed from 394→245 lines, removed premature wireframes for Phase 2-3 features (aligned with Agile just-in-time design approach)
   - **Component audit:** All 8 installed components (Button, Input, Label, Card, Alert, Text, Progress, Skeleton) kept - needed for Phase 1 Auth or Phase 2+ features
 
----
+- [ ] 0.6.10 **Fix nutrition_phase schema mismatch (Supabase migration)** (XS - 1h) 🔥 CRITICAL
+  - **Issue**: WatermelonDB schema v4 removed nutrition_phase but Supabase still has it → sync crashes
+  - **Fix**: Execute migration to drop columns from users + workouts tables
+  - **Files**: `supabase/migrations/20251104040000_remove_nutrition_phase_columns.sql` (already created ✅)
+  - **Steps**: Apply migration to Supabase → Verify sync works
+  - **Blocked by**: None
+  - **Blocks**: All of Phase 1 (sync must work for auth)
+  - **Reference**: [Audit Report § Database #1](AUDIT_REPORT.md#🚨-critical-fix-before-phase-1)
 
 ---
 
-## Phase 1: Authentication & Foundation (0/6)
+---
 
-**Timeline:** Weeks 9-10 | **Priority:** HIGH
-**Goal:** Login/Register basics + Maestro E2E setup
+## Phase 1: Authentication & Foundation (0/16)
 
-**Progress:** 0/6 tasks (0%) | **Est. Time:** ~15h (2 weeks)
+**Timeline:** Weeks 9-11 | **Priority:** HIGH
+**Goal:** Login/Register basics + Testing infrastructure + Maestro E2E setup
 
-**Dependencies:** Phase 0.6 complete (UI components ready)
+**Progress:** 0/16 tasks (0%) | **Est. Time:** ~31h (3 weeks)
+
+**Dependencies:** Phase 0.6 complete (UI components ready + schema fix 0.6.10)
 
 **Key Note:** Biometric auth removed (not needed - user logs in once). Simple email/password authentication only.
+
+**New Tasks (from Audit):** 7 testing tasks (1.15-1.21) + 3 database enhancements (1.X-1.Z) added to ensure production-ready auth layer with 90% test coverage.
 
 ---
 
@@ -537,6 +554,101 @@ Phase 5: Polish & Deployment (0/5 tasks)
   - Write auth-password-reset.yaml (reset flow)
   - Document test execution in docs/TESTING.md
   - Run tests on Development Build to verify
+
+### Testing Infrastructure (from Audit)
+
+- [ ] 1.15 **Create auth test infrastructure (factories, mocks, helpers)** (S - 2h) 🔥 HIGH
+  - **Purpose**: Reusable test utilities for auth testing
+  - **Deliverables**:
+    - `tests/__helpers__/auth/factories.ts` (createTestAuthUser, createTestSession)
+    - `tests/__helpers__/auth/mocks.ts` (mock Supabase auth, mock MMKV)
+  - **Blocked by**: None
+  - **Blocks**: 1.16, 1.17, 1.20
+  - **Reference**: [Audit Report § QA #1](AUDIT_REPORT.md#gap-1-auth-service-layer---0-coverage)
+
+- [ ] 1.16 **Write auth service tests (login, register, reset password)** (M - 4h) 🔥 CRITICAL
+  - **Coverage Target**: 90%+ (auth is critical path)
+  - **Test Cases**:
+    - Login: valid/invalid credentials, network errors, rate limiting
+    - Register: duplicate email, weak password, validation
+    - Reset password: valid/invalid email, token expiry
+    - Refresh token: expired tokens, revoked tokens
+  - **Blocked by**: 1.30 (auth service creation), 1.15 (test infrastructure)
+  - **Reference**: [Audit Report § QA #1](AUDIT_REPORT.md#gap-1-auth-service-layer---0-coverage)
+
+- [ ] 1.17 **Write auth store tests (Zustand persist, rehydration)** (S - 2h) 🟠 HIGH
+  - **Test Cases**:
+    - setUser(), signOut() actions
+    - MMKV persist after state change
+    - Rehydration from MMKV on app start
+    - Error handling: corrupted JSON, missing keys
+    - Initial loading state: isLoading = true → false
+  - **Blocked by**: 1.15 (MMKV mock)
+  - **Reference**: [Audit Report § QA #2](AUDIT_REPORT.md#gap-2-auth-store-zustand--mmkv-persist---0-coverage)
+
+- [ ] 1.18 **Write sync error handling tests** (M - 4h) 🟠 MEDIUM
+  - **Test Cases**:
+    - Network failures (timeout, 500 errors, DNS)
+    - Conflict resolution (last-write-wins)
+    - Partial sync failures
+    - Auto-sync debouncing
+  - **Blocked by**: 1.15 (network mocks)
+  - **Reference**: [Audit Report § QA #5](AUDIT_REPORT.md#gap-5-sync-protocol-error-handling---30-coverage)
+
+- [ ] 1.19 **Write MMKV storage edge case tests** (S - 2h) 🟢 MEDIUM
+  - **Test Cases**: Storage full, invalid JSON, encryption failures
+  - **Blocked by**: 1.15 (MMKV mock)
+  - **Reference**: [Audit Report § QA #6](AUDIT_REPORT.md#gap-6-mmkv-storage-edge-cases---40-coverage)
+
+- [ ] 1.20 **Write auth validation tests (database services)** (S - 2h) 🔥 CRITICAL
+  - **Security Tests**:
+    - Unauthenticated access → should throw AuthError
+    - User ID mismatch → should prevent creating workout for another user
+    - Ownership validation → should prevent deleting others' workouts
+    - Authorization bypass attempts
+  - **Blocked by**: 1.15 (auth factories)
+  - **Reference**: [Audit Report § QA #3](AUDIT_REPORT.md#gap-3-auth-validation-in-database-services---0-coverage)
+
+- [ ] 1.21 **Add CI coverage threshold (70% global, 90% auth)** (XS - 30min) 🔥 HIGH
+  - **Config**: jest.config.js → coverageThreshold
+  - **Thresholds**:
+    - Global: 70% (branches, functions, lines, statements)
+    - Auth services: 90%
+    - Database services: 80%
+  - **CI Integration**: Update `.github/workflows/ci.yml` to fail on threshold miss
+  - **Blocked by**: None (can set immediately)
+  - **Reference**: [Audit Report § QA #4](AUDIT_REPORT.md#gap-4-ci-coverage-threshold---1-too-low)
+
+### Database Enhancement Tasks (from Audit)
+
+- [ ] 1.X **Implement cascading delete logic (workout → exercises → sets)** (S - 2h) 🟠 HIGH
+  - **Issue**: deleteWorkout() only marks workout as deleted, leaves orphaned child records
+  - **Fix**: Manually cascade through relations before marking deleted
+  - **Files**: `src/services/database/workouts.ts:664-698`
+  - **Testing**: Verify child records also deleted after sync
+  - **Blocked by**: None
+  - **Reference**: [Audit Report § Database #2](AUDIT_REPORT.md#issue-2-missing-cascading-delete-handling)
+
+- [ ] 1.Y **Enhance User model with relations & helper methods** (M - 3h) 🟠 HIGH
+  - **Add**:
+    - `workouts` relation (has_many)
+    - `getActiveWorkout()` helper
+    - `getWorkoutCount()` helper
+  - **Files**: `src/services/database/watermelon/models/User.ts`
+  - **Testing**: Unit tests for helpers
+  - **Blocked by**: None
+  - **Reference**: [Audit Report § Database #3](AUDIT_REPORT.md#issue-3-user-model-lacks-auth-integration)
+
+- [ ] 1.Z **Add sync retry with exponential backoff** (L - 5h) 🟠 HIGH
+  - **Add**: syncWithRetry(maxRetries = 3) with exponential backoff (1s, 2s, 4s)
+  - **Features**:
+    - Retry failed syncs automatically
+    - Exponential backoff to prevent server overload
+    - Persist failed syncs to offline queue (MMKV)
+  - **Files**: `src/services/database/sync.ts`
+  - **Testing**: Manual E2E (network failure scenarios)
+  - **Blocked by**: None
+  - **Reference**: [Audit Report § Database #4](AUDIT_REPORT.md#issue-4-no-sync-error-recovery)
 
 ---
 
@@ -861,7 +973,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ## Deferred Tasks (7 tasks)
 
-**Note:** These tasks are part of MVP scope (included in 72 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
+**Note:** These tasks are part of MVP scope (included in 85 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
 
 **Status:** Tracked but not blocking MVP progress. Can be completed progressively during Phases 1-4.
 
@@ -908,8 +1020,8 @@ Phase 5: Polish & Deployment (0/5 tasks)
 ---
 
 **Total Deferred:** 7 tasks (~26h estimated)
-**MVP Active Tasks:** 65 tasks
-**MVP Total (Active + Deferred):** 72 tasks
+**MVP Active Tasks:** 78 tasks
+**MVP Total (Active + Deferred):** 85 tasks
 
 ---
 
@@ -937,6 +1049,74 @@ Phase 5: Polish & Deployment (0/5 tasks)
 - Volume distribution analysis (pie charts by muscle group)
 
 **Estimated effort:** ~35-45h (Phase 4 from original roadmap)
+
+---
+
+### Exercise Images & Visual Enhancements
+
+**Priority:** MEDIUM-HIGH (improves UX, not blocking MVP)
+
+**Context:** MVP launches with ExerciseDB V1 API (1,300 text-only exercises). Images and videos deferred to post-MVP due to:
+
+- RapidAPI ExerciseDB serves V1 only (no images/videos available)
+- V2 dataset exists (5,000+ exercises with images/videos) but not production-ready
+- MVP validation prioritizes functional workout tracking over visual polish
+
+**Options Researched (ROI Analysis):**
+
+1. **AI-Generated Images** ($30-50, ROI 8/10)
+   - Tool: Midjourney or DALL-E 3
+   - Generate 1,300 unique exercise illustrations
+   - Consistent style, professional quality
+   - Timeline: 1-2 weeks (with batch automation)
+   - Upload to Supabase Storage, update `image_url` field
+
+2. **Open-Source GitHub Images** ($0, ROI 9/10) ⭐ **RECOMMENDED**
+   - [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db): 800+ exercises with images (PUBLIC DOMAIN)
+   - [chaosbastler/opentraining-exercises](https://github.com/chaosbastler/opentraining-exercises): 100+ with SVG/GIF (CC BY-SA 3.0)
+   - Match exercises by name/ID using fuzzy matching
+   - Upload matched images to Supabase Storage
+   - Coverage: ~70% (900/1,300 exercises), rest use placeholder
+   - Timeline: 4-6h implementation
+
+3. **ExerciseDB V2 Migration** (TBD, ROI 7/10)
+   - Monitor V2 availability on RapidAPI or investigate self-hosting
+   - Full migration from V1→V2 schema (breaking change)
+   - Gain: 5,000+ exercises with native images/videos
+   - Loss: V1-specific fields (description, difficulty, category)
+   - Timeline: 8-12h (schema migration v5→v6, import script rewrite, testing)
+   - Dependency: Wait for V2 production readiness confirmation
+
+4. **Commercial Exercise API** ($0.9/GIF, ROI 5/10)
+   - Service: [Gym Visual](https://gymvisual.com/) or similar
+   - Cost: ~$1,200 for 1,300 GIF animations
+   - High quality, but expensive for MVP stage
+   - Timeline: 2-3 days integration
+
+**Recommended Approach:**
+
+**Phase 1 (Post-MVP v1.1 - Week 1 after launch):**
+
+- Implement Option 2 (GitHub open-source images)
+- Schema migration v5→v6: Add `image_url` field back
+- Match 800+ exercises, use placeholder for rest
+- expo-image caching for offline support
+- **Effort:** 4-6h
+
+**Phase 2 (Post-MVP v1.2 - Month 2):**
+
+- Generate remaining ~400 images via AI (Midjourney)
+- OR wait for ExerciseDB V2 production access
+- **Effort:** 8-10h (AI route) or 12-15h (V2 migration)
+
+**Technical Notes:**
+
+- WatermelonDB schema already supports `image_url` (existed in v4, removed in v5)
+- Re-adding requires migration v5→v6 with `addColumns()`
+- Supabase Storage setup: Create `exercise-images` bucket with public access
+- expo-image cachePolicy: "memory-disk" for aggressive caching
+
+**Estimated effort:** 4-6h (Option 2), 8-12h (Option 3), or $30-50 + 1-2 weeks (Option 1)
 
 ---
 
@@ -1010,5 +1190,5 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ---
 
-**Last Updated:** 2025-02-04
+**Last Updated:** 2025-11-04
 **Next Review:** After Phase 1 completion (Auth screens done)

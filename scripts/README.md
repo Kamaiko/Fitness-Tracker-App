@@ -54,6 +54,7 @@ npm run import-exercisedb -- --dry-run
 ```
 
 **Output:**
+
 ```
 🔍 DRY RUN MODE: No data will be written to Supabase
 📦 Received 1,324 exercises from ExerciseDB
@@ -98,6 +99,7 @@ rawExercises.forEach((item) => {
 ```
 
 **Why Zod?**
+
 - ✅ Detects API schema changes (e.g., field renamed)
 - ✅ Graceful degradation (skips invalid exercises, doesn't crash)
 - ✅ Detailed error logging (know exactly what failed)
@@ -122,12 +124,12 @@ npm run import-exercisedb
 
 ### Troubleshooting
 
-| Error | Fix |
-|-------|-----|
-| **Missing Supabase credentials** | Check `.env` has `SUPABASE_SECRET_KEY` in NEW format (`sb_secret_...`) |
-| **ExerciseDB API 401** | Verify `EXERCISEDB_API_KEY` in `.env`, check RapidAPI subscription active |
-| **Supabase insert error** | Run migrations first: `supabase db push` |
-| **Validation errors** | Check ExerciseDB API schema hasn't changed (Zod will log specifics) |
+| Error                            | Fix                                                                       |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| **Missing Supabase credentials** | Check `.env` has `SUPABASE_SECRET_KEY` in NEW format (`sb_secret_...`)    |
+| **ExerciseDB API 401**           | Verify `EXERCISEDB_API_KEY` in `.env`, check RapidAPI subscription active |
+| **Supabase insert error**        | Run migrations first: `supabase db push`                                  |
+| **Validation errors**            | Check ExerciseDB API schema hasn't changed (Zod will log specifics)       |
 
 **Supabase New API Keys:** If you only see legacy keys (JWT starting with `eyJ...`), see [GitHub discussion](https://github.com/orgs/supabase/discussions/29260)
 
@@ -137,24 +139,26 @@ npm run import-exercisedb
 
 Scripts run in **Node.js** (not React Native), requiring different TypeScript configuration.
 
-| Config | Root `tsconfig.json` | `scripts/tsconfig.json` |
-|--------|----------------------|-------------------------|
-| **Environment** | React Native (mobile) | Node.js (server-side) |
-| **Modules** | ESNext (ES modules) | CommonJS (require/exports) |
-| **Decorators** | ✅ (WatermelonDB needs them) | ❌ (not needed) |
+| Config          | Root `tsconfig.json`         | `scripts/tsconfig.json`    |
+| --------------- | ---------------------------- | -------------------------- |
+| **Environment** | React Native (mobile)        | Node.js (server-side)      |
+| **Modules**     | ESNext (ES modules)          | CommonJS (require/exports) |
+| **Decorators**  | ✅ (WatermelonDB needs them) | ❌ (not needed)            |
 
 **Without separate config:**
+
 ```typescript
 import { createClient } from '@supabase/supabase-js';
 // ❌ ERROR: "Cannot use import statement outside a module"
 ```
 
 **Solution (`scripts/tsconfig.json`):**
+
 ```json
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs"  // Node.js compatible
+    "module": "commonjs" // Node.js compatible
   }
 }
 ```

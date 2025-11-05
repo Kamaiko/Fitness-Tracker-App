@@ -182,7 +182,14 @@ components/
 - Include types in same file for small components
 - Create `index.ts` for barrel exports when >3 components
 - Use NativeWind v4 (Tailwind) for styling
-- Icons via `react-native-vector-icons` (import from MaterialIcons, Ionicons, or FontAwesome)
+- Icons via `@expo/vector-icons` (MaterialIcons, Ionicons, FontAwesome)
+
+**Icon Adaptation Note:**
+React Native Reusables defaults to `lucide-react-native`, but we use `@expo/vector-icons` for broader icon coverage. When installing RN Reusables components with icons:
+
+1. Replace `lucide-react-native` imports with `@expo/vector-icons`
+2. Map icon names (e.g., `Check` → MaterialIcons `check`, `X` → MaterialIcons `close`)
+3. See [TECHNICAL.md ADR-016](TECHNICAL.md#adr-016-react-native-vector-icons) for full icon strategy
 
 **Example**:
 
