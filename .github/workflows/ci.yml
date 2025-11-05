@@ -227,6 +227,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Log merge details
+        run: |
+          echo "📦 Package(s): ${{ steps.metadata.outputs.dependency-names }}"
+          echo "🔄 Update type: ${{ steps.metadata.outputs.update-type }}"
+          echo "🏷️  Ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}"
+          echo "📋 Dependency type: ${{ steps.metadata.outputs.dependency-type }}"
+
       - name: Auto-merge GitHub Actions
         # GitHub Actions: CI infrastructure, not app code
         # Industry standard: Auto-merge all versions after CI passes

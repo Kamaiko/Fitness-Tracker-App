@@ -32,17 +32,24 @@ TOTAL=$((COMPLETED + PENDING))
 DECLARED_COMPLETED=$(grep "^\*\*Progress\*\*:" "$TASKS_FILE" | head -1 | grep -oP '\d+(?=/\d+ tasks)' || echo "0")
 DECLARED_TOTAL=$(grep "^\*\*Progress\*\*:" "$TASKS_FILE" | head -1 | grep -oP '(?<=\/)\d+(?= tasks)' || echo "0")
 
-# Extract Phase 0.5 counter from TOC
-PHASE_05_TOC=$(grep "Phase 0.5:" "$TASKS_FILE" | head -1 | grep -oP '\(\d+/\d+\)' || echo "")
-PHASE_05_HEADER=$(grep "^## Phase 0.5:" "$TASKS_FILE" | grep -oP '\(\d+/\d+\)' || echo "")
-
-# Extract Phase 0.6 counter from TOC
-PHASE_06_TOC=$(grep "Phase 0.6:" "$TASKS_FILE" | head -1 | grep -oP '\(\d+/\d+\)' || echo "")
-PHASE_06_HEADER=$(grep "^## Phase 0.6:" "$TASKS_FILE" | grep -oP '\(\d+/\d+\)' || echo "")
-
 # Validation results
 ERRORS=0
 WARNINGS=0
+
+# ============================================================================
+# PHASE VALIDATION (Auto-Discovery - Future-Proof)
+# Dynamically discovers ALL phases from TOC and validates counters
+# ============================================================================
+echo "🔍 Validating phase counters (TOC vs Headers)..."
+
+# Extract all phase identifiers from TOC (e.g., "0.5", "0.6", "1", "2", ...)
+# Format: "5. [Phase 0.5: Architecture & Foundation (21/21)]"
+TOC_PHASES=$(grep -oP '^\d+\. \[Phase \K[0-9.]+(?=:)' "$TASKS_FILE")
+
+if [ -z "$TOC_PHASES" ]; then
+  echo "${YELLOW}⚠️  WARNING${NC}: No phases found in TOC"
+  WARNINGS=$((WARNINGS + 1))
+fi
 
 echo ""
 echo "📊 Task Counts:"
@@ -73,26 +80,37 @@ else
   echo "${GREEN}✓${NC} Total count matches header ($TOTAL)"
 fi
 
-# WARNING: Check TOC Phase 0.5 sync
-if [ "$PHASE_05_TOC" != "$PHASE_05_HEADER" ]; then
-  echo "${YELLOW}⚠️  WARNING${NC}: Phase 0.5 TOC out of sync"
-  echo "   TOC says: $PHASE_05_TOC"
-  echo "   Header says: $PHASE_05_HEADER"
-  echo "   ${YELLOW}Fix: Update TOC line 9 to match header${NC}"
-  WARNINGS=$((WARNINGS + 1))
-else
-  echo "${GREEN}✓${NC} Phase 0.5 TOC synced"
-fi
+# Validate each phase found
+if [ -n "$TOC_PHASES" ]; then
+  phase_count=0
+  while IFS= read -r phase; do
+    phase_count=$((phase_count + 1))
 
-# WARNING: Check TOC Phase 0.6 sync
-if [ "$PHASE_06_TOC" != "$PHASE_06_HEADER" ]; then
-  echo "${YELLOW}⚠️  WARNING${NC}: Phase 0.6 TOC out of sync"
-  echo "   TOC says: $PHASE_06_TOC"
-  echo "   Header says: $PHASE_06_HEADER"
-  echo "   ${YELLOW}Fix: Update TOC line 10 to match header${NC}"
-  WARNINGS=$((WARNINGS + 1))
-else
-  echo "${GREEN}✓${NC} Phase 0.6 TOC synced"
+    # Extract counter from TOC (first occurrence of this phase)
+    TOC_COUNTER=$(grep -m 1 "Phase $phase:" "$TASKS_FILE" | grep -oP '\(\d+/\d+\)' || echo "")
+
+    # Extract counter from Header (lines starting with ##)
+    HEADER_COUNTER=$(grep "^## Phase $phase:" "$TASKS_FILE" | grep -oP '\(\d+/\d+\)' || echo "")
+
+    # Validate: Check if both counters exist
+    if [ -z "$TOC_COUNTER" ] || [ -z "$HEADER_COUNTER" ]; then
+      echo "${YELLOW}⚠️  WARNING${NC}: Phase $phase has missing counter"
+      echo "   TOC counter: ${TOC_COUNTER:-<missing>}"
+      echo "   Header counter: ${HEADER_COUNTER:-<missing>}"
+      WARNINGS=$((WARNINGS + 1))
+    # Validate: Check if counters match
+    elif [ "$TOC_COUNTER" != "$HEADER_COUNTER" ]; then
+      echo "${YELLOW}⚠️  WARNING${NC}: Phase $phase TOC out of sync"
+      echo "   TOC says: $TOC_COUNTER"
+      echo "   Header says: $HEADER_COUNTER"
+      echo "   ${YELLOW}Fix: Update TOC to match header${NC}"
+      WARNINGS=$((WARNINGS + 1))
+    else
+      echo "${GREEN}✓${NC} Phase $phase TOC synced ($TOC_COUNTER)"
+    fi
+  done <<< "$TOC_PHASES"
+
+  echo "${GREEN}✓${NC} Validated $phase_count phase(s)"
 fi
 
 echo ""
