@@ -20,18 +20,16 @@ export interface User {
 export interface Exercise {
   id: string;
 
-  // ===== ExerciseDB V1 API fields =====
-  exercisedb_id: string; // Original ExerciseDB ID (e.g., "0001")
+  // ===== GitHub ExerciseDB dataset fields =====
+  exercisedb_id: string; // Original ExerciseDB ID (e.g., "trmte8s")
   name: string;
-  body_parts: string[]; // Anatomical region: ["chest"] (converted from V1 string)
-  target_muscles: string[]; // Primary muscle: ["pectorals"] (converted from V1 string)
+  body_parts: string[]; // Anatomical region: ["chest"]
+  target_muscles: string[]; // Primary muscle: ["pectorals"]
   secondary_muscles: string[]; // Supporting muscles: ["triceps", "deltoids"]
-  equipments: string[]; // Required equipment: ["barbell"] (converted from V1 string)
+  equipments: string[]; // Required equipment: ["barbell"]
   instructions: string[]; // Step-by-step guide (array of strings)
-  description: string; // V1: Detailed exercise description
-  difficulty: 'beginner' | 'intermediate' | 'advanced'; // V1: Difficulty level
-  category: string; // V1: "strength" | "cardio" | "stretching"
-  // NOTE: Images deferred to post-MVP (AI-generated or GitHub open-source)
+  // NOTE: description, difficulty, category removed - not in GitHub dataset
+  // NOTE: Images (gifUrl) deferred to post-MVP
 
   created_at: number;
   updated_at: number;

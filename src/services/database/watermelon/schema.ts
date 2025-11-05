@@ -10,7 +10,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-  version: 5, // V5: Migrated to ExerciseDB V1 API structure (removed 7 fields, added 3)
+  version: 6, // V6: Removed description, difficulty, category (not in GitHub ExerciseDB dataset)
   tables: [
     // Users table
     tableSchema({
@@ -38,9 +38,7 @@ export const schema = appSchema({
         { name: 'secondary_muscles', type: 'string' }, // JSON array: ["triceps", "deltoids"] (supporting muscles)
         { name: 'equipments', type: 'string' }, // JSON array: ["barbell"] (single equipment from V1)
         { name: 'instructions', type: 'string' }, // JSON array: step-by-step guide
-        { name: 'description', type: 'string' }, // V1: Detailed exercise description (replaces overview)
-        { name: 'difficulty', type: 'string' }, // V1: "beginner" | "intermediate" | "advanced"
-        { name: 'category', type: 'string' }, // V1: "strength" | "cardio" | "stretching"
+        // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
         // NOTE: Images deferred to post-MVP (AI-generated or GitHub open-source)
 
         { name: 'created_at', type: 'number' },

@@ -1,11 +1,11 @@
 /**
  * Exercise Model
  *
- * Represents exercises from ExerciseDB V1 API (1,300+).
- * 1:1 mapping with ExerciseDB V1 structure (10 fields).
+ * Represents exercises from GitHub ExerciseDB dataset (1,500+).
+ * 1:1 mapping with GitHub dataset structure (7 fields).
  * READ-ONLY in MVP - custom exercises deferred to Phase 3+ (ADR-017).
  * Indexed for fast search by name, body_parts, equipments.
- * Images deferred to post-MVP (AI-generated or GitHub open-source).
+ * Images (gifUrl) deferred to post-MVP.
  */
 
 import { Model } from '@nozbe/watermelondb';
@@ -42,9 +42,7 @@ export default class Exercise extends Model {
 
   @json('instructions', sanitizeStringArray) instructions!: string[]; // Step-by-step array
 
-  @field('description') description!: string; // V1: Detailed exercise description
-  @field('difficulty') difficulty!: string; // V1: "beginner" | "intermediate" | "advanced"
-  @field('category') category!: string; // V1: "strength" | "cardio" | "stretching"
+  // NOTE: description, difficulty, category removed - not in GitHub ExerciseDB dataset
 
   @readonly @date('created_at') createdAt!: Date;
   @readonly @date('updated_at') updatedAt!: Date;
