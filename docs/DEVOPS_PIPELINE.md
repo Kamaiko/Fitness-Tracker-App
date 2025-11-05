@@ -32,6 +32,7 @@
 │                        GIT HOOKS (Husky)                            │
 │  • pre-commit: validate-tasks.sh, check-schema-version.sh, lint    │
 │  • commit-msg: commitlint (Conventional Commits)                    │
+│  • pre-push: type-check, tests (prevents CI failures)              │
 └─────────────────────────────────────────────────────────────────────┘
                                    │
                                    ▼
@@ -81,8 +82,9 @@
 
 ```
 .husky/
-├── pre-commit                       # Main pre-commit hook (orchestrator)
-├── commit-msg                       # Commit message validation
+├── pre-commit                       # Fast checks: lint + format (staged files only)
+├── commit-msg                       # Commit message validation (Conventional Commits)
+├── pre-push                         # Slow checks: type-check + tests (prevents CI wait)
 ├── validate-tasks.sh                # TASKS.md integrity checker
 ├── check-schema-version.sh          # Database schema version validator
 └── _/                               # Husky internal files (auto-generated)
@@ -93,13 +95,21 @@
 ```
 git commit -m "message"
     │
-    ├─► pre-commit hook
+    ├─► pre-commit hook (FAST - staged files only)
     │   ├─► 1. validate-tasks.sh (if TASKS.md staged)
     │   ├─► 2. check-schema-version.sh (if SQL migration staged)
     │   └─► 3. lint-staged (format + lint staged files)
     │
-    └─► commit-msg hook
-        └─► commitlint (validate message format)
+    ├─► commit-msg hook
+    │   └─► commitlint (validate message format)
+    │
+    └─► Commit created ✅
+
+git push
+    │
+    └─► pre-push hook (SLOW - prevents CI failures)
+        ├─► 1. npm run type-check (TypeScript validation)
+        └─► 2. npm run test (Jest unit tests)
 ```
 
 ---
@@ -370,6 +380,180 @@ Developer increments version
     ↓
 Commit succeeds ✅
 ```
+
+---
+
+## Commitlint Configuration
+
+**File:** `.commitlintrc.json`
+**Purpose:** Enforce Conventional Commits format for consistency and AI context
+**Library:** [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint)
+
+### Configuration Philosophy
+
+**Optimized for:** Solo developer + AI-assisted development (Claude Code)
+
+**Design Decisions:**
+
+- ✅ **Header length: 100 chars** (vs default 72) → More space for context
+- ✅ **Body/Footer: Unlimited** → Detailed explanations for AI agents
+- ✅ **Subject case: Flexible** → No strict sentence-case enforcement
+- ✅ **All Conventional types** → feat, fix, docs, style, refactor, test, chore, build, ci, perf, revert
+
+### Current Configuration
+
+```json
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      ["feat", "fix", "docs", "style", "refactor", "test", "chore", "build", "ci", "perf", "revert"]
+    ],
+    "scope-empty": [0],
+    "subject-case": [0],
+    "header-max-length": [2, "always", 100],
+    "body-max-length": [0],
+    "body-max-line-length": [0],
+    "footer-max-length": [0],
+    "footer-max-line-length": [0]
+  }
+}
+```
+
+### Message Format
+
+**Structure:**
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Example (short):**
+
+```
+feat(auth): add biometric login support
+```
+
+**Example (detailed for AI):**
+
+```
+refactor(database): migrate from AsyncStorage to MMKV
+
+Motivation:
+- AsyncStorage is slow (300-500ms per read)
+- MMKV provides 10-30x performance improvement
+- Enables encryption for sensitive data (auth tokens)
+
+Implementation:
+- Created storage abstraction layer (src/services/storage/storage.ts)
+- Migrated Zustand persist middleware to MMKV adapter
+- Updated Supabase auth storage to use MMKV
+
+Testing:
+- Unit tests for storage abstraction (100% coverage)
+- Manual E2E verification on iOS/Android
+
+References:
+- ADR-006: Storage Performance Optimization
+- TASKS.md § Phase 0.5.25
+```
+
+### Validation Rules
+
+| Rule                     | Level | Value    | Rationale                                      |
+| ------------------------ | ----- | -------- | ---------------------------------------------- |
+| `header-max-length`      | error | 100      | Descriptive headers without truncation         |
+| `body-max-length`        | off   | Infinity | Unlimited AI context                           |
+| `body-max-line-length`   | off   | Infinity | Long URLs, stack traces, code snippets         |
+| `footer-max-length`      | off   | Infinity | Unlimited references                           |
+| `footer-max-line-length` | off   | Infinity | Long links to docs/issues                      |
+| `subject-case`           | off   | -        | Flexible capitalization                        |
+| `scope-empty`            | off   | -        | Scope optional (solo dev, no strict structure) |
+
+### Integration with Husky
+
+**Hook:** `.husky/commit-msg`
+
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no -- commitlint --edit $1
+```
+
+**Execution:** Runs automatically after `git commit` (before commit is finalized)
+
+**Behavior:**
+
+- ✅ Valid format → Commit succeeds
+- ❌ Invalid format → Commit blocked with clear error message
+
+**Example error:**
+
+```bash
+⧗   input: Add login feature
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+✖   found 2 problems, 0 warnings
+```
+
+---
+
+## pre-push Hook
+
+**File:** `.husky/pre-push`
+**Purpose:** Run expensive checks (type-check + tests) before push to prevent CI failures
+**Philosophy:** Commit often (fast), push when validated (slow)
+
+### Why pre-push Instead of pre-commit?
+
+**Best Practice for Solo Developer (2025):**
+
+| Hook         | Checks                 | Speed    | Frequency              | Purpose                 |
+| ------------ | ---------------------- | -------- | ---------------------- | ----------------------- |
+| pre-commit   | lint + format          | FAST     | Every commit (~10s)    | Maintain code style     |
+| **pre-push** | **type-check + tests** | **SLOW** | **Before push (~30s)** | **Prevent CI failures** |
+| CI (GitHub)  | Full validation        | SLOW     | After push (~2-3min)   | Safety net              |
+
+**Benefits:**
+
+- ✅ Commit frequently without interruption (pre-commit is fast)
+- ✅ Detect TypeScript/test errors locally (30s vs 2-3min CI wait)
+- ✅ Reduces CI failures by 80%+ (errors caught before push)
+- ✅ Faster feedback loop (local = instant, CI = waiting)
+
+### Implementation
+
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo ""
+echo "🔍 Running type-check..."
+npm run type-check || exit 1
+
+echo ""
+echo "🧪 Running tests..."
+npm run test || exit 1
+
+echo ""
+echo "✅ All checks passed! Pushing..."
+```
+
+### Bypass (Emergency Only)
+
+```bash
+# Skip pre-push hook (NOT recommended)
+git push --no-verify
+```
+
+**When to use:** Emergency hotfix when you know checks will fail but need to push anyway (e.g., WIP branch for collaboration)
 
 ---
 

@@ -391,6 +391,63 @@ Halterofit uses **GitHub Actions** for continuous integration and deployment wit
 - 💾 **Caching**: TypeScript, ESLint, Jest caches for faster subsequent runs
 - 🔒 **Security**: SHA-pinned actions, automated vulnerability scanning
 
+### Local Development Workflow
+
+**Husky Hooks Strategy: Commit Often (Fast) → Push When Validated (Slow)**
+
+| Stage      | Hook           | Checks                             | Speed   | Purpose                |
+| ---------- | -------------- | ---------------------------------- | ------- | ---------------------- |
+| **Commit** | pre-commit     | lint + format (staged files)       | ~10s    | Code style consistency |
+| **Commit** | commit-msg     | Conventional Commits validation    | ~1s     | Message format         |
+| **Push**   | pre-push       | type-check + tests (full codebase) | ~30s    | Prevent CI failures    |
+| **CI**     | GitHub Actions | Full validation + security scan    | ~2-3min | Safety net             |
+
+**Workflow Example:**
+
+```bash
+# 1. Make changes
+vim src/components/Button.tsx
+
+# 2. Commit (FAST - only staged files linted/formatted)
+git add src/components/Button.tsx
+git commit -m "feat(ui): add loading state to Button component"
+# → pre-commit runs (~10s): lint + format staged files ✅
+# → commit-msg runs (~1s): validates commit message ✅
+
+# 3. Continue working (commit as often as you want!)
+vim src/components/Button.test.tsx
+git add src/components/Button.test.tsx
+git commit -m "test(ui): add Button loading state tests"
+# → Fast hooks run again ✅
+
+# 4. Push when ready (SLOW - full validation)
+git push
+# → pre-push runs (~30s):
+#    - type-check full codebase ✅
+#    - run all tests ✅
+# → If all pass, push succeeds
+# → CI runs on GitHub (safety net) ✅
+```
+
+**Benefits:**
+
+- ✅ **Commit frequently** without interruption (pre-commit is fast)
+- ✅ **Detect errors early** (local validation in ~30s vs CI wait ~2-3min)
+- ✅ **Reduced CI failures** (80%+ of errors caught before push)
+- ✅ **Better developer experience** (instant feedback, no context switching)
+
+**Bypass Hooks (Emergency Only):**
+
+```bash
+# Skip pre-commit/commit-msg (NOT recommended)
+git commit --no-verify -m "WIP: temporary changes"
+
+# Skip pre-push (NOT recommended)
+git push --no-verify
+```
+
+**When to bypass:** Only for WIP branches or emergency hotfixes when you know checks will fail but need to push anyway.
+
 ### Workflow Structure
 
 ```

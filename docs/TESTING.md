@@ -432,15 +432,10 @@ tests/
 │       ├── workouts.json       # Sample workout data
 │       └── exercises.json      # Sample exercise data
 │
-├── integration/          # Integration tests (Phase 1+)
-│   ├── database/         # Database sync integration tests
-│   ├── workflows/        # Multi-service workflow tests
-│   └── features/         # Cross-component feature tests
-│
-└── e2e/                  # E2E test documentation
-    └── manual/
-        ├── offline-crud.md     # Offline CRUD scenarios
-        └── sync-checklist.md   # Sync protocol validation
+└── integration/          # Integration tests (Phase 1+)
+    ├── database/         # Database sync integration tests
+    ├── workflows/        # Multi-service workflow tests
+    └── features/         # Cross-component feature tests
 ```
 
 **Unit Tests Location:** `src/**/__tests__/*.test.ts` (Jest auto-discovery)
@@ -546,19 +541,13 @@ When scripts were active, they had:
    }
    ```
 
-2. **Dry-run Mode** - Test without side effects
-
-   ```bash
-   npm run import-exercisedb -- --dry-run
-   ```
-
-3. **Detailed Logging** - Console output shows progress/errors
+2. **Detailed Logging** - Console output shows progress/errors
 
    ```typescript
    console.log(`✅ Imported ${count} exercises`);
    ```
 
-4. **README.md** - Troubleshooting guide for common issues
+3. **README.md** - Troubleshooting guide for common issues
 
 ### Industry Standard
 

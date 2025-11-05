@@ -1139,7 +1139,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
   - Supabase Edge Function calls ExerciseDB API
   - Upserts new exercises into PostgreSQL
   - Users receive updates via WatermelonDB sync (automatic)
-  - Eliminates manual quarterly re-imports (current: `npm run import-exercisedb`)
+  - Eliminates manual quarterly re-imports
   - Rate limit management (free tier: 10,000 req/month)
   - **Estimated effort:** ~6-8h (serverless architecture)
   - **Dependencies:** MVP complete, validated user adoption

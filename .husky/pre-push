@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# ============================================================================
+# Pre-Push Hook - Run tests and type-check before pushing
+# ============================================================================
+# Best practice for solo dev: Detect errors locally (30s) vs waiting for CI (2-3 min)
+# Allows frequent commits (pre-commit is fast) while ensuring quality before push
+# ============================================================================
+
+echo ""
+echo "🔍 Running type-check..."
+npm run type-check || exit 1
+
+echo ""
+echo "🧪 Running tests..."
+npm run test || exit 1
+
+echo ""
+echo "✅ All checks passed! Pushing..."
+echo ""
