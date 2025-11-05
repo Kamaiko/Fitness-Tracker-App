@@ -7,7 +7,7 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/21)](#phase-05-architecture--foundation-2121)
-6. [Phase 0.6: UI/UX Foundation (6/8)](#phase-06-uiux-foundation-68)
+6. [Phase 0.6: UI/UX Foundation (7/8)](#phase-06-uiux-foundation-78)
 7. [Phase 1: Authentication & Foundation (0/15)](#phase-1-authentication--foundation-015)
 8. [Phase 2: Workout Plans & Navigation (0/12)](#phase-2-workout-plans--navigation-012)
 9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
@@ -20,17 +20,17 @@
 
 **Project**: Halterofit v0.1.0
 **Status**: 🟡 In Progress (Phase 0.6 - Finalizing)
-**Progress**: 28/84 tasks (33%) • MVP Scope: 77 active + 7 deferred tasks
+**Progress**: 28/83 tasks (34%) • MVP Scope: 76 active + 7 deferred tasks
 **Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
-**Last Updated**: 2025-11-04 • **Next Milestone**: Complete 0.6.8 ExerciseDB Import → Phase 1 Auth 🚀
+**Last Updated**: 2025-11-06 • **Next Milestone**: Complete Phase 0.6 → Phase 1 Auth 🚀
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6 - ExerciseDB Import (0.6.8) - Final blocker before Phase 1
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 7/8 (Phase 0.6 - 88%) • **Overall**: 28/84 tasks (33%)
-**Critical Blockers**: 0.6.8 ExerciseDB import (1,300+ exercises) • **Velocity**: ~5 tasks/week
+**Current Focus**: Phase 0.6 - ExerciseDB Import completed, testing architecture finalized
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 7/8 (Phase 0.6 - 88%) • **Overall**: 28/83 tasks (34%)
+**Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
 ### Recent Completions ✅
 
@@ -54,15 +54,15 @@
 | **1.14** Supabase auth `[M]` 🟠      |       | **0.6.4** Core components ✅  |
 | **1.15** Auth test infra `[S]` 🟠    |       | **0.6.3** Dark theme ✅       |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 7/8 (88%) • Phase 1: 0/15 (0%) • Overall: 28/84 (33%)
-**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 13.5-14 weeks
-**NEXT**: 0.6.8 ExerciseDB Import 🔥 (1,300+ exercises) → Phase 1 Auth 🚀
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 7/8 (88%) • Phase 1: 0/15 (0%) • Overall: 28/83 (34%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 13 weeks
+**NEXT**: 0.6.8 ExerciseDB Import 🔥 OR Phase 1 Auth (0.6.8 effectively complete)
 
 ---
 
 ## Development Roadmap
 
-**Note:** MVP scope = 84 tasks total (77 active + 7 deferred). Analytics and advanced features moved to Post-MVP backlog.
+**Note:** MVP scope = 83 tasks total (76 active + 7 deferred). Analytics and advanced features moved to Post-MVP backlog.
 
 ```
 Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
@@ -427,43 +427,19 @@ Phase 5: Polish & Deployment (0/5 tasks)
   - `.env` configured with EXERCISEDB_API_HOST (exercisedb.p.rapidapi.com)
   - `.env.example` updated with SUPABASE_SERVICE_ROLE_KEY template
 
-  **✅ Step 3: Create Import Script** - COMPLETE
-  - Created `scripts/import-exercisedb.ts` (387 lines, production-ready)
-  - Created `scripts/rollback-exercisedb.ts` (rollback script)
-  - Fetch ALL exercises from ExerciseDB V1 API (1,300 exercises)
-  - **Pure 1:1 mapping** with V1 structure (ADR-019)
-  - 10 ExerciseDB V1 fields: exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, instructions, description, difficulty, category
-  - Images deferred to post-MVP (see Post-MVP Backlog § Exercise Images)
-  - Upsert to Supabase (handles re-runs for quarterly updates)
-  - Zod validation, --dry-run mode, batch processing
-  - Added `npm run import-exercisedb` script to package.json
-  - Created `scripts/README.md` with complete usage docs
-
-  **✅ Step 4: Create Supabase Migrations** - COMPLETE
-  - Created 6 SQL migration files in `supabase/migrations/`:
-    - `20251104010000_add_exercisedb_id_column.sql`
-    - `20251104020000_fix_search_path_security.sql`
-    - `20251104030000_cleanup_duplicate_exercisedb_id_indexes.sql`
-    - Plus 3 earlier migrations (align schema, remove custom fields)
-  - Schema ready for ExerciseDB data structure
-
-  **✅ Step 5: Documentation & Cleanup** - COMPLETE
-  - Added "ExerciseDB Import Strategy" section to DATABASE.md
-  - Cleaned up DATABASE.md (removed custom exercises mentions per ADR-017)
-  - Updated TASKS.md Post-MVP Backlog with migration path
-
-  **🟡 Step 6: Execute Import** - PENDING (Blocker for Phase 1)
-  - **TODO:** Apply Supabase migrations: Push 6 migration files to Supabase
-  - **TODO:** Run `npm run import-exercisedb` to populate database
-  - **TODO:** Verify 1,300+ exercises imported successfully
-  - **Estimated time:** 15-30 minutes
-  - **Blocks:** Phase 1 (Auth requires database ready)
+  **✅ Step 3-6: ExerciseDB Import & Setup** - COMPLETE (2025-11-06)
+  - ✅ Consolidated 8 migrations into v5 (source of truth)
+  - ✅ Created migration v6-v7 (align with GitHub dataset)
+  - ✅ 1,500 exercises seeded to Supabase (GitHub ExerciseDB dataset)
+  - ✅ Dataset backup retained: `scripts/exercisedb-full-dataset.json` (1.3MB)
+  - ✅ Import/rollback scripts removed (completed, no longer needed)
+  - ✅ Documentation updated (DATABASE.md, TESTING.md, ARCHITECTURE.md)
+  - ✅ Zod dependency removed (5.2MB saved)
 
   **References:**
-  - Import Script: [scripts/import-exercisedb.ts](../scripts/import-exercisedb.ts)
-  - Documentation: [scripts/README.md](../scripts/README.md)
+  - Dataset Backup: `scripts/exercisedb-full-dataset.json`
+  - Dataset Source: https://github.com/ExerciseDB/exercisedb-api
   - Strategy: [DATABASE.md § ExerciseDB Import Strategy](DATABASE.md#exercisedb-import-strategy)
-  - API Docs: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
 
 - [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
   - Analyzed competitor UX (Strong, Hevy, fitness app patterns)

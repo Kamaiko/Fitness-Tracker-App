@@ -11,11 +11,14 @@
 1. [Quick Start](#quick-start)
 2. [Testing Strategy](#testing-strategy)
 3. [Writing Tests](#writing-tests)
-4. [Test Infrastructure](#test-infrastructure)
-5. [Current Coverage](#current-coverage)
-6. [Troubleshooting](#troubleshooting)
-7. [Decision Records](#decision-records)
-8. [Resources](#resources)
+4. [Integration Testing (Phase 1+)](#integration-testing-phase-1)
+5. [E2E Testing - Maestro (Phase 1+)](#e2e-testing---maestro-phase-1)
+6. [Test Infrastructure](#test-infrastructure)
+7. [Scripts - No Tests Needed](#scripts---no-tests-needed)
+8. [Current Coverage](#current-coverage)
+9. [Troubleshooting](#troubleshooting)
+10. [Decision Records](#decision-records)
+11. [Resources](#resources)
 
 ---
 
@@ -219,6 +222,197 @@ tests / fixtures / database / workouts.json; // Static data
 
 ---
 
+## Integration Testing (Phase 1+)
+
+Integration tests validate multiple components working together across service boundaries.
+
+### When to Write Integration Tests
+
+| Scenario                | Type        | Location                       | Example                     |
+| ----------------------- | ----------- | ------------------------------ | --------------------------- |
+| Database sync protocol  | Integration | `tests/integration/database/`  | Local → Supabase sync       |
+| Multi-service workflows | Integration | `tests/integration/workflows/` | Workout creation full flow  |
+| Cross-component flows   | Integration | `tests/integration/features/`  | Complete feature end-to-end |
+
+### Unit vs Integration vs E2E
+
+| Type            | Scope                 | Environment           | Speed       | What to Test                     |
+| --------------- | --------------------- | --------------------- | ----------- | -------------------------------- |
+| **Unit**        | Single function/class | Node.js + LokiJS      | ⚡ 5s       | CRUD, queries, business logic    |
+| **Integration** | Multiple services     | Node.js + Real SQLite | 🟢 30s-1min | API flows, sync, cross-service   |
+| **E2E**         | Full user journey     | Real device           | 🐌 5-10min  | Login, workout creation, offline |
+
+### Structure & Conventions
+
+**Location:** `tests/integration/`
+
+**Run with:**
+
+```bash
+npm run test:integration   # Phase 1+ (not implemented yet)
+```
+
+**Environment:**
+
+- Node.js with real SQLite (NOT LokiJS)
+- Mock external APIs (Supabase)
+- Real WatermelonDB sync protocol
+
+### Example Integration Test
+
+```typescript
+// tests/integration/database/sync-protocol.test.ts
+import { createTestDatabase } from '@test-helpers/database/test-database';
+import { syncService } from '@/services/database/sync';
+
+describe('Database Sync Integration', () => {
+  let database: Database;
+
+  beforeEach(async () => {
+    database = createTestDatabase();
+  });
+
+  it('syncs local changes to Supabase', async () => {
+    // Create workout locally
+    const workout = await createTestWorkout(database);
+
+    // Mark as changed (sync protocol)
+    await database.write(async () => {
+      await workout.update((w) => {
+        w._status = 'created';
+        w._changed = 'name,started_at';
+      });
+    });
+
+    // Sync to Supabase
+    const result = await syncService.push();
+
+    expect(result.success).toBe(true);
+    expect(result.pushedRecords).toContain(workout.id);
+  });
+});
+```
+
+### Implementation Status
+
+| Feature                    | Status            | Phase    |
+| -------------------------- | ----------------- | -------- |
+| **Directory structure**    | 📋 Planned        | Phase 1+ |
+| **npm script**             | ⏸️ Not created    | Phase 1+ |
+| **SQLite setup**           | ⏸️ Not configured | Phase 1+ |
+| **First integration test** | ⏸️ Not written    | Phase 1+ |
+
+**Current Phase:** 0.5 (Architecture & Foundation) - Integration tests planned for Phase 1+
+
+---
+
+## E2E Testing - Maestro (Phase 1+)
+
+Maestro is used for **automated E2E tests on real devices**, testing complete user journeys.
+
+### Overview
+
+| Aspect           | Details                               |
+| ---------------- | ------------------------------------- |
+| **Tool**         | Maestro Mobile Test Automation        |
+| **Installation** | Phase 1 (Task 1.22) - NOT Phase 0.5   |
+| **Location**     | `.maestro/` at project root           |
+| **Test Format**  | YAML workflows                        |
+| **Execution**    | `maestro test .maestro/`              |
+| **Environment**  | Real device (iOS/Android) or emulator |
+
+### When to Use Maestro
+
+**✅ DO Use Maestro For:**
+
+- High-value user journeys (login, workout creation, sync)
+- Flows validated manually first (automate after confirmation)
+- Regression testing before releases
+- Critical paths (auth, data entry, offline flows)
+
+**❌ DON'T Use Maestro For:**
+
+- Unit-testable logic (use Jest)
+- One-off scenarios (manual E2E faster)
+- Edge cases (manual E2E more flexible)
+- Early development (wait until features stable)
+
+### Directory Structure
+
+```
+.maestro/
+├── auth/                 # Phase 1 (Task 1.22)
+│   ├── login.yaml       # Login flow
+│   ├── signup.yaml      # Signup + verification
+│   └── logout.yaml      # Logout flow
+│
+└── workout/             # Phase 3 (Task 3.90)
+    ├── create-workout.yaml       # Create workout
+    ├── add-exercises.yaml        # Add exercises to workout
+    └── complete-workout.yaml     # Complete and save workout
+```
+
+### Example Maestro Test
+
+```yaml
+# .maestro/auth/login.yaml
+appId: com.halterofit.app
+---
+- launchApp
+- tapOn: 'Login'
+- inputText: 'test@example.com'
+- tapOn: 'Password'
+- inputText: 'password123'
+- tapOn: 'Sign In'
+- assertVisible: 'Dashboard'
+```
+
+### Setup Timeline
+
+| Phase         | Task           | Deliverable                  |
+| ------------- | -------------- | ---------------------------- |
+| **Phase 0.5** | ⏸️ Not started | Manual E2E only              |
+| **Phase 1**   | Task 1.22      | Install Maestro + Auth tests |
+| **Phase 3**   | Task 3.90      | Workout E2E tests            |
+
+### Installation (Phase 1 Only)
+
+**Do NOT install now** - Wait until Phase 1 (Task 1.22)
+
+```bash
+# Phase 1 installation (future)
+curl -Ls "https://get.maestro.mobile.dev" | bash
+maestro test .maestro/
+```
+
+### Manual E2E vs Maestro
+
+| Aspect            | Manual E2E         | Maestro E2E        |
+| ----------------- | ------------------ | ------------------ |
+| **When**          | Now (Phase 0.5)    | Phase 1+           |
+| **Speed**         | 🐌 15-20 min       | 🟢 2-5 min         |
+| **Cost**          | Free (your time)   | Free (automated)   |
+| **Flexibility**   | ✅ High            | 🟡 Medium          |
+| **Repeatability** | ❌ Manual          | ✅ Automated       |
+| **Best for**      | Exploring unknowns | Regression testing |
+
+**Strategy:** Manual E2E first (discover edge cases) → Automate validated flows with Maestro (Phase 1+)
+
+### Implementation Status
+
+| Feature               | Status            | Phase               |
+| --------------------- | ----------------- | ------------------- |
+| **Maestro installed** | ⏸️ Not installed  | Phase 1             |
+| **Auth tests**        | ⏸️ Not created    | Phase 1 (Task 1.22) |
+| **Workout tests**     | ⏸️ Not created    | Phase 3 (Task 3.90) |
+| **CI/CD integration** | ⏸️ Not configured | Phase 1+            |
+
+**Current Phase:** 0.5 (Architecture & Foundation) - Maestro planned for Phase 1+
+
+**See:** [TASKS.md § Task 1.22](./TASKS.md) for Maestro installation steps
+
+---
+
 ## Test Infrastructure
 
 ### Directory Structure
@@ -238,12 +432,15 @@ tests/
 │       ├── workouts.json       # Sample workout data
 │       └── exercises.json      # Sample exercise data
 │
-├── e2e/                  # E2E test documentation
-│   └── manual/
-│       ├── offline-crud.md     # Offline CRUD scenarios
-│       └── sync-checklist.md   # Sync protocol validation
+├── integration/          # Integration tests (Phase 1+)
+│   ├── database/         # Database sync integration tests
+│   ├── workflows/        # Multi-service workflow tests
+│   └── features/         # Cross-component feature tests
 │
-└── readme.md             # Quick reference → points to this doc
+└── e2e/                  # E2E test documentation
+    └── manual/
+        ├── offline-crud.md     # Offline CRUD scenarios
+        └── sync-checklist.md   # Sync protocol validation
 ```
 
 **Unit Tests Location:** `src/**/__tests__/*.test.ts` (Jest auto-discovery)
@@ -319,6 +516,93 @@ moduleNameMapper: {
 **Rule:** Mock external dependencies, test internal code.
 
 **See:** [**mocks**/README.md](../__mocks__/README.md) for complete inventory
+
+---
+
+## Scripts - No Tests Needed
+
+Scripts in `scripts/` are **one-time maintenance utilities**, not runtime code.
+
+### Why No Tests for scripts/?
+
+| Script                              | Purpose                | Frequency            | Validation          | Tests Needed?   |
+| ----------------------------------- | ---------------------- | -------------------- | ------------------- | --------------- |
+| `exercisedb-full-dataset.json`      | Exercise data backup   | N/A (static data)    | Manual inspection   | ❌ No           |
+| ~~`import-from-github-dataset.ts`~~ | Import exercises to DB | One-time (completed) | Zod + dry-run       | ❌ No (deleted) |
+| ~~`rollback-exercisedb.ts`~~        | Rollback DB import     | Rarely (dev only)    | Manual confirmation | ❌ No (deleted) |
+
+**Status:** Import completed, scripts deleted (no longer needed)
+
+### Built-in Safeguards (Historical)
+
+When scripts were active, they had:
+
+1. **Zod Runtime Validation** - Catches data errors before DB write
+
+   ```typescript
+   const result = GitHubExerciseSchema.safeParse(rawData);
+   if (!result.success) {
+     console.error('Validation failed:', result.error);
+   }
+   ```
+
+2. **Dry-run Mode** - Test without side effects
+
+   ```bash
+   npm run import-exercisedb -- --dry-run
+   ```
+
+3. **Detailed Logging** - Console output shows progress/errors
+
+   ```typescript
+   console.log(`✅ Imported ${count} exercises`);
+   ```
+
+4. **README.md** - Troubleshooting guide for common issues
+
+### Industry Standard
+
+| Project     | One-time Scripts | Tests?                      |
+| ----------- | ---------------- | --------------------------- |
+| **Next.js** | Seed scripts     | ❌ No                       |
+| **Prisma**  | Migrate & seed   | ❌ No (validation built-in) |
+| **NestJS**  | DB seeds         | ❌ No                       |
+| **Strapi**  | Content imports  | ❌ No                       |
+
+**Pattern:** One-time scripts use built-in validation (Zod, schema checks) instead of test suites.
+
+### ROI Analysis
+
+| Aspect               | Cost                              | Benefit                      | ROI   |
+| -------------------- | --------------------------------- | ---------------------------- | ----- |
+| **Test creation**    | High (2-3h setup)                 | Low (one-time execution)     | 10%   |
+| **Test maintenance** | Medium (Supabase mocks, fixtures) | Zero (script archived)       | 0%    |
+| **Bug prevention**   | Low (Zod validates)               | Low (dry-run catches issues) | 15%   |
+| **Confidence**       | Medium (tests)                    | Medium (dry-run + logging)   | Equal |
+
+**Verdict:** Tests not justified. Zod validation + dry-run + logging = sufficient safeguards.
+
+### Current State
+
+**scripts/ Directory:**
+
+```
+scripts/
+└── exercisedb-full-dataset.json  # Backup only (1.3MB)
+```
+
+**Deleted Scripts:**
+
+- ~~`import-from-github-dataset.ts`~~ - Import completed, no longer needed
+- ~~`rollback-exercisedb.ts`~~ - Rarely used, recoverable from git history
+- ~~`README.md`~~ - Historical documentation
+- ~~`tsconfig.json`~~ - No longer needed
+
+**Rationale:**
+
+- Import completed (1,500 exercises seeded)
+- Scripts deleted (recoverable from git history if needed)
+- Zod dependency removed (5.2MB saved)
 
 ---
 

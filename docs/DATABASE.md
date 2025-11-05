@@ -445,16 +445,16 @@ Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data s
 
 **GitHub ExerciseDB → Halterofit Field Mapping:**
 
-| GitHub Field       | Halterofit Field    | Type       | Conversion         |
-| ------------------ | ------------------- | ---------- | ------------------ |
-| `exerciseId`       | `exercisedb_id`     | string     | Direct mapping     |
-| `name`             | `name`              | string     | Direct mapping     |
-| `bodyParts`        | `body_parts`        | JSON array | Direct mapping     |
-| `targetMuscles`    | `target_muscles`    | JSON array | Direct mapping     |
-| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping     |
-| `equipments`       | `equipments`        | JSON array | Direct mapping     |
-| `instructions`     | `instructions`      | JSON array | Direct mapping     |
-| `gifUrl`           | `gif_url`           | string     | Direct mapping     |
+| GitHub Field       | Halterofit Field    | Type       | Conversion     |
+| ------------------ | ------------------- | ---------- | -------------- |
+| `exerciseId`       | `exercisedb_id`     | string     | Direct mapping |
+| `name`             | `name`              | string     | Direct mapping |
+| `bodyParts`        | `body_parts`        | JSON array | Direct mapping |
+| `targetMuscles`    | `target_muscles`    | JSON array | Direct mapping |
+| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping |
+| `equipments`       | `equipments`        | JSON array | Direct mapping |
+| `instructions`     | `instructions`      | JSON array | Direct mapping |
+| `gifUrl`           | `gif_url`           | string     | Direct mapping |
 
 **GitHub ExerciseDB Dataset Format:**
 
@@ -542,58 +542,29 @@ Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data s
 
 **Approach:** Database Seeding from GitHub Dataset
 
-Halterofit uses a one-time import strategy from the GitHub ExerciseDB dataset:
+**Import Status:** ✅ Completed (2025-11-06)
 
-**Import Process:**
+- 1,500 exercises seeded to Supabase PostgreSQL
+- Dataset backup retained in `scripts/exercisedb-full-dataset.json` (1.3MB)
+- Import/rollback scripts removed (no longer needed)
 
-1. **Download dataset** (one-time):
-   - Download exercisedb-full-dataset.json from GitHub repository
-   - Contains 1,500 exercises with animated GIFs
-   - Place in scripts/ directory (gitignored due to 1.3MB size)
+**User Experience:**
 
-2. **Developer runs import script**:
-
-   ```bash
-   # Test import (dry-run - no data written)
-   npm run import-exercises -- --dry-run
-
-   # Run actual import
-   npm run import-exercises
-   ```
-
-   - Script reads local JSON file (no API calls)
-   - Zod validation ensures data integrity
-   - Inserts into Supabase PostgreSQL (batch processing: 100/batch)
-   - Duration: 2-3 minutes for 1,500 exercises
-
-   **Zod Validation:**
-   The import script uses Zod runtime validation to protect against dataset schema changes:
-   - Detects field renames/removals
-   - Graceful degradation (skips invalid exercises)
-   - Detailed error logging
-
-3. **User downloads app** (first launch):
+1. **App first launch**:
    - WatermelonDB sync runs automatically
    - Downloads exercises from Supabase to local SQLite
    - Duration: 30-60 seconds
    - User sees: "Configuring exercise library..."
 
-4. **Offline-first experience**:
+2. **Offline-first experience**:
    - All 1,500 exercises stored locally
    - Search/filter works 100% offline
    - Zero API calls during runtime
 
-**Update Frequency:** Quarterly (every 3 months)
-
-- GitHub dataset updates periodically
-- Re-download dataset and re-run import script
-- Users receive updates via WatermelonDB sync
-
 **References:**
 
-- Import Script: scripts/import-from-github-dataset.ts
-- Rollback Script: scripts/rollback-exercisedb.ts
 - Dataset Source: https://github.com/ExerciseDB/exercisedb-api
+- Dataset Backup: `scripts/exercisedb-full-dataset.json`
 
 ---
 

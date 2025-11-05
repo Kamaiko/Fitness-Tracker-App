@@ -82,56 +82,18 @@ app/
 
 ### 2. `/scripts` - Utility Scripts
 
-**Purpose**: Node.js scripts for development and maintenance tasks
+**Purpose**: Data backups for development
 
 ```
 scripts/
-├── import-from-github-dataset.ts  # GitHub dataset → Supabase import
-├── rollback-exercisedb.ts     # Delete all exercises (testing)
-├── tsconfig.json              # Node.js-specific TypeScript config
-└── README.md                  # Script documentation
+└── exercisedb-full-dataset.json  # Exercise data backup (1.3MB)
 ```
 
-**Why Separate `tsconfig.json`?**
+**Status:**
 
-Scripts run in **Node.js** (not React Native), requiring different TypeScript configuration:
-
-| Configuration     | Root `tsconfig.json`      | `scripts/tsconfig.json`    |
-| ----------------- | ------------------------- | -------------------------- |
-| **Environment**   | React Native (mobile)     | Node.js (server-side)      |
-| **Module System** | ESNext (ES modules)       | CommonJS (require/exports) |
-| **Decorators**    | ✅ Enabled (WatermelonDB) | ❌ Not needed              |
-| **Compatibility** | Expo + Metro bundler      | ts-node (script execution) |
-
-**Usage:**
-
-```bash
-# Test import (dry-run - no data written)
-npm run import-exercisedb -- --dry-run
-
-# Run actual import
-npm run import-exercisedb
-
-# Rollback (delete all exercises)
-npm run rollback-exercisedb
-```
-
-**Conventions**:
-
-- Scripts use TypeScript (`.ts` extension)
-- Execute via `ts-node` with scripts-specific tsconfig
-- Environment variables from `.env` file
-- See: [scripts/README.md](../scripts/README.md) for complete documentation
-
-**Key Features:**
-
-- **Zod Runtime Validation**: Validates GitHub ExerciseDB dataset to prevent breaking changes
-- **Batch Processing**: Imports 100 exercises per batch for performance
-- **Timeout Protection**: 30s timeout with AbortController
-- **Dry-Run Mode**: Test import without modifying database
-- **Rollback Support**: Delete all imported exercises for testing
-
-**Industry Pattern**: Separate tsconfig for scripts is standard practice (Next.js, NestJS, Nx monorepos).
+- ✅ Import completed (1,500 exercises seeded to Supabase)
+- ✅ Import/rollback scripts deleted (no longer needed, recoverable from git history)
+- ✅ Dataset backup retained for reference
 
 ---
 
