@@ -60,7 +60,9 @@ export class MockSupabaseStore {
   /**
    * Initialize store with tables
    */
-  constructor(tables: string[] = ['workouts', 'exercises', 'workout_exercises', 'exercise_sets', 'users']) {
+  constructor(
+    tables: string[] = ['workouts', 'exercises', 'workout_exercises', 'exercise_sets', 'users']
+  ) {
     tables.forEach((table) => {
       this.data.set(table, new Map());
     });

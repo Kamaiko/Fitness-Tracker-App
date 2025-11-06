@@ -16,7 +16,11 @@
 import { z } from 'zod';
 import { http, HttpResponse } from 'msw';
 import { mockSupabaseServer } from '@test-helpers/network/mock-supabase';
-import { generateChangeSet, generatePullResponse, fixtures } from '@test-helpers/network/sync-fixtures';
+import {
+  generateChangeSet,
+  generatePullResponse,
+  fixtures,
+} from '@test-helpers/network/sync-fixtures';
 
 // ============================================================================
 // Zod Schemas (WatermelonDB Sync Protocol)
@@ -133,11 +137,14 @@ describe('Sync: Schema Validation', () => {
         })
       );
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lastPulledAt: 0 }),
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lastPulledAt: 0 }),
+        }
+      );
 
       const data = await response.json();
 
@@ -159,11 +166,14 @@ describe('Sync: Schema Validation', () => {
         })
       );
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lastPulledAt: 0 }),
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lastPulledAt: 0 }),
+        }
+      );
 
       const data = await response.json();
 
@@ -180,11 +190,14 @@ describe('Sync: Schema Validation', () => {
         })
       );
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lastPulledAt: 0 }),
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pull_changes`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lastPulledAt: 0 }),
+        }
+      );
 
       const data = await response.json();
 

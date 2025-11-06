@@ -14,7 +14,11 @@
 
 import { http, HttpResponse } from 'msw';
 import { mockSupabaseServer, getMockStore } from '@test-helpers/network/mock-supabase';
-import { generateConflict, generateMultiDeviceConflict, fixtures } from '@test-helpers/network/sync-fixtures';
+import {
+  generateConflict,
+  generateMultiDeviceConflict,
+  fixtures,
+} from '@test-helpers/network/sync-fixtures';
 
 describe('Sync: Conflict Resolution', () => {
   describe('Last Write Wins - Basic', () => {
@@ -84,19 +88,22 @@ describe('Sync: Conflict Resolution', () => {
         })
       );
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/push_changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          changes: {
-            workouts: {
-              created: [],
-              updated: [olderChange],
-              deleted: [],
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/push_changes`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            changes: {
+              workouts: {
+                created: [],
+                updated: [olderChange],
+                deleted: [],
+              },
             },
-          },
-        }),
-      });
+          }),
+        }
+      );
 
       expect(response.status).toBe(409); // Conflict
     });
@@ -135,19 +142,22 @@ describe('Sync: Conflict Resolution', () => {
         })
       );
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/push_changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          changes: {
-            workouts: {
-              created: [],
-              updated: [newerChange],
-              deleted: [],
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/rpc/push_changes`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            changes: {
+              workouts: {
+                created: [],
+                updated: [newerChange],
+                deleted: [],
+              },
             },
-          },
-        }),
-      });
+          }),
+        }
+      );
 
       expect(response.status).toBe(200);
     });
@@ -206,8 +216,16 @@ describe('Sync: Conflict Resolution', () => {
     it('should handle identical timestamps (rare but possible)', () => {
       const timestamp = Date.now();
 
-      const local = fixtures.generateWorkout({ id: 'workout-123', _changed: timestamp, title: 'Local' });
-      const remote = fixtures.generateWorkout({ id: 'workout-123', _changed: timestamp, title: 'Remote' });
+      const local = fixtures.generateWorkout({
+        id: 'workout-123',
+        _changed: timestamp,
+        title: 'Local',
+      });
+      const remote = fixtures.generateWorkout({
+        id: 'workout-123',
+        _changed: timestamp,
+        title: 'Remote',
+      });
 
       // Same timestamp → tie-breaker needed (e.g., device ID, or accept one arbitrarily)
       expect(local._changed).toBe(remote._changed);

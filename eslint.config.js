@@ -25,7 +25,13 @@ module.exports = [
 
   // JavaScript config files (no TypeScript checking)
   {
-    files: ['*.config.js', '*.config.ts', '.eslintrc.js', '.prettierrc.js'],
+    files: [
+      '**/*.config.js',
+      '**/*.config.ts',
+      '**/.eslintrc.js',
+      '**/.prettierrc.js',
+      'jest.*.js', // Jest config variants (jest.config.integration.js, etc.)
+    ],
     languageOptions: {
       globals: {
         module: 'readonly',
@@ -164,6 +170,36 @@ module.exports = [
       'no-console': 'off',
       // Allow @ts-expect-error in tests
       '@typescript-eslint/ban-ts-comment': 'off',
+    },
+  },
+
+  // Integration tests (fetch + any types for flexible mocking)
+  {
+    files: ['__tests__/integration/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        fetch: 'readonly', // Node.js 18+ native fetch (used in integration tests)
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off', // Mock data flexibility
+      '@typescript-eslint/no-namespace': 'off', // Jest custom matchers pattern
+    },
+  },
+
+  // Network test helpers (any types for flexible mock data generation)
+  {
+    files: ['__tests__/__helpers__/network/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off', // Mock data flexibility
+    },
+  },
+
+  // Database test factories (any types for WatermelonDB create callbacks)
+  {
+    files: ['__tests__/__helpers__/database/factories.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off', // WatermelonDB limitation (untyped callbacks)
     },
   },
 ];

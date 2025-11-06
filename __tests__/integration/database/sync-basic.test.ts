@@ -17,7 +17,11 @@
 
 import { http, HttpResponse } from 'msw';
 import { mockSupabaseServer, seedMockData } from '@test-helpers/network/mock-supabase';
-import { generateChangeSet, generatePullResponse, fixtures } from '@test-helpers/network/sync-fixtures';
+import {
+  generateChangeSet,
+  generatePullResponse,
+  fixtures,
+} from '@test-helpers/network/sync-fixtures';
 import type { SyncDatabaseChangeSet } from '@nozbe/watermelondb/sync';
 
 describe('Sync: Basic Operations', () => {

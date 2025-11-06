@@ -10,7 +10,11 @@
  * @module integration/setup
  */
 
-import { setupMockSupabase, resetMockSupabase, cleanupMockSupabase } from '@test-helpers/network/mock-supabase';
+import {
+  setupMockSupabase,
+  resetMockSupabase,
+  cleanupMockSupabase,
+} from '@test-helpers/network/mock-supabase';
 import { networkSimulator } from '@test-helpers/network/network-simulator';
 
 // ============================================================================

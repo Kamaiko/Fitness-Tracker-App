@@ -265,7 +265,10 @@ export function generatePullResponse(
 /**
  * Generate empty pull response (no changes)
  */
-export function generateEmptyPullResponse(): { changes: SyncDatabaseChangeSet; timestamp: Timestamp } {
+export function generateEmptyPullResponse(): {
+  changes: SyncDatabaseChangeSet;
+  timestamp: Timestamp;
+} {
   return {
     changes: {},
     timestamp: Date.now(),
@@ -298,9 +301,7 @@ export function generateLargeBatch(recordCount: number = 100): SyncDatabaseChang
 /**
  * Generate partial sync scenario (sync interrupted mid-operation)
  */
-export function generatePartialSync(
-  tables: string[] = ['workouts', 'exercises']
-): {
+export function generatePartialSync(tables: string[] = ['workouts', 'exercises']): {
   partialChanges: SyncDatabaseChangeSet;
   remainingChanges: SyncDatabaseChangeSet;
 } {
