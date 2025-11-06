@@ -35,11 +35,17 @@ __tests__/
 ## Quick Start
 
 ```bash
-# Run all tests
+# Run all unit tests
 npm test
 
-# Watch mode
+# Run integration tests (sync scenarios)
+npm run test:integration
+
+# Watch mode (unit tests)
 npm run test:watch
+
+# Watch mode (integration tests)
+npm run test:integration:watch
 
 # Coverage report
 npm run test:coverage
@@ -73,14 +79,42 @@ import { createTestWorkout } from '../../../__helpers__/database/factories';
 ### Integration Tests
 
 - **Location**: `__tests__/integration/**/*.test.ts`
-- **Pattern**: Workflow-based organization
-- **Purpose**: Test multiple services working together
+- **Pattern**: Workflow-based organization (sync scenarios, offline-first)
+- **Purpose**: Test multiple services working together with mocked APIs
+- **Infrastructure**: msw (Mock Service Worker) + network simulator + LokiJS
+- **Run**: `npm run test:integration`
+
+**Current Coverage (Phase 1):**
+- ✅ sync-basic.test.ts - 11 tests (pull/push/bidirectional sync)
+- ✅ conflict-resolution.test.ts - 11 tests (last write wins, multi-device)
+- ✅ schema-validation.test.ts - 16 tests (Zod validation for sync protocol)
+- **Total: 38 integration tests**
+
+**Key Helpers:**
+- `@test-helpers/network/mock-supabase` - Mock Supabase RPC endpoints
+- `@test-helpers/network/network-simulator` - Simulate offline/slow/intermittent connections
+- `@test-helpers/network/sync-fixtures` - Generate realistic sync test data
+
+**Important Limitation:**
+Integration tests use LokiJS (in-memory), NOT Real SQLite. WatermelonDB sync protocol columns (`_changed`, `_status`) and `synchronize()` method require native SQLite module, only available in E2E tests. See [integration/README.md](integration/README.md) for details.
 
 ### Helpers
 
 - **Location**: `__tests__/__helpers__/**/*.ts`
 - **Pattern**: Shared utilities for all tests
 - **Import**: Always use `@test-helpers/*` alias
+
+**Database Helpers:** (`@test-helpers/database/*`)
+- `test-database.ts` - LokiJS setup/teardown
+- `factories.ts` - createTestWorkout, createTestExercise
+- `queries.ts` - getAllRecords, countRecords
+- `time.ts` - wait, dateInPast, dateInFuture
+- `assertions.ts` - assertDatesApproximatelyEqual
+
+**Network Helpers:** (`@test-helpers/network/*`)
+- `mock-supabase.ts` - Mock Supabase backend with in-memory store
+- `network-simulator.ts` - Simulate offline/slow/intermittent connections
+- `sync-fixtures.ts` - Generate realistic sync test data (workouts, conflicts, edge cases)
 
 ### Fixtures
 
@@ -197,7 +231,12 @@ The warning indicates Jest is properly detecting open handles (the 5 LokiJS work
 
 ## Phase Roadmap
 
-- ✅ **Phase 0.6**: Unit tests (36 tests, 60-65% coverage)
-- 🔄 **Phase 1**: Integration tests (auth, sync)
-- 🔄 **Phase 2-3**: Expand coverage (workouts, tracking)
+- ✅ **Phase 0.6**: Unit tests (36 tests, 60-65% database coverage)
+- ✅ **Phase 1 (Current)**: Integration tests - Sync infrastructure (38 tests)
+  - ✅ msw + network simulator + sync fixtures
+  - ✅ Basic sync operations (pull/push/bidirectional)
+  - ✅ Conflict resolution (last write wins, multi-device)
+  - ✅ Schema validation (Zod for sync protocol)
+  - 🔄 Offline scenarios (Phase 3 - next)
+- 🔄 **Phase 2-3**: Expand integration coverage (auth, workouts, tracking)
 - 🔄 **Phase 4-5**: Maestro E2E automation

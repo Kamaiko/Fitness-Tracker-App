@@ -22,21 +22,26 @@
 
 ### Three-Tier Testing Strategy
 
-| Type                     | Speed      | Confidence | Environment              | What to Test                                 |
-| ------------------------ | ---------- | ---------- | ------------------------ | -------------------------------------------- |
-| **Unit (Jest + LokiJS)** | ⚡ 5s      | 🟡 Medium  | Node.js                  | CRUD, queries, relationships, business logic |
-| **Integration**          | 🟢 30s-1m  | ✅ High    | Node.js + Real SQLite    | API flows, sync, cross-service workflows     |
-| **E2E (Manual/Maestro)** | 🐌 5-10min | ✅ High    | Real device + automation | Complete user journeys, offline flows        |
+| Type                       | Speed      | Confidence | Environment                    | What to Test                                 |
+| -------------------------- | ---------- | ---------- | ------------------------------ | -------------------------------------------- |
+| **Unit (Jest + LokiJS)**   | ⚡ 5s      | 🟡 Medium  | Node.js + LokiJS               | CRUD, queries, relationships, business logic |
+| **Integration (msw)**      | 🟢 5-10s   | ✅ High    | Node.js + LokiJS + Mock APIs   | Sync logic, offline scenarios, API workflows |
+| **E2E (Manual/Maestro)**   | 🐌 5-10min | ✅ High    | Real device + automation       | Complete user journeys, sync protocol        |
 
-**Current Status:** 36 unit tests (60-65% coverage) + Manual E2E validation
+**Current Status:** 36 unit tests (60-65% DB coverage) + 38 integration tests (sync scenarios) + Manual E2E validation
 
 ### Quick Commands
 
 ```bash
-npm test                  # Run all tests
+# Unit tests
+npm test                  # Run all unit tests
 npm run test:watch        # Watch mode (re-run on changes)
 npm run test:coverage     # Coverage report
 npm test -- filename.test # Run specific test file
+
+# Integration tests
+npm run test:integration         # Run sync integration tests
+npm run test:integration:watch   # Watch mode (integration)
 ```
 
 **Note:** Pre-commit hooks automatically run type-check + tests + lint. See [CONTRIBUTING.md](./CONTRIBUTING.md) for git workflow.
@@ -79,19 +84,36 @@ Can I test this in Jest with LokiJS (in-memory)?
 
 **Why LokiJS?** Jest runs in Node.js. SQLite requires React Native JSI (not available in Node). LokiJS provides real WatermelonDB behavior in Node.js environment.
 
-### Integration Tests (Phase 1+)
+### Integration Tests (Phase 1 - ✅ IMPLEMENTED)
 
 **When to Use:**
 
-- Multiple services working together (database + API)
-- Sync protocol validation (local → Supabase push/pull)
-- Cross-component workflows (workout creation full flow)
+- Sync protocol validation (pull/push changes to Supabase backend)
+- Conflict resolution scenarios (last write wins, multi-device)
+- Offline-first behavior (offline create/update/delete, resume sync)
+- Network resilience (slow connections, intermittent failures)
+- Schema validation (Zod validators for sync payloads)
 
-**Status:** 📋 Planned for Phase 1+ (not implemented yet)
+**Status:** ✅ 38 tests implemented (sync infrastructure complete)
 
-**Environment:** Node.js with real SQLite (NOT LokiJS) + Mock external APIs
+**Environment:** Node.js + LokiJS + msw (Mock Service Worker) + Network simulator
 
-**See:** [\_\_tests\_\_/integration/](../__tests__/integration/) for directory structure
+**Infrastructure:**
+- `msw` - Mock Supabase RPC endpoints (pull_changes, push_changes)
+- `network-simulator` - Simulate offline/slow/intermittent connections
+- `sync-fixtures` - Generate realistic test data (workouts, conflicts, edge cases)
+
+**Current Coverage:**
+- ✅ sync-basic.test.ts - 11 tests (pull/push/bidirectional)
+- ✅ conflict-resolution.test.ts - 11 tests (last write wins, multi-device)
+- ✅ schema-validation.test.ts - 16 tests (Zod validation)
+
+**Important Limitation:**
+Integration tests use LokiJS (in-memory), NOT Real SQLite. WatermelonDB sync protocol columns (`_changed`, `_status`) and `synchronize()` method require native SQLite module, only available in E2E tests. Integration tests validate sync LOGIC, E2E tests validate sync PROTOCOL.
+
+**Run:** `npm run test:integration`
+
+**See:** [\_\_tests\_\_/integration/README.md](../__tests__/integration/README.md) for complete guide
 
 ### E2E Tests
 
