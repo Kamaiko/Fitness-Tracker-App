@@ -28,7 +28,7 @@
 | **Integration (msw)**    | 🟢 5-10s   | ✅ High    | Node.js + LokiJS + Mock APIs | Sync logic, offline scenarios, API workflows |
 | **E2E (Manual/Maestro)** | 🐌 5-10min | ✅ High    | Real device + automation     | Complete user journeys, sync protocol        |
 
-**Current Status:** 36 unit tests (60-65% DB coverage) + 38 integration tests (sync scenarios) + Manual E2E validation
+**Current Status:** 31 unit tests (60-65% DB coverage) + 38 integration tests (sync scenarios) + Manual E2E validation
 
 ### Quick Commands
 
@@ -179,6 +179,21 @@ describe('Workouts', () => {
 
 **Key:** Use `beforeAll` (NOT `beforeEach`) to create shared database instance. Prevents Jest hanging by creating worker handles only once per suite. See [Troubleshooting](#database-lifecycle-pattern).
 
+### Checklist: Creating New Tests
+
+**Before writing a test, verify:**
+
+- [ ] **Scope clear** - Unit (CRUD, isolated logic) vs Integration (multi-service, workflows)?
+- [ ] **Business value** - Tests critical behavior or real edge case (NOT trivial smoke test)?
+- [ ] **No duplication** - Another test doesn't already cover this scenario?
+- [ ] **Code exists** - Tests real `src/` code (NOT inline functions or placeholders)?
+- [ ] **Robust** - Test survives UI/UX changes (database layer, not component-specific)?
+- [ ] **Naming follows pattern** - `[model].test.ts` for models, `[feature]-flow.test.ts` for integration?
+- [ ] **Setup correct** - `beforeAll` (shared DB), `afterEach` (cleanup), `resetTestIdCounter()`?
+- [ ] **Import aliases used** - `@test-helpers/*`, `@/*` (NOT relative `../../` paths)?
+
+**When in doubt:** Ask "Will this test catch real bugs or just increase maintenance burden?"
+
 ### Critical Rules
 
 | Rule                                                         | Why                      | Consequence if Broken                  |
@@ -190,6 +205,38 @@ describe('Workouts', () => {
 | Never query `_changed`, `_status` in Jest                    | LokiJS doesn't support   | `no such column: _changed`             |
 | Never call `synchronize()` in Jest                           | Requires real SQLite     | Not a function error                   |
 | Always wrap writes in `database.write()`                     | Writes must transactable | `Cannot modify database outside write` |
+
+### Anti-Patterns to Avoid
+
+| Anti-Pattern                    | Why It's Bad                                | Solution                                                 |
+| ------------------------------- | ------------------------------------------- | -------------------------------------------------------- |
+| **Inline test functions**       | Tests code that doesn't exist in `src/`     | Create `src/utils/formatters.ts` BEFORE writing test     |
+| **Performance tests on LokiJS** | In-memory DB ≠ SQLite on real device        | Move to E2E (real device) or remove assertions           |
+| **Trivial smoke tests**         | `1+1=2` pollutes metrics, no value          | Delete - Jest config already validates setup             |
+| **`beforeEach` database**       | Creates worker leaks, Jest hangs            | Use `beforeAll` (shared instance pattern)                |
+| **Missing edge cases**          | Negative values, empty strings untested     | Test validation (`rir: -1`, `weight: ''`, `title: null`) |
+| **Relative imports**            | Breaks when files move (`../../../helpers`) | Use aliases: `@test-helpers/*`, `@/*`                    |
+| **Placeholder tests**           | "TODO: implement later" comments            | Delete placeholder, add real test when code exists       |
+
+**Example BAD test:**
+
+```typescript
+// ❌ DON'T: Tests inline function, not real code
+test('formatWeight works', () => {
+  const formatWeight = (w: number) => `${w} kg`; // Defined in test!
+  expect(formatWeight(100)).toBe('100 kg');
+});
+```
+
+**Example GOOD test:**
+
+```typescript
+// ✅ DO: Tests real src/ code
+import { formatWeight } from '@/utils/formatters';
+test('formatWeight converts kg to lbs', () => {
+  expect(formatWeight(100, 'kg')).toBe('220.46 lbs');
+});
+```
 
 ### WatermelonDB-Specific Patterns
 
@@ -316,29 +363,30 @@ import { createTestWorkout } from '../../../__helpers__/database/factories';
 
 | Metric             | Value  | Target        | Status  |
 | ------------------ | ------ | ------------- | ------- |
-| **Total Tests**    | 36     | 50+ (Phase 1) | 🟡 72%  |
+| **Total Tests**    | 31     | 50+ (Phase 1) | 🟡 62%  |
 | **Database Layer** | 60-65% | 80%           | 🟡 75%  |
 | **Execution Time** | ~5s    | <10s          | ✅ 100% |
 
 **Covered:** CRUD, queries, relationships, timestamps
 **NOT Covered:** Sync protocol, migrations, network ops (E2E only)
+**Note:** 5 obsolete tests removed (Nov 2025 audit) - zero pollution, 100% useful tests
 
 ### Per Model
 
-| Model           | Tests | Coverage | Priority        |
-| --------------- | ----- | -------- | --------------- |
-| Workout         | 15    | ~70%     | ✅ Good         |
-| Exercise        | 10    | ~60%     | Increase to 80% |
-| ExerciseSet     | 11    | ~65%     | Increase to 80% |
-| WorkoutExercise | 0     | 0%       | ❌ Implement    |
-| User            | 0     | 0%       | Phase 1         |
+| Model           | Tests | Coverage | Priority           |
+| --------------- | ----- | -------- | ------------------ |
+| Workout         | 13    | ~70%     | ✅ Good            |
+| Exercise        | 10    | ~60%     | Increase to 80%    |
+| ExerciseSet     | 11    | ~65%     | Increase to 80%    |
+| WorkoutExercise | 0     | 0%       | ❌ Phase 1 blocker |
+| User            | 0     | 0%       | ❌ Phase 1 blocker |
 
 **View Coverage:** `npm test -- --coverage` → Opens `coverage/lcov-report/index.html`
 
 ### Phase Roadmap
 
-- ✅ **Phase 0.6:** 36 unit tests, 60-65% coverage (architecture & foundation)
-- 🔄 **Phase 1:** Add integration tests (auth, sync), expand to 50+ tests
+- ✅ **Phase 0.6:** 31 unit tests, 60-65% coverage (cleanup Nov 2025 - removed 5 obsolete tests)
+- 🔄 **Phase 1:** Add User/WorkoutExercise tests (blockers) + auth integration tests → 56+ tests
 - 🔄 **Phase 2-3:** Expand coverage (workouts, tracking), add Maestro E2E
 - 🔄 **Phase 4-5:** Full E2E automation, regression suite
 
