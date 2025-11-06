@@ -1,4 +1,4 @@
-# tests/fixtures/ - Static Test Data
+# **tests**/fixtures/ - Static Test Data
 
 **Context:** JSON fixtures for consistent test data
 **Purpose:** Reusable, version-controlled static data (complements factories)
@@ -10,8 +10,8 @@
 
 ```typescript
 // Import fixtures
-import workoutFixtures from '@tests/fixtures/database/workouts.json';
-import userFixtures from '@tests/fixtures/users/sample-users.json';
+import workoutFixtures from '@__tests__/fixtures/database/workouts.json';
+import userFixtures from '@__tests__/fixtures/users/sample-users.json';
 
 // Use with factories
 const workout = await createTestWorkout(database, workoutFixtures.legDay);
@@ -22,7 +22,7 @@ const workout = await createTestWorkout(database, workoutFixtures.legDay);
 ## Directory Structure
 
 ```
-tests/fixtures/
+__tests__/fixtures/
 ├── database/               # Database entity fixtures
 │   ├── workouts.json       # Sample workouts
 │   └── exercises.json      # Sample exercises
@@ -50,7 +50,7 @@ tests/fixtures/
 
 ```typescript
 // Load fixture + use factory to insert
-import legDayFixture from '@tests/fixtures/database/workouts.json';
+import legDayFixture from '@__tests__/fixtures/database/workouts.json';
 const workout = await createTestWorkout(database, legDayFixture.legDay);
 ```
 
@@ -60,7 +60,7 @@ const workout = await createTestWorkout(database, legDayFixture.legDay);
 
 ```typescript
 // ✅ GOOD: Use @tests alias
-import workoutFixtures from '@tests/fixtures/database/workouts.json';
+import workoutFixtures from '@__tests__/fixtures/database/workouts.json';
 
 test('creates workout from fixture', async () => {
   const workout = await createTestWorkout(database, workoutFixtures.legDay);
@@ -68,7 +68,7 @@ test('creates workout from fixture', async () => {
 });
 
 // ❌ BAD: Relative imports
-import workoutFixtures from '../../../tests/fixtures/database/workouts.json';
+import workoutFixtures from '../../../__tests__/fixtures/database/workouts.json';
 ```
 
 ---
@@ -91,8 +91,8 @@ import workoutFixtures from '../../../tests/fixtures/database/workouts.json';
 - Use factories for bulk data: `createMultipleRecords()`
 
 ```
-✅ GOOD: tests/fixtures/database/workouts.json (10-20 templates, ~5KB)
-❌ BAD: tests/fixtures/database/1000-workouts.json (~500KB - use factories!)
+✅ GOOD: __tests__/fixtures/database/workouts.json (10-20 templates, ~5KB)
+❌ BAD: __tests__/fixtures/database/1000-workouts.json (~500KB - use factories!)
 ```
 
 ### Why organize by domain?
@@ -105,7 +105,7 @@ Current structure allows adding more domains as project grows.
 
 ## Cross-References
 
-- [tests/readme.md](../readme.md) - Infrastructure overview
-- [tests/**helpers**/database/readme.md](../__helpers__/database/readme.md) - Factory functions
+- [**tests**/README.md](../readme.md) - Infrastructure overview
+- [**tests**/**helpers**/database/readme.md](../__helpers__/database/readme.md) - Factory functions
 - [docs/TESTING.md](../../docs/TESTING.md) - Complete testing guide
 - [**mocks**/README.md](../../__mocks__/README.md) - Module mocks
