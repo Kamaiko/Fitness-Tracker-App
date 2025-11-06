@@ -28,7 +28,7 @@ import { assertDatesApproximatelyEqual } from '@test-helpers/database/assertions
 
 // NOTE: Sync protocol tests (assertSyncProtocolColumns, getSyncTimestamp)
 // removed - these require real SQLite and are tested in E2E only.
-// See: __tests__/README.md for testing strategy
+// See: docs/TESTING.md for testing strategy
 
 describe('Workout CRUD Operations', () => {
   let database: Database;
@@ -103,7 +103,7 @@ describe('Workout CRUD Operations', () => {
 
     // NOTE: Test "creates workout with sync protocol columns" removed
     // Sync protocol testing requires real SQLite - moved to E2E tests
-    // See: __tests__/README.md
+    // See: docs/TESTING.md
 
     /**
      * Verifies created_at and updated_at are set and equal on creation.
@@ -469,55 +469,60 @@ describe('Workout CRUD Operations', () => {
   });
 
   // ==========================================================================
-  // Performance Tests
+  // Batch Operations Tests
   // ==========================================================================
 
-  describe('performance', () => {
+  describe('batchOperations', () => {
     /**
-     * Verifies query performance with large dataset.
+     * Verifies database handles multiple workouts efficiently.
      *
      * Tests:
-     * - Create 1000 workouts efficiently
-     * - Query executes within performance budget
-     * - Database handles large volumes correctly
+     * - Create 100 workouts in batch
+     * - Query returns all records correctly
+     * - Database handles moderate volumes
+     *
+     * NOTE: Performance assertions removed (LokiJS ≠ SQLite real device).
+     * For real device performance testing, see e2e/manual/performance-baseline.md
      */
-    test('queries 1000 workouts within performance budget', async () => {
-      // Create 1000 workouts
-      await createMultipleRecords(createTestWorkout, database, 1000);
+    test('queries multiple workouts efficiently', async () => {
+      // Create 100 workouts (realistic dataset for unit tests)
+      await createMultipleRecords(createTestWorkout, database, 100);
 
-      const startTime = Date.now();
       const workouts = await database.get('workouts').query().fetch();
-      const duration = Date.now() - startTime;
 
-      expect(workouts).toHaveLength(1000);
-      expect(duration).toBeLessThan(200); // Must complete in < 200ms
+      expect(workouts).toHaveLength(100);
     });
 
     /**
-     * Verifies filtered query performance with large dataset.
+     * Verifies filtered queries work correctly with multiple records.
      *
      * Tests:
-     * - Indexed column query (user_id) is fast
-     * - Performance acceptable with WHERE clause
+     * - Indexed column query (user_id) returns correct results
+     * - Multiple WHERE clauses work together
+     * - Query handles mixed data (completed + in-progress)
+     *
+     * NOTE: Performance assertions removed (LokiJS ≠ SQLite real device).
      */
-    test('filtered query performance with 1000 workouts', async () => {
+    test('filters multiple workouts by user and status', async () => {
       const user = await createTestUser(database);
 
-      // Create 1000 workouts for user
-      await createMultipleRecords(createTestWorkout, database, 1000, () => ({
+      // Create 100 workouts for user (mix completed + in-progress)
+      await createMultipleRecords(createTestWorkout, database, 100, () => ({
         user_id: user.id,
         completed_at: Math.random() > 0.5 ? new Date().toISOString() : null,
       }));
 
-      const startTime = Date.now();
       const completedWorkouts = await database
         .get('workouts')
         .query(Q.where('user_id', user.id), Q.where('completed_at', Q.notEq(null)))
         .fetch();
-      const duration = Date.now() - startTime;
 
       expect(completedWorkouts.length).toBeGreaterThan(0);
-      expect(duration).toBeLessThan(100); // Indexed query < 100ms
+      expect(completedWorkouts.length).toBeLessThan(100); // Should be ~50% (random)
+      completedWorkouts.forEach((workout: any) => {
+        expect(workout.userId).toBe(user.id);
+        expect(workout.completedAt).toBeTruthy();
+      });
     });
   });
 });

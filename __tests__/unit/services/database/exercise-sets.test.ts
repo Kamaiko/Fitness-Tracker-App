@@ -26,7 +26,7 @@ import { countRecords } from '@test-helpers/database/queries';
 import { wait } from '@test-helpers/database/time';
 
 // NOTE: Sync protocol tests removed - require real SQLite, moved to E2E
-// See: __tests__/README.md
+// See: docs/TESTING.md
 
 describe('Exercise Set CRUD Operations', () => {
   let database: Database;
@@ -308,5 +308,5 @@ describe('Exercise Set CRUD Operations', () => {
 
   // NOTE: Delete operations (soft delete, _status checks) removed
   // Sync protocol testing requires real SQLite - moved to E2E
-  // See: __tests__/README.md
+  // See: docs/TESTING.md
 });
