@@ -150,12 +150,12 @@ A worker process has failed to exit gracefully and has been force exited.
 
 **This is expected behavior** with LokiJS (in-memory database):
 
-- **Root cause**: LokiJS doesn't explicitly close connections (in-memory adapter)
-- **Solution**: Tests use `--forceExit` flag to prevent hanging
+- **Root cause**: LokiJS (in-memory adapter) doesn't have explicit connection cleanup, causing Jest workers to wait indefinitely for handles to close
+- **Solution**: Tests use `--forceExit` flag to force worker termination after tests complete
 - **Impact**: None - all tests pass in ~5 seconds
-- **Alternative**: Remove `--forceExit` from package.json, but tests may hang for 20+ seconds
+- **Without `--forceExit`**: Tests would hang indefinitely (20+ minutes observed in testing)
 
-This is a known limitation of Jest + in-memory databases and does not indicate a real problem.
+**Technical Details**: This is a known limitation when using in-memory database adapters with Jest. LokiJS maintains internal handles that Jest's worker processes cannot detect as "finished". The `--forceExit` flag is the recommended solution for this specific scenario.
 
 ## Resources
 

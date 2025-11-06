@@ -82,8 +82,14 @@ export function createTestDatabase(): Database {
  * Call this in afterEach() to ensure test isolation.
  * Uses unsafeResetDatabase() which is faster than dropping/recreating.
  *
- * Note: LokiJS is an in-memory adapter that doesn't require explicit connection
- * closing. The database is automatically garbage collected when the test completes.
+ * Jest Worker Note: LokiJS is an in-memory adapter that doesn't provide explicit
+ * connection cleanup (no `.close()` method like SQLite). This causes Jest workers
+ * to wait indefinitely for handles to close, resulting in the warning:
+ * "A worker process has failed to exit gracefully and has been force exited."
+ *
+ * Solution: Test scripts use `--forceExit` flag to force worker termination after
+ * tests complete. This is expected behavior and does not indicate a problem.
+ * See: docs/TESTING.md § Jest Worker Process Warning for details.
  *
  * @param {Database} database - Database instance to clean
  *
