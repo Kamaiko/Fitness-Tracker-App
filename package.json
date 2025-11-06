@@ -73,7 +73,7 @@
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "30.0.0",
     "@types/pg": "^8.15.6",
-    "@types/react": "~19.1.10",
+    "@types/react": "~19.2.2",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
     "babel-preset-expo": "^54.0.3",
