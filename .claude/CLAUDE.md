@@ -1,8 +1,33 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 4.2
-> **Last Updated**: 2025-01-30
+> **Version**: 4.3
+> **Last Updated**: 2025-11-06
 > **Purpose**: Project briefing and development guide
+
+---
+
+## 📦 Phase 0.6 Updates - Architecture Cleanup
+
+**Completed:** 2025-11-06
+
+### Test Structure Reorganization
+- ✅ Renamed `tests/` → `__tests__/` (Jest convention)
+- ✅ Centralized all unit tests in `__tests__/unit/` (no more colocation in `src/`)
+- ✅ Created E2E structure: `e2e/manual/` + `e2e/maestro/` (ready for Phase 1)
+- ✅ Maintained `__tests__/__helpers__/` for shared utilities
+
+### Database Service Reorganization
+- ✅ Created modular structure: `local/` (WatermelonDB) + `remote/` (Supabase sync) + `operations/` (Business logic)
+- ✅ Clear separation of concerns: Storage vs Sync vs CRUD
+- ✅ Improved maintainability and scalability
+
+### Cleanup
+- ✅ Removed orphan files (`types.ts.bak`)
+- ✅ Updated all imports across project
+- ✅ All 36 tests passing ✅
+- ✅ Type check passing ✅
+
+**Impact:** Clean architecture foundation for Phase 1 (Authentication) and beyond.
 
 ---
 

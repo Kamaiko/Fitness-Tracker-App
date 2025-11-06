@@ -15,7 +15,15 @@
       "Bash(npx prettier:*)",
       "Bash(ts-node:*)",
       "Bash(npm run test:coverage:*)",
-      "Bash(npx ts-node:*)"
+      "Bash(npx ts-node:*)",
+      "Bash(cat:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(git log:*)",
+      "Bash(git config:*)",
+      "Bash(npx husky:*)",
+      "Bash(git commit:*)",
+      "Bash(git update-index:*)",
+      "Read(//c/**)"
     ],
     "deny": [],
     "ask": []

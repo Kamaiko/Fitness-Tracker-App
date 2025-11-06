@@ -14,7 +14,7 @@
 
 import { synchronize, hasUnsyncedChanges } from '@nozbe/watermelondb/sync';
 import SyncLogger from '@nozbe/watermelondb/sync/SyncLogger';
-import { database } from './watermelon';
+import { database } from '../local';
 import { supabase } from '@/services/supabase';
 import { DatabaseError } from '@/utils/errors';
 

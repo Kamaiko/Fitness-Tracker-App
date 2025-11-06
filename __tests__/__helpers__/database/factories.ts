@@ -8,11 +8,11 @@
  */
 
 import { Database } from '@nozbe/watermelondb';
-import User from '@/services/database/watermelon/models/User';
-import Workout from '@/services/database/watermelon/models/Workout';
-import Exercise from '@/services/database/watermelon/models/Exercise';
-import WorkoutExercise from '@/services/database/watermelon/models/WorkoutExercise';
-import ExerciseSet from '@/services/database/watermelon/models/ExerciseSet';
+import User from '@/services/database/local/models/User';
+import Workout from '@/services/database/local/models/Workout';
+import Exercise from '@/services/database/local/models/Exercise';
+import WorkoutExercise from '@/services/database/local/models/WorkoutExercise';
+import ExerciseSet from '@/services/database/local/models/ExerciseSet';
 
 /**
  * Counter for generating unique IDs in tests.

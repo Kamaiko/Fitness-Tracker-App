@@ -1,11 +1,11 @@
 ---
-description: Familiarize with project by reading docs, code structure, and recent changes
-allowed-tools: Read, Grep, Glob, Bash(git status:*), Bash(git log:*), Bash(git diff:*)
+description: Fast project familiarization (docs + contextual suggestions)
+allowed-tools: Read, Bash(git status:*), Bash(git log:*)
 ---
 
-# /primer - Project Familiarization
+# /primer - Fast Project Familiarization
 
-Smart session orientation that familiarizes Claude with the project automatically.
+Ultra-fast session orientation (<10 seconds) that familiarizes Claude with current project state and suggests relevant documentation.
 
 ## Usage
 
@@ -15,222 +15,161 @@ Smart session orientation that familiarizes Claude with the project automaticall
 
 ## 🎯 What It Does
 
-1. Reads core documentation (CLAUDE.md, TASKS.md header)
-2. Scans code structure (src/ directories)
-3. Analyzes recent work (git history)
-4. Verifies local state (git status, package.json)
-5. **Generates dashboard summary** with metrics, next task, and readiness
+1. Reads TASKS.md header (Executive Summary + Kanban)
+2. Checks git status + last commit
+3. **Generates compact dashboard** with next task and contextual doc suggestions
+4. **Zero maintenance required** - works throughout the project lifecycle
 
 ---
 
 ## ⚡ Execution Workflow
 
-### Step 1: Read Core Documentation
+### Step 1: Read Project Status (TASKS.md Header Only)
 
-**CLAUDE.md:**
-```typescript
-read('c:/DevTools/Projects/Halterofit/.claude/CLAUDE.md')
+**Find where phase details start:**
+```bash
+grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1
 ```
 
-Extract:
-- Mission, vision, target users
-- Current phase & progress
-- Tech stack
-- Development standards
-- Documentation map
-
-**TASKS.md Header Only:**
-```bash
-# Find where phase details start (dynamic detection)
-bash('grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1')
-# Returns line number (e.g., "127:## Phase 0.5...")
-
-# Read only header: Status + Kanban + Roadmap + Timeline
-# Without loading 1000+ lines of phase details
+**Read ONLY header (Executive Summary + Kanban):**
+```typescript
+// If grep returns line 152, read lines 1-151
 read('c:/DevTools/Projects/Halterofit/docs/TASKS.md', { limit: <line_number - 1> })
 ```
 
-Extract:
-- Current phase & progress (from header "Progress: N/M tasks (X%)")
-- Recent completions (from § Recent Completions ✅)
-- Kanban board (TODO, DOING, DONE)
-- Velocity & ETA
+**Extract:**
+- Current phase & progress (e.g., "28/83 tasks (34%)")
+- Phase-specific progress (e.g., "Phase 0.6: 7/8 (88%)")
+- Next task from Kanban TODO column (first row)
+- Recent completions (for context)
 
 ---
 
-### Step 2: Scan Code Structure
+### Step 2: Git State (Fast Commands Only)
 
+**Git status:**
 ```bash
-glob('src/**/*.{ts,tsx}')
+git status
 ```
+**Extract:** Uncommitted changes, branch state
 
-**Group mentally by directory:**
-- `src/app/` → screens (expo-router)
-- `src/components/` → UI components
-- `src/services/` → business logic
-- `src/stores/` → state management (Zustand)
-- `src/hooks/` → custom React hooks
-
-Build mental map of architecture **without reading every file**.
-
----
-
-### Step 3: Analyze Recent Work
-
+**Last commit (single command):**
 ```bash
-git log --oneline -10
-git log --name-only -5 --pretty=format:""
+git log -1 --format="%h - %s (%ar)"
 ```
-
-**Identify:**
-- Recently modified files (names only, no content read)
-- Commit patterns
-- Active development areas
-
-Correlate with TASKS.md Recent Completions.
+**Extract:** Hash, message, time ago (e.g., "24dc7e0 - fix(husky): Remove shebang (2 hours ago)")
 
 ---
 
-### Step 4: Verify Local State
+### Step 3: Generate Compact Dashboard
 
-```bash
-git status                                      # Check uncommitted changes
-read('c:/DevTools/Projects/Halterofit/package.json')  # Verify dependencies
-```
-
----
-
-### Step 5: Generate Dashboard Summary
-
-**Format (compact, 1 ligne par section, NO double newlines needed):**
+**Format (5-6 lines, highly actionable):**
 
 ```
 ✅ Familiarisé avec Halterofit
 
-📊 17/26 tasks (65%) • Phase 0.5 • ~4 tasks/semaine • ETA: 2.5 semaines
+📊 28/83 (34%) • Phase 0.6 • 7/8 (88%)
+⏱️ Dernier commit: 24dc7e0 - fix(husky): Remove shebag (il y a 2h)
 
-🔥 Momentum: Excellent (4 tasks dernière semaine vs 2.8 avg précédentes)
-⏱️  Dernière activité: il y a 2h (74e509b - fix(claude): Improve /primer formatting)
+⏭️ NEXT: **0.6.8** ExerciseDB import `[L]` 🔥
 
-⏭️  NEXT TASK:
-    0.5.27 - Implement Supabase sync schema [L - 4-6h] 🟠 CRITICAL
-    └─ Bloque 5 tasks Phase 1 • Aucune dépendance • Migration complete, infra ready
+⚠️ ALERTS: 2 fichiers modifiés (.claude/commands/primer.md, settings.local.json)
 
-⚠️  ALERTS:
-    • Modified: .claude/settings.local.json (uncommitted)
-
-💡 QUICK ACTIONS:
-    /task-update next → Start 0.5.27
-    /commit → Commit local changes first
-
----
+💡 CONTEXTE: Phase 0.6 (UI/UX) → Suggérer DATABASE.md pour ExerciseDB import
 
 Prêt pour vos instructions.
 ```
 
-**How to extract dashboard data:**
+---
 
-**Line 1: Status compact**
-- Format: `📊 X/M tasks (X%) • Phase N • ~N tasks/semaine • ETA: N semaines`
-- From TASKS.md header: "Phase 0.5: Architecture & Foundation (17/26)"
-- From Kanban: "Velocity: ~4 tasks/week", "ETA: Phase 0.5 complete in ~2.5 weeks"
+## 📊 Dashboard Components
 
-**Line 2: Momentum (dynamic calculation)**
-- Count tasks completed last 7 days (from git log)
-- Compare to average of previous 3 weeks
-- If trending up: "🔥 Momentum: Excellent (4 tasks dernière semaine vs 2.8 avg précédentes)"
-- If trending down: "⚠️ Momentum: Ralenti (2 tasks vs 4 avg précédentes)"
-- If stable: "📊 Momentum: Stable (3-4 tasks/semaine)"
+### Line 1: Progress Summary
+- Format: `📊 X/M (X%) • Phase N • X/M (X%)`
+- Source: TASKS.md Executive Summary "Progress: X/M tasks (X%)"
+- Example: `📊 28/83 (34%) • Phase 0.6 • 7/8 (88%)`
 
-**Line 3: Dernière activité (freshness check)**
-- Get last commit: `git log -1 --format="%h - %s"`
-- Calculate time since: `git log -1 --format="%ar"`
-- Format: `⏱️  Dernière activité: il y a 2h (74e509b - fix(claude): Improve /primer)`
-- If > 24h: Add warning emoji: `⚠️ Dernière activité: il y a 3 jours (attention: stale)`
+### Line 2: Last Commit
+- Format: `⏱️ Dernier commit: hash - message (il y a Xh)`
+- Source: `git log -1 --format="%h - %s (%ar)"`
+- Example: `⏱️ Dernier commit: 24dc7e0 - fix(husky): Remove shebang (il y a 2h)`
 
-**Line 4-5: NEXT TASK (first from Kanban TODO)**
-- From TASKS.md § Kanban → TODO column (first task)
-- Parse: "**0.5.27** Supabase schema `[L]` 🟠"
-- Look up task details in Phase sections for:
-  - Dependencies (check "Blocked by:" or "Dependencies:")
-  - Impact (how many tasks does this unblock?)
-  - Context (why this task now? e.g., "Migration complete, infra ready")
-- Format:
-  ```
-  task_id - description [size] priority
-  └─ Impact • Dependencies • Context
-  ```
+### Line 3: Next Task
+- Format: `⏭️ NEXT: **task_id** description \`[size]\` priority`
+- Source: TASKS.md Kanban TODO column (first task)
+- Example: `⏭️ NEXT: **0.6.8** ExerciseDB import \`[L]\` 🔥`
+- **DO NOT** look up task details in phase sections (too slow)
 
-**Line 6: ALERTS (conditional - only if issues exist)**
-- Check git status for uncommitted changes
-- Check for merge conflicts
-- Check if branch is behind origin
-- Check for TODO/FIXME in recently modified files
-- Only show if alerts exist
+### Line 4: Alerts (conditional)
+- Format: `⚠️ ALERTS: X fichiers modifiés (list)`
+- Source: `git status`
+- **Only show if issues exist** (uncommitted changes, merge conflicts, etc.)
+- Example: `⚠️ ALERTS: 2 fichiers modifiés (.claude/commands/primer.md, settings.local.json)`
 
-**Line 7: QUICK ACTIONS (context-aware suggestions)**
-- If uncommitted changes: `/commit → Commit local changes first`
-- If clean working tree: `/task-update next → Start [next_task_id]`
-- Always show: Quick actions based on current state
-
-**Tone:** Dashboard-style, compact, actionable, visual.
+### Line 5: Contextual Suggestions
+- Format: `💡 CONTEXTE: Phase N (Theme) → Suggérer DOC.md pour [reason]`
+- **Smart suggestions based on context:**
+  - Phase 0.6 (UI/UX) + Task 0.6.8 → Suggest DATABASE.md (ExerciseDB import)
+  - Phase 1 (Auth) → Suggest DATABASE.md + TESTING.md
+  - Phase 2-3 (Workouts) → Suggest DATABASE.md + ARCHITECTURE.md
+  - Phase 4 (Profile) → Suggest ARCHITECTURE.md
+  - Phase 5 (Polish) → Suggest TESTING.md + TROUBLESHOOTING.md
+  - If uncommitted changes → Suggest `/commit` command
+  - If clean tree + next task → Suggest `/task-update next`
 
 ---
 
-## 🎯 Halterofit Project Principles
+## 🧠 Contextual Documentation Suggestions
 
-These principles are **immuable** and guide all work:
+**Phase-based suggestions (adapt based on current phase & next task):**
 
-### Mission & Vision
+| Phase | Theme | Suggested Docs | Reason |
+|-------|-------|----------------|--------|
+| **0.5** | Architecture & Foundation | TECHNICAL.md, DATABASE.md | ADRs, schema setup |
+| **0.6** | UI/UX Foundation | DATABASE.md, ARCHITECTURE.md | ExerciseDB, components |
+| **1** | Authentication | DATABASE.md, TESTING.md | Supabase auth, test infra |
+| **2-3** | Workouts & Tracking | DATABASE.md, ARCHITECTURE.md | Complex CRUD, state mgmt |
+| **4** | Profile & Settings | ARCHITECTURE.md | Navigation, preferences |
+| **5** | Polish & Deployment | TESTING.md, TROUBLESHOOTING.md | E2E tests, debugging |
 
-**What:** Offline-first mobile fitness app with intelligent, context-aware analytics
+**Task-specific triggers:**
+- Task mentions "schema" or "migration" → DATABASE.md
+- Task mentions "test" or "Jest" → TESTING.md
+- Task mentions "component" or "UI" → ARCHITECTURE.md
+- Task mentions "deploy" or "build" → TROUBLESHOOTING.md
+- Task mentions "analytics" or "stats" → TECHNICAL.md (ADRs)
 
-**Target Users:**
-- Serious bodybuilders and strength athletes
-- Train 4-6 times per week consistently
-- Data-driven approach to progressive overload
+**Example suggestion format:**
+```
+💡 CONTEXTE: Phase 0.6 (UI/UX) → Lire DATABASE.md (§ ExerciseDB Import) pour task 0.6.8
 
-**Unique Value:** Context-aware analytics that explain WHY (not just raw numbers)
+Si besoin, docs disponibles :
+- DATABASE.md (WatermelonDB setup, schema, CRUD, ExerciseDB)
+- TESTING.md (Unit tests, manual E2E, Jest + LokiJS)
+- ARCHITECTURE.md (Folder structure, patterns, imports)
+- TECHNICAL.md (ADRs, tech stack decisions)
+```
 
-### Collaboration Model
+---
 
-**User Profile:**
-- NOT a technical expert
-- Validates decisions and choices
-- Needs clear explanations
+## ⚙️ Implementation Notes
 
-**Workflow:**
-- Always: Plan → Validate → Execute
-- Work one task at a time (unless logically groupable)
-- Be communicative - share suggestions and alternatives
-- Ask questions when anything is unclear
-- Never improvise solutions that could backfire later
+**For Claude:**
+- Execute git commands in parallel (status + log)
+- Parse TASKS.md Kanban efficiently (no deep phase lookups)
+- Dashboard must be compact (5-6 lines max)
+- Only show ALERTS if issues exist
+- Contextual suggestions must be smart but simple (no complex logic)
+- **DO NOT read suggested docs automatically** - just suggest them
 
-### Development Standards
+**Performance:**
+- Target execution time: <10 seconds
+- Token budget: ~15,000 tokens (15% of context)
+- Only 2 git commands (status, log -1)
+- No file counting, no momentum calc, no package.json read
 
-**Code Quality:**
-- ✅ Best practices over "hotfixes"
-- ✅ Clean, reusable, scalable code
-- ❌ No quick fixes that create tech debt
-
-**Technical Requirements:**
-- TypeScript strict mode (no `any` types)
-- 100% offline-first capability
-- All features work without internet
-
-**Source of Truth:**
-- TASKS.md = Project roadmap and next steps
-- User may work outside TASKS.md scope (that's OK)
-
-### Documentation Map
-
-| Document | Purpose |
-|----------|---------|
-| **CLAUDE.md** ⭐ | Project overview, conventions, standards |
-| **TASKS.md** 📋 | Roadmap (96 tasks across 6 phases) |
-| **TECHNICAL.md** 🎓 | Architecture Decision Records (ADRs) |
-| **CONTRIBUTING.md** 🛠️ | Commands, workflow, git conventions |
-| **DATABASE.md** 💾 | WatermelonDB setup, schema, operations |
-| **ARCHITECTURE.md** 🏗️ | Folder organization, patterns, imports |
-| **TROUBLESHOOTING.md** 🆘 | Common issues & solutions |
-| **PRD.md** 📄 | Requirements, user stories, metrics |
+**Zero Maintenance:**
+- Phase detection: automatic from TASKS.md
+- Next task: automatic from Kanban
+- Suggestions: rule-based (phase + keywords)
+- Works throughout entire project lifecycle

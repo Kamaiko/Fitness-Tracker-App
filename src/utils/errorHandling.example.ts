@@ -9,7 +9,7 @@
  */
 
 import { useAuthStore } from '@/stores/auth/authStore';
-import { createWorkout, getWorkoutById } from '@/services/database/workouts';
+import { createWorkout, getWorkoutById } from '@/services/database/operations/workouts';
 import { AuthError, DatabaseError } from '@/utils/errors';
 import { useErrorHandler } from '@/hooks/ui/useErrorHandler';
 

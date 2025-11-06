@@ -12,8 +12,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@test-helpers/(.*)$': '<rootDir>/tests/__helpers__/$1', // Test helpers (factories, queries, time, assertions)
-    '^@tests/(.*)$': '<rootDir>/tests/$1', // General tests infrastructure (fixtures, e2e)
+    '^@test-helpers/(.*)$': '<rootDir>/__tests__/__helpers__/$1', // Test helpers (factories, queries, time, assertions)
+    '^@tests/(.*)$': '<rootDir>/__tests__/$1', // General tests infrastructure (fixtures, e2e)
   },
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}', '**/?(*.)+(spec|test).{ts,tsx}'],
 

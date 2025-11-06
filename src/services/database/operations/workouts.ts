@@ -16,11 +16,11 @@
 import { Q } from '@nozbe/watermelondb';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { database } from './watermelon';
-import WorkoutModel from './watermelon/models/Workout';
-import WorkoutExerciseModel from './watermelon/models/WorkoutExercise';
-import ExerciseSetModel from './watermelon/models/ExerciseSet';
-import ExerciseModel from './watermelon/models/Exercise';
+import { database } from '../local';
+import WorkoutModel from '../local/models/Workout';
+import WorkoutExerciseModel from '../local/models/WorkoutExercise';
+import ExerciseSetModel from '../local/models/ExerciseSet';
+import ExerciseModel from '../local/models/Exercise';
 import type {
   Workout,
   WorkoutWithDetails,
@@ -28,7 +28,7 @@ import type {
   UpdateWorkout,
   WorkoutExercise,
   ExerciseSet,
-} from './types';
+} from '../remote/types';
 import { useAuthStore } from '@/stores/auth/authStore';
 import { DatabaseError, AuthError } from '@/utils/errors';
 

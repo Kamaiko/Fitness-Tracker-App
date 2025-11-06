@@ -27,7 +27,7 @@
 import { useCallback } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import type { Workout } from '@/services/database/types';
+import type { Workout } from '@/services/database/remote/types';
 import { WorkoutListItem } from './WorkoutListItem';
 
 interface WorkoutListProps {

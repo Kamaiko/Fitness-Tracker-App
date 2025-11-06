@@ -7,8 +7,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@test-helpers/*": ["tests/__helpers__/*"],
-      "@tests/*": ["tests/*"]
+      "@test-helpers/*": ["__tests__/__helpers__/*"],
+      "@tests/*": ["__tests__/*"]
     },
     // CI/CD Performance: Incremental compilation for faster type-checks
     "incremental": true,

@@ -3,20 +3,20 @@
  *
  * WatermelonDB-based offline-first storage with reactive queries
  *
- * ARCHITECTURE:
- * - WatermelonDB for reactive, scalable data management
- * - Dual API: Promise (imperative) + Observable (reactive)
- * - Official WatermelonDB sync protocol for backend persistence
+ * ARCHITECTURE (Phase 0.6 - Reorganized):
+ * - local/ - WatermelonDB (schema, models, migrations)
+ * - remote/ - Supabase sync protocol
+ * - operations/ - Business logic (CRUD operations)
  *
  * USAGE:
  * import { createWorkout, observeUserWorkouts } from '@/services/database';
  */
 
 // WatermelonDB database instance
-export { database } from './watermelon';
+export { database } from './local';
 
 // Types
-export type * from './types';
+export type * from './remote/types';
 
 // Workout operations (Promise-based - imperative)
 export {
@@ -33,7 +33,7 @@ export {
   deleteWorkout,
   getUnsyncedWorkouts,
   markWorkoutAsSynced,
-} from './workouts';
+} from './operations/workouts';
 
 // Workout operations (Observable-based - reactive)
 export {
@@ -41,8 +41,14 @@ export {
   observeUserWorkouts,
   observeActiveWorkout,
   observeWorkoutWithDetails,
-} from './workouts';
+} from './operations/workouts';
 
 // Sync operations
-export { sync, getSyncStatus, setupAutoSync, manualSync, checkUnsyncedChanges } from './sync';
-export type { SyncStatus, SyncResult } from './sync';
+export {
+  sync,
+  getSyncStatus,
+  setupAutoSync,
+  manualSync,
+  checkUnsyncedChanges,
+} from './remote/sync';
+export type { SyncStatus, SyncResult } from './remote/sync';

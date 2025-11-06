@@ -240,12 +240,27 @@ export function useActiveWorkout() {
 
 ```
 services/
-├── database/         # WatermelonDB database
-│   └── watermelon/   # WatermelonDB setup
-│       ├── schema.ts # Database schema
-│       ├── sync.ts   # Supabase sync protocol
-│       ├── index.ts  # Database instance
-│       └── __tests__/# Usage examples
+├── database/              # WatermelonDB database (Phase 0.6 - Reorganized)
+│   ├── local/             # WatermelonDB (SQLite local storage)
+│   │   ├── schema.ts      # Database schema
+│   │   ├── migrations.ts  # Schema migrations
+│   │   ├── models/        # WatermelonDB models
+│   │   │   ├── Workout.ts
+│   │   │   ├── Exercise.ts
+│   │   │   └── ...
+│   │   └── index.ts       # Database instance
+│   │
+│   ├── remote/            # Supabase sync protocol
+│   │   ├── sync.ts        # WatermelonDB sync implementation
+│   │   └── types.ts       # Sync-related types
+│   │
+│   ├── operations/        # Business logic (CRUD)
+│   │   ├── workouts.ts    # Workout CRUD operations
+│   │   ├── exercises.ts   # Exercise CRUD operations (Phase 1+)
+│   │   └── sets.ts        # Set CRUD operations (Phase 1+)
+│   │
+│   └── index.ts           # Public API (barrel export)
+│
 ├── supabase/         # Supabase client
 │   ├── client.ts
 │   └── index.ts
@@ -256,6 +271,12 @@ services/
 ├── analytics/        # 🔮 Post-MVP (Phase 6) - Analytics calculations
 └── notifications/    # Push notifications
 ```
+
+**Database Architecture (Phase 0.6 - Reorganized):**
+
+- **`local/`** - WatermelonDB concerns (schema, models, migrations)
+- **`remote/`** - Supabase sync protocol
+- **`operations/`** - Business logic (CRUD functions)
 
 **Conventions**:
 
@@ -430,13 +451,28 @@ export function calculateOneRepMax(weight: number, reps: number): number {
 
 ---
 
-### 9. `/tests` - Test Infrastructure
+### 9. `/__tests__` & `/e2e` - Testing Infrastructure (Phase 0.6 - Reorganized)
 
-**Purpose**: Centralized test helpers, fixtures, and E2E documentation
+**Purpose**: Centralized test infrastructure, E2E automation
 
 ```
-tests/
-├── __helpers__/          # Reusable test utilities
+__tests__/                      # All tests centralized (renamed from tests/)
+├── unit/                       # Unit tests (colocated by feature)
+│   ├── services/
+│   │   ├── database/
+│   │   │   ├── workouts.test.ts
+│   │   │   ├── exercises.test.ts
+│   │   │   └── sets.test.ts
+│   │   └── auth/
+│   └── utils/
+│       └── formatters.test.ts
+│
+├── integration/                # Integration tests (Phase 1+)
+│   ├── database/               # Database sync integration tests
+│   ├── workflows/              # Multi-service workflow tests
+│   └── features/               # Cross-component feature tests
+│
+├── __helpers__/                # Reusable test utilities
 │   └── database/
 │       ├── test-database.ts    # LokiJS setup/teardown
 │       ├── factories.ts        # createTestWorkout, createTestExercise
@@ -444,22 +480,28 @@ tests/
 │       ├── time.ts             # wait, dateInPast, dateInFuture
 │       └── assertions.ts       # assertDatesApproximatelyEqual
 │
-├── fixtures/             # Static test data (JSON)
-│   └── database/
-│       ├── workouts.json       # Sample workout data
-│       └── exercises.json      # Sample exercise data
+└── fixtures/                   # Static test data (JSON)
+    └── database/
+        ├── workouts.json       # Sample workout data
+        └── exercises.json      # Sample exercise data
+
+e2e/                            # E2E tests (manual + automated)
+├── manual/                     # Manual testing documentation
+│   ├── README.md               # Manual testing guide
+│   └── checklists/             # Test checklists
 │
-├── e2e/                  # E2E test documentation
-│   └── manual/
-│       ├── offline-crud.md     # Offline CRUD scenarios
-│       └── sync-checklist.md   # Sync protocol validation
-│
-└── readme.md             # Infrastructure overview
+└── maestro/                    # Maestro automated E2E (Phase 1+)
+    ├── auth/                   # Authentication flows
+    │   ├── login.yaml
+    │   └── register.yaml
+    ├── workflows/              # User journeys (Phase 2+)
+    └── config.yaml             # Global Maestro configuration
 ```
 
 **Conventions**:
 
-- **Test files**: `src/**/__tests__/*.test.ts` (Jest auto-discovery)
+- **Unit tests**: `__tests__/unit/**/*.test.ts` (centralized, not colocated)
+- **E2E tests**: `e2e/maestro/**/*.yaml` (Maestro flows)
 - **Helpers import**: `@test-helpers/database/*` (NEVER relative imports)
 - **Export pattern**: Named exports only
 - **Pre-commit**: Tests MUST pass before commit
@@ -475,17 +517,18 @@ tests/
 | `time.ts`          | Time utilities        | `dateInPast(7, 'days')`               |
 | `assertions.ts`    | Custom assertions     | `assertDatesApproximatelyEqual()`     |
 
-**Mocks Location**: `__mocks__/` (root, NOT in tests/)
+**Mocks Location**: `__mocks__/` (root, NOT in **tests**/)
 
-| What                      | Where                | Why                 |
-| ------------------------- | -------------------- | ------------------- |
-| **External dependencies** | `__mocks__/` (root)  | Jest auto-discovery |
-| **Internal test utils**   | `tests/__helpers__/` | Custom test logic   |
-| **Static test data**      | `tests/fixtures/`    | JSON fixtures       |
+| What                      | Where                    | Why                 |
+| ------------------------- | ------------------------ | ------------------- |
+| **External dependencies** | `__mocks__/` (root)      | Jest auto-discovery |
+| **Internal test utils**   | `__tests__/__helpers__/` | Custom test logic   |
+| **Static test data**      | `__tests__/fixtures/`    | JSON fixtures       |
+| **E2E tests**             | `e2e/`                   | Separate from unit  |
 
 **Why root for mocks?** Jest convention - auto-discovers mocks adjacent to `node_modules`.
 
-**Current Coverage**: 37 unit tests (60-65% database layer)
+**Current Coverage**: 36 unit tests (60-65% database layer)
 
 **See**: [docs/TESTING.md](TESTING.md) | [tests/readme.md](../tests/readme.md)
 

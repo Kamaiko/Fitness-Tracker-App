@@ -9,13 +9,13 @@
 
 import { Database } from '@nozbe/watermelondb';
 import LokiJSAdapter from '@nozbe/watermelondb/adapters/lokijs';
-import { schema } from '@/services/database/watermelon/schema';
-import migrations from '@/services/database/watermelon/migrations';
-import Workout from '@/services/database/watermelon/models/Workout';
-import WorkoutExercise from '@/services/database/watermelon/models/WorkoutExercise';
-import ExerciseSet from '@/services/database/watermelon/models/ExerciseSet';
-import Exercise from '@/services/database/watermelon/models/Exercise';
-import User from '@/services/database/watermelon/models/User';
+import { schema } from '@/services/database/local/schema';
+import migrations from '@/services/database/local/migrations';
+import Workout from '@/services/database/local/models/Workout';
+import WorkoutExercise from '@/services/database/local/models/WorkoutExercise';
+import ExerciseSet from '@/services/database/local/models/ExerciseSet';
+import Exercise from '@/services/database/local/models/Exercise';
+import User from '@/services/database/local/models/User';
 
 /**
  * Creates a fresh in-memory LokiJS test database.

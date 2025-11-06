@@ -415,11 +415,26 @@ maestro test .maestro/
 
 ## Test Infrastructure
 
-### Directory Structure
+### Directory Structure (Phase 0.6 - Reorganized)
 
 ```
-tests/
-├── __helpers__/          # Reusable test utilities
+__tests__/                      # All tests centralized (renamed from tests/)
+├── unit/                       # Unit tests (colocated by feature)
+│   ├── services/
+│   │   ├── database/
+│   │   │   ├── workouts.test.ts
+│   │   │   ├── exercises.test.ts
+│   │   │   └── sets.test.ts
+│   │   └── auth/
+│   └── utils/
+│       └── formatters.test.ts
+│
+├── integration/                # Integration tests (Phase 1+)
+│   ├── database/               # Database sync integration tests
+│   ├── workflows/              # Multi-service workflow tests
+│   └── features/               # Cross-component feature tests
+│
+├── __helpers__/                # Reusable test utilities
 │   └── database/
 │       ├── test-database.ts    # LokiJS setup/teardown
 │       ├── factories.ts        # createTestWorkout, createTestExercise
@@ -427,26 +442,22 @@ tests/
 │       ├── time.ts             # wait, dateInPast, dateInFuture
 │       └── assertions.ts       # assertDatesApproximatelyEqual
 │
-├── fixtures/             # Static test data (JSON)
-│   └── database/
-│       ├── workouts.json       # Sample workout data
-│       └── exercises.json      # Sample exercise data
-│
-└── integration/          # Integration tests (Phase 1+)
-    ├── database/         # Database sync integration tests
-    ├── workflows/        # Multi-service workflow tests
-    └── features/         # Cross-component feature tests
+└── fixtures/                   # Static test data (JSON)
+    └── database/
+        ├── workouts.json       # Sample workout data
+        └── exercises.json      # Sample exercise data
 ```
 
-**Unit Tests Location:** `src/**/__tests__/*.test.ts` (Jest auto-discovery)
+**E2E Tests Location:** `e2e/manual/` (documentation) and `e2e/maestro/` (automated)
 
-**Mocks Location:** `__mocks__/` (root, NOT in tests/)
+**Mocks Location:** `__mocks__/` (root, NOT in **tests**/)
 
-| What                      | Where                | Why                 |
-| ------------------------- | -------------------- | ------------------- |
-| **External dependencies** | `__mocks__/` (root)  | Jest auto-discovery |
-| **Internal test utils**   | `tests/__helpers__/` | Custom test logic   |
-| **Static test data**      | `tests/fixtures/`    | JSON fixtures       |
+| What                      | Where                    | Why                 |
+| ------------------------- | ------------------------ | ------------------- |
+| **External dependencies** | `__mocks__/` (root)      | Jest auto-discovery |
+| **Internal test utils**   | `__tests__/__helpers__/` | Custom test logic   |
+| **Static test data**      | `__tests__/fixtures/`    | JSON fixtures       |
+| **E2E tests**             | `e2e/`                   | Separate from unit  |
 
 ### Module Aliases
 

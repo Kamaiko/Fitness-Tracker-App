@@ -13,7 +13,7 @@
 import { Database } from '@nozbe/watermelondb';
 import { Q } from '@nozbe/watermelondb';
 import { createTestDatabase, cleanupTestDatabase } from '@test-helpers/database/test-database';
-import ExerciseSet from '../watermelon/models/ExerciseSet';
+import ExerciseSet from '@/services/database/local/models/ExerciseSet';
 import {
   createTestExerciseSet,
   createTestWorkoutExercise,

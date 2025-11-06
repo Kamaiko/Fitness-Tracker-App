@@ -14,7 +14,7 @@
 import { Database } from '@nozbe/watermelondb';
 import { Q } from '@nozbe/watermelondb';
 import { createTestDatabase, cleanupTestDatabase } from '@test-helpers/database/test-database';
-import Workout from '../watermelon/models/Workout';
+import Workout from '@/services/database/local/models/Workout';
 import {
   createTestWorkout,
   createTestUser,

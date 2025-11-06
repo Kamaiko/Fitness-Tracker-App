@@ -12,7 +12,7 @@
 import { Database } from '@nozbe/watermelondb';
 import { Q } from '@nozbe/watermelondb';
 import { createTestDatabase, cleanupTestDatabase } from '@test-helpers/database/test-database';
-import Exercise from '../watermelon/models/Exercise';
+import Exercise from '@/services/database/local/models/Exercise';
 import { createTestExercise, resetTestIdCounter } from '@test-helpers/database/factories';
 import { getAllRecords, countRecords } from '@test-helpers/database/queries';
 import { wait } from '@test-helpers/database/time';
