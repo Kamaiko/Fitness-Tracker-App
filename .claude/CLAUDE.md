@@ -75,7 +75,7 @@
 
 **Current:** Development Build + WatermelonDB + MMKV + Victory Native + React Native Reusables (Production-ready)
 
-**Migration Completed:** Phase 0.5.B (Tasks 0.5.20-0.5.26), Phase 0.6 IN PROGRESS
+**Migration Completed:** Phase 0.5 ✅ | Phase 0.6 ✅ (Tasks 0.5.20-0.5.26, 0.6.1-0.6.10)
 - Database: WatermelonDB (reactive, offline-first)
 - Storage: MMKV (encrypted, 10-30x faster)
 - Charts: Victory Native (Skia-based)
@@ -164,8 +164,9 @@ When changing schema:
 | Document                  | When to Read                      | Purpose                                  |
 | ------------------------- | --------------------------------- | ---------------------------------------- |
 | **CONTRIBUTING.md** ⭐    | Setup & daily development         | Complete setup guide, workflow, commands |
-| **TASKS.md** 📋           | Planning next tasks               | Roadmap (98 tasks across 6 phases)       |
-| **AUDIT_FIXES.md** 🔧     | Post-migration corrections        | 8 critical corrections (blockers)        |
+| **TASKS.md** 📋           | Planning next tasks               | Roadmap (83 tasks: 76 active + 7 deferred) |
+| **CHANGELOG.md** 📝       | Reviewing completed work          | Release notes and milestone history      |
+| **PHASE1_PLAN.md** 📐     | Implementing Phase 1              | Auth implementation guide (1,000+ lines) |
 | **DATABASE.md** 💾        | Working with database             | WatermelonDB setup, schema, CRUD ops     |
 | **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
 | **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
@@ -174,8 +175,9 @@ When changing schema:
 | **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
 
 **Quick Navigation:**
-- 🎯 **Current Phase:** See [TASKS.md § Phase 0.5](../docs/TASKS.md#phase-05-architecture--foundation-628)
-- 🚀 **Next Priority:** See [TASKS.md § Kanban](../docs/TASKS.md#-kanban)
+- 🎯 **Current Phase:** Phase 1 - Authentication & Foundation (0/16) → [TASKS.md § Phase 1](../docs/TASKS.md#phase-1-authentication--foundation-016)
+- 🚀 **Next Task:** 1.10 Login Screen → [PHASE1_PLAN.md](../docs/PHASE1_PLAN.md)
+- 📝 **Recent Completions:** [CHANGELOG.md](../docs/CHANGELOG.md) (Phase 0.5 & 0.6)
 
 ---
 

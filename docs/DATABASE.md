@@ -91,7 +91,7 @@ Key Principles:
 │  │              PostgreSQL Database                  │  │
 │  │                                                    │  │
 │  │  • workouts (user workout sessions)               │  │
-│  │  • exercises (1,300+ ExerciseDB - read-only)     │  │
+│  │  • exercises (1,500 ExerciseDB - read-only)      │  │
 │  │  • workout_exercises (join table)                │  │
 │  │  • exercise_sets (individual sets)               │  │
 │  │  • users (profiles, preferences)                 │  │
@@ -1069,7 +1069,7 @@ $$ LANGUAGE plpgsql;
 | Log 1 set              | <5ms   | Instant write to SQLite     |
 | Load 20 workouts       | <20ms  | With pagination             |
 | Load workout details   | <50ms  | Includes exercises + sets   |
-| Search 1,300 exercises | <100ms | Local full-text search      |
+| Search 1,500 exercises | <100ms | Local full-text search      |
 | Sync 100 sets          | 1-2s   | Background sync to Supabase |
 | Repeat last workout    | <100ms | Clone workout + exercises   |
 

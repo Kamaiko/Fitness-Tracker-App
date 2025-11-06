@@ -7,8 +7,8 @@
 3. [Development Roadmap](#development-roadmap)
 4. [Phase Timeline & Effort](#phase-timeline--effort)
 5. [Phase 0.5: Architecture & Foundation (21/21)](#phase-05-architecture--foundation-2121)
-6. [Phase 0.6: UI/UX Foundation (7/8)](#phase-06-uiux-foundation-78)
-7. [Phase 1: Authentication & Foundation (0/15)](#phase-1-authentication--foundation-015)
+6. [Phase 0.6: UI/UX Foundation (8/8)](#phase-06-uiux-foundation-88)
+7. [Phase 1: Authentication & Foundation (0/16)](#phase-1-authentication--foundation-016)
 8. [Phase 2: Workout Plans & Navigation (0/12)](#phase-2-workout-plans--navigation-012)
 9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
 10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
@@ -19,26 +19,20 @@
 ---
 
 **Project**: Halterofit v0.1.0
-**Status**: 🟡 In Progress (Phase 0.6 - Finalizing)
-**Progress**: 28/83 tasks (34%) • MVP Scope: 76 active + 7 deferred tasks
+**Status**: 🔄 In Progress (Phase 1 - Authentication & Foundation)
+**Progress**: 29/76 tasks (38%) • MVP Scope: 76 active + 7 deferred tasks
 **Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
-**Last Updated**: 2025-11-06 • **Next Milestone**: Complete Phase 0.6 → Phase 1 Auth 🚀
+**Last Updated**: 2025-11-06 • **Next Milestone**: Phase 1 Auth Implementation 🚀
 
 ---
 
 ## Executive Summary
 
-**Current Focus**: Phase 0.6 - ExerciseDB Import completed, testing architecture finalized
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 7/8 (Phase 0.6 - 88%) • **Overall**: 28/83 tasks (34%)
+**Current Focus**: Phase 1 - Authentication & Foundation (Auth UI + Testing Infrastructure)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/83 tasks (35%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
-### Recent Completions ✅
-
-1. **0.6.10** - Schema fix (nutrition_phase removed from Supabase, sync unblocked) 🔥
-2. **0.6.9** - Design system (Competitor analysis, 245-line doc, Agile approach)
-3. **0.6.6** - Setup environment variables (Supabase, Sentry, ExerciseDB API configured)
-4. **0.6.4** - Install core components (Button, Input, Card, Alert, Progress, Skeleton)
-5. **0.6.3** - Validate dark theme (HEX colors confirmed)
+**Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed tasks and release notes
 
 ---
 
@@ -46,17 +40,17 @@
 
 **Legend:** 🔥 High Priority | 🟠 Blocked/Pending | ✅ Done | `[S/M/L]` Size (Small/Medium/Large)
 
-| TODO (Top 5)                         | DOING | DONE (Last 5)                 |
-| ------------------------------------ | ----- | ----------------------------- |
-| **0.6.8** ExerciseDB import `[L]` 🔥 |       | **0.6.10** Schema fix ✅ 🔥   |
-| **1.10** Login screen `[M]` 🟠       |       | **0.6.9** Design system ✅    |
-| **1.11** Register screen `[M]` 🟠    |       | **0.6.6** Environment vars ✅ |
-| **1.14** Supabase auth `[M]` 🟠      |       | **0.6.4** Core components ✅  |
-| **1.15** Auth test infra `[S]` 🟠    |       | **0.6.3** Dark theme ✅       |
+| TODO (Top 5)                      | DOING | DONE (Last 5)                  |
+| --------------------------------- | ----- | ------------------------------ |
+| **1.10** Login screen `[M]`       |       | **0.6.8** ExerciseDB import ✅ |
+| **1.11** Register screen `[M]`    |       | **0.6.10** Schema fix ✅ 🔥    |
+| **1.14** Supabase auth `[M]`      |       | **0.6.9** Design system ✅     |
+| **1.13** Protected routes `[S]`   |       | **0.6.6** Environment vars ✅  |
+| **1.15** Auth test infra `[S]` 🔥 |       | **0.6.4** Core components ✅   |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 7/8 (88%) • Phase 1: 0/15 (0%) • Overall: 28/83 (34%)
-**Velocity**: ~5 tasks/week • **ETA**: Phase 0.6 complete in 1 day, MVP in 13 weeks
-**NEXT**: 0.6.8 ExerciseDB Import 🔥 OR Phase 1 Auth (0.6.8 effectively complete)
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 8/8 (100%) • Phase 1: 0/16 (0%) • Overall: 29/83 (35%)
+**Velocity**: ~5 tasks/week • **ETA**: Phase 1 completion in ~3 weeks, MVP in 12 weeks
+**NEXT**: 1.10 Login Screen (2h) → Phase 1 Auth kickoff ⚡
 
 ---
 
@@ -76,17 +70,18 @@ Phase 0.5: Architecture & Foundation (21/21 tasks) 100% ✅
    ├─ Development Build Migration ✅
    └─ Infrastructure Complete ✅
         ↓
-Phase 0.6: UI/UX Foundation (6/8 tasks) 75% 🟡
+Phase 0.6: UI/UX Foundation (8/8 tasks) 100% ✅
    ├─ React Native Reusables ✅
    ├─ Vector Icons ✅
    ├─ Dark theme ✅
    ├─ Core components ✅
    ├─ Design system ✅
-   ├─ Schema Fix 🔥 (migration created, needs execution)
-   ├─ ExerciseDB Import 🟡 (script ready, needs execution)
-   └─ Infrastructure 75% complete
+   ├─ Environment variables ✅
+   ├─ Schema Fix ✅
+   ├─ ExerciseDB Import ✅
+   └─ Infrastructure Complete ✅
         ↓
-Phase 1: Authentication & Foundation (0/15 tasks) 🔄
+Phase 1: Authentication & Foundation (0/16 tasks) 🔄
    ├─ A: Auth UI & Screens (5 tasks)
    ├─ B: Testing Infrastructure (8 tasks) 🆕
    └─ C: Database Enhancements (3 tasks) 🆕
@@ -124,27 +119,26 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time | Status             | Dependencies                       |
-| --------- | ------ | --------- | ------------------ | ---------------------------------- |
-| **0.5**   | 21     | 50-60h    | 100% DONE ✅       | None (started)                     |
-| **0.6**   | 8      | 15-18h    | 75% IN PROGRESS 🟡 | ← Phase 0.5 complete               |
-| **1**     | 15     | ~31h      | BLOCKED 🟠         | ← Phase 0.6 (0.6.10+0.6.8 blocker) |
-| **2**     | 12     | ~31h      | BLOCKED            | ← Phase 1 auth                     |
-| **3**     | 9      | ~27h      | BLOCKED            | ← Phase 2 plans                    |
-| **4**     | 5      | ~11h      | BLOCKED            | ← Phase 3 (parallel OK)            |
-| **5**     | 5      | ~9h       | BLOCKED            | ← Phases 1-4 complete              |
-| **TOTAL** | **84** | **~156h** | **32% done**       | **13.5-14 weeks at 10h/week**      |
+| Phase     | Tasks  | Est. Time | Status       | Dependencies                  |
+| --------- | ------ | --------- | ------------ | ----------------------------- |
+| **0.5**   | 21     | 50-60h    | 100% DONE ✅ | None (started)                |
+| **0.6**   | 8      | 15-18h    | 100% DONE ✅ | ← Phase 0.5 complete          |
+| **1**     | 16     | ~31h      | READY 🟢     | ← Phase 0.6 complete          |
+| **2**     | 12     | ~31h      | BLOCKED      | ← Phase 1 auth                |
+| **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans               |
+| **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)       |
+| **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete         |
+| **TOTAL** | **76** | **~157h** | **35% done** | **13.5-14 weeks at 10h/week** |
 
-**⚠️ Critical Path:** Phase 0.6 (Schema Fix 🔥 → ExerciseDB) → Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
+**⚠️ Critical Path:** Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
 **📊 MVP Scope Update (Post-Audit):**
 
 - Original: 119 tasks, 17 weeks
 - Pre-Audit: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
-- **Post-Audit: 84 total (77 active + 7 deferred) tasks, 13.5-14 weeks** 🆕
+- **Post-Audit: 83 total (76 active + 7 deferred) tasks, 13.5-14 weeks** 🆕
 - **Added**: 12 tasks (+31h) for quality/reliability (schema fix, auth tests, DB enhancements)
-- **Corrected**: Removed 1 duplicate task ID (1.20) via reorganization by category
-- Excludes: 7 deferred/optional tasks + 47 Post-MVP features
+- **Excludes**: 7 deferred/optional tasks + 47 Post-MVP features
 - Analytics, advanced features → Post-MVP backlog
 
 ---
@@ -154,321 +148,95 @@ Phase 5: Polish & Deployment (0/5 tasks)
 **Timeline:** Weeks 1-7 | **Priority:** HIGHEST
 **Goal:** Production-ready architecture and critical foundation
 
-**Progress:** 21/21 tasks (100%) | **Status:** COMPLETE ✅ | **Optional tasks deferred:** 5 tasks in section 0.5.E
-
-**Current Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
-**Target Stack:** Development Build (WatermelonDB ✅ + MMKV ✅ + Victory Native ✅)
-
-**Migration Status:** Database ✅ | Storage ✅ | Charts ✅ | Supabase Sync ✅ | Dev Build ✅
-**Achievement:** Migrated early at 13% project completion, avoiding 40-60% code rewrite later.
+**Progress:** 21/21 tasks (100%) | **Status:** COMPLETE ✅ | **Deferred:** 5 optional tasks (0.5.12-0.5.16)
+**Stack:** Development Build (WatermelonDB + MMKV + Victory Native + Supabase Sync)
+**Details:** See [CHANGELOG.md § 2025-01-31](./CHANGELOG.md#2025-01-31---phase-05-complete-)
 
 ---
 
 ### 0.5.A: Initial Setup & Analysis (5/5) ✅ COMPLETE
 
-**Goal:** Establish project foundation with database, architecture, and development tools
-
 - [x] 0.5.1 **Setup database with Supabase sync** (M - 4h) ✅
-  - Supabase project created with PostgreSQL database
-  - Initial schema design (users, workouts, exercises, sets)
-  - Environment variables configured for API keys
-
 - [x] 0.5.7 **Complete modular architecture refactor** (M - 3h) ✅
-  - Organized codebase into modular structure (services, stores, components)
-  - Established import patterns and barrel exports
-  - Created ARCHITECTURE.md documentation
-
 - [x] 0.5.8 **Technical audit and corrections planning** (M - 2h) ✅
-  - Identified 8 critical corrections required
-  - Created AUDIT_FIXES.md with prioritized action plan
-  - Established migration strategy for native dependencies
-
 - [x] 0.5.17 **Setup professional dev tools** (S - 30min) ✅
-  - Configured ESLint with TypeScript and React plugins
-  - Setup Prettier with project formatting standards
-  - Integrated Husky for pre-commit hooks
-
 - [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h) ✅
-  - Installed Jest with React Native Testing Library
-  - Configured LokiJS adapter for WatermelonDB testing
-  - Created test helpers and fixtures structure
 
 ---
 
 ### 0.5.B: Development Build Migration (10/10) ✅ COMPLETE
 
-**Goal:** Migrate to production-ready stack (WatermelonDB, MMKV, Victory Native, Development Build)
-
 - [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min) ✅
-  - Created Expo account and installed EAS CLI globally
-  - Configured project credentials and authentication
-  - Verified EAS project linking and build readiness
-
 - [x] 0.5.21 **Create eas.json Configuration** (S - 30min) ✅
-  - Created development build profile (android/ios)
-  - Configured build settings and distribution channels
-  - Added environment variables for build variants
-
 - [x] 0.5.22 **Install Native Packages & Build Development Build** (L - 2-3h) ✅
-  - Installed WatermelonDB, MMKV, Victory Native with native dependencies
-  - Generated Android APK (first successful build)
-  - Resolved native module linking issues
-
 - [x] 0.5.23 **Create WatermelonDB Models & Schema** (L - 2h) ✅
-  - Created 5 models: User, Workout, Exercise, WorkoutExercise, ExerciseSet
-  - Defined schema with relationships and indexes
-  - Setup database initialization and migrations
-
 - [x] 0.5.23.1 **Phase 1 Critical Fixes (Post-Analysis)** (M - 1.5h) ✅
-  - Fixed async storage race conditions
-  - Corrected model relationships and queries
-  - Updated TypeScript types for strict mode
-
 - [x] 0.5.24 **Migrate Database Operations to WatermelonDB** (L - 1.5h) ✅
-  - Migrated CRUD operations from Supabase to WatermelonDB
-  - Implemented dual API (Promise + Observable) for React hooks
-  - Added 37 unit tests with LokiJS adapter
-
 - [x] 0.5.25 **Migrate Storage to MMKV** (M - 1h) ✅
-  - Replaced AsyncStorage with MMKV (10-30x faster)
-  - Created Zustand persist adapter for MMKV
-  - Migrated auth and workout stores to MMKV persistence
-
 - [x] 0.5.26 **Migrate Charts to Victory Native** (M - 1h) ✅
-  - Replaced react-native-chart-kit with Victory Native (Skia-based)
-  - Created LineChart and BarChart abstraction components
-  - Added example charts with skeleton states
-
 - [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) ✅ 2025-01-31
-  - SQL migration with 4 tables (users, workouts, exercises, sets)
-  - Row-Level Security (RLS) policies for user data isolation
-  - WatermelonDB sync protocol with 37 passing tests
-
 - [x] 0.5.28 **Verify Development Build Launch** (S - 15min) ✅ 2025-01-31
-  - Android APK installed and launched successfully
-  - Hot reload verified (Metro Bundler connection stable)
-  - All native dependencies functioning correctly
 
 ---
 
 ### 0.5.C: Critical Corrections - Blockers (4/4) ✅ COMPLETE
 
-**Goal:** Store persistence, error handling, and monitoring
-
 - [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h) ✅
-  - Implemented Zustand persist middleware with MMKV adapter
-  - User ID survives app restarts and reinstalls
-  - Eliminated race conditions with async storage
-
 - [x] 0.5.10 **Zustand Persist for Workout Store** (S - 1h) ✅
-  - Added persistence for active workout state
-  - Auto-restores in-progress workouts after app restart
-  - Integrated with MMKV for fast synchronous reads
-
 - [x] 0.5.11 **Error Handling Layer** (M - 3h) ✅
-  - Custom error types: DatabaseError, AuthError, NetworkError
-  - Try/catch blocks in all database operations with security validation
-  - User-friendly messages + dev-mode technical details
-
 - [x] 0.5.5 **Configure Sentry for error monitoring** (M - 2h) ✅
-  - Production-only error tracking (disabled in dev mode)
-  - Privacy-first: No PII in error reports
-  - DSN configured with environment variables
 
 ---
 
 ### 0.5.D: Infrastructure Completion (2/2) ✅ COMPLETE
 
-**Goal:** Configure remaining performance libraries
-
-- [x] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
-  - Created WorkoutList component (FlashList wrapper, memoized)
-  - Created WorkoutListItem component (memoized, ~88px height)
-  - Test screen with 120 mock workouts (smooth 60 FPS scroll)
-  - Updated fixtures with 8 workout templates
-  - Complete documentation (usage guide, Phase 2 integration)
-
+- [x] 0.5.3 **Configure FlashList for optimized lists** (S - 1h) ✅
 - [x] 0.5.4 **Configure expo-image with caching** (S - 1h) ✅ 2025-01-31
-  - Created CachedImage wrapper component (`src/components/ui/CachedImage.tsx`)
-  - Default `cachePolicy="memory-disk"` (PRD <200ms requirement)
-  - Skeleton placeholder + error handling with fallback images
-  - Pre-built styles (avatar, thumbnails, banner)
-  - Complete documentation (`src/components/ui/README.md`)
-  - Updated `docs/TECHNICAL.md` (ADR-010b: expo-image ✅ COMPLETED)
-
----
-
-### 0.5.E: Optional Improvements (0/5)
-
-**Goal:** Nice-to-have improvements (defer to Phase 1-2, implement progressively)
-
-- [ ] 0.5.12 **Repository Pattern** (L - 8h)
-  - Defer: Implement progressively in Phase 1-2
-  - Impact: Makes future DB optimization easier
-
-- [ ] 0.5.13 **Sync Conflict Detection** (L - 8h)
-  - Defer: Must complete before Phase 2 (multi-device)
-  - Impact: Prevents data corruption on conflicts
-
-- [ ] 0.5.14 **Database Indexes** (M - 2h)
-  - Defer: Add when performance becomes issue (500+ workouts)
-  - Impact: Query performance
-
-- [ ] 0.5.15 **Chart Abstraction** (M - 3h)
-  - Defer: Victory Native already abstracted
-  - Impact: Minimal (already using good library)
-
-- [ ] 0.5.16 **Domain vs DB Types** (M - 4h)
-  - Defer: Organize types during Phase 1-2 development
-  - Impact: Minor code organization
 
 ---
 
 ---
 
-## Phase 0.6: UI/UX Foundation (7/8)
+## Phase 0.6: UI/UX Foundation (8/8) ✅ COMPLETE
 
-**Timeline:** Week 8 | **Priority:** HIGH
-**Goal:** Complete UI foundation and infrastructure setup for production-ready development
-
-**Progress:** 7/8 tasks (88%) | **Est. Time Remaining:** ~3-4h (ExerciseDB import only) | **Deferred tasks:** 2 (0.6.5, 0.6.7)
-
+**Timeline:** Week 8 | **Priority:** ✅ COMPLETE
+**Progress:** 8/8 tasks (100%) ✅ | **Completed:** 2025-11-06 | **Deferred:** 2 tasks (0.6.5, 0.6.7)
 **Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
-**Design:** Single dark mode, modern fitness aesthetic, animations-first
-
-**Why Now:** Phase 1 (Auth screens) requires UI components. Installing component library now ensures visual cohesion from the start and avoids refactoring later.
+**Details:** See [CHANGELOG.md § 2025-11-06](./CHANGELOG.md#2025-11-06---phase-06-complete-)
 
 ---
 
 ### 0.6.A: Component Library Setup (3/3) ✅ COMPLETE
 
-**Goal:** Install and configure React Native Reusables with design system
-
 - [x] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h) ✅ 2025-01-30
-  - Install `@react-native-reusables/cli` and core dependencies
-  - Install `class-variance-authority`, `clsx`, `tailwind-merge`
-  - Configure `components.json` with project aliases
-  - Setup Metro bundler integration
-  - Verify installation with test component
-
 - [x] 0.6.2 **Configure @expo/vector-icons** (S - 30min) ✅ 2025-01-30
-  - Verify `@expo/vector-icons` included in Expo SDK (already installed)
-  - Choose primary icon pack (MaterialIcons, Ionicons, or FontAwesome)
-  - Create icon wrapper component with default sizing and color
-  - Test icons from multiple packs in example screen
-  - Document icon usage patterns and available packs
-
 - [x] 0.6.3 **Validate Dark Theme Configuration** (M - 1h) ✅ 2025-01-30
-  - Confirmed tailwind.config.js with HEX dark mode colors
-  - Validated design tokens (primary: #4299e1, background: #0A0A0A, etc.)
-  - Typography scale and spacing system already configured
-  - Created DESIGN_SYSTEM.md with competitor analysis and wireframes
-  - Components tested and rendering correctly
 
 ---
 
-### 0.6.B: Core Components Installation (1/2)
-
-**Goal:** Install essential UI components via CLI
+### 0.6.B: Core Components Installation (1/1) ✅ COMPLETE
 
 - [x] 0.6.4 **Install Phase 1 Components (Auth)** (M - 1.5h) ✅ 2025-01-30
-  - Installed via CLI: button, input, label, card, alert, progress, skeleton, text
-  - Fixed React imports in all RN Reusables components
-  - Adapted Alert component to use @expo/vector-icons instead of lucide-react-native
-  - Tested all components in ComponentShowcase (validation complete)
-  - Components functional with HEX color system (no CSS variables needed)
-  - Ready for Phase 1 Auth screens
-
-- [ ] 0.6.5 **Install Navigation Components** (S - 1h) `[DEFERRED]`
-  - **Status:** SKIPPED - Not required for Phase 1 (Auth screens)
-  - Sheet/Tabs components can be installed later when needed (Phase 2+)
-  - Auth screens use simple stack navigation (expo-router default)
 
 ---
 
-### 0.6.C: Foundation Infrastructure (2/3) ✅ READY FOR 0.6.8
+### 0.6.C: Foundation Infrastructure (4/4) ✅ COMPLETE
 
-**Goal:** Setup complete development infrastructure before Phase 1
-
-- [x] 0.6.6 **Setup Environment Variables** (S - 10min) `[.env + .env.example]` ✅ 2025-02-01
-  - ✅ Copy .env.example to .env (done)
-  - ✅ Add Supabase environment variables (done)
-  - ✅ Add Sentry DSN (done)
-  - ✅ Document setup in CONTRIBUTING.md (done)
-  - ✅ Verify .env in .gitignore (done)
-  - ✅ Add EXERCISEDB_API_KEY to .env (3d01c2ef9fmsh94e6c584e843697p1013c5jsn5b78d34c0e9c)
-  - ✅ Add EXERCISEDB_API_HOST to .env (exercisedb.p.rapidapi.com)
-  - ✅ Add EXERCISEDB_API_KEY template to .env.example
-  - **Complete:** All environment variables configured for Phase 1 & ExerciseDB import
-
-- [ ] 0.6.7 **Create Core TypeScript Types** (M - 2h) `[src/types/]` `[DEFERRED]`
-  - **Status:** DEFERRED - Create types just-in-time during Phase 1-4
-  - **Rationale:** YAGNI - WatermelonDB models already provide database types
-  - **Structure cleaned:** Removed empty subdirs, simplified index.ts with JIT approach
-  - **Just-in-Time plan:**
-    - Phase 1: Create auth.ts (login/register types)
-    - Phase 0.6.8: Create exercisedb.ts (API response types)
-    - Phase 4: Create analytics.ts (report types)
-  - Non-database types only (API responses, auth, form validation, UI state)
-
-- [ ] 0.6.8 **Bulk Import ExerciseDB Library (1,300+ exercises)** (L - 4h) 🟡 IN PROGRESS
-
-  **Strategy:** Database Seeding at Build Time (Option A) - Import once, users sync from Supabase
-
-  **Status:** 80% complete - Script ready, awaiting execution
-
-  **✅ Step 1: RapidAPI Account Setup** - COMPLETE
-  - RapidAPI account created
-  - Basic plan subscribed (FREE - 10,000 requests/month)
-  - API key obtained
-
-  **✅ Step 2: Configure Environment Variables** - COMPLETE
-  - `.env` configured with EXERCISEDB_API_KEY
-  - `.env` configured with EXERCISEDB_API_HOST (exercisedb.p.rapidapi.com)
-  - `.env.example` updated with SUPABASE_SERVICE_ROLE_KEY template
-
-  **✅ Step 3-6: ExerciseDB Import & Setup** - COMPLETE (2025-11-06)
-  - ✅ Consolidated 8 migrations into v5 (source of truth)
-  - ✅ Created migration v6-v7 (align with GitHub dataset)
-  - ✅ 1,500 exercises seeded to Supabase (GitHub ExerciseDB dataset)
-  - ✅ Dataset backup retained: `scripts/exercisedb-full-dataset.json` (1.3MB)
-  - ✅ Import/rollback scripts removed (completed, no longer needed)
-  - ✅ Documentation updated (DATABASE.md, TESTING.md, ARCHITECTURE.md)
-  - ✅ Zod dependency removed (5.2MB saved)
-
-  **References:**
-  - Dataset Backup: `scripts/exercisedb-full-dataset.json`
-  - Dataset Source: https://github.com/ExerciseDB/exercisedb-api
-  - Strategy: [DATABASE.md § ExerciseDB Import Strategy](DATABASE.md#exercisedb-import-strategy)
-
+- [x] 0.6.6 **Setup Environment Variables** (S - 10min) ✅ 2025-02-01
+- [x] 0.6.8 **Bulk Import ExerciseDB Library (1,500 exercises)** (L - 4h) ✅ 2025-11-06
 - [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
-  - Analyzed competitor UX (Strong, Hevy, fitness app patterns)
-  - Documented design principles (Offline-first, Gym-optimized, Basic)
-  - Defined interaction patterns (Quick-add, Inline editing, Swipe actions, Multi-modal feedback)
-  - Documented animation strategy (Reanimated v4, 200-300ms timing, spring curves)
-  - Created `docs/DESIGN_SYSTEM.md` with strategic design insights (245 lines)
-  - Confirmed color palette (#4299e1 primary blue - trust/focus over #00E5FF cyan)
-  - **Audit completed (2025-02-01):** Condensed from 394→245 lines, removed premature wireframes for Phase 2-3 features (aligned with Agile just-in-time design approach)
-  - **Component audit:** All 8 installed components (Button, Input, Label, Card, Alert, Text, Progress, Skeleton) kept - needed for Phase 1 Auth or Phase 2+ features
-
-- [x] 0.6.10 **Fix nutrition_phase schema mismatch (Supabase migration)** (XS - 1h) 🔥 CRITICAL ✅ 2025-11-04
-  - **Issue**: WatermelonDB schema v4 removed nutrition_phase but Supabase still has it → sync crashes
-  - **Fix**: Execute migration to drop columns from users + workouts tables
-  - **Files**: `supabase/migrations/20251104040000_remove_nutrition_phase_columns.sql`
-  - **Applied**: Migration successfully executed via Supabase SQL Editor
-  - **Verified**: Columns nutrition_phase dropped from both users and workouts tables
-  - **Result**: ✅ Sync protocol no longer blocked - Phase 1 Auth can proceed
+- [x] 0.6.10 **Fix nutrition_phase schema mismatch** (XS - 1h) 🔥 ✅ 2025-11-04
 
 ---
 
 ---
 
-## Phase 1: Authentication & Foundation (0/15)
+## Phase 1: Authentication & Foundation (0/16)
 
 **Timeline:** Weeks 9-11 | **Priority:** HIGH
 **Goal:** Login/Register basics + Testing infrastructure (90% auth coverage) + Database enhancements
 
-**Progress:** 0/15 tasks (0%) | **Est. Time:** ~31h (3 weeks)
+**Progress:** 0/16 tasks (0%) | **Est. Time:** ~31h (3 weeks)
 
 **Dependencies:** Phase 0.6 complete (UI components ready + schema fix 0.6.10)
 
@@ -476,47 +244,49 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 **Organization:** Tasks grouped by category (A: Auth UI, B: Testing, C: Database) for clarity and logical execution flow.
 
+**📐 Architecture Decision (ADR):**
+Auth implementation follows **Hooks + Services + Store** pattern for optimal testability and code clarity:
+
+- **Store** (Zustand): Pure state only (user, isAuthenticated, isLoading)
+- **Services** (`auth/`): Raw Supabase API calls (signIn, signUp, signOut)
+- **Hooks** (`useAuth`): Business logic wrapper integrating store + services
+
+**Rationale:** 3x easier testing (8 testing tasks in Phase 1.B), industry standard, positive ROI.
+→ **Full implementation details:** [PHASE1_PLAN.md](./PHASE1_PLAN.md)
+
 ---
 
 ### A: Auth UI & Screens (5 tasks - ~10.5h)
 
+→ **Implementation Guide:** [PHASE1_PLAN.md § Task Details A](./PHASE1_PLAN.md#task-details-a-auth-ui--screens)
+
 - [ ] 1.10 **Create login screen UI** (M - 2h) `[src/app/(auth)/login.tsx]`
-      **Components**: Button, Input, Label, Alert (from 0.6.4 - React Native Reusables)
-  - Email/password inputs (Input + Label components)
-  - Login button (Button component with loading state)
-  - "Forgot password" link → 1.12
-  - "Create account" link → 1.11
+  - Email/password inputs with validation
+  - Login button with loading state
+  - Links: "Forgot password" (→1.12), "Create account" (→1.11)
   - Error handling with Alert component
-  - Dark theme styling (#4299e1 primary blue)
+  - Uses: Button, Input, Label, Alert (React Native Reusables)
 
 - [ ] 1.11 **Create register screen UI** (M - 2h) `[src/app/(auth)/register.tsx]`
-      **Components**: Button, Input, Label, Alert (from 0.6.4 - React Native Reusables)
-  - Email/password inputs with validation (Input + Label)
-  - Password confirmation field
-  - Terms acceptance checkbox
-  - Register button (Button component with loading state)
-  - Link back to login (1.10)
-  - Validation: email format, password ≥8 chars
+  - Email/password inputs with confirmation field
+  - Validation: email format, password ≥8 chars, terms acceptance
+  - Register button with loading state + link to login
   - Error display with Alert component
+  - Uses: Button, Input, Label, Alert (React Native Reusables)
 
 - [ ] 1.12 **Implement password reset flow** (M - 2h) `[src/app/(auth)/reset-password.tsx]`
-  - Request reset screen (email input)
-  - Supabase password reset email
-  - Deep link handler for reset token
-  - New password form
-  - Success/error states
+  - Request reset screen (email input) + deep link handler
+  - Supabase password reset email integration
+  - New password form with success/error states
 
 - [ ] 1.13 **Setup protected routes & navigation guards** (S - 1.5h) `[src/app/_layout.tsx]`
-  - Redirect to login if not authenticated
-  - Redirect to Workout tab if authenticated
+  - Redirect: unauthenticated → login, authenticated → Workout tab
   - Loading screen during auth check
   - Deep linking support for auth flows
 
 - [ ] 1.14 **Implement Supabase Auth integration** (M - 3h) `[src/services/auth/]`
-  - Sign up functionality
-  - Sign in functionality
-  - Sign out functionality
-  - Session management (JWT tokens in MMKV)
+  - Core functions: signIn(), signUp(), signOut(), refreshSession()
+  - Session management (JWT tokens in MMKV via storage abstraction)
   - Error handling with user-friendly messages
   - Auth state persistence across app restarts
 
@@ -526,68 +296,44 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 **Goal:** Achieve 90% auth test coverage to prevent security vulnerabilities and user lockout issues.
 
+→ **Implementation Guide:** [PHASE1_PLAN.md § Task Details B](./PHASE1_PLAN.md#task-details-b-testing-infrastructure)
+
 - [ ] 1.15 **Create auth test infrastructure (factories, mocks, helpers)** (S - 2h) 🔥 HIGH
-  - **Purpose**: Reusable test utilities for auth testing
-  - **Deliverables**:
-    - `tests/__helpers__/auth/factories.ts` (createTestAuthUser, createTestSession)
-    - `tests/__helpers__/auth/mocks.ts` (mock Supabase auth, mock MMKV)
-  - **Blocked by**: None
-  - **Blocks**: 1.16, 1.17, 1.18
+  - Reusable test utilities for auth testing
+  - Deliverables: `__tests__/__helpers__/auth/` (factories.ts, mocks.ts)
+  - Provides: createTestAuthUser(), createTestSession(), mock Supabase, mock MMKV
+  - Blocks: 1.16, 1.17, 1.18, 1.19, 1.20
 
 - [ ] 1.16 **Write auth service tests (login, register, reset password)** (M - 4h) 🔥 CRITICAL
-  - **Coverage Target**: 90%+ (auth is critical path)
-  - **Test Cases**:
-    - Login: valid/invalid credentials, network errors, rate limiting
-    - Register: duplicate email, weak password, validation
-    - Reset password: valid/invalid email, token expiry
-    - Refresh token: expired tokens, revoked tokens
-  - **Blocked by**: 1.14 (auth service creation), 1.15 (test infrastructure)
+  - Coverage target: 90%+ (auth is critical path)
+  - Test cases: valid/invalid credentials, network errors, rate limiting, duplicate email, weak password, token expiry
+  - Blocked by: 1.14 (auth service), 1.15 (test infrastructure)
 
 - [ ] 1.17 **Write auth store tests (Zustand persist, rehydration)** (S - 2h) 🟠 HIGH
-  - **Test Cases**:
-    - setUser(), signOut() actions
-    - MMKV persist after state change
-    - Rehydration from MMKV on app start
-    - Error handling: corrupted JSON, missing keys
-    - Initial loading state: isLoading = true → false
-  - **Blocked by**: 1.15 (MMKV mock)
+  - Test cases: setUser(), signOut(), MMKV persist, rehydration on app start, corrupted JSON handling, loading state transitions
+  - Blocked by: 1.15 (MMKV mock)
 
 - [ ] 1.18 **Write auth validation tests (database services)** (S - 2h) 🔥 CRITICAL
-  - **Security Tests**:
-    - Unauthenticated access → should throw AuthError
-    - User ID mismatch → should prevent creating workout for another user
-    - Ownership validation → should prevent deleting others' workouts
-    - Authorization bypass attempts
-  - **Blocked by**: 1.15 (auth factories)
+  - Security tests: unauthenticated access, user ID mismatch, ownership validation, authorization bypass attempts
+  - Blocked by: 1.15 (auth factories)
 
 - [ ] 1.19 **Write sync error handling tests** (M - 4h) 🟠 MEDIUM
-  - **Test Cases**:
-    - Network failures (timeout, 500 errors, DNS)
-    - Conflict resolution (last-write-wins)
-    - Partial sync failures
-    - Auto-sync debouncing
-  - **Blocked by**: 1.15 (network mocks)
+  - Test cases: network failures (timeout, 500, DNS), conflict resolution (last-write-wins), partial sync failures, auto-sync debouncing
+  - Blocked by: 1.15 (network mocks)
 
 - [ ] 1.20 **Write MMKV storage edge case tests** (S - 2h) 🟢 MEDIUM
-  - **Test Cases**: Storage full, invalid JSON, encryption failures
-  - **Blocked by**: 1.15 (MMKV mock)
+  - Test cases: storage full, invalid JSON, encryption failures
+  - Blocked by: 1.15 (MMKV mock)
 
 - [ ] 1.21 **Add CI coverage threshold (70% global, 90% auth)** (XS - 30min) 🔥 HIGH
-  - **Config**: jest.config.js → coverageThreshold
-  - **Thresholds**:
-    - Global: 70% (branches, functions, lines, statements)
-    - Auth services: 90%
-    - Database services: 80%
-  - **CI Integration**: Update `.github/workflows/ci.yml` to fail on threshold miss
-  - **Blocked by**: None (can set immediately)
+  - Update jest.config.js → coverageThreshold (global: 70%, auth services: 90%, database: 80%)
+  - Update `.github/workflows/ci.yml` to fail on threshold miss
+  - Blocked by: None (can set immediately)
 
 - [ ] 1.22 **Setup Maestro E2E + Auth tests** (L - 4h) `[.maestro/auth/]`
-  - Install Maestro CLI globally
-  - Create .maestro/auth/ directory
-  - Write auth-login.yaml (email/password login flow)
-  - Write auth-register.yaml (new account creation)
-  - Write auth-password-reset.yaml (reset flow)
-  - Document test execution in docs/TESTING.md
+  - Install Maestro CLI + create `.maestro/auth/` directory
+  - Write test flows: auth-login.yaml, auth-register.yaml, auth-password-reset.yaml
+  - Document execution in [TESTING.md](./TESTING.md)
   - Run tests on Development Build to verify
 
 ---
@@ -596,31 +342,24 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 **Goal:** Improve database reliability and prevent data loss/corruption.
 
+→ **Implementation Guide:** [PHASE1_PLAN.md § Task Details C](./PHASE1_PLAN.md#task-details-c-database-enhancements)
+
 - [ ] 1.30 **Implement cascading delete logic (workout → exercises → sets)** (S - 2h) 🟠 HIGH
-  - **Issue**: deleteWorkout() only marks workout as deleted, leaves orphaned child records
-  - **Fix**: Manually cascade through relations before marking deleted
-  - **Files**: `src/services/database/workouts.ts:664-698`
-  - **Testing**: Verify child records also deleted after sync
-  - **Blocked by**: None
+  - Issue: deleteWorkout() only marks workout as deleted, leaves orphaned child records
+  - Fix: Manually cascade through relations before marking deleted
+  - File: [workouts.ts:664-698](../src/services/database/operations/workouts.ts#L664-L698)
+  - Testing: Verify child records also deleted after sync
 
 - [ ] 1.31 **Enhance User model with relations & helper methods** (M - 3h) 🟠 HIGH
-  - **Add**:
-    - `workouts` relation (has_many)
-    - `getActiveWorkout()` helper
-    - `getWorkoutCount()` helper
-  - **Files**: `src/services/database/watermelon/models/User.ts`
-  - **Testing**: Unit tests for helpers
-  - **Blocked by**: None
+  - Add: `workouts` relation (has_many), `getActiveWorkout()`, `getWorkoutCount()`
+  - File: [User.ts](../src/services/database/local/models/User.ts)
+  - Testing: Unit tests for helpers
 
 - [ ] 1.32 **Add sync retry with exponential backoff** (L - 5h) 🟠 HIGH
-  - **Add**: syncWithRetry(maxRetries = 3) with exponential backoff (1s, 2s, 4s)
-  - **Features**:
-    - Retry failed syncs automatically
-    - Exponential backoff to prevent server overload
-    - Persist failed syncs to offline queue (MMKV)
-  - **Files**: `src/services/database/sync.ts`
-  - **Testing**: Manual E2E (network failure scenarios)
-  - **Blocked by**: None
+  - Add: syncWithRetry(maxRetries = 3) with exponential backoff (1s, 2s, 4s)
+  - Features: Auto-retry failed syncs, prevent server overload, persist failed syncs to offline queue (MMKV)
+  - File: [sync.ts](../src/services/database/remote/sync.ts)
+  - Testing: Manual E2E (network failure scenarios)
 
 ---
 
@@ -945,7 +684,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ## Deferred Tasks (7 tasks)
 
-**Note:** These tasks are part of MVP scope (included in 84 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
+**Note:** These tasks are part of MVP scope (included in 83 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
 
 **Status:** Tracked but not blocking MVP progress. Can be completed progressively during Phases 1-4.
 
@@ -953,7 +692,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ### 📋 Deferred Task List
 
-**From Phase 0.5.E: Optional Improvements** (5 tasks)
+**From Phase 0.5: Optional Improvements** (5 tasks - 0.5.12 to 0.5.16)
 
 - **0.5.12** Repository Pattern `[L - 8h]` → Defer: Implement progressively in Phase 1-2
   - Impact: Makes future DB optimization easier
@@ -992,8 +731,8 @@ Phase 5: Polish & Deployment (0/5 tasks)
 ---
 
 **Total Deferred:** 7 tasks (~26h estimated)
-**MVP Active Tasks:** 77 tasks
-**MVP Total (Active + Deferred):** 84 tasks
+**MVP Active Tasks:** 76 tasks
+**MVP Total (Active + Deferred):** 83 tasks
 
 ---
 
@@ -1162,5 +901,5 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ---
 
-**Last Updated:** 2025-11-04
-**Next Review:** After Phase 1 completion (Auth screens done)
+**Last Updated:** 2025-11-06
+**Next Review:** After Phase 1 completion (Auth + Testing infrastructure done)

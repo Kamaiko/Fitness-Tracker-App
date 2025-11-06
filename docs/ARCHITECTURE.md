@@ -530,7 +530,7 @@ e2e/                            # E2E tests (manual + automated)
 
 **Current Coverage**: 36 unit tests (60-65% database layer)
 
-**See**: [docs/TESTING.md](TESTING.md) | [tests/readme.md](../tests/readme.md)
+**See**: [docs/TESTING.md](TESTING.md)
 
 ---
 

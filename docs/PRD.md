@@ -82,7 +82,7 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 **Explicitly excluded from MVP:**
 
 - **All analytics features** (volume charts, progression tracking, 1RM estimation, plateau detection, personal records tracking) - deferred to post-MVP Phase 6
-- Advanced analytics (nutrition phase tracking, RIR/RPE-adjusted 1RM, Mann-Kendall plateau detection, acute/chronic load ratios)
+- Advanced analytics (RIR/RPE-adjusted 1RM, Mann-Kendall plateau detection, acute/chronic load ratios, exercise order awareness)
 - Context-aware performance interpretation based on training variables
 - Fatigue modeling and overtraining detection
 - Plate calculator (deferred to post-MVP - nice-to-have utility)
@@ -759,9 +759,9 @@ CREATE POLICY "Exercises are public"
 - Dark theme system (colors, spacing, typography)
 - Expo Router navigation structure
 
-**Phase 0.5: Architecture and Foundation (Week 3) - IN PROGRESS**
+**Phase 0.5: Architecture and Foundation (Weeks 1-7) - COMPLETED ✓**
 
-- WatermelonDB setup with Supabase sync (COMPLETED ✓)
+- WatermelonDB setup with Supabase sync ✓
 - Database schema implementation (5 tables: users, exercises, workouts, workout_exercises, exercise_sets)
 - FlashList installation and configuration
 - expo-image setup for GIF caching
@@ -906,9 +906,9 @@ The project uses a **Development Build** architecture with production-grade nati
 - Blurhash placeholder support
 - Optimized loading and rendering
 
-**Migration Status:** Phase 0.5 COMPLETED, Phase 0.6 IN PROGRESS (UI Foundation)
+**Migration Status:** Phase 0.5 COMPLETED ✓, Phase 0.6 COMPLETED ✓ (UI Foundation)
 
-The project successfully migrated to Development Build architecture early in development (at 13% completion) to avoid future rewrites. Phase 0.6 establishes UI foundation and design system before authentication screens (Phase 1).
+The project successfully migrated to Development Build architecture early in development (at 13% completion) to avoid future rewrites. Phase 0.6 established UI foundation and design system. Now ready for Phase 1 (Authentication).
 
 ---
 

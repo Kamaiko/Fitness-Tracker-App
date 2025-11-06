@@ -47,17 +47,20 @@ npm install
 | Document                                             | When to Read                 | Purpose                                     |
 | ---------------------------------------------------- | ---------------------------- | ------------------------------------------- |
 | **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐       | Setup & daily development    | Complete setup guide, workflow, commands    |
-| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks          | Roadmap (97 tasks across 6 phases)          |
+| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks          | Roadmap (83 tasks: 76 active + 7 deferred)  |
+| **[CHANGELOG.md](docs/CHANGELOG.md)** 📝             | Reviewing completed work     | Release notes and milestone history         |
 | **[DATABASE.md](docs/DATABASE.md)** 💾               | Working with data/database   | WatermelonDB setup, schema, CRUD operations |
 | **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️       | Understanding code structure | Folder organization, patterns, imports      |
 | **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓             | Understanding tech decisions | Architecture Decision Records (ADRs)        |
+| **[TESTING.md](docs/TESTING.md)** 🧪                 | Understanding test strategy  | Three-tier testing approach                 |
 | **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘 | When something breaks        | Common issues & solutions                   |
 | **[PRD.md](docs/PRD.md)** 📄                         | Understanding product vision | Requirements, user stories, success metrics |
 
 **Quick Navigation:**
 
-- 🎯 **Current Phase:** 0.5.B - Development Build Migration (8/10 complete) → [TASKS.md § Phase 0.5.B](docs/TASKS.md#05b-development-build-migration-810--in-progress)
-- 🚀 **Next Steps:** See [CONTRIBUTING.md § Daily Development](docs/CONTRIBUTING.md#️-development-workflow) for workflow
+- 🎯 **Current Phase:** Phase 1 - Authentication & Foundation (0/16 tasks) → [TASKS.md § Phase 1](docs/TASKS.md#phase-1-authentication--foundation-016)
+- 🚀 **Next Task:** 1.10 Login Screen → [PHASE1_PLAN.md](docs/PHASE1_PLAN.md)
+- 📝 **Recent Completions:** See [CHANGELOG.md](docs/CHANGELOG.md) for Phase 0.5 & 0.6 milestones
 
 ---
 
@@ -67,10 +70,10 @@ npm install
 
 - 📊 **Personalized 1RM** adjusted by RIR (proximity to failure matters)
 - 📈 **Load management** (Acute/Chronic ratios, fatigue tracking, overtraining alerts)
-- 🎯 **Nutrition phase tracking** (bulk/cut/maintenance - stable in cut = success, not plateau)
-- 🧪 **Science-based plateau detection** (Mann-Kendall statistical test + context)
+- 🧪 **Science-based plateau detection** (Mann-Kendall statistical test with context)
 - 📝 **Post-workout reports** (performance score, fatigue estimate, actionable recommendations)
 - 📅 **Weekly summaries** (trends, PRs, consistency, deload suggestions)
+- 🎯 **Exercise order awareness** (performance drops expected on later exercises)
 
 **Unlike Jefit/Strong/Hevy:** We don't just show numbers - we explain WHY and WHAT TO DO.
 
@@ -98,7 +101,8 @@ npm install
 
 ## 🎯 Current Status
 
-**Version:** 0.1.0 | **Progress:** 13/97 tasks (13%) | **Phase:** 0.5.B - Development Build Migration (8/10)
+**Version:** 0.1.0 | **Progress:** 29/76 tasks (38%) | **Phase:** 1 - Authentication & Foundation (0/16)
+**Completed:** Phase 0.5 (Architecture) ✅ | Phase 0.6 (UI/UX Foundation) ✅
 
 ---
 

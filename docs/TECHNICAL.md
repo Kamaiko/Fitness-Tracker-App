@@ -727,7 +727,7 @@ npm start
 
 **Alternatives:** Wger API (200 exercises), API Ninjas (1,000)
 
-**Status:** 🚧 In Progress (Phase 0.6.8 - Next Priority)
+**Status:** ✅ **COMPLETED** (Phase 0.6.8 - 2025-11-06)
 
 ---
 
@@ -909,13 +909,16 @@ function detectPlateauWithContext(exerciseHistory, user) {
   const mannKendall = performMannKendallTest(exerciseHistory, 28); // 4 weeks
   const isStatisticalPlateau = mannKendall.slope < 0.5 && mannKendall.pValue > 0.05;
 
-  // Context matters: stable in cut = success, not plateau
-  if (isStatisticalPlateau && user.nutrition_phase === 'cut') {
-    return { isPlateau: false, message: 'Maintaining strength during cut - excellent!' };
+  // Context matters: exercise order affects performance
+  const isFirstExercise = exerciseOrder === 1;
+  const isLateExercise = exerciseOrder > 3;
+
+  if (isStatisticalPlateau && isLateExercise) {
+    return { isPlateau: false, message: 'Performance drop expected for later exercises - normal fatigue' };
   }
 
-  if (isStatisticalPlateau && user.nutrition_phase === 'bulk') {
-    return { isPlateau: true, message: 'True plateau detected. Consider variation or deload.' };
+  if (isStatisticalPlateau && isFirstExercise) {
+    return { isPlateau: true, message: 'True plateau detected on primary lift. Consider variation or deload.' };
   }
 
   return { isPlateau: isStatisticalPlateau };
