@@ -33,7 +33,7 @@ import { assertDatesApproximatelyEqual } from '@test-helpers/database/assertions
 describe('Workout CRUD Operations', () => {
   let database: Database;
 
-  beforeEach(() => {
+  beforeAll(() => {
     database = createTestDatabase();
     resetTestIdCounter();
   });

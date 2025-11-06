@@ -23,7 +23,7 @@ import { wait } from '@test-helpers/database/time';
 describe('Exercise CRUD Operations', () => {
   let database: Database;
 
-  beforeEach(() => {
+  beforeAll(() => {
     database = createTestDatabase();
     resetTestIdCounter();
   });

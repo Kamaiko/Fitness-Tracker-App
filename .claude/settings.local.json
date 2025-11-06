@@ -23,7 +23,8 @@
       "Bash(npx husky:*)",
       "Bash(git commit:*)",
       "Bash(git update-index:*)",
-      "Read(//c/**)"
+      "Read(//c/**)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []

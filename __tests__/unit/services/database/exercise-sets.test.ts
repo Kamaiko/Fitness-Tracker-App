@@ -31,7 +31,7 @@ import { wait } from '@test-helpers/database/time';
 describe('Exercise Set CRUD Operations', () => {
   let database: Database;
 
-  beforeEach(() => {
+  beforeAll(() => {
     database = createTestDatabase();
     resetTestIdCounter();
   });

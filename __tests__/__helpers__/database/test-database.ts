@@ -79,24 +79,31 @@ export function createTestDatabase(): Database {
 /**
  * Cleans up test database by resetting all data.
  *
- * Call this in afterEach() to ensure test isolation.
+ * Call this in afterEach() to ensure test isolation between tests.
  * Uses unsafeResetDatabase() which is faster than dropping/recreating.
  *
- * Jest Worker Note: LokiJS is an in-memory adapter that doesn't provide explicit
- * connection cleanup (no `.close()` method like SQLite). This causes Jest workers
- * to wait indefinitely for handles to close, resulting in the warning:
- * "A worker process has failed to exit gracefully and has been force exited."
- *
- * Solution: Test scripts use `--forceExit` flag to force worker termination after
- * tests complete. This is expected behavior and does not indicate a problem.
- * See: docs/TESTING.md § Jest Worker Process Warning for details.
+ * Database Lifecycle Best Practice:
+ * - LokiJS adapter does not provide a close() method (by design)
+ * - Use shared database instance pattern (one DB per test suite via beforeAll)
+ * - This prevents handle leaks by creating worker instances only once
+ * - Jest automatically cleans up when the test suite completes
+ * - This is the industry-standard pattern for in-memory database testing
  *
  * @param {Database} database - Database instance to clean
  *
  * @example
  * ```typescript
- * afterEach(async () => {
- *   await cleanupTestDatabase(database);
+ * describe('My Tests', () => {
+ *   let database: Database;
+ *
+ *   beforeAll(() => {
+ *     database = createTestDatabase();  // Create once per suite
+ *     resetTestIdCounter();
+ *   });
+ *
+ *   afterEach(async () => {
+ *     await cleanupTestDatabase(database);  // Reset data between tests
+ *   });
  * });
  * ```
  */
