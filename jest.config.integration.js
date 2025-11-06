@@ -22,15 +22,10 @@ module.exports = {
   displayName: 'integration',
 
   // Integration test pattern
-  testMatch: [
-    '**/__tests__/integration/**/*.test.{ts,tsx}',
-  ],
+  testMatch: ['**/__tests__/integration/**/*.test.{ts,tsx}'],
 
   // Setup files for integration tests
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.js',
-    '<rootDir>/__tests__/integration/setup.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js', '<rootDir>/__tests__/integration/setup.ts'],
 
   // Integration tests use LokiJS (NOT Real SQLite - see limitations above)
   // Real SQLite requires React Native environment (use E2E tests instead)

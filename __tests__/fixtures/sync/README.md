@@ -5,6 +5,7 @@ Static test data for WatermelonDB sync scenarios.
 ## Purpose
 
 Provide realistic test data for:
+
 - Basic sync operations (create, update, delete)
 - Conflict resolution scenarios
 - Multi-device sync scenarios
@@ -13,9 +14,11 @@ Provide realistic test data for:
 ## Files
 
 ### `basic-changes.json`
+
 Standard sync changes for happy path testing.
 
 **Structure:**
+
 ```json
 {
   "workouts": {
@@ -29,25 +32,31 @@ Standard sync changes for happy path testing.
 ```
 
 ### `conflicts.json`
+
 Conflict scenarios for last-write-wins testing.
 
 **Scenarios:**
+
 - Same record modified on 2 devices (different timestamps)
 - Create-delete conflict
 - Update-delete conflict
 
 ### `offline-scenarios.json`
+
 Data for offline-first testing.
 
 **Scenarios:**
+
 - Create workout offline → sync online
 - Update sets offline → sync online
 - Delete workout offline → sync online
 
 ### `edge-cases.json`
+
 Edge case scenarios.
 
 **Scenarios:**
+
 - Partial sync (connection lost mid-sync)
 - Retry queue persistence
 - Large batch sync (1000+ records)
@@ -63,7 +72,7 @@ mockSupabaseServer.use(
   http.post('/rest/v1/rpc/pull_changes', () => {
     return HttpResponse.json({
       changes: basicChanges,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   })
 );
@@ -72,11 +81,13 @@ mockSupabaseServer.use(
 ## Maintenance
 
 **When to update:**
+
 - Schema changes (new columns, tables)
 - New sync scenarios discovered
 - Edge cases found in production
 
 **Guidelines:**
+
 - Keep realistic data (valid UUIDs, timestamps)
 - Document each scenario clearly
 - Keep files focused (one concern per file)

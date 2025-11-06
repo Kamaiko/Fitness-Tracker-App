@@ -5,6 +5,7 @@ Mock infrastructure for testing network operations and Supabase API interactions
 ## Purpose
 
 Provide utilities for:
+
 - Mocking Supabase API endpoints (pull_changes, push_changes)
 - Simulating network conditions (offline, online, slow)
 - Generating sync test data (conflicts, changes)
@@ -12,13 +13,16 @@ Provide utilities for:
 ## Files
 
 ### `mock-supabase.ts`
+
 Mock Supabase API using msw (Mock Service Worker).
 
 **Handlers:**
+
 - `POST /rest/v1/rpc/pull_changes` - Mock pull sync
 - `POST /rest/v1/rpc/push_changes` - Mock push sync
 
 **Usage:**
+
 ```typescript
 import { mockSupabaseServer } from '@test-helpers/network/mock-supabase';
 
@@ -28,15 +32,18 @@ afterAll(() => mockSupabaseServer.close());
 ```
 
 ### `network-simulator.ts`
+
 Simulate network conditions for offline-first testing.
 
 **Functions:**
+
 - `goOffline()` - Disconnect network
 - `goOnline()` - Reconnect network
 - `simulateSlow(delayMs)` - Add network latency
 - `simulateIntermittent()` - Random connection drops
 
 **Usage:**
+
 ```typescript
 import { networkSimulator } from '@test-helpers/network/network-simulator';
 
@@ -47,14 +54,17 @@ await networkSimulator.goOnline();
 ```
 
 ### `sync-fixtures.ts`
+
 Generate test data for sync scenarios.
 
 **Functions:**
+
 - `generateChanges(type, count)` - Generate created/updated/deleted records
 - `generateConflict(table, record)` - Generate conflict scenario
 - `generateSyncResponse(changes, timestamp)` - Mock pull response
 
 **Usage:**
+
 ```typescript
 import { generateChanges, generateConflict } from '@test-helpers/network/sync-fixtures';
 
@@ -76,6 +86,7 @@ npm install -D msw
 ## Configuration
 
 msw setup in `jest.setup.js`:
+
 ```javascript
 import { mockSupabaseServer } from '@test-helpers/network/mock-supabase';
 

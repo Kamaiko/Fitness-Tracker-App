@@ -85,12 +85,14 @@ import { createTestWorkout } from '../../../__helpers__/database/factories';
 - **Run**: `npm run test:integration`
 
 **Current Coverage (Phase 1):**
+
 - ✅ sync-basic.test.ts - 11 tests (pull/push/bidirectional sync)
 - ✅ conflict-resolution.test.ts - 11 tests (last write wins, multi-device)
 - ✅ schema-validation.test.ts - 16 tests (Zod validation for sync protocol)
 - **Total: 38 integration tests**
 
 **Key Helpers:**
+
 - `@test-helpers/network/mock-supabase` - Mock Supabase RPC endpoints
 - `@test-helpers/network/network-simulator` - Simulate offline/slow/intermittent connections
 - `@test-helpers/network/sync-fixtures` - Generate realistic sync test data
@@ -105,6 +107,7 @@ Integration tests use LokiJS (in-memory), NOT Real SQLite. WatermelonDB sync pro
 - **Import**: Always use `@test-helpers/*` alias
 
 **Database Helpers:** (`@test-helpers/database/*`)
+
 - `test-database.ts` - LokiJS setup/teardown
 - `factories.ts` - createTestWorkout, createTestExercise
 - `queries.ts` - getAllRecords, countRecords
@@ -112,6 +115,7 @@ Integration tests use LokiJS (in-memory), NOT Real SQLite. WatermelonDB sync pro
 - `assertions.ts` - assertDatesApproximatelyEqual
 
 **Network Helpers:** (`@test-helpers/network/*`)
+
 - `mock-supabase.ts` - Mock Supabase backend with in-memory store
 - `network-simulator.ts` - Simulate offline/slow/intermittent connections
 - `sync-fixtures.ts` - Generate realistic sync test data (workouts, conflicts, edge cases)

@@ -22,11 +22,11 @@
 
 ### Three-Tier Testing Strategy
 
-| Type                       | Speed      | Confidence | Environment                    | What to Test                                 |
-| -------------------------- | ---------- | ---------- | ------------------------------ | -------------------------------------------- |
-| **Unit (Jest + LokiJS)**   | ⚡ 5s      | 🟡 Medium  | Node.js + LokiJS               | CRUD, queries, relationships, business logic |
-| **Integration (msw)**      | 🟢 5-10s   | ✅ High    | Node.js + LokiJS + Mock APIs   | Sync logic, offline scenarios, API workflows |
-| **E2E (Manual/Maestro)**   | 🐌 5-10min | ✅ High    | Real device + automation       | Complete user journeys, sync protocol        |
+| Type                     | Speed      | Confidence | Environment                  | What to Test                                 |
+| ------------------------ | ---------- | ---------- | ---------------------------- | -------------------------------------------- |
+| **Unit (Jest + LokiJS)** | ⚡ 5s      | 🟡 Medium  | Node.js + LokiJS             | CRUD, queries, relationships, business logic |
+| **Integration (msw)**    | 🟢 5-10s   | ✅ High    | Node.js + LokiJS + Mock APIs | Sync logic, offline scenarios, API workflows |
+| **E2E (Manual/Maestro)** | 🐌 5-10min | ✅ High    | Real device + automation     | Complete user journeys, sync protocol        |
 
 **Current Status:** 36 unit tests (60-65% DB coverage) + 38 integration tests (sync scenarios) + Manual E2E validation
 
@@ -99,11 +99,13 @@ Can I test this in Jest with LokiJS (in-memory)?
 **Environment:** Node.js + LokiJS + msw (Mock Service Worker) + Network simulator
 
 **Infrastructure:**
+
 - `msw` - Mock Supabase RPC endpoints (pull_changes, push_changes)
 - `network-simulator` - Simulate offline/slow/intermittent connections
 - `sync-fixtures` - Generate realistic test data (workouts, conflicts, edge cases)
 
 **Current Coverage:**
+
 - ✅ sync-basic.test.ts - 11 tests (pull/push/bidirectional)
 - ✅ conflict-resolution.test.ts - 11 tests (last write wins, multi-device)
 - ✅ schema-validation.test.ts - 16 tests (Zod validation)
