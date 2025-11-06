@@ -1,6 +1,6 @@
-# Dependabot Configuration - Halterofit
-# Industry Standard: Selective Automation with Semver Rules
-# Philosophy: Auto-merge safe updates, manual review for breaking changes
+# Dependabot Configuration - Halterofit (Optimized)
+# Version: 2.0 (2025-11-06)
+# Philosophy: Surgical automation with Expo SDK awareness
 
 version: 2
 updates:
@@ -13,8 +13,8 @@ updates:
       time: "09:00"
       timezone: "America/New_York"
 
-    # Limit concurrent PRs to avoid overwhelming
-    open-pull-requests-limit: 5
+    # Increased limit now that overrides resolve peer deps
+    open-pull-requests-limit: 8
 
     # Group similar updates to reduce PR noise
     groups:
@@ -50,12 +50,29 @@ updates:
           - "@commitlint/*"
           - "jest*"
           - "@testing-library/*"
+          # Exclude critical packages from patches group
+          - "expo"
+          - "react"
+          - "react-native"
+          - "@nozbe/watermelondb"
+          - "@supabase/supabase-js"
         update-types:
           - "patch"
 
-    # Critical packages always get separate PRs (easier to review)
-    # Expo, React, React Native, WatermelonDB, Supabase
-    # Minor/major updates require manual review
+      # NEW: React ecosystem (minor updates only)
+      # React is stable enough to auto-group minor updates
+      react-ecosystem:
+        patterns:
+          - "react"
+          - "@types/react"
+          - "react-test-renderer"
+        update-types:
+          - "minor"
+          - "patch"
+
+    # Critical packages always get separate PRs (manual review required)
+    # Expo, React Native, WatermelonDB, Supabase
+    # These need careful testing before merge
 
     # Ignore specific incompatible versions
     ignore:
@@ -65,8 +82,34 @@ updates:
       - dependency-name: "tailwindcss"
         versions: [">=4.0.0"]
 
+      # React Native - LOCKED to Expo SDK version
+      # NEVER upgrade independently of Expo SDK
+      # Current: 0.81.5 (Expo SDK 54)
+      # Next: Wait for Expo SDK 55 (Q1-Q2 2026)
+      - dependency-name: "react-native"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+
+      # React Native ecosystem packages - Follow Expo SDK compatibility
+      - dependency-name: "react-native-reanimated"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-native-screens"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-native-safe-area-context"
+        update-types: ["version-update:semver-major"]
+
+      # Expo SDK - Only patch updates auto-allowed
+      # Minor/major upgrades require migration guide review
+      - dependency-name: "expo"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+
+    # Custom labels for better organization
+    labels:
+      - "dependencies"
+      - "javascript"
+
     commit-message:
       prefix: "chore(deps)"
+      include: "scope"
 
   # GitHub Actions - Auto-merged after CI passes
   # SHA pinning ensures security
@@ -79,6 +122,10 @@ updates:
       timezone: "America/New_York"
 
     open-pull-requests-limit: 3
+
+    labels:
+      - "github-actions"
+      - "ci"
 
     commit-message:
       prefix: "chore(ci)"
