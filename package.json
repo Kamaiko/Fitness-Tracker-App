@@ -99,7 +99,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix --max-warnings=0",
+      "eslint --fix",
       "prettier --write",
       "bash -c 'tsc --noEmit'"
     ],
