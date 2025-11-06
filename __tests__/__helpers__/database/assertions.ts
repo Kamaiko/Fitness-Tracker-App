@@ -7,6 +7,8 @@
  * @module test-helpers/database/assertions
  */
 
+import { Model } from '@nozbe/watermelondb';
+
 // ============================================================================
 // Sync Protocol Helpers
 // ============================================================================
@@ -22,7 +24,7 @@
  * NOTE: LokiJS stores _changed as string, SQLite as number.
  * This helper normalizes both to ensure cross-adapter compatibility.
  *
- * @param {any} record - WatermelonDB model instance
+ * @param {Model} record - WatermelonDB model instance
  * @param {object} options - Assertion options
  * @param {boolean} options.shouldBeDeleted - If true, expects _status to be 'deleted'
  *
@@ -37,7 +39,7 @@
  * ```
  */
 export function assertSyncProtocolColumns(
-  record: any,
+  record: Model,
   options: { shouldBeDeleted?: boolean } = {}
 ): void {
   // WatermelonDB stores sync protocol columns in _raw object
@@ -73,7 +75,7 @@ export function assertSyncProtocolColumns(
  * This helper parses it to a number for easier comparison.
  * WatermelonDB stores sync columns in _raw object.
  *
- * @param {any} record - WatermelonDB model instance
+ * @param {Model} record - WatermelonDB model instance
  * @returns {number} Timestamp in milliseconds
  *
  * @example
@@ -89,7 +91,7 @@ export function assertSyncProtocolColumns(
  * expect(timestamp2).toBeGreaterThan(timestamp1);
  * ```
  */
-export function getSyncTimestamp(record: any): number {
+export function getSyncTimestamp(record: Model): number {
   // WatermelonDB stores _changed as string in _raw object
   const rawChanged = record._raw?._changed;
   return parseInt(rawChanged, 10);
@@ -100,7 +102,7 @@ export function getSyncTimestamp(record: any): number {
  *
  * WatermelonDB stores sync columns in _raw object.
  *
- * @param {any} record - WatermelonDB model instance
+ * @param {Model} record - WatermelonDB model instance
  * @returns {boolean} True if _status is 'deleted'
  *
  * @example
@@ -112,7 +114,7 @@ export function getSyncTimestamp(record: any): number {
  * expect(isRecordDeleted(workout)).toBe(true);
  * ```
  */
-export function isRecordDeleted(record: any): boolean {
+export function isRecordDeleted(record: Model): boolean {
   // WatermelonDB stores _status in _raw object
   return record._raw?._status === 'deleted';
 }

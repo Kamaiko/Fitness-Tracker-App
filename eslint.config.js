@@ -195,11 +195,11 @@ module.exports = [
     },
   },
 
-  // Database test factories (any types for WatermelonDB create callbacks)
+  // Database test factories (any types for WatermelonDB create callbacks ONLY)
   {
     files: ['__tests__/__helpers__/database/factories.ts'],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off', // WatermelonDB limitation (untyped callbacks)
+      '@typescript-eslint/no-explicit-any': 'off', // WatermelonDB limitation (untyped create callbacks)
     },
   },
 ];

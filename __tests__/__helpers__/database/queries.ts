@@ -7,7 +7,8 @@
  * @module test-helpers/database/queries
  */
 
-import { Database, Model } from '@nozbe/watermelondb';
+import { Database, Model, Q } from '@nozbe/watermelondb';
+import type { Clause } from '@nozbe/watermelondb/QueryDescription';
 
 /**
  * Fetches all records from a collection.
@@ -56,7 +57,7 @@ export async function getRecordById(
  *
  * @param {Database} database - WatermelonDB instance
  * @param {string} tableName - Collection name
- * @param {any[]} queryConditions - Optional WatermelonDB query conditions
+ * @param {Clause[]} queryConditions - Optional WatermelonDB query conditions
  * @returns {Promise<number>} Number of matching records
  *
  * @example
@@ -73,7 +74,7 @@ export async function getRecordById(
 export async function countRecords(
   database: Database,
   tableName: string,
-  queryConditions: any[] = []
+  queryConditions: Clause[] = []
 ): Promise<number> {
   const collection = database.get(tableName);
   return await collection.query(...queryConditions).fetchCount();

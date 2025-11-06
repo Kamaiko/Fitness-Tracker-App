@@ -8,6 +8,9 @@
  * For automated tests, see actual .test.ts files.
  */
 
+/* eslint-disable no-console */
+// Console.log is intentional in this example file for demonstration purposes
+
 import { useAuthStore } from '@/stores/auth/authStore';
 import { createWorkout, getWorkoutById } from '@/services/database/operations/workouts';
 import { AuthError, DatabaseError } from '@/utils/errors';
