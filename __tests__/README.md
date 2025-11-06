@@ -140,11 +140,22 @@ expect(exercise).toBeValidExercise();
 - Add `await cleanupTestDatabase(database)` in `afterEach`
 - Ensure all async operations complete
 
-### Memory Leak Warning
+### Jest Worker Process Warning
 
-- Common with WatermelonDB in Jest (cosmetic)
-- Tests passing = not a real problem
-- Run `npm test -- --detectOpenHandles` to investigate if needed
+When running `npm test`, you may see:
+
+```
+A worker process has failed to exit gracefully and has been force exited.
+```
+
+**This is expected behavior** with LokiJS (in-memory database):
+
+- **Root cause**: LokiJS doesn't explicitly close connections (in-memory adapter)
+- **Solution**: Tests use `--forceExit` flag to prevent hanging
+- **Impact**: None - all tests pass in ~5 seconds
+- **Alternative**: Remove `--forceExit` from package.json, but tests may hang for 20+ seconds
+
+This is a known limitation of Jest + in-memory databases and does not indicate a real problem.
 
 ## Resources
 

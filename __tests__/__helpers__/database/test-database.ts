@@ -82,6 +82,9 @@ export function createTestDatabase(): Database {
  * Call this in afterEach() to ensure test isolation.
  * Uses unsafeResetDatabase() which is faster than dropping/recreating.
  *
+ * Note: LokiJS is an in-memory adapter that doesn't require explicit connection
+ * closing. The database is automatically garbage collected when the test completes.
+ *
  * @param {Database} database - Database instance to clean
  *
  * @example
