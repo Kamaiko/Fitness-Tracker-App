@@ -22,6 +22,10 @@ _⚠️ Placeholder UI_
 
 </div>
 
+## About
+
+Offline-first mobile fitness tracker for serious strength athletes. Track workouts, log sets, and get intelligent analytics that understand training context—not just raw numbers.
+
 ---
 
 ## 🚀 Quick Start
@@ -36,86 +40,52 @@ npm install
 # See CONTRIBUTING.md for complete setup guide (~15-20 min)
 ```
 
-**⚠️ Note:** This project requires **Development Build** (not Expo Go) due to native modules (WatermelonDB, MMKV).
-
 ---
 
 ## 📚 Documentation
 
 **Choose the right document for your need:**
 
-| Document                                             | When to Read                 | Purpose                                     |
-| ---------------------------------------------------- | ---------------------------- | ------------------------------------------- |
-| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** ⭐       | Setup & daily development    | Complete setup guide, workflow, commands    |
-| **[TASKS.md](docs/TASKS.md)** 📋                     | Planning next tasks          | Roadmap (83 tasks: 76 active + 7 deferred)  |
-| **[CHANGELOG.md](docs/CHANGELOG.md)** 📝             | Reviewing completed work     | Release notes and milestone history         |
-| **[DATABASE.md](docs/DATABASE.md)** 💾               | Working with data/database   | WatermelonDB setup, schema, CRUD operations |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** 🏗️       | Understanding code structure | Folder organization, patterns, imports      |
-| **[TECHNICAL.md](docs/TECHNICAL.md)** 🎓             | Understanding tech decisions | Architecture Decision Records (ADRs)        |
-| **[TESTING.md](docs/TESTING.md)** 🧪                 | Understanding test strategy  | Three-tier testing approach                 |
-| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** 🆘 | When something breaks        | Common issues & solutions                   |
-| **[PRD.md](docs/PRD.md)** 📄                         | Understanding product vision | Requirements, user stories, success metrics |
-
-**Quick Navigation:**
-
-- 🎯 **Current Phase:** Phase 1 - Authentication & Foundation (0/16 tasks) → [TASKS.md § Phase 1](docs/TASKS.md#phase-1-authentication--foundation-016)
-- 🚀 **Next Task:** 1.10 Login Screen → [PHASE1_PLAN.md](docs/PHASE1_PLAN.md)
-- 📝 **Recent Completions:** See [CHANGELOG.md](docs/CHANGELOG.md) for Phase 0.5 & 0.6 milestones
-
----
-
-## 🎯 What Makes Halterofit Different
-
-**Context-aware analytics that understand YOUR training:**
-
-- 📊 **Personalized 1RM** adjusted by RIR (proximity to failure matters)
-- 📈 **Load management** (Acute/Chronic ratios, fatigue tracking, overtraining alerts)
-- 🧪 **Science-based plateau detection** (Mann-Kendall statistical test with context)
-- 📝 **Post-workout reports** (performance score, fatigue estimate, actionable recommendations)
-- 📅 **Weekly summaries** (trends, PRs, consistency, deload suggestions)
-- 🎯 **Exercise order awareness** (performance drops expected on later exercises)
-
-**Unlike Jefit/Strong/Hevy:** We don't just show numbers - we explain WHY and WHAT TO DO.
+| Document                                          | When to Read                 | Purpose                             |
+| ------------------------------------------------- | ---------------------------- | ----------------------------------- |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)**       | Setup & daily development    | Developer setup and workflow        |
+| **[TASKS.md](docs/TASKS.md)**                     | Planning next tasks          | Project roadmap and task tracking   |
+| **[PHASE1_PLAN.md](docs/PHASE1_PLAN.md)**         | Implementing Phase 1         | Authentication implementation guide |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)**       | Understanding code structure | Project structure and organization  |
+| **[DATABASE.md](docs/DATABASE.md)**               | Working with database        | Database schema and operations      |
+| **[TECHNICAL.md](docs/TECHNICAL.md)**             | Understanding tech decisions | Technical decisions and ADRs        |
+| **[TESTING.md](docs/TESTING.md)**                 | Understanding test strategy  | Testing strategy and practices      |
+| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | When something breaks        | Debugging guide and fixes           |
+| **[CHANGELOG.md](docs/CHANGELOG.md)**             | Reviewing completed work     | Completed milestones and releases   |
+| **[PRD.md](docs/PRD.md)**                         | Understanding product vision | Product requirements and vision     |
+| **[BACKLOG.md](docs/BACKLOG.md)**                 | Exploring future features    | Post-MVP features and enhancements  |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer         | Category     | Technologies                                                    |
-| ------------- | ------------ | --------------------------------------------------------------- |
-| **Frontend**  | Framework    | Expo SDK 54.0.21 + React Native 0.81.5 + TypeScript 5.9         |
-|               | Navigation   | Expo Router 6                                                   |
-|               | Styling      | NativeWind v4 (Tailwind CSS 3.4)                                |
-|               | State        | Zustand 5.0 + React Query 5.90                                  |
-|               | **Database** | **WatermelonDB 0.28.0** ✅ (offline-first, reactive) + Supabase |
-|               | Storage      | **MMKV v4.x** ✅ (10-30x faster, Nitro Modules, encrypted)      |
-|               | Charts       | **Victory Native** ✅ (Skia rendering, professional)            |
-|               | UI           | FlashList + expo-image                                          |
-| **Backend**   | Platform     | Supabase (PostgreSQL + Auth + Storage + Real-time)              |
-| **External**  | Services     | ExerciseDB API (1,300+ exercises), Sentry, RevenueCat           |
-| **Analytics** | Libraries    | simple-statistics (Mann-Kendall, regressions)                   |
-| **Testing**   | Framework    | Jest + React Native Testing Library                             |
-| **Build**     | Tool         | EAS Build (Development Build required)                          |
+**Current Production Stack (Development Build):**
 
----
-
-## 🎯 Current Status
-
-**Version:** 0.1.0 | **Progress:** 29/76 tasks (38%) | **Phase:** 1 - Authentication & Foundation (0/16)
-**Completed:** Phase 0.5 (Architecture) ✅ | Phase 0.6 (UI/UX Foundation) ✅
-
----
-
-## 🚀 Key Architecture Decisions
-
-**Why Development Build from Day 1?**
-
-We're building with production-grade tools from the start to avoid costly refactoring later:
-
-| Choice             | Why                                                      | Alternative            |
-| ------------------ | -------------------------------------------------------- | ---------------------- |
-| **WatermelonDB**   | Offline-first + Reactive queries + Built-in sync         | expo-sqlite            |
-| **MMKV**           | 10-30x faster + Native encryption                        | AsyncStorage           |
-| **Victory Native** | Professional charts + Skia rendering + Advanced gestures | react-native-chart-kit |
+| Category         | Technology                |
+| ---------------- | ------------------------- |
+| Framework        | Expo SDK                  |
+| Language         | TypeScript                |
+| UI Library       | React Native              |
+| Styling          | NativeWind                |
+| UI Components    | React Native Reusables    |
+| Icons            | React Native Vector Icons |
+| Database         | WatermelonDB              |
+| Storage          | MMKV                      |
+| State Management | Zustand                   |
+| Server State     | React Query (TanStack)    |
+| Backend          | Supabase                  |
+| Charts           | Victory Native            |
+| Lists            | FlashList                 |
+| Images           | expo-image                |
+| Navigation       | Expo Router               |
+| Error Monitoring | Sentry                    |
+| Build            | EAS Build                 |
+| Testing          | Jest + Testing Library    |
+| Linting          | ESLint + Prettier         |
 
 ---

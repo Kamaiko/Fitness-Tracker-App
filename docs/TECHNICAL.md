@@ -493,7 +493,7 @@ Performance-critical libraries for smooth UX on low-end devices.
 **Rationale:**
 
 - **PRD Requirement:** Exercise GIFs must load from cache in <200ms
-- 1,500 exercise GIFs from GitHub ExerciseDB require aggressive caching
+- 1,500+ exercise GIFs from GitHub ExerciseDB require aggressive caching
 - Built-in memory + disk cache (no custom implementation needed)
 - Better performance than React Native Image (10-30x faster)
 
@@ -706,7 +706,7 @@ npm start
 
 ### ADR-013: ExerciseDB Dataset Integration
 
-**Decision:** Seed exercise library from GitHub ExerciseDB dataset (1,500 exercises)
+**Decision:** Seed exercise library from GitHub ExerciseDB dataset (1,500+ exercises)
 
 **Rationale:**
 

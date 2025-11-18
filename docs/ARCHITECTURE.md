@@ -17,11 +17,6 @@
   - [9. `/tests` - Test Infrastructure](#9-tests---test-infrastructure)
   - [10. `/constants` - App-wide Constants](#10-constants---app-wide-constants)
 - [🔄 Data Flow](#data-flow)
-- [📦 Import Patterns](#import-patterns)
-- [🧪 Testing Strategy (Future)](#testing-strategy-future)
-- [🚀 Post-MVP Performance Optimizations](#post-mvp-performance-optimizations)
-- [📚 References](#references)
-- [✅ Architecture Checklist](#architecture-checklist)
 
 ---
 
@@ -91,7 +86,7 @@ scripts/
 
 **Status:**
 
-- ✅ Import completed (1,500 exercises seeded to Supabase)
+- ✅ Import completed (1,500+ exercises seeded to Supabase)
 - ✅ Import/rollback scripts deleted (no longer needed, recoverable from git history)
 - ✅ Dataset backup retained for reference
 
@@ -563,26 +558,6 @@ UI Component → Hook → Service → Database/API
    Props    State Logic  CRUD    SQLite/Supabase
 ```
 
-**Example: Logging a Set**
-
-```typescript
-// 1. UI Component
-<Button onPress={handleLogSet}>Log Set</Button>
-
-// 2. Hook
-const { logSet } = useSetLogger(workoutExerciseId);
-const handleLogSet = () => logSet({ weight: 100, reps: 8 });
-
-// 3. Service
-async function logSet(data) {
-  await database.logSet(workoutExerciseId, setNumber, data);
-  autoSync(); // Background sync
-}
-
-// 4. Database
-INSERT INTO exercise_sets (weight, reps, ...) VALUES (?, ?, ...);
-```
-
 ---
 
 ### 2. State Management Layers
@@ -617,72 +592,3 @@ INSERT INTO exercise_sets (weight, reps, ...) VALUES (?, ?, ...);
 - **Supabase**: Cloud backup & multi-device sync
 
 ---
-
-## Import Patterns
-
-### Barrel Exports (index.ts)
-
-**Why?** Clean, maintainable imports
-
-```typescript
-// ❌ BAD: Deep imports, brittle
-import { useAuthStore } from '@/stores/auth/authStore';
-import { useWorkoutStore } from '@/stores/workout/workoutStore';
-import { createWorkout } from '@/services/database/workouts';
-import { supabase } from '@/services/supabase/client';
-
-// ✅ GOOD: Barrel exports, clean
-import { useAuthStore, useWorkoutStore } from '@/stores';
-import { createWorkout, supabase } from '@/services';
-```
-
-### Absolute Imports
-
-**Always use `@/` alias** (configured in `tsconfig.json`):
-
-```typescript
-// ❌ BAD: Relative imports
-import { Colors } from '../../../constants/colors';
-
-// ✅ GOOD: Absolute imports
-import { Colors } from '@/constants';
-```
-
----
-
-## Testing Strategy (Future)
-
-```
-src/
-├── __tests__/        # Integration tests
-├── components/
-│   └── ui/
-│       ├── Button.tsx
-│       └── Button.test.tsx    # Component tests
-└── services/
-    └── database/
-        └── __tests__/
-            └── workouts.test.ts  # Unit tests
-```
-
-**Test Layers**:
-
-- **Unit Tests**: `utils/`, `services/` (pure functions)
-- **Component Tests**: `components/` (React Testing Library)
-- **Integration Tests**: E2E flows (Detox - Post-MVP)
-
----
-
-## Post-MVP Performance Optimizations
-
-**Planned optimizations** (Phase 5+):
-
-- Code splitting & lazy loading
-- Image optimization & caching
-- Memoization strategies
-- Bundle size analysis
-
-**See also:**
-
-- [TECHNICAL.md § Performance Guidelines](./TECHNICAL.md#-performance-guidelines) - Performance optimization details
-- [DEVOPS_PIPELINE.md](./DEVOPS_PIPELINE.md) - CI/CD pipeline technical documentation

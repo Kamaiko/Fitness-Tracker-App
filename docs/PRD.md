@@ -361,18 +361,17 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 
 **Steps:**
 
-1. User opens app → Home/Workout tab displays "Start Workout" button
-2. User taps "Start Workout" → Modal shows options: "Empty Workout" or "Repeat Last"
-3. User selects "Repeat Last" → App loads previous leg workout with all exercises
-4. Active workout screen displays first exercise (Squat) with last workout's sets pre-filled
-5. User performs set, taps checkmark → Set logged with auto-filled 100kg × 8 reps
-6. Rest timer auto-starts (3 minutes based on historical average)
-7. User adjusts weight using "+5kg" button → Weight updates to 105kg
-8. User taps plate calculator icon → Modal shows "Add per side: 20kg + 10kg + 2.5kg"
-9. User performs set, logs with 105kg × 6 reps
-10. User completes all exercises, taps "End Workout"
-11. Workout saves to WatermelonDB, automatically syncs with Supabase
-12. Summary screen shows volume, duration, PRs achieved
+1. User opens app → Workout tab (Planned sub-tab) displays active workout plan with "Start Workout" button
+2. User taps "Start Workout" → App loads workout from active plan (Jefit-style: plan required to start workout)
+3. Active workout screen displays first exercise (Squat) with last workout's sets pre-filled
+4. User performs set, taps checkmark → Set logged with auto-filled 100kg × 8 reps
+5. Rest timer auto-starts when set is logged (Jefit-style behavior)
+6. User adjusts weight using "+5kg" button → Weight updates to 105kg
+7. User taps plate calculator icon → Modal shows "Add per side: 20kg + 10kg + 2.5kg"
+8. User performs set, logs with 105kg × 6 reps
+9. User completes all exercises, taps "End Workout"
+10. Workout saves to WatermelonDB, automatically syncs with Supabase
+11. Summary screen shows basic stats: volume (total kg lifted), duration, time (MVP scope)
 
 **Success criteria:**
 
@@ -400,29 +399,36 @@ Halterofit is a mobile fitness tracking application designed for serious lifters
 - Exercise GIFs load from cache instantly (expo-image caching)
 - No network requests during search (all data local)
 
-#### Flow 3: Analyze progression
+#### Flow 3: View workout history (Post-MVP - Advanced Analytics)
 
-**Scenario:** User wants to review bench press progress.
+**Note:** MVP includes basic workout history with volume, duration, and time. Advanced analytics (charts, progression graphs, 1RM estimation) are post-MVP features.
 
-**Steps:**
+**Scenario (MVP):** User wants to review recent workout history.
 
-1. User navigates to Analytics tab
-2. Dashboard shows weekly volume chart, recent PRs, progression graphs
-3. User taps "Bench Press" exercise → Exercise detail screen displays:
-   - Strength progression chart (last 8 weeks)
-   - Trend line showing weight progression over time
-   - Estimated 1RM progression
-   - Personal records (max weight, max reps)
-4. User reviews chart showing consistent 2.5kg increases per week
-5. User taps volume distribution chart → Pie chart shows volume by muscle group
-6. User confirms balanced training across push/pull movements
-7. User navigates back to workout screen feeling confident about progress
+**Steps (MVP):**
 
-**Success criteria:**
+1. User navigates to Profile tab → Workout History section
+2. List displays recent completed workouts with basic stats:
+   - Workout name and date
+   - Total volume (kg lifted)
+   - Duration
+   - Number of exercises completed
+3. User taps workout → Detail screen shows exercises and sets performed
+4. User reviews performance and identifies areas for improvement
 
-- Charts render smoothly with zoom/pan gestures for detailed analysis
-- Exercise history loads in <1 second
-- Volume calculations are accurate and clearly displayed
+**Success criteria (MVP):**
+
+- Workout history loads in <1 second
+- Basic stats (volume, duration) are accurate and clearly displayed
+- User can view last 30 days of workouts
+
+**Post-MVP Features:**
+
+- Analytics tab with charts (weekly volume, progression graphs, PRs)
+- Exercise-specific analysis (strength progression, 1RM estimates, trends)
+- Volume distribution by muscle group
+- Mann-Kendall plateau detection
+- Fatigue tracking and deload recommendations
 
 ### Advanced features
 

@@ -24,7 +24,16 @@
       "Bash(git commit:*)",
       "Bash(git update-index:*)",
       "Read(//c/**)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(npm run test:integration:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix(lint): Migrate to ESLint v9 flat config to resolve CI errors\n\nRoot cause:\n- ESLint v9 uses flat config (eslint.config.js)\n- Integration tests created incompatible .eslintrc.js files (extends non-existent file)\n- Config pattern didn''t cover jest.config.integration.js + subdirectories\n\nFixes applied:\n- Delete __tests__/integration/.eslintrc.js\n- Delete __tests__/__helpers__/network/.eslintrc.js\n- Migrate overrides to eslint.config.js (3 new sections)\n- Fix config pattern: *.config.js → **/*.config.js + jest.*.js\n- Add integration tests section: fetch global + any types allowed\n- Add network helpers section: any types for mock flexibility\n- Add factories section: any types for WatermelonDB callbacks\n- Auto-fix 51 Prettier formatting warnings\n\nImpact:\n- CI Code Quality: 10 errors → 0 errors ✅\n- Warnings: 147 → 96 (formatting auto-fixed)\n- Remaining warnings: console.log (intentional) + unused vars (non-critical)\nEOF\n)\")",
+      "Bash(find:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm install:*)",
+      "Bash(npm view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh run:*)"
     ],
     "deny": [],
     "ask": []

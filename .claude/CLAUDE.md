@@ -55,17 +55,18 @@
 
 ## 🚧 Current Phase & Next Steps
 
-**Phase:** 0.5 - Architecture & Foundation
-**Progress:** 6/98 tasks (6%)
+**Phase:** 1 - Authentication & Foundation
+**Progress:** 29/76 tasks (38%)
 **Version:** 0.1.0
 
-**Next Task:** 0.5.20 - Setup EAS Build Account & CLI
-**Next Phase:** Critical Corrections & Infrastructure (4 tasks remaining)
+**Next Task:** Create Login Screen UI
+**Next Phase:** Auth UI & Testing Infrastructure (16 tasks total)
 
 **Critical Context:**
-- ✅ Development Build migration COMPLETED (Phase 0.5.B - Tasks 0.5.20-0.5.26)
+- ✅ Phase 0.5 COMPLETE (Architecture & Foundation - 21/21 tasks)
+- ✅ Phase 0.6 COMPLETE (UI/UX Foundation - 8/8 tasks)
 - Current stack: Development Build + WatermelonDB + MMKV + Victory Native
-- Early migration avoided 40-60% code rewrite later
+- Ready for Phase 1: Authentication implementation
 
 **Reference:** See [TASKS.md § Kanban](../docs/TASKS.md#-kanban) for current priorities
 
@@ -75,7 +76,7 @@
 
 **Current:** Development Build + WatermelonDB + MMKV + Victory Native + React Native Reusables (Production-ready)
 
-**Migration Completed:** Phase 0.5 ✅ | Phase 0.6 ✅ (Tasks 0.5.20-0.5.26, 0.6.1-0.6.10)
+**Migration Completed:** Phase 0.5 ✅ | Phase 0.6 ✅
 - Database: WatermelonDB (reactive, offline-first)
 - Storage: MMKV (encrypted, 10-30x faster)
 - Charts: Victory Native (Skia-based)
@@ -176,7 +177,7 @@ When changing schema:
 
 **Quick Navigation:**
 - 🎯 **Current Phase:** Phase 1 - Authentication & Foundation (0/16) → [TASKS.md § Phase 1](../docs/TASKS.md#phase-1-authentication--foundation-016)
-- 🚀 **Next Task:** 1.10 Login Screen → [PHASE1_PLAN.md](../docs/PHASE1_PLAN.md)
+- 🚀 **Next Task:** Login Screen → [PHASE1_PLAN.md](../docs/PHASE1_PLAN.md)
 - 📝 **Recent Completions:** [CHANGELOG.md](../docs/CHANGELOG.md) (Phase 0.5 & 0.6)
 
 ---
@@ -196,11 +197,11 @@ When changing schema:
 
 ```markdown
 📄 File: docs/TASKS.md
-📍 Section: Phase 0.5.B, Task 1 (line 209)
+📍 Section: Phase X, Task Y (line 209)
 ✏️ Change: Mark checkbox [x]
 
-Before: - [ ] 0.5.20 Setup EAS Build Account & CLI
-After:  - [x] 0.5.20 Setup EAS Build Account & CLI
+Before: - [ ] Task description
+After:  - [x] Task description
 ```
 
 **Never duplicate info across docs** - Each doc has single responsibility (see Documentation Map above)
@@ -253,7 +254,7 @@ Use structured comment tags to improve code navigation and maintainability:
 
 **Best Practices:**
 - Be specific in comments (bad: "fix this", good: "validate email format before Supabase call")
-- Link to TASKS.md task numbers when relevant: `// TODO(0.5.23): Migrate to Victory Native`
+- Link to TASKS.md when relevant: `// TODO: See TASKS.md Phase X for migration plan`
 - Remove obsolete comments during refactoring
 - Use comments to explain **why**, not **what** (code should be self-documenting for "what")
 

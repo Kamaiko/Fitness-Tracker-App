@@ -41,7 +41,7 @@ Halterofit uses a hybrid database architecture:
 
 - **WatermelonDB (Local):** Offline-first reactive database (SQLite) for instant reads/writes
 - **Supabase (Cloud):** PostgreSQL backend for cross-device sync and data persistence
-- **ExerciseDB (Seeded):** 1,500 exercises from GitHub dataset, imported once, stored locally and in cloud
+- **ExerciseDB (Seeded):** 1,500+ exercises from GitHub dataset, imported once, stored locally and in cloud
 
 Key Principles:
 
@@ -91,7 +91,7 @@ Key Principles:
 │  │              PostgreSQL Database                  │  │
 │  │                                                    │  │
 │  │  • workouts (user workout sessions)               │  │
-│  │  • exercises (1,500 ExerciseDB - read-only)      │  │
+│  │  • exercises (1,500+ ExerciseDB - read-only)     │  │
 │  │  • workout_exercises (join table)                │  │
 │  │  • exercise_sets (individual sets)               │  │
 │  │  • users (profiles, preferences)                 │  │
@@ -179,7 +179,7 @@ CREATE POLICY "Users see own workouts"
 
 ### Exercises Table (ExerciseDB)
 
-**Purpose:** Store all exercises (1,500 from GitHub ExerciseDB dataset - read-only library)
+**Purpose:** Store all exercises (1,500+ from GitHub ExerciseDB dataset - read-only library)
 
 **Schema Version:** v7 (GitHub dataset-aligned with animated GIFs)
 
@@ -438,7 +438,7 @@ CREATE TABLE public.users (
 
 ### Nomenclature Mapping
 
-Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data source (1,500 exercises). Our schema is aligned with the GitHub dataset structure.
+Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data source (1,500+ exercises). Our schema is aligned with the GitHub dataset structure.
 
 **Current Version:** GitHub dataset (static JSON file)
 **Images:** Animated GIFs provided by GitHub ExerciseDB CDN
@@ -544,7 +544,7 @@ Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data s
 
 **Import Status:** ✅ Completed (2025-11-06)
 
-- 1,500 exercises seeded to Supabase PostgreSQL
+- 1,500+ exercises seeded to Supabase PostgreSQL
 - Dataset backup retained in `scripts/exercisedb-full-dataset.json` (1.3MB)
 - Import/rollback scripts removed (no longer needed)
 
@@ -557,7 +557,7 @@ Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data s
    - User sees: "Configuring exercise library..."
 
 2. **Offline-first experience**:
-   - All 1,500 exercises stored locally
+   - All 1,500+ exercises stored locally
    - Search/filter works 100% offline
    - Zero API calls during runtime
 
@@ -1064,14 +1064,14 @@ $$ LANGUAGE plpgsql;
 
 ### Benchmarks (iPhone 12 Pro, 2 years of data)
 
-| Operation              | Time   | Details                     |
-| ---------------------- | ------ | --------------------------- |
-| Log 1 set              | <5ms   | Instant write to SQLite     |
-| Load 20 workouts       | <20ms  | With pagination             |
-| Load workout details   | <50ms  | Includes exercises + sets   |
-| Search 1,500 exercises | <100ms | Local full-text search      |
-| Sync 100 sets          | 1-2s   | Background sync to Supabase |
-| Repeat last workout    | <100ms | Clone workout + exercises   |
+| Operation               | Time   | Details                     |
+| ----------------------- | ------ | --------------------------- |
+| Log 1 set               | <5ms   | Instant write to SQLite     |
+| Load 20 workouts        | <20ms  | With pagination             |
+| Load workout details    | <50ms  | Includes exercises + sets   |
+| Search 1,500+ exercises | <100ms | Local full-text search      |
+| Sync 100 sets           | 1-2s   | Background sync to Supabase |
+| Repeat last workout     | <100ms | Clone workout + exercises   |
 
 ### Optimization Tips
 
@@ -1100,7 +1100,7 @@ $$ LANGUAGE plpgsql;
 
 **Rationale:**
 
-GitHub ExerciseDB dataset provides 1,500 exercises with 8 fields including animated GIFs. This is a static dataset import (not an API), providing reliable offline-first functionality.
+GitHub ExerciseDB dataset provides 1,500+ exercises with 8 fields including animated GIFs. This is a static dataset import (not an API), providing reliable offline-first functionality.
 
 **Deprecated Fields:**
 

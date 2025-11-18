@@ -2480,91 +2480,36 @@ function formatAuthError(error: any): string {
 
 ## Testing Strategy
 
-### Unit Testing (Jest + LokiJS)
+> 📖 **For complete testing documentation**, see [TESTING.md](./TESTING.md)
 
-**Coverage Targets:**
+**Phase 1 Test Coverage Goals:**
 
-- Global: 70% (branches, functions, lines, statements)
-- Auth services: 90%
-- Auth store: 90%
-- Database services: 80%
+| Component         | Target | Priority    |
+| ----------------- | ------ | ----------- |
+| Auth services     | 90%    | 🔥 Critical |
+| Auth store        | 90%    | 🔥 Critical |
+| Database services | 80%    | 🟠 High     |
+| Global            | 70%    | 🟢 Medium   |
 
-**Test Infrastructure (1.15):**
+**Test Infrastructure (Task 1.15):**
 
 - Factories: `createTestAuthUser()`, `createTestSession()`
 - Mocks: `mockSupabase`, `mockMMKVStorage`
-- Helpers: `resetAuthMocks()`
 
-**Test Categories:**
-
-- Auth service tests (1.16): Login, register, reset password, refresh token
-- Auth store tests (1.17): setUser(), signOut(), MMKV persist, rehydration
-- Auth validation tests (1.18): Unauthenticated access, user ID mismatch, ownership
-- Sync error tests (1.19): Network failures, conflict resolution, partial failures
-- MMKV edge cases (1.20): Storage full, invalid JSON, encryption failures
-
-**Run Tests:**
+**Quick Commands:**
 
 ```bash
-npm test                    # Run all tests
-npm run test:coverage       # Run with coverage report
-npm run test:watch          # Watch mode
+npm test                    # Run all unit tests
+npm run test:coverage       # Coverage report
+maestro test .maestro/auth/ # E2E auth flows (Task 1.22)
 ```
 
----
+**See [TESTING.md](./TESTING.md) for:**
 
-### E2E Testing (Maestro)
-
-**When to Use:**
-
-- User flows (login → tabs navigation)
-- UI interactions (tap button, input text)
-- Cross-screen flows (register → email confirmation → login)
-
-**Limitations:**
-
-- Cannot test WatermelonDB sync protocol (requires real SQLite)
-- Cannot test network failures (use Manual E2E for this)
-
-**Test Files:**
-
-- `.maestro/auth/auth-login.yaml`: Login flow
-- `.maestro/auth/auth-register.yaml`: Register flow
-- `.maestro/auth/auth-password-reset.yaml`: Password reset flow
-
-**Run Tests:**
-
-```bash
-maestro test .maestro/auth/              # Run all auth tests
-maestro test .maestro/auth/auth-login.yaml  # Run specific test
-```
-
----
-
-### Manual E2E Testing
-
-**When to Use:**
-
-- WatermelonDB sync validation (sync protocol requires real SQLite)
-- Network failure scenarios (airplane mode, slow 3G)
-- Deep link testing (email confirmation, password reset)
-
-**Test Scenarios:**
-
-1. **Sync Retry with Exponential Backoff (1.32)**
-   - Turn off network → create workout → trigger sync
-   - Verify retry attempts: 1s, 2s, 4s delays
-   - Turn on network → foreground app → verify sync succeeds
-
-2. **Cascading Delete (1.30)**
-   - Create workout with exercises + sets
-   - Delete workout → sync to Supabase
-   - Verify all children deleted from Supabase
-
-3. **Password Reset Deep Link (1.12)**
-   - Request reset → check email → click link
-   - Verify app opens at `/(auth)/reset-password?token=abc`
-   - Set new password → verify redirect to login
+- Complete testing strategy (unit, integration, E2E)
+- Test writing patterns and best practices
+- Coverage requirements and validation
+- Troubleshooting guide
 
 ---
 

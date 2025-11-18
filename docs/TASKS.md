@@ -29,7 +29,7 @@
 ## Executive Summary
 
 **Current Focus**: Phase 1 - Authentication & Foundation (Auth UI + Testing Infrastructure)
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/83 tasks (35%)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/76 tasks (38%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
 **Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed tasks and release notes
@@ -48,7 +48,7 @@
 | **1.13** Protected routes `[S]`   |       | **0.6.6** Environment vars ✅  |
 | **1.15** Auth test infra `[S]` 🔥 |       | **0.6.4** Core components ✅   |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 8/8 (100%) • Phase 1: 0/16 (0%) • Overall: 29/83 (35%)
+**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 8/8 (100%) • Phase 1: 0/16 (0%) • Overall: 29/76 (38%)
 **Velocity**: ~5 tasks/week • **ETA**: Phase 1 completion in ~3 weeks, MVP in 12 weeks
 **NEXT**: 1.10 Login Screen (2h) → Phase 1 Auth kickoff ⚡
 
@@ -223,7 +223,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
 ### 0.6.C: Foundation Infrastructure (4/4) ✅ COMPLETE
 
 - [x] 0.6.6 **Setup Environment Variables** (S - 10min) ✅ 2025-02-01
-- [x] 0.6.8 **Bulk Import ExerciseDB Library (1,500 exercises)** (L - 4h) ✅ 2025-11-06
+- [x] **Bulk Import ExerciseDB Library (1,500+ exercises)** (L - 4h) ✅ 2025-11-06
 - [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) ✅ 2025-01-30
 - [x] 0.6.10 **Fix nutrition_phase schema mismatch** (XS - 1h) 🔥 ✅ 2025-11-04
 
@@ -740,166 +740,11 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
 
 ## Post-MVP Backlog
 
-**Note:** These features are OUT OF SCOPE for MVP. They will be prioritized post-launch based on user feedback and product-market fit validation.
+> 📖 **See [BACKLOG.md](./BACKLOG.md)** for ~60+ post-launch features
 
-**Total Post-MVP tasks:** ~60+ features deferred from original roadmap
+**Priority Categories:**
 
----
-
-### Analytics & Progression
-
-**Priority:** HIGH (first post-MVP features to implement)
-
-- Volume tracking (weekly/monthly charts with Victory Native)
-- Personal records tracking with badges and celebrations
-- Strength progression charts (line charts, trend analysis)
-- 1RM estimation (Epley formula: weight × (1 + reps/30))
-- Plateau detection (Mann-Kendall statistical test with simple-statistics library)
-- Workout summaries (post-workout report: duration, volume, PRs)
-- Weekly summary notifications (Monday morning push notifications)
-- Volume distribution analysis (pie charts by muscle group)
-
-**Estimated effort:** ~35-45h (Phase 4 from original roadmap)
-
----
-
-### Exercise Images & Visual Enhancements
-
-**Priority:** MEDIUM-HIGH (improves UX, not blocking MVP)
-
-**Context:** MVP launches with ExerciseDB V1 API (1,300 text-only exercises). Images and videos deferred to post-MVP due to:
-
-- RapidAPI ExerciseDB serves V1 only (no images/videos available)
-- V2 dataset exists (5,000+ exercises with images/videos) but not production-ready
-- MVP validation prioritizes functional workout tracking over visual polish
-
-**Options Researched (ROI Analysis):**
-
-1. **AI-Generated Images** ($30-50, ROI 8/10)
-   - Tool: Midjourney or DALL-E 3
-   - Generate 1,300 unique exercise illustrations
-   - Consistent style, professional quality
-   - Timeline: 1-2 weeks (with batch automation)
-   - Upload to Supabase Storage, update `image_url` field
-
-2. **Open-Source GitHub Images** ($0, ROI 9/10) ⭐ **RECOMMENDED**
-   - [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db): 800+ exercises with images (PUBLIC DOMAIN)
-   - [chaosbastler/opentraining-exercises](https://github.com/chaosbastler/opentraining-exercises): 100+ with SVG/GIF (CC BY-SA 3.0)
-   - Match exercises by name/ID using fuzzy matching
-   - Upload matched images to Supabase Storage
-   - Coverage: ~70% (900/1,300 exercises), rest use placeholder
-   - Timeline: 4-6h implementation
-
-3. **ExerciseDB V2 Migration** (TBD, ROI 7/10)
-   - Monitor V2 availability on RapidAPI or investigate self-hosting
-   - Full migration from V1→V2 schema (breaking change)
-   - Gain: 5,000+ exercises with native images/videos
-   - Loss: V1-specific fields (description, difficulty, category)
-   - Timeline: 8-12h (schema migration v5→v6, import script rewrite, testing)
-   - Dependency: Wait for V2 production readiness confirmation
-
-4. **Commercial Exercise API** ($0.9/GIF, ROI 5/10)
-   - Service: [Gym Visual](https://gymvisual.com/) or similar
-   - Cost: ~$1,200 for 1,300 GIF animations
-   - High quality, but expensive for MVP stage
-   - Timeline: 2-3 days integration
-
-**Recommended Approach:**
-
-**Phase 1 (Post-MVP v1.1 - Week 1 after launch):**
-
-- Implement Option 2 (GitHub open-source images)
-- Schema migration v5→v6: Add `image_url` field back
-- Match 800+ exercises, use placeholder for rest
-- expo-image caching for offline support
-- **Effort:** 4-6h
-
-**Phase 2 (Post-MVP v1.2 - Month 2):**
-
-- Generate remaining ~400 images via AI (Midjourney)
-- OR wait for ExerciseDB V2 production access
-- **Effort:** 8-10h (AI route) or 12-15h (V2 migration)
-
-**Technical Notes:**
-
-- WatermelonDB schema already supports `image_url` (existed in v4, removed in v5)
-- Re-adding requires migration v5→v6 with `addColumns()`
-- Supabase Storage setup: Create `exercise-images` bucket with public access
-- expo-image cachePolicy: "memory-disk" for aggressive caching
-
-**Estimated effort:** 4-6h (Option 2), 8-12h (Option 3), or $30-50 + 1-2 weeks (Option 1)
-
----
-
-### UX Enhancements
-
-**Priority:** MEDIUM
-
-- **Plate calculator** (modal from weight input showing required plates per side)
-- **Set history** (last 3-5 sets display below input for progressive overload reference)
-- **Notes per workout/exercise/set** (text area for observations)
-- **Onboarding flow** (3-4 screens with feature highlights on first launch)
-- **Profile image upload** (Supabase Storage integration, expo-image-picker)
-- **Superset/circuit support** (exercise grouping with visual indicators)
-
-**Estimated effort:** ~20-25h
-
----
-
-### Advanced Features
-
-**Priority:** LOW (validate with users first)
-
-- **Custom exercise creation** (user-defined exercises with image upload)
-  - Migration path documented in [ADR-017](archives/ADR-017-No-Custom-Exercises-MVP.md)
-  - Add `is_custom` and `created_by` fields to exercises table
-  - RLS policies for user ownership
-  - Sync protocol update for cross-device custom exercises
-  - UI: "Create Custom Exercise" button in Exercise Library
-  - Form: name, muscle groups, instructions, equipment, image upload (Supabase Storage)
-  - **Estimated effort:** ~8-12h (Phase 3+)
-- **RPE/RIR tracking** (Rating of Perceived Exertion / Reps In Reserve)
-- **Auto-weight suggestions** (rule-based, context-aware recommendations)
-- **Load management** (acute/chronic load ratios, overtraining alerts)
-- **Context-aware analytics** (nutrition phase tracking: bulk/cut/maintenance)
-- **Exercise video demonstrations** (user-recorded, Supabase Storage)
-- **Advanced E2E testing** (full Maestro suite covering all user flows)
-
-**Estimated effort:** ~40-50h
-
----
-
-### Infrastructure & Polish
-
-**Priority:** AS NEEDED
-
-- **Auto-Sync ExerciseDB Updates** (Supabase Edge Function)
-  - Automated weekly check for new ExerciseDB exercises
-  - Supabase Edge Function calls ExerciseDB API
-  - Upserts new exercises into PostgreSQL
-  - Users receive updates via WatermelonDB sync (automatic)
-  - Eliminates manual quarterly re-imports
-  - Rate limit management (free tier: 10,000 req/month)
-  - **Estimated effort:** ~6-8h (serverless architecture)
-  - **Dependencies:** MVP complete, validated user adoption
-- **Supabase MCP Server Installation** (Developer Experience Enhancement)
-  - Install Supabase MCP server for Claude Code integration
-  - Enables Claude to query Supabase database directly during development
-  - Faster debugging and development workflows (no manual SQL Editor navigation)
-  - Query optimization suggestions and schema validation
-  - **Estimated effort:** ~30-45 min (one-time setup)
-  - **Dependencies:** ExerciseDB import complete (already done)
-  - **Documentation:** [Supabase MCP GitHub](https://github.com/supabase-community/supabase-mcp-server)
-  - **Optional:** Not critical for MVP, but improves developer velocity
-- **Multi-language support (i18n)** - Defer until international expansion
-- **Social features** (share workouts, follow friends) - Defer until user base >1,000
-- **Coach-client relationship** (team accounts) - Defer until B2B validation
-- **Performance dashboards** (Sentry Performance monitoring) - Already setup, just add custom metrics
-- **Biometric authentication** (Face ID/Touch ID) - Not critical (user logs in once)
-
-**Estimated effort:** ~15-20h (polish items only)
-
----
-
-**Last Updated:** 2025-11-06
-**Next Review:** After Phase 1 completion (Auth + Testing infrastructure done)
+- 🔥 **Analytics & Progression** (~35-45h) - Volume charts, 1RM estimation, plateau detection
+- ✨ **UX Enhancements** (~20-25h) - Plate calculator, set history, notes
+- 🚀 **Advanced Features** (~40-50h) - Custom exercises, RPE tracking, auto-suggestions
+- 🛠️ **Infrastructure** (~15-20h) - Auto-sync, i18n, social features
