@@ -1,21 +1,17 @@
-# 🤝 Contributing Guide
+# Contributing Guide
 
-Welcome to Halterofit! This guide will help you set up the project and start contributing.
+This guide covers project setup, development workflow, coding standards, and common troubleshooting steps for contributing to Halterofit.
 
----
+## Table of Contents
 
-## 📑 Table of Contents
-
-- [🚀 Quick Start](#quick-start)
-- [🛠️ Development Workflow](#development-workflow)
-- [📋 Pre-Commit Checklist](#pre-commit-checklist)
-- [📚 Documentation](#documentation)
-- [🎨 Coding Standards](#coding-standards)
-- [🐛 Common Issues](#common-issues)
-- [📝 Commands](#commands)
-- [🔄 CI/CD Architecture](#cicd-architecture)
-
----
+- [Quick Start](#quick-start)
+- [Development Workflow](#development-workflow)
+- [Pre-Commit Checklist](#pre-commit-checklist)
+- [Documentation](#documentation)
+- [Coding Standards](#coding-standards)
+- [Common Issues](#common-issues)
+- [Commands](#commands)
+- [CI/CD Architecture](#cicd-architecture)
 
 ## Quick Start
 
@@ -168,16 +164,16 @@ See [README.md § Documentation](../README.md#-documentation) for complete docum
 
 ### Key Rules
 
-- ✅ TypeScript strict mode (no `any`)
-- ✅ Use absolute imports (`@/components` instead of `../../../components`)
-- ✅ Barrel exports (`index.ts`) for clean imports
-- ✅ Use NativeWind (Tailwind CSS) for styling
-- ✅ Functional components only
-- ✅ WatermelonDB for database operations
-- ✅ MMKV for encrypted storage
-- ❌ No hardcoded colors/spacing (use theme)
-- ❌ No inline styles (use NativeWind classes)
-- ❌ No `console.log` in production code
+- TypeScript strict mode (no `any`)
+- Use absolute imports (`@/components` instead of `../../../components`)
+- Barrel exports (`index.ts`) for clean imports
+- Use NativeWind (Tailwind CSS) for styling
+- Functional components only
+- WatermelonDB for database operations
+- MMKV for encrypted storage
+- No hardcoded colors/spacing (use theme)
+- No inline styles (use NativeWind classes)
+- No `console.log` in production code
 
 ### Folder Structure
 
@@ -614,6 +610,6 @@ e2e-tests:
 
 ---
 
-**Happy Coding! 🚀**
+**Happy Coding!**
 
 **Tech Stack & Architecture**: See [README.md](../README.md#️-tech-stack) for complete stack details.

@@ -33,7 +33,15 @@
       "Bash(npm install:*)",
       "Bash(npm view:*)",
       "Bash(gh pr list:*)",
-      "Bash(gh run:*)"
+      "Bash(gh run:*)",
+      "Bash(git push)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(npm audit:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(head:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

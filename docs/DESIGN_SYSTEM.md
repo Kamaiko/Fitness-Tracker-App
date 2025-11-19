@@ -1,11 +1,6 @@
 # Design System - Halterofit
 
-**Version**: 1.1 (Condensed)
-**Created**: 2025-01-30
-**Updated**: 2025-02-01
-**Purpose**: Strategic design insights and principles (detailed wireframes deferred until implementation)
-
----
+This document captures strategic design insights, competitor analysis, and design principles for Halterofit. It focuses on high-level guidance rather than detailed wireframes, following an agile approach where detailed specs are created just-in-time during implementation.
 
 ## Table of Contents
 
@@ -14,8 +9,6 @@
 3. [Color System](#color-system)
 4. [Component Strategy](#component-strategy)
 5. [Interaction Principles](#interaction-principles)
-
----
 
 ## Competitor Analysis
 
@@ -75,8 +68,6 @@ Analyzed 3 leading workout tracking apps (Strong, Hevy, and general fitness patt
 - **Snackbars/Toasts**: Quick feedback without interruption
 - **Timed properly**: Minimize frustration, easy to dismiss
 
----
-
 ## Design Principles
 
 ### 1. **Offline-First Clarity**
@@ -104,13 +95,11 @@ Analyzed 3 leading workout tracking apps (Strong, Hevy, and general fitness patt
 - Advanced features accessible but not prominent (RIR, tempo, notes)
 - Analytics revealed after sufficient data collected
 
----
-
 ## Color System
 
 ### Design Rationale
 
-**Primary Color Decision: #4299e1 (Blue) ✅**
+**Primary Color Decision: #4299e1 (Blue)**
 
 **Rationale:**
 
@@ -160,8 +149,6 @@ Analyzed 3 leading workout tracking apps (Strong, Hevy, and general fitness patt
 - `rpe.high`: `#e53e3e` - RPE 8-9 (Hard - red)
 - `rpe.max`: `#c53030` - RPE 10 (Maximum - dark red)
 
----
-
 ## Component Strategy
 
 ### Current Stack
@@ -204,8 +191,6 @@ Analyzed 3 leading workout tracking apps (Strong, Hevy, and general fitness patt
 - Haptic feedback on all button presses (light impact)
 - Visual feedback: 90% opacity on press (activeOpacity={0.9})
 - Loading states: Skeleton loaders (no spinners that block UI)
-
----
 
 ## Interaction Principles
 
@@ -253,8 +238,6 @@ Analyzed 3 leading workout tracking apps (Strong, Hevy, and general fitness patt
 
 - Reanimated v4 for complex animations (Skia-based, 60fps guaranteed)
 - NativeWind transitions for simple opacity/scale (CSS-based, lightweight)
-
----
 
 ## Implementation Notes
 

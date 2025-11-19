@@ -1,12 +1,8 @@
 # Phase 1 Implementation Plan - Authentication & Foundation
 
-> **Version**: 1.0
-> **Last Updated**: 2025-11-06
-> **Purpose**: Comprehensive implementation guide for Phase 1 tasks
+This document provides comprehensive implementation guidance for Phase 1 tasks covering authentication UI, testing infrastructure, and database enhancements. It includes architecture decisions, task breakdowns, Supabase best practices, and testing strategies.
 
----
-
-## 📋 Table of Contents
+## Table of Contents
 
 1. [Overview](#overview)
 2. [Architecture Decision (ADR)](#architecture-decision-adr)
@@ -16,8 +12,6 @@
 6. [Task Details C: Database Enhancements](#task-details-c-database-enhancements)
 7. [Supabase Best Practices](#supabase-best-practices)
 8. [Testing Strategy](#testing-strategy)
-
----
 
 ## Overview
 
@@ -31,15 +25,13 @@
 
 **Deliverables:**
 
-- ✅ Login, Register, Password Reset screens
-- ✅ Protected routes with navigation guards
-- ✅ Supabase Auth integration with session persistence
-- ✅ 90% auth test coverage (unit + E2E)
-- ✅ Cascading delete, User model enhancements, sync retry logic
+- Login, Register, Password Reset screens
+- Protected routes with navigation guards
+- Supabase Auth integration with session persistence
+- 90% auth test coverage (unit + E2E)
+- Cascading delete, User model enhancements, sync retry logic
 
 **Key Constraint:** Simple email/password only (biometric removed - user logs in once)
-
----
 
 ## Architecture Decision (ADR)
 
@@ -53,7 +45,7 @@
    - State: `user`, `isAuthenticated`, `isLoading`
    - Actions: `setUser()`, `setLoading()`, `signOut()`
    - Persistence: MMKV via Zustand persist middleware
-   - Location: `src/stores/auth/authStore.ts` (✅ already exists)
+   - Location: `src/stores/auth/authStore.ts` (already exists)
 
 2. **Services**: Raw Supabase API calls
    - Functions: `signIn()`, `signUp()`, `signOut()`, `resetPassword()`, `refreshSession()`
@@ -67,13 +59,13 @@
 
 **Rationale:**
 
-| Criteria              | Hooks + Services + Store                    | Direct Store Only                 |
-| --------------------- | ------------------------------------------- | --------------------------------- |
-| **Testing**           | ✅ 3x easier (mock services independently)  | ❌ Hard to mock Supabase in store |
-| **Clarity**           | ✅ Clear separation of concerns             | ❌ Mixed responsibilities         |
-| **Reusability**       | ✅ Services reusable in multiple contexts   | ❌ Tied to store                  |
-| **Industry Standard** | ✅ Supabase docs use this pattern           | ❌ Less common                    |
-| **ROI**               | ✅ Positive (Phase 1.B has 8 testing tasks) | ❌ Negative (testing overhead)    |
+| Criteria              | Hooks + Services + Store                 | Direct Store Only              |
+| --------------------- | ---------------------------------------- | ------------------------------ |
+| **Testing**           | 3x easier (mock services independently)  | Hard to mock Supabase in store |
+| **Clarity**           | Clear separation of concerns             | Mixed responsibilities         |
+| **Reusability**       | Services reusable in multiple contexts   | Tied to store                  |
+| **Industry Standard** | Supabase docs use this pattern           | Less common                    |
+| **ROI**               | Positive (Phase 1.B has 8 testing tasks) | Negative (testing overhead)    |
 
 **Example Flow:**
 
@@ -97,11 +89,9 @@ useAuth returns success → navigate to (tabs)
 
 **Rationale:**
 
-- ✅ Consistency: authStore already uses this pattern
-- ✅ Future-proof: Easy to swap MMKV for alternatives (e.g., encrypted storage)
-- ✅ Testing: Mock `storage.get()/set()` instead of MMKV directly
-
----
+- Consistency: authStore already uses this pattern
+- Future-proof: Easy to swap MMKV for alternatives (e.g., encrypted storage)
+- Testing: Mock `storage.get()/set()` instead of MMKV directly
 
 ## Architecture Overview
 
@@ -132,7 +122,7 @@ src/
 │
 ├── stores/
 │   └── auth/
-│       └── authStore.ts           # Zustand store (✅ exists)
+│       └── authStore.ts           # Zustand store (exists)
 │
 └── hooks/
     └── useAuth.ts                 # Business logic hook (new)
@@ -167,7 +157,7 @@ __tests__/
 **Purpose:** Pure state management with MMKV persistence
 
 ```typescript
-// src/stores/auth/authStore.ts (✅ already exists)
+// src/stores/auth/authStore.ts (already exists)
 export interface AuthState {
   user: User | null;
   isLoading: boolean;
@@ -270,8 +260,6 @@ export const useAuth = () => {
 4. Supabase auto-refreshes JWT token (if expired)
 5. authStore updates with new session
 ```
-
----
 
 ## Task Details A: Auth UI & Screens
 
@@ -382,8 +370,6 @@ export default function LoginScreen() {
 - Label components for screen readers
 - Keyboard navigation support
 - Focus management
-
----
 
 ### 1.11 Create Register Screen UI (M - 2h)
 
@@ -543,8 +529,6 @@ export default function RegisterScreen() {
 3. useAuth.signUp() → authService.signUp() → Supabase
 4. Supabase sends confirmation email (default behavior)
 5. Redirect to login with success message: "Check your email to confirm your account"
-
----
 
 ### 1.12 Implement Password Reset Flow (M - 2h)
 
@@ -724,8 +708,6 @@ export const authService = {
 - Request: "Check your email for a password reset link"
 - Update: "Password updated successfully! Redirecting..."
 
----
-
 ### 1.13 Setup Protected Routes & Navigation Guards (S - 1.5h)
 
 **File:** `src/app/_layout.tsx`
@@ -817,8 +799,6 @@ export default function RootLayout() {
 - Scenario 2: User logs out → should navigate to `/(auth)/login`
 - Scenario 3: App restart → should restore session from MMKV
 - Scenario 4: Deep link → should preserve `?token=` parameter
-
----
 
 ### 1.14 Implement Supabase Auth Integration (M - 3h)
 
@@ -1058,8 +1038,6 @@ export const useAuth = () => {
    - Use `resetPasswordForEmail` (not `resetPassword`)
    - Use `refreshSession` (not manual token refresh)
 
----
-
 ## Task Details B: Testing Infrastructure
 
 ### 1.15 Create Auth Test Infrastructure (S - 2h) 🔥 HIGH
@@ -1226,8 +1204,6 @@ describe('authService', () => {
 ```
 
 **Blocks:** 1.16, 1.17, 1.18, 1.19, 1.20 (all tests depend on this infrastructure)
-
----
 
 ### 1.16 Write Auth Service Tests (M - 4h) 🔥 CRITICAL
 
@@ -1416,8 +1392,6 @@ describe('authService', () => {
 
 **Blocked by:** 1.14 (auth service), 1.15 (test infrastructure)
 
----
-
 ### 1.17 Write Auth Store Tests (S - 2h) 🟠 HIGH
 
 **File:** `__tests__/unit/stores/authStore.test.ts`
@@ -1548,8 +1522,6 @@ describe('authStore', () => {
 
 **Blocked by:** 1.15 (MMKV mock)
 
----
-
 ### 1.18 Write Auth Validation Tests (S - 2h) 🔥 CRITICAL
 
 **File:** `__tests__/unit/database/auth-validation.test.ts`
@@ -1626,8 +1598,6 @@ describe('Database Auth Validation', () => {
 ```
 
 **Blocked by:** 1.15 (auth factories)
-
----
 
 ### 1.19 Write Sync Error Handling Tests (M - 4h) 🟠 MEDIUM
 
@@ -1723,8 +1693,6 @@ describe('Sync Error Handling', () => {
 
 **Blocked by:** 1.15 (network mocks)
 
----
-
 ### 1.20 Write MMKV Storage Edge Case Tests (S - 2h) 🟢 MEDIUM
 
 **File:** `__tests__/unit/database/mmkv-storage.test.ts`
@@ -1787,8 +1755,6 @@ describe('MMKV Storage Edge Cases', () => {
 ```
 
 **Blocked by:** 1.15 (MMKV mock)
-
----
 
 ### 1.21 Add CI Coverage Threshold (XS - 30min) 🔥 HIGH
 
@@ -1855,7 +1821,7 @@ jobs:
       - name: Check coverage thresholds
         run: |
           if [ $? -ne 0 ]; then
-            echo "❌ Coverage threshold not met"
+            echo "Coverage threshold not met"
             exit 1
           fi
       - name: Upload coverage to Codecov
@@ -1865,8 +1831,6 @@ jobs:
 ```
 
 **Blocked by:** None (can set immediately)
-
----
 
 ### 1.22 Setup Maestro E2E + Auth Tests (L - 4h)
 
@@ -1891,7 +1855,6 @@ maestro --version
 ```yaml
 # .maestro/auth/auth-login.yaml
 appId: com.halterofit
----
 - launchApp
 - assertVisible: 'Login'
 
@@ -1916,7 +1879,6 @@ appId: com.halterofit
 ```yaml
 # .maestro/auth/auth-register.yaml
 appId: com.halterofit
----
 - launchApp
 - assertVisible: 'Login'
 
@@ -1948,7 +1910,6 @@ appId: com.halterofit
 ```yaml
 # .maestro/auth/auth-password-reset.yaml
 appId: com.halterofit
----
 - launchApp
 - assertVisible: 'Login'
 
@@ -2003,13 +1964,12 @@ maestro test .maestro/auth/auth-login.yaml  # Run specific test
 
 **Test Coverage:**
 
-- ✅ Login flow (email/password → tabs)
-- ✅ Register flow (form validation → email confirmation)
-- ✅ Password reset flow (email → success message)
+- Login flow (email/password → tabs)
+- Register flow (form validation → email confirmation)
+- Password reset flow (email → success message)
 
 ````
 
----
 
 ## Task Details C: Database Enhancements
 
@@ -2091,8 +2051,6 @@ describe('Cascading Delete', () => {
   });
 });
 ```
-
----
 
 ### 1.31 Enhance User Model with Relations & Helper Methods (M - 3h) 🟠 HIGH
 
@@ -2210,8 +2168,6 @@ describe('User Model', () => {
   });
 });
 ```
-
----
 
 ### 1.32 Add Sync Retry with Exponential Backoff (L - 5h) 🟠 HIGH
 
@@ -2332,9 +2288,9 @@ export const syncService = {
     for (const failedSync of failedSyncs) {
       try {
         await this.sync();
-        console.log(`✅ Retry successful for sync from ${new Date(failedSync.timestamp)}`);
+        console.log(`Retry successful for sync from ${new Date(failedSync.timestamp)}`);
       } catch (error) {
-        console.error(`❌ Retry failed:`, error);
+        console.error(`Retry failed:`, error);
       }
     }
 
@@ -2381,13 +2337,11 @@ useEffect(() => {
 7. Turn on WiFi
 8. Background app → foreground app
 9. Verify console log: "Retrying 1 failed syncs..."
-10. Verify sync succeeds: "✅ Retry successful for sync from ..."
+10. Verify sync succeeds: "Retry successful for sync from ..."
 11. Check Supabase database → workout should be present
 
 **Expected Result:** Sync succeeds after retry, no data loss.
 ```
-
----
 
 ## Supabase Best Practices
 
@@ -2396,7 +2350,7 @@ useEffect(() => {
 **Use Supabase Client with Storage Abstraction:**
 
 ```typescript
-// src/services/supabase/client.ts (✅ already configured)
+// src/services/supabase/client.ts (already configured)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: {
@@ -2417,8 +2371,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 - Auto-refresh on token expiry
 - Session persists across app restarts
 
----
-
 ### AppState Listener (Token Refresh on Foreground)
 
 **Why:** Supabase JWT tokens expire after 1 hour. If user backgrounds app for > 1 hour, token becomes stale.
@@ -2426,7 +2378,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 **Solution:** Refresh tokens when app returns to foreground
 
 ```typescript
-// src/app/_layout.tsx (✅ already implemented)
+// src/app/_layout.tsx (already implemented)
 useEffect(() => {
   const subscription = AppState.addEventListener('change', (nextAppState) => {
     if (nextAppState === 'active') {
@@ -2439,8 +2391,6 @@ useEffect(() => {
 ```
 
 **Reference:** [Supabase React Native Docs](https://supabase.com/docs/guides/auth/sessions/react-native#session-management)
-
----
 
 ### Error Handling
 
@@ -2466,8 +2416,6 @@ function formatAuthError(error: any): string {
 - Consistent error messages across app
 - No technical jargon ("Invalid credentials" → "Incorrect email or password")
 
----
-
 ### onAuthStateChange Listener (Optional)
 
 **Use Case:** Real-time auth state updates (e.g., user signs out in another tab)
@@ -2475,8 +2423,6 @@ function formatAuthError(error: any): string {
 **Not Recommended for Mobile:** Mobile apps don't have multiple tabs, so this is unnecessary overhead.
 
 **Preferred Pattern:** Use `useAuth` hook + `AppState` listener instead.
-
----
 
 ## Testing Strategy
 
@@ -2511,23 +2457,19 @@ maestro test .maestro/auth/ # E2E auth flows (Task 1.22)
 - Coverage requirements and validation
 - Troubleshooting guide
 
----
-
 ## Summary
 
 **Phase 1 delivers:**
 
-- ✅ Complete auth flow (login, register, reset password)
-- ✅ 90% auth test coverage (unit + E2E)
-- ✅ Database reliability (cascading delete, User helpers, sync retry)
-- ✅ Production-ready architecture (Hooks + Services + Store)
+- Complete auth flow (login, register, reset password)
+- 90% auth test coverage (unit + E2E)
+- Database reliability (cascading delete, User helpers, sync retry)
+- Production-ready architecture (Hooks + Services + Store)
 
 **Next Phase (Phase 2):**
 
 - Workout plans & navigation (Jefit-style Find/Planned tabs)
 - Plan management (create, edit, delete plans)
 - Exercise search & selection
-
----
 
 **Questions or Issues?** Refer to [TASKS.md](./TASKS.md) for task breakdown or [TECHNICAL.md](./TECHNICAL.md) for architecture decisions.

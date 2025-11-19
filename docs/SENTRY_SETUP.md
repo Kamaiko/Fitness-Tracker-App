@@ -1,10 +1,24 @@
 # Sentry Setup Guide
 
-This guide explains how to configure Sentry for production error monitoring in Halterofit.
+This guide explains how to configure Sentry for production error monitoring. It covers account setup, DSN configuration, testing, and troubleshooting error tracking in production builds.
 
----
+## Table of Contents
 
-## 🎯 What is Sentry?
+- [What is Sentry?](#what-is-sentry)
+- [Step 1: Create Sentry Account](#step-1-create-sentry-account-free)
+- [Step 2: Create React Native Project](#step-2-create-react-native-project)
+- [Step 3: Get Your DSN](#step-3-get-your-dsn)
+- [Step 4: Verify Installation](#step-4-verify-installation)
+- [Step 5: Test in Development](#step-5-test-in-development)
+- [Step 6: Test in Production Build](#step-6-test-in-production-build)
+- [Step 7: Monitoring in Production](#step-7-monitoring-in-production)
+- [Configuration Options](#configuration-options)
+- [Privacy & Security](#privacy--security)
+- [Pricing](#pricing)
+- [Troubleshooting](#troubleshooting)
+- [Resources](#resources)
+
+## What is Sentry?
 
 Sentry is a production error monitoring service that:
 
@@ -15,17 +29,13 @@ Sentry is a production error monitoring service that:
 
 **Important:** Sentry is **disabled in development** (`__DEV__ = true`). Only production builds send errors to Sentry.
 
----
-
-## 🚀 Step 1: Create Sentry Account (Free)
+## Step 1: Create Sentry Account (Free)
 
 1. Go to: https://sentry.io/signup/
 2. Create a free account (Developer plan - 5k errors/month free)
 3. Verify your email
 
----
-
-## 📱 Step 2: Create React Native Project
+## Step 2: Create React Native Project
 
 1. After login, click **"Create Project"**
 2. Select platform: **React Native**
@@ -34,9 +44,7 @@ Sentry is a production error monitoring service that:
 5. Team: Default (or create new)
 6. Click **"Create Project"**
 
----
-
-## 🔑 Step 3: Get Your DSN
+## Step 3: Get Your DSN
 
 After creating the project:
 
@@ -50,21 +58,17 @@ After creating the project:
 
 **Note:** The DSN is in `.env` (gitignored). Never commit it to git!
 
----
-
-## ✅ Step 4: Verify Installation
+## Step 4: Verify Installation
 
 Sentry is already integrated in the codebase. You just need the DSN!
 
 **Files already configured:**
 
-- ✅ `src/utils/sentry.ts` - Sentry configuration
-- ✅ `app/_layout.tsx` - Initialization at app startup
-- ✅ `src/hooks/ui/useErrorHandler.ts` - Automatic error reporting
+- `src/utils/sentry.ts` - Sentry configuration
+- `app/_layout.tsx` - Initialization at app startup
+- `src/hooks/ui/useErrorHandler.ts` - Automatic error reporting
 
----
-
-## 🧪 Step 5: Test in Development
+## Step 5: Test in Development
 
 ### Test 1: Verify Sentry is Disabled in Dev
 
@@ -74,7 +78,7 @@ npm start
 # [Sentry] Disabled in development mode
 ```
 
-✅ **Expected:** Sentry logs that it's disabled (errors NOT sent)
+**Expected:** Sentry logs that it's disabled (errors NOT sent)
 
 ### Test 2: Test Error Handling (Local)
 
@@ -89,15 +93,13 @@ const { handleError } = useErrorHandler();
 handleError(new Error('Test error'), 'testContext');
 ```
 
-✅ **Expected:**
+**Expected:**
 
 - Alert shown to user
 - Error logged to console
 - NOT sent to Sentry (dev mode)
 
----
-
-## 🚀 Step 6: Test in Production Build
+## Step 6: Test in Production Build
 
 ### Build Production Version
 
@@ -115,11 +117,9 @@ eas build --platform ios --profile production
 2. Trigger a test error (e.g., try to create workout while signed out)
 3. Check Sentry dashboard: https://sentry.io/organizations/[your-org]/issues/
 
-✅ **Expected:** Error appears in Sentry dashboard within ~30 seconds
+**Expected:** Error appears in Sentry dashboard within ~30 seconds
 
----
-
-## 📊 Step 7: Monitoring in Production
+## Step 7: Monitoring in Production
 
 ### Viewing Errors
 
@@ -151,9 +151,7 @@ Go to **"Performance"** tab to see:
 - Database query durations
 - API call latencies
 
----
-
-## 🔧 Configuration Options
+## Configuration Options
 
 ### Adjust Sample Rate
 
@@ -184,9 +182,7 @@ try {
 }
 ```
 
----
-
-## 🔒 Privacy & Security
+## Privacy & Security
 
 **User Privacy:**
 
@@ -200,9 +196,7 @@ try {
 - Service role key stays on server (Supabase)
 - Sentry uses HTTPS for all data
 
----
-
-## 💰 Pricing
+## Pricing
 
 **Free Tier:**
 
@@ -218,9 +212,7 @@ try {
 
 For MVP: Free tier is more than enough!
 
----
-
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### "Sentry not capturing errors"
 
@@ -241,14 +233,10 @@ For MVP: Free tier is more than enough!
 2. Check Sentry project settings
 3. Verify error wasn't filtered by `beforeSend`
 
----
-
-## 📚 Resources
+## Resources
 
 - **Sentry Docs:** https://docs.sentry.io/platforms/react-native/
 - **Sentry Dashboard:** https://sentry.io
 - **React Native SDK:** https://github.com/getsentry/sentry-react-native
-
----
 
 **Need Help?** Check [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) or open an issue!

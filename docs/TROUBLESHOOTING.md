@@ -1,36 +1,29 @@
-# 🔧 Troubleshooting Guide
+# Troubleshooting Guide
 
-Common issues and solutions for Halterofit development with **Development Build** stack.
+This document provides solutions to common development issues with the Development Build stack (WatermelonDB, MMKV, Victory Native). Use this guide for debugging and resolving errors during development.
 
-> **Stack**: WatermelonDB + MMKV + Victory Native (Development Build required)
-> **Note:** This document covers issues specific to our Development Build architecture.
+## Table of Contents
 
----
-
-## 📑 Table of Contents
-
-- [📖 Quick Navigation](#quick-navigation)
-- [🔴 Critical Issues (App Won't Start)](#critical-issues-app-wont-start)
-- [📱 Expo & Metro Bundler Issues](#expo--metro-bundler-issues)
-- [💾 WatermelonDB Issues](#watermelondb-issues)
-- [🔐 MMKV Storage Issues](#mmkv-storage-issues)
-- [🎨 Styling & UI Issues](#styling--ui-issues)
-- [🔐 Authentication Issues](#authentication-issues)
-- [📦 npm / Dependency Issues](#npm--dependency-issues)
-- [🐛 TypeScript Errors](#typescript-errors)
-- [🚀 Performance Issues](#performance-issues)
-- [📝 Adding New Issues to This Guide](#adding-new-issues-to-this-guide)
-- [🆘 Still Stuck?](#still-stuck)
-
----
+- [Quick Navigation](#quick-navigation)
+- [Critical Issues (App Won't Start)](#critical-issues-app-wont-start)
+- [Expo & Metro Bundler Issues](#expo--metro-bundler-issues)
+- [WatermelonDB Issues](#watermelondb-issues)
+- [MMKV Storage Issues](#mmkv-storage-issues)
+- [Styling & UI Issues](#styling--ui-issues)
+- [Authentication Issues](#authentication-issues)
+- [npm / Dependency Issues](#npm--dependency-issues)
+- [TypeScript Errors](#typescript-errors)
+- [Performance Issues](#performance-issues)
+- [Adding New Issues to This Guide](#adding-new-issues-to-this-guide)
+- [Still Stuck?](#still-stuck)
 
 ## Quick Navigation
 
 **By Severity:**
 
-- 🔴 [Critical Issues](#critical-issues-app-wont-start) - App won't start
-- 🟡 [Important Issues](#important-issues-feature-broken) - Feature broken
-- 🟢 [Minor Issues](#minor-issues-cosmetic) - Cosmetic issues
+- [Critical Issues](#critical-issues-app-wont-start) - App won't start
+- [Important Issues](#important-issues-feature-broken) - Feature broken
+- [Minor Issues](#minor-issues-cosmetic) - Cosmetic issues
 
 **By Component:**
 
@@ -40,8 +33,6 @@ Common issues and solutions for Halterofit development with **Development Build*
 - [MMKV Storage](#mmkv-storage-issues)
 - [Styling & UI](#styling--ui-issues)
 - [TypeScript](#typescript-errors)
-
----
 
 ## Critical Issues (App Won't Start)
 
@@ -78,8 +69,6 @@ eas build --profile development --platform android
 - This project requires Development Build (WatermelonDB, MMKV, Victory Native)
 - Cannot use Expo Go
 
----
-
 ## Expo & Metro Bundler Issues
 
 ### Metro Bundler Won't Start
@@ -112,8 +101,6 @@ rm -rf node_modules
 npm install
 npx expo start -c --clear
 ```
-
----
 
 ### App Won't Load / White Screen
 
@@ -149,8 +136,6 @@ npx expo start -c
 - [ ] Firewall not blocking port 8081
 - [ ] Metro bundler running (see terminal output)
 
----
-
 ### "Invariant Violation" or Module Import Errors
 
 **Symptoms:**
@@ -169,11 +154,9 @@ rm -rf node_modules
 npm install
 
 # 3. Check import paths (should use @/ alias)
-# ❌ Bad: import { foo } from '../../../utils/foo';
-# ✅ Good: import { foo } from '@/utils/foo';
+# Bad: import { foo } from '../../../utils/foo';
+# Good: import { foo } from '@/utils/foo';
 ```
-
----
 
 ## WatermelonDB Issues
 
@@ -209,17 +192,15 @@ const database = new Database({
 });
 
 // 2. Check import paths
-// ❌ Wrong
+// Wrong
 import { Workout } from '../models/Workout';
 
-// ✅ Correct
+// Correct
 import { Workout } from '@/models';
 
 // 3. Verify schema matches models
 // Check src/services/database/watermelon/schema.ts
 ```
-
----
 
 ### WatermelonDB Schema Outdated
 
@@ -247,9 +228,7 @@ await database.write(async () => {
 });
 ```
 
-**⚠️ WARNING:** `unsafeResetDatabase()` deletes ALL data. Use only in development!
-
----
+**WARNING:** `unsafeResetDatabase()` deletes ALL data. Use only in development!
 
 ### Query Returns `undefined` or Empty Array
 
@@ -276,7 +255,7 @@ try {
   console.log('Workout not found');
 }
 
-// ✅ Better: Use query
+// Better: Use query
 const workouts = await workoutsCollection.query(Q.where('id', 'some-id')).fetch();
 if (workouts.length === 0) {
   console.log('Workout not found');
@@ -284,7 +263,7 @@ if (workouts.length === 0) {
 
 // 3. Reactive queries not updating
 // Make sure you're using .observe()
-const workouts = workoutsCollection.query().observe(); // ✅ Returns Observable
+const workouts = workoutsCollection.query().observe(); // Returns Observable
 ```
 
 **Debugging:**
@@ -298,8 +277,6 @@ console.log('Total workouts:', total);
 import { Database } from '@nozbe/watermelondb';
 Database.setLogLevel('verbose');
 ```
-
----
 
 ## MMKV Storage Issues
 
@@ -335,8 +312,6 @@ npm start -- --clear
 - MMKV requires Development Build - cannot use Expo Go
 - Always use Development Build for this project
 
----
-
 ### Storage Data Not Persisting
 
 **Symptoms:**
@@ -369,7 +344,7 @@ export const useStore = create(
     }),
     {
       name: 'my-storage',
-      storage: createJSONStorage(() => zustandMMKVStorage), // ✅ Correct
+      storage: createJSONStorage(() => zustandMMKVStorage), // Correct
     }
   )
 );
@@ -377,8 +352,6 @@ export const useStore = create(
 // 3. Verify encryption key (optional)
 // Check src/services/storage/mmkvStorage.ts
 ```
-
----
 
 ## Styling & UI Issues
 
@@ -400,8 +373,8 @@ export const useStore = create(
 npx expo start -c
 
 # 3. Check class names are valid
-# ❌ Bad: className="bg-[#ff0000]" (arbitrary values not fully supported)
-# ✅ Good: className="bg-primary"
+# Bad: className="bg-[#ff0000]" (arbitrary values not fully supported)
+# Good: className="bg-primary"
 
 # 4. Verify global.css is imported
 # In app/_layout.tsx:
@@ -411,20 +384,18 @@ import '../../global.css';
 **Common Mistakes:**
 
 ```typescript
-// ❌ Wrong: Using style prop with className
+// Wrong: Using style prop with className
 <View style={{ padding: 20 }} className="bg-primary" />
 
-// ✅ Right: Use Tailwind classes
+// Right: Use Tailwind classes
 <View className="p-5 bg-primary" />
 
-// ❌ Wrong: Invalid class names
+// Wrong: Invalid class names
 <View className="padding-20" /> // Not a valid Tailwind class
 
-// ✅ Right: Use correct Tailwind syntax
+// Right: Use correct Tailwind syntax
 <View className="p-5" /> // p-5 = padding 1.25rem
 ```
-
----
 
 ### Colors Not Matching / Theme Issues
 
@@ -468,13 +439,11 @@ module.exports = {
 - [ ] Using `Colors` not `COLORS` (naming changed)
 - [ ] Importing from `@/constants` not `@/constants/colors`
 
----
-
 ## Authentication Issues
 
 ### User Lost on App Restart
 
-**Status:** ✅ **RESOLVED** (Tasks 0.5.9, 0.5.10)
+**Status: RESOLVED** (Tasks 0.5.9, 0.5.10)
 
 **Solution Implemented:**
 
@@ -493,8 +462,6 @@ console.log('Persisted user ID:', userId);
 ```
 
 **Reference:** Tasks 0.5.9 (Auth Persist), 0.5.10 (Workout Persist)
-
----
 
 ### Supabase "Invalid API Key" Error
 
@@ -525,20 +492,18 @@ console.log('Supabase URL:', process.env.EXPO_PUBLIC_SUPABASE_URL);
 **Common Mistakes:**
 
 ```bash
-# ❌ Wrong: Quotes in .env
+# Wrong: Quotes in .env
 EXPO_PUBLIC_SUPABASE_URL="https://xxx.supabase.co"
 
-# ✅ Right: No quotes
+# Right: No quotes
 EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 
-# ❌ Wrong: Missing EXPO_PUBLIC_ prefix
+# Wrong: Missing EXPO_PUBLIC_ prefix
 SUPABASE_URL=https://xxx.supabase.co
 
-# ✅ Right: Correct prefix
+# Right: Correct prefix
 EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 ```
-
----
 
 ## npm / Dependency Issues
 
@@ -564,8 +529,6 @@ npm install
 npx expo start -c
 ```
 
----
-
 ### Peer Dependency Warnings
 
 **Symptoms:**
@@ -582,8 +545,6 @@ npm install --legacy-peer-deps
 # For Expo, this is usually safe
 # Expo manages React Native version internally
 ```
-
----
 
 ## TypeScript Errors
 
@@ -609,11 +570,9 @@ npm install --legacy-peer-deps
 npm run type-check
 
 # 4. Check import paths
-# ❌ Bad: import { Colors } from '@/constants/colors';
-# ✅ Good: import { Colors } from '@/constants';
+# Bad: import { Colors } from '@/constants/colors';
+# Good: import { Colors } from '@/constants';
 ```
-
----
 
 ### Type Errors After Correction Implementations
 
@@ -628,8 +587,6 @@ npm run type-check
 # 2. Incorrect type imports (type vs regular)
 # 3. Circular dependencies
 ```
-
----
 
 ## Performance Issues
 
@@ -666,8 +623,6 @@ console.log('Query took:', Date.now() - start, 'ms');
 - Too many re-renders
 - Large lists without FlashList
 - Unoptimized images
-
----
 
 ## Adding New Issues to This Guide
 
@@ -707,8 +662,6 @@ git add docs/TROUBLESHOOTING.md
 git commit -m "docs(troubleshooting): add solution for [issue]"
 ```
 
----
-
 ## Still Stuck?
 
 If issue not listed here:
@@ -723,4 +676,4 @@ If issue not listed here:
 
 3. **Review [AUDIT_FIXES.md](./AUDIT_FIXES.md)** - your issue might be a known problem with planned correction
 
-4. **Add it to this guide** once solved - help future you! 🚀
+4. **Add it to this guide** once solved - help future you!
