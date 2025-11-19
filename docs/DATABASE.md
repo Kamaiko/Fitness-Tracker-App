@@ -476,11 +476,6 @@ Typical operation times on modern devices (reference: iPhone 12 Pro):
   - `20251105000000_consolidated_schema_v5.sql` - Initial consolidated schema
   - `20251106000000_schema_v6_v7_github_dataset.sql` - GitHub dataset alignment
 
-### Test Files
-
-- Test factories: `__tests__/__helpers__/database/factories.ts`
-- Database tests: `src/services/database/__tests__/`
-
 ### External Documentation
 
 - [WatermelonDB Docs](https://nozbe.github.io/WatermelonDB/)
@@ -488,12 +483,6 @@ Typical operation times on modern devices (reference: iPhone 12 Pro):
 - [Supabase PostgreSQL](https://supabase.com/docs/guides/database)
 - [Supabase Row-Level Security](https://supabase.com/docs/guides/auth/row-level-security)
 - [GitHub ExerciseDB](https://github.com/ExerciseDB/exercisedb-api)
-
-### Internal Documentation
-
-- [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md) - Removed features (RPE, RIR, nutrition_phase)
-- [TECHNICAL.md](TECHNICAL.md) - Architecture Decision Records (ADRs)
-- [TESTING.md](TESTING.md) - Testing strategy for database layer
 
 ---
 
