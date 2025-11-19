@@ -1,11 +1,6 @@
 # Product Requirements Document: Halterofit
 
-**Version:** 3.0
-**Last Updated:** November 2025
-**Document Status:** Active
-**Target Release:** MVP - 10-12 weeks development cycle
-
----
+This document defines the scope, features, user stories, and success metrics for the Halterofit MVP. Use this as the authoritative reference for product requirements and design decisions.
 
 ## 📑 Table of Contents
 
@@ -20,15 +15,9 @@
 
 ## Product overview
 
-### Document purpose
+Halterofit is a mobile fitness tracker built for anyone who takes their training seriously enough to track it. The app guarantees zero data loss through offline-first architecture—every set you log is saved instantly to your device, syncs to cloud when connection available.
 
-This PRD defines scope, features, and requirements for Halterofit MVP, an offline-first fitness tracking application. It serves as the single source of truth during the 10-12 week development cycle.
-
-### Product summary
-
-Halterofit solves a fundamental problem: existing fitness tracking apps lose your workout data. Whether you're a beginner logging your first workout or a competitive powerlifter chasing a PR, losing a training session is unacceptable. Halterofit uses offline-first architecture to guarantee zero data loss—every set you log is saved instantly to your device, no exceptions.
-
-The application is built for anyone who takes their training seriously enough to track it. Fast set logging minimizes interruption during workouts. A comprehensive 1,300+ exercise library eliminates tedious manual entry. Reusable workout templates maintain consistency across training cycles. Complete workout history enables progression tracking over weeks, months, and years.
+Fast set logging minimizes interruption during workouts. A comprehensive 1,300+ exercise library eliminates tedious manual entry. Reusable workout templates maintain consistency across training cycles. Complete workout history enables progression tracking over weeks, months, and years.
 
 Halterofit works the way your training does: reliably, consistently, without compromise.
 

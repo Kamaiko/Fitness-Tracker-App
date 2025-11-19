@@ -1,8 +1,11 @@
 # Changelog - Halterofit
 
-> **Project**: Halterofit v0.1.0
-> **Purpose**: Track completed milestones and major changes across development phases
-> **Format**: Reverse chronological order (newest first)
+This document tracks completed development milestones and major changes across all phases. Entries are organized in reverse chronological order (newest first).
+
+## 📑 Table of Contents
+
+- [2025-11-06 - Phase 0.6 Complete](#2025-11-06---phase-06-complete-)
+- [2025-11-04 - Phase 0.5 Complete](#2025-11-04---phase-05-complete-)
 
 ---
 
@@ -60,7 +63,7 @@
 
 ---
 
-## 2025-01-31 - Phase 0.5 Complete ✅
+## 2025-11-04 - Phase 0.5 Complete ✅
 
 **Status**: Phase 0.5 Architecture & Foundation complete (21/21 tasks, 100%)
 **Overall Progress**: 21/76 tasks (28%)
@@ -100,18 +103,6 @@
 - **Database Indexes** (defer until performance issue)
 - **Chart Abstraction** (Victory Native already sufficient)
 - **Domain vs DB Types** (just-in-time approach)
-
----
-
-## 2025-01-30 - Phase 0.6 UI Foundation Started
-
-**Status**: Phase 0.6 in progress (5/8 tasks)
-
-### Completions
-
-- **React Native Reusables + Dependencies** installed
-- **@expo/vector-icons** configured (MaterialIcons, Ionicons, FontAwesome)
-- **Dark Theme** validated (HEX colors, #4299e1 primary blue)
 
 ---
 

@@ -1,13 +1,8 @@
 # DevOps Pipeline Documentation
 
-> **Version:** 2.0
-> **Last Updated:** 2025-11-18
-> **Purpose:** Single Source of Truth for CI/CD pipeline configuration and behavior
-> **Target Audience:** AI agents (primary), developers (secondary)
+This document defines the complete CI/CD pipeline configuration, including git hooks, GitHub Actions workflows, Dependabot automation, and branch protection rules. Use this as the single source of truth for all DevOps behavior.
 
----
-
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Pipeline Overview](#pipeline-overview)
 2. [Git Hooks (Husky)](#git-hooks-husky)

@@ -1,16 +1,13 @@
 # Post-MVP Backlog
 
-> **Purpose**: Features deferred from MVP roadmap, prioritized post-launch based on user feedback
-> **Last Updated**: 2025-11-18
-> **Total Tasks**: ~60+ features
+This document lists features deferred from the MVP roadmap. These enhancements will be prioritized post-launch based on user feedback and product-market fit validation.
 
----
+## 📑 Table of Contents
 
-## Overview
-
-**Note:** These features are OUT OF SCOPE for MVP. They will be prioritized post-launch based on user feedback and product-market fit validation.
-
-**Next Review:** After Phase 1 completion (Auth + Testing infrastructure done)
+- [Analytics & Progression](#analytics--progression)
+- [UX Enhancements](#ux-enhancements)
+- [Advanced Features](#advanced-features)
+- [Infrastructure & Polish](#infrastructure--polish)
 
 ---
 

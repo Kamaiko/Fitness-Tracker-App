@@ -1,11 +1,8 @@
 # Testing Guide
 
-**Purpose:** Strategic guide for testing Halterofit - Single Source of Truth
-**Last Updated:** 2025-11-06
+This document outlines the complete testing strategy for Halterofit, including unit tests (Jest), integration tests (msw), and E2E testing (Maestro). Use this as a reference for writing tests and understanding coverage requirements.
 
----
-
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Overview](#overview)
 2. [Testing Strategy](#testing-strategy)

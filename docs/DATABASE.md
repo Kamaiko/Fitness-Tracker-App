@@ -1,11 +1,6 @@
 # Database Guide - Halterofit
 
-**Architecture:** WatermelonDB + Supabase PostgreSQL
-**Sync Protocol:** Offline-first, reactive queries, bidirectional sync
-**Version:** Schema v7 (WatermelonDB), v5-v7 (Supabase migrations)
-**Last Updated:** 2025-11-06
-
----
+This document covers Halterofit's hybrid database architecture (WatermelonDB + Supabase), schema definitions, common operations, and sync protocol. Use this as a reference for working with local and cloud data storage.
 
 ## 📑 Table of Contents
 

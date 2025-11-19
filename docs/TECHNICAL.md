@@ -1,8 +1,8 @@
 # Technical Documentation
 
----
+This document covers all technical architecture decisions (ADRs), technology stack choices, performance guidelines, and coding standards. Reference this when making technology or architecture decisions for the project.
 
-## Table of Contents
+## 📑 Table of Contents
 
 - [Architecture Overview](#architecture-overview)
   - [Philosophy](#philosophy)
