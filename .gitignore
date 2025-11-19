@@ -89,9 +89,6 @@ supabase/.temp
 # ESLint
 .eslintcache
 
-# Prettier
-.prettierignore
-
 # Storybook
 storybook-static/
 
