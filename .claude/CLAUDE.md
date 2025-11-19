@@ -1,190 +1,170 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 4.3
-> **Last Updated**: 2025-11-06
-> **Purpose**: Project briefing and development guide
-
----
-
-## 📦 Phase 0.6 Updates - Architecture Cleanup
-
-**Completed:** 2025-11-06
-
-### Test Structure Reorganization
-- ✅ Renamed `tests/` → `__tests__/` (Jest convention)
-- ✅ Centralized all unit tests in `__tests__/unit/` (no more colocation in `src/`)
-- ✅ Created E2E structure: `e2e/manual/` + `e2e/maestro/` (ready for Phase 1)
-- ✅ Maintained `__tests__/__helpers__/` for shared utilities
-
-### Database Service Reorganization
-- ✅ Created modular structure: `local/` (WatermelonDB) + `remote/` (Supabase sync) + `operations/` (Business logic)
-- ✅ Clear separation of concerns: Storage vs Sync vs CRUD
-- ✅ Improved maintainability and scalability
-
-### Cleanup
-- ✅ Removed orphan files (`types.ts.bak`)
-- ✅ Updated all imports across project
-- ✅ All 36 tests passing ✅
-- ✅ Type check passing ✅
-
-**Impact:** Clean architecture foundation for Phase 1 (Authentication) and beyond.
+> **Version**: 5.0
+> **Last Updated**: 2025-11-18
+> **Purpose**: AI agent project briefing and development guide
 
 ---
 
 ## 🎯 What You're Building
 
-**Halterofit** is an offline-first mobile fitness tracking app with intelligent, context-aware analytics.
+**Halterofit** is a mobile fitness tracker built for anyone who takes their training seriously enough to track it.
 
-**Target Users:**
-- Serious bodybuilders and strength athletes
-- Train 4-6 times per week consistently
-- Data-driven approach to progressive overload
+**Core Reference:** The app is essentially very similar to Jefit. Use Jefit as the primary reference for workout tracking UX, navigation patterns, and core feature set.
 
-**Unique Value Proposition:**
-- **Context-aware analytics**: Accounts for nutrition phase (bulk/cut/maintenance), exercise order, rest periods, fatigue
-- **Statistical plateau detection**: Mann-Kendall test with nutritional context
-- **Load management**: Acute/chronic ratios, overtraining alerts
-- **Personalized 1RM**: Adjusted by RIR (proximity to failure)
-- **Actionable insights**: Not just numbers - explains WHY and WHAT TO DO
+**Core MVP Features:**
+- Fast workout logging (1-2 taps per set)
+- Guaranteed data reliability (saves instantly to device)
+- Comprehensive exercise library (1,300+ exercises)
+- Workout templates for consistency
+- Complete workout history
 
-**Unlike competitors (Jefit/Strong/Hevy):** We explain context, not just show raw data.
+**Key Differentiator:** Reliability first. Every set you log is saved instantly to local database, syncs to cloud when connection available. Works completely offline.
 
-**Design Philosophy:** Halterofit draws inspiration from industry-leading fitness tracking apps like Jefit, particularly their robust offline-first architecture and comprehensive exercise tracking capabilities. We aim to match their reliability while adding our unique context-aware analytics layer.
+**Design Philosophy:** Simple, fast, reliable. Focus on solid execution of core workout tracking. Advanced analytics deferred to post-MVP (Phase 6+).
 
 ---
 
 ## 🚧 Current Phase & Next Steps
 
-**Phase:** 1 - Authentication & Foundation
-**Progress:** 29/76 tasks (38%)
+**Current Phase:** Phase 1 - Authentication & Foundation
+**Status:** Active development
 **Version:** 0.1.0
 
-**Next Task:** Create Login Screen UI
-**Next Phase:** Auth UI & Testing Infrastructure (16 tasks total)
+**Recently Completed:**
+- ✅ Phase 0.5: Architecture & Foundation (WatermelonDB, MMKV, Testing)
+- ✅ Phase 0.6: UI/UX Foundation (React Native Reusables, Icons, Cleanup)
 
-**Critical Context:**
-- ✅ Phase 0.5 COMPLETE (Architecture & Foundation - 21/21 tasks)
-- ✅ Phase 0.6 COMPLETE (UI/UX Foundation - 8/8 tasks)
-- Current stack: Development Build + WatermelonDB + MMKV + Victory Native
-- Ready for Phase 1: Authentication implementation
-
-**Reference:** See [TASKS.md § Kanban](../docs/TASKS.md#-kanban) for current priorities
+**Reference:** See [TASKS.md](../docs/TASKS.md) for detailed roadmap and current priorities
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Current:** Development Build + WatermelonDB + MMKV + Victory Native + React Native Reusables (Production-ready)
+**Production Stack (Development Build):**
 
-**Migration Completed:** Phase 0.5 ✅ | Phase 0.6 ✅
-- Database: WatermelonDB (reactive, offline-first)
-- Storage: MMKV (encrypted, 10-30x faster)
-- Charts: Victory Native (Skia-based)
-- UI Components: React Native Reusables (shadcn/ui base)
-- Icons: React Native Vector Icons (Material, Ionicons, FontAwesome)
-- Lists: FlashList (optimized scrolling)
-- Images: expo-image (memory-disk caching)
-- Build: EAS Development Build
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Framework | Expo SDK 54 | React Native framework |
+| Language | TypeScript 5.9 | Type-safe development |
+| Database | WatermelonDB | Offline-first reactive DB |
+| Cloud Sync | Supabase | PostgreSQL + Auth + RLS |
+| Storage | MMKV | Encrypted local storage |
+| State | Zustand | Global state management |
+| Server State | React Query | API data caching |
+| UI Library | React Native | Mobile UI framework |
+| Styling | NativeWind v4 | Tailwind for RN |
+| Components | React Native Reusables | shadcn/ui for RN |
+| Icons | React Native Vector Icons | Material/Ionicons/FA |
+| Charts | Victory Native | Skia-based charts |
+| Lists | FlashList | Optimized scrolling |
+| Images | expo-image | Memory/disk caching |
+| Build | EAS Development Build | Native module support |
+| Testing | Jest + Testing Library | Unit/integration tests |
+| CI/CD | GitHub Actions | Automated checks |
+| Monitoring | Sentry | Error tracking |
 
-**See [TECHNICAL.md](../docs/TECHNICAL.md)** for complete stack details and Architecture Decision Records (ADRs).
+**See [TECHNICAL.md](../docs/TECHNICAL.md)** for Architecture Decision Records (ADRs) and detailed technical documentation.
 
 ---
 
-## ⚡ Commands & Workflow
+## ⚡ Quick Commands
 
-**See [CONTRIBUTING.md](../docs/CONTRIBUTING.md)** for complete command reference, git workflow, and development guide.
+```bash
+# Development
+npm start              # Start Expo dev server
+npm run type-check     # TypeScript validation
+npm test               # Run Jest tests
 
-**Quick Reference:**
-- `npm start` - Start Expo dev server
-- `npm run type-check` - TypeScript verification (run before commit)
-- `npm test` - Run Jest tests
+# Database
+supabase migration new <name>  # Create new migration
+supabase db push               # Apply migrations
+supabase db reset              # Reset database
+
+# Git
+/commit                # Smart commit (slash command)
+/task-update           # Update TASKS.md (slash command)
+```
+
+**For complete workflow:** See [CONTRIBUTING.md](../docs/CONTRIBUTING.md)
 
 ---
 
 ## 🧪 Testing Strategy
 
-**Three-tier approach:** Unit tests (Jest + LokiJS) → Manual E2E (real SQLite) → Maestro automation (Phase 3+)
+**Three-tier approach:**
+1. **Unit tests** (Jest + LokiJS) - Business logic, 36 tests currently
+2. **Manual E2E** (Real SQLite) - WatermelonDB sync validation
+3. **Maestro automation** (Phase 3+) - Automated E2E testing
 
-**Current Status:** 36 unit tests, 60-65% database coverage
+**Key Limitation:** WatermelonDB sync protocol (`_changed`, `_status`) requires real SQLite for E2E validation (cannot be tested in Jest).
 
-**Key Limitation:** WatermelonDB sync protocol (`_changed`, `_status`) cannot be tested in Jest - requires real SQLite environment for E2E validation.
-
-**See [TESTING.md](../docs/TESTING.md)** for complete testing strategy, infrastructure, and practices.
+**See [TESTING.md](../docs/TESTING.md)** for complete strategy and infrastructure.
 
 ---
 
 ## 🤖 Slash Commands
 
-Custom slash commands available in `.claude/commands/`:
+Custom slash commands in `.claude/commands/`:
 
 - **/commit** - Smart git commit with strict commitlint validation
-- **/task-update** - Auto-magic task completion with 16-level cascade updates
-
-See individual command files for detailed usage instructions.
+- **/task-update** - Auto-magic task completion with cascade updates
 
 ---
 
 ## 🗄️ Database Migrations
 
-### Supabase CLI
+### Supabase Workflow
 
-**Create Migration:**
 ```bash
+# Create migration
 supabase migration new feature_name
-```
 
-**Apply Migrations:**
-```bash
+# Apply to remote
 supabase db push
+
+# Reset (destroys + recreates)
+supabase db reset
 ```
-
-**Reset DB:**
-```bash
-supabase db reset  # Destroys + recreates from migrations
-```
-
-### Best Practices
-
-1. One logical change per migration
-2. Test with `supabase db reset` before committing
-3. Never edit applied migrations - create new one
-4. Sync WatermelonDB schema version when changing Supabase schema
 
 ### WatermelonDB Sync
 
 When changing schema:
-1. Update `src/services/database/watermelon/schema.ts` (increment version)
-2. Add migration in `src/services/database/watermelon/migrations.ts`
+1. Update `src/services/database/local/schema.ts` (increment version)
+2. Add migration in `src/services/database/local/migrations.ts`
+3. Sync schema version between Supabase and WatermelonDB
+
+**Best Practices:**
+- One logical change per migration
+- Test with `supabase db reset` before committing
+- Never edit applied migrations - create new one
 
 ---
 
-## 📚 Documentation Quick Reference
+## 📚 Documentation Map
 
-**Choose the right document for your need:**
+**Choose the right document for your task:**
 
-| Document                  | When to Read                      | Purpose                                  |
-| ------------------------- | --------------------------------- | ---------------------------------------- |
-| **CONTRIBUTING.md** ⭐    | Setup & daily development         | Complete setup guide, workflow, commands |
-| **TASKS.md** 📋           | Planning next tasks               | Roadmap (83 tasks: 76 active + 7 deferred) |
-| **CHANGELOG.md** 📝       | Reviewing completed work          | Release notes and milestone history      |
-| **PHASE1_PLAN.md** 📐     | Implementing Phase 1              | Auth implementation guide (1,000+ lines) |
-| **DATABASE.md** 💾        | Working with database             | WatermelonDB setup, schema, CRUD ops     |
-| **ARCHITECTURE.md** 🏗️   | Understanding code structure      | Folder organization, patterns, imports   |
-| **TECHNICAL.md** 🎓       | Understanding tech decisions      | Architecture Decision Records (ADRs)     |
-| **TROUBLESHOOTING.md** 🆘 | When something breaks             | Common issues & solutions                |
-| **TESTING.md** 🧪         | Understanding testing strategy    | Three-tier testing (unit/manual E2E/automated) |
-| **PRD.md** 📄             | Understanding product vision      | Requirements, user stories, metrics      |
-
-**Quick Navigation:**
-- 🎯 **Current Phase:** Phase 1 - Authentication & Foundation (0/16) → [TASKS.md § Phase 1](../docs/TASKS.md#phase-1-authentication--foundation-016)
-- 🚀 **Next Task:** Login Screen → [PHASE1_PLAN.md](../docs/PHASE1_PLAN.md)
-- 📝 **Recent Completions:** [CHANGELOG.md](../docs/CHANGELOG.md) (Phase 0.5 & 0.6)
+| Document | When to Read | Purpose |
+|----------|-------------|---------|
+| **PRD.md** 📄 | Understanding product vision | Product requirements, user stories, goals |
+| **PHASE1_PLAN.md** 📐 | Implementing Phase 1 | Authentication implementation guide |
+| **TASKS.md** 📋 | Planning next tasks | Project roadmap and task tracking |
+| **BACKLOG.md** 💡 | Exploring future features | Post-MVP enhancements |
+| **CHANGELOG.md** 📝 | Reviewing completed work | Release notes and milestones |
+| **ARCHITECTURE.md** 🏗️ | Understanding code structure | Folder organization and patterns |
+| **DATABASE.md** 💾 | Working with database | WatermelonDB schema and operations |
+| **TECHNICAL.md** 🎓 | Understanding tech decisions | Architecture Decision Records |
+| **TESTING.md** 🧪 | Understanding test strategy | Three-tier testing approach |
+| **DEVOPS_PIPELINE.md** 🔄 | Setting up CI/CD | DevOps pipeline and deployment |
+| **CONTRIBUTING.md** ⭐ | Setup & daily workflow | Developer guide and commands |
+| **TROUBLESHOOTING.md** 🆘 | When something breaks | Common issues and solutions |
 
 ---
 
 ## 📝 Documentation Update Protocol
 
-**CRITICAL**: Be ULTRA-PRECISE with documentation updates.
+**CRITICAL:** Be ULTRA-PRECISE with documentation updates.
 
 **4-step process:**
 
@@ -197,94 +177,22 @@ When changing schema:
 
 ```markdown
 📄 File: docs/TASKS.md
-📍 Section: Phase X, Task Y (line 209)
+📍 Section: Phase 1, Task 1.1 (line 209)
 ✏️ Change: Mark checkbox [x]
 
-Before: - [ ] Task description
-After:  - [x] Task description
+Before: - [ ] 1.1 Task description
+After:  - [x] 1.1 Task description
 ```
 
-**Never duplicate info across docs** - Each doc has single responsibility (see Documentation Map above)
+**Single Source of Truth:** Never duplicate info across docs. Each document has a single responsibility (see Documentation Map above).
 
 ---
 
-## 🎓 Standards & Best Practices
-
-**See [TECHNICAL.md](../docs/TECHNICAL.md)** for coding standards, performance guidelines, and testing strategy.
-
-**See [CONTRIBUTING.md](../docs/CONTRIBUTING.md)** for pre-commit hooks, workflow, and session end checklist.
+## 🎓 Development Standards
 
 **Key Principles:**
-- **TypeScript strict mode** - No `any` types
-- **100% offline-first** - All features work without internet
+- TypeScript strict mode, no `any` types
+- Data persistence: Local database first, cloud sync when available
+- All features functional without internet
 
----
-
-## 💬 Code Navigation & Comments
-
-Use structured comment tags to improve code navigation and maintainability:
-
-**Recommended Tags:**
-
-- `// TODO:` - Planned features or improvements
-  ```typescript
-  // TODO: Add biometric authentication for quick login (Phase 1)
-  ```
-
-- `// FIXME:` - Known issues that need attention
-  ```typescript
-  // FIXME: Race condition when rapidly toggling workout state
-  ```
-
-- `// NOTE:` - Important context or explanations
-  ```typescript
-  // NOTE: We use Zustand persist middleware instead of service layer for simple state
-  ```
-
-- `// HACK:` - Temporary workarounds (mark for refactoring)
-  ```typescript
-  // HACK: Temporary null check until WatermelonDB migration complete
-  ```
-
-**Benefits:**
-- IDE search functionality (`Cmd/Ctrl + F` for "TODO:")
-- Quick identification of technical debt
-- Clear communication of intent for future developers
-- Easy tracking of areas needing attention
-
-**Best Practices:**
-- Be specific in comments (bad: "fix this", good: "validate email format before Supabase call")
-- Link to TASKS.md when relevant: `// TODO: See TASKS.md Phase X for migration plan`
-- Remove obsolete comments during refactoring
-- Use comments to explain **why**, not **what** (code should be self-documenting for "what")
-
----
-
-## 📂 .claude/ Directory Structure
-
-```
-.claude/
-├── CLAUDE.md (this file)        # Project instructions
-├── settings.json                # Shared hooks configuration (versioned)
-├── settings.local.json          # Local permissions (NOT versioned)
-├── commands/                    # Custom slash commands
-│   ├── commit.md               # /commit - Smart git commits
-│   └── task-update.md          # /task-update - Auto-magic task management
-├── lib/                         # Specifications & formats
-│   └── tasks-format-spec.md    # TASKS.md format specification v4.2
-└── hooks/                       # Reserved for future automation
-    └── (empty - for future use)
-```
-
-**Configuration:**
-- `settings.json` - Hooks and shared config (checked into git)
-- `settings.local.json` - Machine-specific permissions (gitignored)
-
----
-
-## 💡 Pro Tips
-
-1. **Update docs as you go**, not at session end
-2. **Use git grep** to find where info is documented before adding duplicate
-3. **When in doubt**, check Documentation Map table above
-4. **Use /commit** for proper conventional commits
+**For complete standards:** See [TECHNICAL.md](../docs/TECHNICAL.md) and [CONTRIBUTING.md](../docs/CONTRIBUTING.md)

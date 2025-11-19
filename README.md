@@ -48,17 +48,18 @@ npm install
 
 | Document                                          | When to Read                 | Purpose                             |
 | ------------------------------------------------- | ---------------------------- | ----------------------------------- |
-| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)**       | Setup & daily development    | Developer setup and workflow        |
-| **[TASKS.md](docs/TASKS.md)**                     | Planning next tasks          | Project roadmap and task tracking   |
+| **[PRD.md](docs/PRD.md)**                         | Understanding product vision | Product requirements and vision     |
 | **[PHASE1_PLAN.md](docs/PHASE1_PLAN.md)**         | Implementing Phase 1         | Authentication implementation guide |
+| **[TASKS.md](docs/TASKS.md)**                     | Planning next tasks          | Project roadmap and task tracking   |
+| **[BACKLOG.md](docs/BACKLOG.md)**                 | Exploring future features    | Post-MVP features and enhancements  |
+| **[CHANGELOG.md](docs/CHANGELOG.md)**             | Reviewing completed work     | Completed milestones and releases   |
 | **[ARCHITECTURE.md](docs/ARCHITECTURE.md)**       | Understanding code structure | Project structure and organization  |
 | **[DATABASE.md](docs/DATABASE.md)**               | Working with database        | Database schema and operations      |
 | **[TECHNICAL.md](docs/TECHNICAL.md)**             | Understanding tech decisions | Technical decisions and ADRs        |
 | **[TESTING.md](docs/TESTING.md)**                 | Understanding test strategy  | Testing strategy and practices      |
+| **[DEVOPS_PIPELINE.md](docs/DEVOPS_PIPELINE.md)** | Setting up CI/CD             | DevOps pipeline and deployment      |
+| **[CONTRIBUTING.md](docs/CONTRIBUTING.md)**       | Setup & daily development    | Developer setup and workflow        |
 | **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | When something breaks        | Debugging guide and fixes           |
-| **[CHANGELOG.md](docs/CHANGELOG.md)**             | Reviewing completed work     | Completed milestones and releases   |
-| **[PRD.md](docs/PRD.md)**                         | Understanding product vision | Product requirements and vision     |
-| **[BACKLOG.md](docs/BACKLOG.md)**                 | Exploring future features    | Post-MVP features and enhancements  |
 
 ---
 

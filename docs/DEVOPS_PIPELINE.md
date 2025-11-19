@@ -1,8 +1,8 @@
 # DevOps Pipeline Documentation
 
-> **Version:** 1.0
-> **Last Updated:** 2025-01-05
-> **Purpose:** Technical documentation of CI/CD pipeline for AI agents and developers
+> **Version:** 2.0
+> **Last Updated:** 2025-11-18
+> **Purpose:** Single Source of Truth for CI/CD pipeline configuration and behavior
 > **Target Audience:** AI agents (primary), developers (secondary)
 
 ---
@@ -64,15 +64,17 @@
 
 | Component          | Technology     | Purpose                              |
 | ------------------ | -------------- | ------------------------------------ |
-| Git Hooks          | Husky v9       | Pre-commit/commit-msg validation     |
-| Commit Linting     | commitlint v20 | Conventional Commits enforcement     |
-| Code Formatting    | Prettier v3    | Code style consistency               |
-| Linting            | ESLint v9      | Code quality checks                  |
-| Type Checking      | TypeScript v5  | Static type validation               |
-| Testing            | Jest v30       | Unit/integration tests               |
+| Git Hooks          | Husky          | Pre-commit/commit-msg validation     |
+| Commit Linting     | commitlint     | Conventional Commits enforcement     |
+| Code Formatting    | Prettier       | Code style consistency               |
+| Linting            | ESLint         | Code quality checks                  |
+| Type Checking      | TypeScript     | Static type validation               |
+| Testing            | Jest           | Unit/integration tests               |
 | CI/CD              | GitHub Actions | Automated testing and deployment     |
 | Dependency Updates | Dependabot     | Automated dependency version updates |
 | Security Scanning  | npm audit      | Vulnerability detection              |
+
+> **Note:** For current versions, see [package.json](../package.json)
 
 ---
 
@@ -563,7 +565,7 @@ git push --no-verify
 
 ```
 .github/workflows/
-├── ci.yml              # Main CI pipeline (runs on push/PR)
+├── ci.yml              # Main CI pipeline (active - runs on push/PR)
 ├── cd-preview.yml      # Preview builds (disabled - Phase 2+)
 └── cd-production.yml   # Production builds (disabled - Phase 3+)
 ```
@@ -600,8 +602,8 @@ git push --no-verify
 
 **Steps:**
 
-1. Checkout code (SHA-pinned `actions/checkout@08c6903`)
-2. Setup Node.js 22 with npm cache
+1. Checkout code (SHA-pinned actions)
+2. Setup Node.js with npm cache
 3. Install dependencies (`npm ci`)
 4. Cache TypeScript `.tsbuildinfo` for incremental builds
 5. Cache ESLint `.eslintcache` for faster linting
@@ -623,11 +625,11 @@ git push --no-verify
 **Steps:**
 
 1. Checkout code
-2. Setup Node.js 22 with npm cache
+2. Setup Node.js with npm cache
 3. Install dependencies (`npm ci`)
 4. Cache Jest `.jest-cache`
 5. Run tests with coverage (`npm run test:ci`)
-6. Upload coverage reports (30-day retention)
+6. Upload coverage reports
 
 **Coverage Threshold (Commented Out - Phase 1+):**
 
@@ -648,10 +650,17 @@ git push --no-verify
 **Steps:**
 
 1. Checkout code
-2. Setup Node.js 22 with npm cache
+2. Setup Node.js with npm cache
 3. Install dependencies (`npm ci`)
-4. Run npm audit (`npm audit --audit-level=high`)
-5. Fail on HIGH or CRITICAL vulnerabilities
+4. Run npm audit (`npm audit --audit-level=critical`)
+5. Fail only on CRITICAL vulnerabilities
+
+**Rationale for `--audit-level=critical`:**
+
+- HIGH severity vulnerabilities in CLI-only dependencies (e.g., glob) don't affect React Native runtime
+- Mobile app never executes CLI commands at runtime
+- Prevents false positives from blocking CI
+- CRITICAL vulnerabilities still block (security maintained)
 
 ### Job 4: Dependabot Auto-Merge
 
@@ -753,6 +762,69 @@ This is a version-update:semver-major update for a runtime dependency.
 
 ---
 
+## CD Workflows (Preview & Production)
+
+### CD Preview Workflow (cd-preview.yml)
+
+**Status:** DISABLED (workflow_dispatch only)
+**Planned Activation:** Phase 2+
+**Purpose:** Build EAS Development/Preview builds for QA testing
+
+**Current Configuration:**
+
+- **Trigger:** Manual only (`workflow_dispatch`)
+- **Platforms:** Android, iOS, or both
+- **Timeout:** 45 minutes
+
+**Why Disabled:**
+
+- Infrastructure still changing frequently (Phase 0.5)
+- Would waste EAS build limits (30 builds/month free tier)
+- Manual builds (`eas build`) sufficient for now
+
+**When to Enable (Phase 2+):**
+
+- Features stable enough for regular QA testing
+- Suggested frequency: 2-3 builds/week max (not every commit)
+- Will auto-trigger on PRs with label `needs-qa`
+- Posts QR code in PR comments for device installation
+
+### CD Production Workflow (cd-production.yml)
+
+**Status:** DISABLED (workflow_dispatch only)
+**Planned Activation:** Phase 3+
+**Purpose:** Build EAS Production builds for App Store/Play Store submission
+
+**Current Configuration:**
+
+- **Trigger:** Manual only (`workflow_dispatch`)
+- **Platforms:** Android, iOS, or both
+- **Submit to stores:** Optional boolean input
+- **Timeout:** 60 minutes
+
+**Why Disabled:**
+
+- App not production-ready (still in infrastructure phase)
+- No features implemented for end users
+- Store deployment requires app review process
+
+**When to Enable (Phase 3+):**
+
+- MVP features complete and ready for beta/production
+- After manual testing and QA approval
+- Ready to submit to App Store/Play Store
+- Will auto-trigger on version tags (`v1.0.0`, `v2.1.3`, etc.)
+- Generates release notes from commits
+
+**Planned Features (Phase 3+):**
+
+- Automatic submission to stores (optional)
+- Release notes generation from git commits
+- Sentry source map upload for crash reporting
+- Version bump automation
+
+---
+
 ## Dependabot Configuration
 
 **File:** `.github/dependabot.yml`
@@ -771,83 +843,44 @@ schedule:
   day: 'monday'
   time: '09:00'
   timezone: 'America/New_York'
-open-pull-requests-limit: 5
+open-pull-requests-limit: 8
 ```
+
+> **Increased from 5 to 8:** Dependabot groups reduce PR noise, higher limit allows more concurrent updates
 
 ### Dependency Groups
 
 #### Group 1: dev-dependencies (Auto-merged minor/patch)
 
-```yaml
-patterns:
-  - '@types/*'
-  - '@typescript-eslint/*'
-  - 'eslint*'
-  - 'prettier'
-  - 'lint-staged'
-  - 'husky'
-  - '@commitlint/*'
-  - 'jest*'
-  - '@testing-library/*'
-update-types:
-  - 'minor'
-  - 'patch'
-```
-
-**Example PR:**
-
-```
-Title: chore(deps): bump the dev-dependencies group with 3 updates
-Updates:
-  - eslint 9.38.0 → 9.39.0
-  - prettier 3.6.0 → 3.6.1
-  - @typescript-eslint/eslint-plugin 8.0.0 → 8.1.0
-```
+**Patterns:** TypeScript types, ESLint, Prettier, Jest, Commitlint, Testing Library
+**Update types:** Minor + Patch
+**Auto-merge:** ✅ (after CI passes)
 
 #### Group 2: runtime-patches (Auto-merged patch only)
 
-```yaml
-patterns:
-  - '*'
-exclude-patterns:
-  - '@types/*'
-  - '@typescript-eslint/*'
-  - 'eslint*'
-  - 'prettier'
-  - 'lint-staged'
-  - 'husky'
-  - '@commitlint/*'
-  - 'jest*'
-  - '@testing-library/*'
-update-types:
-  - 'patch'
-```
+**Patterns:** All runtime dependencies (excluding dev tools and critical packages)
+**Excludes:** Expo, React, React Native, WatermelonDB, Supabase
+**Update types:** Patch only
+**Auto-merge:** ✅ (after CI passes)
 
-**Example PR:**
+#### Group 3: react-ecosystem (Auto-merged minor/patch)
 
-```
-Title: chore(deps): bump the runtime-patches group with 5 updates
-Updates:
-  - react-native 0.81.5 → 0.81.6
-  - expo 54.0.20 → 54.0.21
-  - @supabase/supabase-js 2.78.0 → 2.78.1
-  - react-native-screens 4.18.0 → 4.18.1
-  - victory-native 41.20.0 → 41.20.1
-```
+**Patterns:** `react`, `@types/react`, `react-test-renderer`
+**Update types:** Minor + Patch
+**Auto-merge:** ✅ (after CI passes)
+
+> **See:** [.github/dependabot.yml](../.github/dependabot.yml) for complete patterns and exclusions
 
 ### Ignored Dependencies
 
-#### Tailwind CSS v4
+**Critical packages locked to specific versions:**
 
-```yaml
-ignore:
-  - dependency-name: 'tailwindcss'
-    versions: ['>=4.0.0']
-```
+1. **Tailwind CSS v4**: Incompatible with NativeWind v4 (requires NativeWind v5 preview)
+2. **React Native**: Locked to Expo SDK version (never upgrade independently)
+3. **Expo SDK**: Only patch updates auto-allowed (minor/major require migration guide review)
+4. **React Native ecosystem**: Major updates blocked (follow Expo SDK compatibility)
 
-**Reason:** Incompatible with NativeWind v4. Requires NativeWind v5 (preview).
-**Resolution:** Will upgrade when NativeWind v5 is stable.
-**Reference:** PR #19 (closed 2025-10-30)
+> **See:** [.github/dependabot.yml](../.github/dependabot.yml) for complete ignore rules
 
 ### GitHub Actions
 
@@ -883,23 +916,6 @@ open-pull-requests-limit: 3
 1. `Code Quality (TypeScript, ESLint, Prettier)`
 2. `Unit Tests (Jest)`
 3. `Security Scan (npm audit)`
-
-### Historical Context
-
-**Before 2025-01-05:**
-
-```
-❌ Required: "Test (Type-Check, Lint, Unit Tests)"
-   Problem: This check didn't exist (obsolete from old CI config)
-   Impact: ALL Dependabot PRs blocked (mergeStateStatus: BLOCKED)
-```
-
-**After 2025-01-05:**
-
-```
-✅ Required: Modern job names matching ci.yml
-   Result: Dependabot PRs can auto-merge
-```
 
 ### Other Rules
 
@@ -1006,10 +1022,10 @@ git commit --no-verify
 **Diagnosis:**
 
 ```bash
-# Run locally
-npm audit --audit-level=high
+# Run locally (same level as CI)
+npm audit --audit-level=critical
 
-# Check details
+# Check all vulnerabilities
 npm audit
 ```
 
@@ -1076,28 +1092,6 @@ gh api repos/OWNER/REPO/branches/master/protection/required_status_checks \
 
 ---
 
-## Performance Metrics
-
-### CI Pipeline Timing (Averages)
-
-| Job            | Cold Cache | Warm Cache | Files Changed |
-| -------------- | ---------- | ---------- | ------------- |
-| Code Quality   | ~2m 30s    | ~1m 15s    | Incremental   |
-| Unit Tests     | ~2m 15s    | ~1m 05s    | Incremental   |
-| Security Scan  | ~1m 45s    | ~45s       | No cache      |
-| Total Pipeline | ~2m 45s    | ~1m 30s    | Parallel jobs |
-
-### Git Hooks Timing
-
-| Hook                    | Average | Max   |
-| ----------------------- | ------- | ----- |
-| validate-tasks.sh       | 50ms    | 200ms |
-| check-schema-version.sh | 30ms    | 100ms |
-| lint-staged             | 2-10s   | 30s   |
-| commitlint              | 20ms    | 50ms  |
-
----
-
 ## References
 
 - [Husky Documentation](https://typicode.github.io/husky/)
@@ -1105,29 +1099,6 @@ gh api repos/OWNER/REPO/branches/master/protection/required_status_checks \
 - [Dependabot Configuration Reference](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
 - [Conventional Commits Specification](https://www.conventionalcommits.org/)
 - [npm audit Documentation](https://docs.npmjs.com/cli/v10/commands/npm-audit)
-
----
-
-## Changelog
-
-### v1.0 (2025-01-05)
-
-**Added:**
-
-- Initial documentation creation
-- validate-tasks.sh refactor (future-proof phase auto-discovery)
-- Branch protection update (fix Dependabot auto-merge)
-- Enhanced Dependabot logging
-
-**Changed:**
-
-- validate-tasks.sh: Removed hardcoded Phase 0.5/0.6
-- ci.yml: Added logging step to dependabot-auto-merge job
-
-**Fixed:**
-
-- Branch protection required checks (obsolete check removed)
-- Dependabot auto-merge blocked state (#32, #31, #27)
 
 ---
 
@@ -1163,52 +1134,23 @@ gh api repos/OWNER/REPO/branches/master/protection/required_status_checks \
 3. Document in this file (new section under § Git Hooks)
 4. Add troubleshooting entry
 
-### Machine-Readable Data
+### Quick Reference
 
-**CI Job Names:**
+**CI Job Names (must match branch protection):**
 
-```json
-{
-  "ci_jobs": [
-    "Code Quality (TypeScript, ESLint, Prettier)",
-    "Unit Tests (Jest)",
-    "Security Scan (npm audit)",
-    "Dependabot Auto-Merge"
-  ]
-}
-```
+1. `Code Quality (TypeScript, ESLint, Prettier)`
+2. `Unit Tests (Jest)`
+3. `Security Scan (npm audit)`
 
-**Dependabot Auto-Merge Conditions:**
+**Dependabot Auto-Merge Rules:**
 
-```json
-{
-  "auto_merge_rules": [
-    {
-      "condition": "package_ecosystem == github_actions",
-      "action": "auto_merge_all_versions"
-    },
-    {
-      "condition": "dependency_type == development && update_type != major",
-      "action": "auto_merge"
-    },
-    {
-      "condition": "dependency_type == production && (update_type == patch || update_type == minor)",
-      "action": "auto_merge"
-    },
-    {
-      "condition": "dependency_type == production && update_type == major",
-      "action": "comment_only"
-    }
-  ]
-}
-```
+- ✅ GitHub Actions: ALL versions
+- ✅ Dev dependencies: Minor + Patch
+- ✅ Runtime dependencies: Patch + Minor
+- 💬 Runtime dependencies: Major (comment only, manual review required)
 
-**Required Status Checks (Master Branch):**
+**Required Status Checks:**
 
-```json
-{
-  "branch": "master",
-  "required_checks": ["Code Quality (TypeScript, ESLint, Prettier)", "Unit Tests (Jest)", "Security Scan (npm audit)"],
-  "strict": true
-}
-```
+- Branch: `master`
+- Strict: ✅ (must be up to date)
+- Checks: All 3 CI jobs above
