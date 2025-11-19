@@ -17,11 +17,11 @@ This document outlines the complete testing strategy for Halterofit, including u
 
 ### Three-Tier Testing Strategy
 
-| Type                     | Speed   | Confidence | Environment                  | What to Test                                 |
-| ------------------------ | ------- | ---------- | ---------------------------- | -------------------------------------------- |
-| **Unit (Jest + LokiJS)** | 5s      | Medium     | Node.js + LokiJS             | CRUD, queries, relationships, business logic |
-| **Integration (msw)**    | 5-10s   | High       | Node.js + LokiJS + Mock APIs | Sync logic, offline scenarios, API workflows |
-| **E2E (Manual/Maestro)** | 5-10min | High       | Real device + automation     | Complete user journeys, sync protocol        |
+| Type                  | Speed   | Environment               | Purpose                                                                            |
+| --------------------- | ------- | ------------------------- | ---------------------------------------------------------------------------------- |
+| **Unit Tests**        | <5s     | Node.js + LokiJS          | Test isolated business logic: CRUD operations, queries, relationships, validations |
+| **Integration Tests** | 5-30s   | Node.js + Mock APIs (msw) | Test sync protocol logic: conflict resolution, offline behavior, network scenarios |
+| **E2E Tests**         | 5-10min | Real Device + SQLite      | Test complete user flows: login → workout → sync with real backend                 |
 
 **Current Status:** 31 unit tests + 38 integration tests
 
