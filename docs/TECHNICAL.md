@@ -169,7 +169,7 @@ This document covers all technical architecture decisions (ADRs), technology sta
 | **Navigation**       | Expo Router               | 6.0.14  | File-based routing                           |
 | **Error Monitoring** | Sentry                    | 7.4.0   | Crash reporting and monitoring               |
 | **Build**            | EAS Build                 | Latest  | Cloud-based native builds                    |
-| **Testing**          | Jest + Testing Library    | Latest  | Unit and integration testing                 |
+| **Testing**          | Jest + RNTL + Maestro     | Latest  | Unit, integration, and E2E testing           |
 | **Linting**          | ESLint + Prettier         | Latest  | Code quality and formatting                  |
 
 **Migration Status:** All native modules (WatermelonDB, MMKV, Victory Native) migrated in Phase 0.5.B (Tasks 0.5.20-0.5.26).
