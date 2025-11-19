@@ -1,1297 +1,499 @@
 # Database Guide - Halterofit
 
-This document covers Halterofit's hybrid database architecture (WatermelonDB + Supabase), schema definitions, common operations, and sync protocol. Use this as a reference for working with local and cloud data storage.
+This document covers Halterofit's hybrid database architecture (WatermelonDB + Supabase), schema organization, and practical guidance for working with local and cloud data storage.
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [Overview](#overview)
-- [Database Architecture](#database-architecture)
-- [Schema Reference](#schema-reference)
-  - [Workouts Table](#workouts-table)
-  - [Exercises Table (ExerciseDB)](#exercises-table-exercisedb)
-  - [Workout Exercises Table](#workout_exercises-table)
-  - [Exercise Sets Table](#exercise_sets-table)
-  - [Users Table](#users-table)
-- [ExerciseDB Integration](#exercisedb-integration)
-  - [Nomenclature Mapping](#nomenclature-mapping)
-  - [Field Reference](#field-reference)
-  - [Image/Video URLs](#imagevideo-urls)
-- [WatermelonDB Models](#watermelondb-models)
-- [Common Operations](#common-operations)
-  - [Workout CRUD](#workout-crud)
-  - [Exercise Queries](#exercise-queries)
-  - [Set Logging](#set-logging)
-  - [Repeat Last Workout](#repeat-last-workout)
-- [Supabase Sync](#supabase-sync)
-- [Performance](#performance)
+- [Architecture Overview](#architecture-overview)
+- [Schema Overview](#schema-overview)
+- [ExerciseDB Dataset](#exercisedb-dataset)
+- [Working with Database](#working-with-database)
 - [Schema Evolution](#schema-evolution)
-- [Migration History](#migration-history)
-- [Resources](#resources)
+- [Performance Guidelines](#performance-guidelines)
+- [References](#references)
+
+## Architecture Overview
+
+### Hybrid Approach
+
+Halterofit uses a two-tier database architecture combining local-first storage with cloud synchronization:
+
+**Local Tier (WatermelonDB)**
+
+- SQLite database via WatermelonDB
+- Instant reads/writes without network dependency
+- Reactive queries with automatic UI updates
+- Runs on user device (offline-capable)
+
+**Cloud Tier (Supabase)**
+
+- PostgreSQL backend with Row-Level Security (RLS)
+- Cross-device data synchronization
+- Automatic conflict resolution (last-write-wins)
+- Backup and data persistence
+
+**Storage (MMKV)**
+
+- Encrypted local storage for auth tokens and preferences
+- Faster than AsyncStorage (10-30x performance improvement)
+
+### Sync Strategy
+
+**How it works:**
+
+1. User performs action (create workout, log set) → WatermelonDB writes locally (instant)
+2. WatermelonDB marks record as changed
+3. When internet available → automatic background sync to Supabase
+4. Conflicts resolved via timestamp comparison (last write wins)
+5. Remote changes pulled back to local database
+
+**User experience:** All operations work offline. Sync happens transparently in background when connection available.
+
+### Technology Stack
+
+| Component         | Technology          | Purpose                                          |
+| ----------------- | ------------------- | ------------------------------------------------ |
+| Local Database    | WatermelonDB        | Offline-first reactive database (SQLite wrapper) |
+| Cloud Database    | Supabase PostgreSQL | Remote storage + sync + RLS                      |
+| Encrypted Storage | MMKV                | Auth tokens, user preferences                    |
+| Sync Protocol     | WatermelonDB Sync   | Bidirectional sync with conflict resolution      |
 
 ---
 
-## Overview
+## Schema Overview
 
-Halterofit uses a hybrid database architecture:
+### Current Version
 
-- **WatermelonDB (Local):** Offline-first reactive database (SQLite) for instant reads/writes
-- **Supabase (Cloud):** PostgreSQL backend for cross-device sync and data persistence
-- **ExerciseDB (Seeded):** 1,500+ exercises from GitHub dataset, imported once, stored locally and in cloud
+**WatermelonDB Schema:** v7
+**Supabase Migrations:** v5, v6, v7
+**ExerciseDB Dataset:** GitHub static import (1,500+ exercises)
 
-Key Principles:
+### Tables
 
-- **Offline-first:** All operations work without internet (gym environments)
-- **Reactive:** UI auto-updates on data changes via observe() queries
-- **Zero data loss:** Guaranteed persistence with automatic conflict resolution
-- **ExerciseDB-aligned:** Exercise schema matches GitHub ExerciseDB dataset structure (8 fields + animated GIFs)
-
----
-
-## Database Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    User Device (Offline-First)          │
-│                                                          │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │           WatermelonDB (SQLite + JSI)             │  │
-│  │                                                    │  │
-│  │  • Instant reads (<5ms)                           │  │
-│  │  • Reactive queries (.observe())                  │  │
-│  │  • Lazy loading (on-demand)                       │  │
-│  │  • Automatic conflict tracking                    │  │
-│  └───────────────────────────────────────────────────┘  │
-│                          ▲                               │
-│                          │                               │
-│                    Sync Protocol                         │
-│                  (bidirectional)                         │
-│                          │                               │
-│                          ▼                               │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │                   MMKV (Encrypted)                │  │
-│  │                                                    │  │
-│  │  • Auth tokens                                    │  │
-│  │  • User preferences                               │  │
-│  │  • Favorites (exercise IDs)                       │  │
-│  └───────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
-                          │
-                    Internet Available?
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│               Supabase (PostgreSQL + RLS)               │
-│                                                          │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │              PostgreSQL Database                  │  │
-│  │                                                    │  │
-│  │  • workouts (user workout sessions)               │  │
-│  │  • exercises (1,500+ ExerciseDB - read-only)     │  │
-│  │  • workout_exercises (join table)                │  │
-│  │  • exercise_sets (individual sets)               │  │
-│  │  • users (profiles, preferences)                 │  │
-│  │                                                    │  │
-│  │  Row-Level Security (RLS):                        │  │
-│  │  • Users only access their own workouts          │  │
-│  │  • Exercises are public, read-only (ExerciseDB)  │  │
-│  └───────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Sync Flow:**
-
-1. User logs set → WatermelonDB (instant, <5ms)
-2. WatermelonDB marks record as `_changed`
-3. When internet available → `synchronize()` runs automatically
-4. Push: Local changes → Supabase PostgreSQL
-5. Pull: Remote changes → WatermelonDB
-6. Conflicts: "Last write wins" based on `_changed` timestamp
-
----
-
-## Schema Reference
-
-### Workouts Table
-
-**Purpose:** Store workout sessions (start/complete times, duration, notes)
-
-**WatermelonDB Schema:**
-
-```typescript
-tableSchema({
-  name: 'workouts',
-  columns: [
-    { name: 'user_id', type: 'string', isIndexed: true },
-    { name: 'started_at', type: 'number', isIndexed: true },
-    { name: 'completed_at', type: 'number', isOptional: true },
-    { name: 'duration_seconds', type: 'number', isOptional: true },
-    { name: 'title', type: 'string', isOptional: true },
-    { name: 'notes', type: 'string', isOptional: true },
-    { name: 'created_at', type: 'number' },
-    { name: 'updated_at', type: 'number' },
-  ],
-});
-```
-
-**Supabase Migration:**
-
-```sql
-CREATE TABLE public.workouts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  started_at BIGINT NOT NULL,
-  completed_at BIGINT,
-  duration_seconds INTEGER,
-  title TEXT,
-  notes TEXT,
-  created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _changed BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _status TEXT DEFAULT 'synced'
-);
-
-CREATE INDEX idx_workouts_user_id ON public.workouts(user_id);
-CREATE INDEX idx_workouts_started_at ON public.workouts(started_at DESC);
-
--- Row-Level Security
-ALTER TABLE public.workouts ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users see own workouts"
-  ON public.workouts FOR ALL
-  USING (auth.uid() = user_id);
-```
-
-**Key Fields:**
-
-- `user_id`: Foreign key to auth.users (owner)
-- `started_at`: Unix timestamp (ms) when workout started
-- `completed_at`: Unix timestamp when workout ended (null = in progress)
-- `duration_seconds`: Calculated duration (completed_at - started_at)
-- `title`: Optional workout name (e.g., "Push Day A", "Leg Day")
-- `notes`: Optional workout notes
-
----
-
-### Exercises Table (ExerciseDB)
-
-**Purpose:** Store all exercises (1,500+ from GitHub ExerciseDB dataset - read-only library)
-
-**Schema Version:** v7 (GitHub dataset-aligned with animated GIFs)
-
-**WatermelonDB Schema:**
-
-```typescript
-tableSchema({
-  name: 'exercises',
-  columns: [
-    // GitHub ExerciseDB dataset fields
-    { name: 'exercisedb_id', type: 'string', isIndexed: true },
-    { name: 'name', type: 'string', isIndexed: true },
-    { name: 'body_parts', type: 'string' }, // JSON array: ["waist"]
-    { name: 'target_muscles', type: 'string' }, // JSON array: ["abs"]
-    { name: 'secondary_muscles', type: 'string' }, // JSON array: ["hip flexors"]
-    { name: 'equipments', type: 'string' }, // JSON array: ["body weight"]
-    { name: 'instructions', type: 'string' }, // JSON array: ["Step 1", "Step 2"]
-    { name: 'gif_url', type: 'string', isOptional: true }, // Animated exercise demonstration
-
-    { name: 'created_at', type: 'number' },
-    { name: 'updated_at', type: 'number' },
-  ],
-});
-```
-
-**Supabase Migration:**
-
-```sql
-CREATE TABLE public.exercises (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-
-  -- GitHub ExerciseDB dataset fields
-  exercisedb_id TEXT NOT NULL UNIQUE,
-  name TEXT NOT NULL,
-  body_parts JSONB NOT NULL DEFAULT '[]',
-  target_muscles JSONB NOT NULL DEFAULT '[]',
-  secondary_muscles JSONB NOT NULL DEFAULT '[]',
-  equipments JSONB NOT NULL DEFAULT '[]',
-  instructions JSONB NOT NULL DEFAULT '[]',
-  gif_url TEXT, -- Animated exercise GIF from GitHub ExerciseDB
-
-  created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _changed BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _status TEXT DEFAULT 'synced'
-);
-
--- Indexes for fast queries
-CREATE INDEX idx_exercises_name ON public.exercises(name);
-CREATE INDEX idx_exercises_exercisedb_id ON public.exercises(exercisedb_id);
-
--- GIN indexes for JSONB array queries (fast search)
-CREATE INDEX idx_exercises_body_parts ON public.exercises USING GIN (body_parts);
-CREATE INDEX idx_exercises_target_muscles ON public.exercises USING GIN (target_muscles);
-CREATE INDEX idx_exercises_equipments ON public.exercises USING GIN (equipments);
-
--- Row-Level Security (exercises are public read-only)
-ALTER TABLE public.exercises ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Exercises are public"
-  ON public.exercises FOR SELECT
-  TO authenticated
-  USING (true);
-```
-
-**Key Fields:**
-
-- `exercisedb_id`: Unique ID from GitHub dataset (e.g., "trmte8s", "LMGXZn8")
-- `name`: Exercise name (e.g., "band shrug", "barbell bench press")
-- `body_parts`: Anatomical regions (JSON array): `["waist"]`, `["chest"]`
-- `target_muscles`: Primary muscles (JSON array): `["abs"]`, `["pectorals"]`
-- `secondary_muscles`: Supporting muscles (JSON array): `["hip flexors", "lower back"]`
-- `equipments`: Required equipment (JSON array): `["body weight"]`, `["barbell"]`
-- `instructions`: Step-by-step execution (JSON array): `["Step:1 Lie flat...", "Step:2 Engaging abs..."]`
-- `gif_url`: Animated exercise demonstration URL (e.g., "https://static.exercisedb.dev/media/trmte8s.gif")
-
----
-
-### Workout Exercises Table
-
-**Purpose:** Join table linking workouts to exercises (many-to-many with order)
-
-**WatermelonDB Schema:**
-
-```typescript
-tableSchema({
-  name: 'workout_exercises',
-  columns: [
-    { name: 'workout_id', type: 'string', isIndexed: true },
-    { name: 'exercise_id', type: 'string', isIndexed: true },
-    { name: 'order_index', type: 'number' }, // Display order (1, 2, 3...)
-    { name: 'superset_group', type: 'string', isOptional: true }, // "A", "B" for supersets
-    { name: 'created_at', type: 'number' },
-    { name: 'updated_at', type: 'number' },
-  ],
-});
-```
-
-**Supabase Migration:**
-
-```sql
-CREATE TABLE public.workout_exercises (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  workout_id UUID NOT NULL REFERENCES public.workouts(id) ON DELETE CASCADE,
-  exercise_id UUID NOT NULL REFERENCES public.exercises(id) ON DELETE RESTRICT,
-  order_index INTEGER NOT NULL,
-  superset_group TEXT,
-  created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _changed BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _status TEXT DEFAULT 'synced'
-);
-
-CREATE INDEX idx_workout_exercises_workout_id ON public.workout_exercises(workout_id);
-CREATE INDEX idx_workout_exercises_exercise_id ON public.workout_exercises(exercise_id);
-
--- Row-Level Security (inherited from workouts)
-ALTER TABLE public.workout_exercises ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users see own workout exercises"
-  ON public.workout_exercises FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.workouts
-      WHERE workouts.id = workout_exercises.workout_id
-      AND workouts.user_id = auth.uid()
-    )
-  );
-```
-
-**Key Fields:**
-
-- `workout_id`: Foreign key to workouts table
-- `exercise_id`: Foreign key to exercises table
-- `order_index`: Display order (1 = first exercise, 2 = second, etc.)
-- `superset_group`: Optional superset grouping (e.g., "A", "B" for superset A/B)
-
----
-
-### Exercise Sets Table
-
-**Purpose:** Individual sets within a workout exercise
-
-**WatermelonDB Schema:**
-
-```typescript
-tableSchema({
-  name: 'exercise_sets',
-  columns: [
-    { name: 'workout_exercise_id', type: 'string', isIndexed: true },
-    { name: 'set_number', type: 'number' }, // Set order (1, 2, 3...)
-    { name: 'weight', type: 'number', isOptional: true },
-    { name: 'weight_unit', type: 'string', isOptional: true }, // "kg" | "lbs"
-    { name: 'reps', type: 'number', isOptional: true },
-    { name: 'duration_seconds', type: 'number', isOptional: true }, // For timed exercises
-    { name: 'distance_meters', type: 'number', isOptional: true }, // For cardio
-    { name: 'rpe', type: 'number', isOptional: true }, // 1-10 scale (optional, not MVP focus)
-    { name: 'rir', type: 'number', isOptional: true }, // 0-5 scale (optional, not MVP focus)
-    { name: 'rest_time_seconds', type: 'number', isOptional: true },
-    { name: 'is_warmup', type: 'boolean' },
-    { name: 'is_failure', type: 'boolean' },
-    { name: 'notes', type: 'string', isOptional: true },
-    { name: 'completed_at', type: 'number', isOptional: true },
-    { name: 'created_at', type: 'number' },
-    { name: 'updated_at', type: 'number' },
-  ],
-});
-```
-
-**Supabase Migration:**
-
-```sql
-CREATE TABLE public.exercise_sets (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  workout_exercise_id UUID NOT NULL REFERENCES public.workout_exercises(id) ON DELETE CASCADE,
-  set_number INTEGER NOT NULL,
-  weight NUMERIC(6,2),
-  weight_unit TEXT CHECK (weight_unit IN ('kg', 'lbs')),
-  reps INTEGER,
-  duration_seconds INTEGER,
-  distance_meters NUMERIC(8,2),
-  rpe INTEGER CHECK (rpe BETWEEN 1 AND 10),
-  rir INTEGER CHECK (rir BETWEEN 0 AND 5),
-  rest_time_seconds INTEGER,
-  is_warmup BOOLEAN NOT NULL DEFAULT false,
-  is_failure BOOLEAN NOT NULL DEFAULT false,
-  notes TEXT,
-  completed_at BIGINT,
-  created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _changed BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-  _status TEXT DEFAULT 'synced'
-);
-
-CREATE INDEX idx_exercise_sets_workout_exercise_id ON public.exercise_sets(workout_exercise_id);
-
--- Row-Level Security (inherited from workout_exercises)
-ALTER TABLE public.exercise_sets ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users see own exercise sets"
-  ON public.exercise_sets FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.workout_exercises we
-      JOIN public.workouts w ON w.id = we.workout_id
-      WHERE we.id = exercise_sets.workout_exercise_id
-      AND w.user_id = auth.uid()
-    )
-  );
-```
-
-**Key Fields:**
-
-- `workout_exercise_id`: Foreign key to workout_exercises table
-- `set_number`: Set order within exercise (1 = first set, 2 = second, etc.)
-- `weight`: Weight lifted (decimal for precision: 52.5 kg)
-- `weight_unit`: "kg" or "lbs"
-- `reps`: Repetitions completed
-- `duration_seconds`: For timed exercises (plank, cardio)
-- `rpe`: Rate of Perceived Exertion (1-10, optional - not MVP focus)
-- `rir`: Reps in Reserve (0-5, optional - not MVP focus)
-- `is_warmup`: Flag for warmup sets (excluded from analytics)
-- `is_failure`: Flag for sets taken to failure
-
-**Note on RPE/RIR:** These fields remain in schema for future use but are **not part of MVP scope**. See [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md).
-
----
-
-### Users Table
+#### 1. **users**
 
 **Purpose:** User profiles and preferences
 
-**Schema:**
+**Key Fields:**
 
-```sql
-CREATE TABLE public.users (
-  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  email TEXT NOT NULL,
-  preferred_unit TEXT NOT NULL DEFAULT 'kg' CHECK (preferred_unit IN ('kg', 'lbs')),
-  created_at BIGINT NOT NULL,
-  updated_at BIGINT NOT NULL,
-  _changed BIGINT NOT NULL,
-  _status TEXT
-);
-```
+- `id` - Auth user reference (UUID)
+- `email` - User email address
+- `preferred_unit` - Weight preference (kg or lbs)
+
+**Relationships:**
+
+- One user → many workouts
+
+---
+
+#### 2. **exercises** (ExerciseDB)
+
+**Purpose:** Exercise library (1,500+ exercises from GitHub dataset, read-only)
 
 **Key Fields:**
 
-- `id`: Auth user reference
-- `email`: User email
-- `preferred_unit`: Weight unit (kg or lbs)
+- `id` - Internal UUID
+- `exercisedb_id` - GitHub dataset ID (e.g., "trmte8s")
+- `name` - Exercise name (e.g., "barbell bench press")
+- `body_parts` - Anatomical regions (JSONB array: `["chest"]`)
+- `target_muscles` - Primary muscles (JSONB array: `["pectorals"]`)
+- `secondary_muscles` - Supporting muscles (JSONB array: `["triceps", "anterior deltoid"]`)
+- `equipments` - Required equipment (JSONB array: `["barbell"]`)
+- `instructions` - Step-by-step guide (JSONB array)
+- `gif_url` - Animated demonstration URL
+
+**Relationships:**
+
+- Exercises are public (no user ownership)
+- Referenced by workout_exercises via foreign key
+
+**Note:** This table is populated once from GitHub ExerciseDB dataset and treated as read-only.
 
 ---
 
-## ExerciseDB Integration
+#### 3. **workouts**
 
-### Nomenclature Mapping
+**Purpose:** Workout sessions (start time, completion, duration, notes)
 
-Halterofit uses the **GitHub ExerciseDB dataset** as the primary exercise data source (1,500+ exercises). Our schema is aligned with the GitHub dataset structure.
+**Key Fields:**
 
-**Current Version:** GitHub dataset (static JSON file)
-**Images:** Animated GIFs provided by GitHub ExerciseDB CDN
+- `id` - Workout UUID
+- `user_id` - Owner (foreign key to users)
+- `started_at` - Unix timestamp (ms) when workout started
+- `completed_at` - Unix timestamp when completed (null = in progress)
+- `duration_seconds` - Calculated duration
+- `title` - Optional workout name (e.g., "Push Day A")
+- `notes` - Optional workout notes
 
-**GitHub ExerciseDB → Halterofit Field Mapping:**
+**Relationships:**
 
-| GitHub Field       | Halterofit Field    | Type       | Conversion     |
-| ------------------ | ------------------- | ---------- | -------------- |
-| `exerciseId`       | `exercisedb_id`     | string     | Direct mapping |
-| `name`             | `name`              | string     | Direct mapping |
-| `bodyParts`        | `body_parts`        | JSON array | Direct mapping |
-| `targetMuscles`    | `target_muscles`    | JSON array | Direct mapping |
-| `secondaryMuscles` | `secondary_muscles` | JSON array | Direct mapping |
-| `equipments`       | `equipments`        | JSON array | Direct mapping |
-| `instructions`     | `instructions`      | JSON array | Direct mapping |
-| `gifUrl`           | `gif_url`           | string     | Direct mapping |
+- Belongs to one user
+- Has many workout_exercises (join table)
 
-**GitHub ExerciseDB Dataset Format:**
-
-```json
-{
-  "exerciseId": "trmte8s",
-  "name": "band shrug",
-  "gifUrl": "https://static.exercisedb.dev/media/trmte8s.gif",
-  "targetMuscles": ["traps"],
-  "bodyParts": ["neck"],
-  "equipments": ["band"],
-  "secondaryMuscles": ["shoulders"],
-  "instructions": [
-    "Step:1 Stand with your feet shoulder-width apart and place the band under your feet, holding the ends with your hands.",
-    "Step:2 Keep your arms straight and relaxed, and let the band hang in front of your thighs.",
-    "Step:3 Engage your traps by shrugging your shoulders upward, lifting the band as high as possible.",
-    "Step:4 Hold the contraction for a moment, then slowly lower your shoulders back down to the starting position.",
-    "Step:5 Repeat for the desired number of repetitions."
-  ]
-}
-```
-
-**Halterofit Database Format:**
-
-```typescript
-{
-  id: "uuid-generated",
-  exercisedb_id: "trmte8s",
-  name: "band shrug",
-  body_parts: ["neck"],
-  target_muscles: ["traps"],
-  secondary_muscles: ["shoulders"],
-  equipments: ["band"],
-  instructions: ["Step:1 Stand...", "Step:2 Keep...", "Step:3 Engage...", "Step:4 Hold...", "Step:5 Repeat..."],
-  gif_url: "https://static.exercisedb.dev/media/trmte8s.gif",
-  created_at: 1234567890,
-  updated_at: 1234567890
-}
-```
-
-### Field Reference
-
-#### GitHub ExerciseDB Dataset Fields
-
-**`body_parts` (JSONB Array):**
-
-- Anatomical regions targeted by exercise
-- Examples: `["waist"]`, `["chest"]`, `["back"]`
-- Used for: Filtering exercises by body part
-
-**`target_muscles` (JSONB Array):**
-
-- Primary muscles targeted (main movers)
-- Examples: `["abs"]`, `["pectorals"]`, `["lats"]`
-- Used for: Volume distribution analytics, muscle group filtering
-
-**`secondary_muscles` (JSONB Array):**
-
-- Supporting/synergist muscles
-- Examples: `["hip flexors", "lower back"]`, `["triceps", "anterior deltoid"]`
-- Used for: Comprehensive muscle engagement tracking
-
-**`equipments` (JSONB Array):**
-
-- Required equipment
-- Examples: `["body weight"]`, `["barbell"]`, `["dumbbell", "bench"]`
-- Used for: Equipment-based filtering (home gym vs commercial gym)
-
-**`instructions` (JSONB Array):**
-
-- Step-by-step execution instructions
-- Format: Array of strings, each starting with "Step:N"
-- Used for: Exercise detail screen, form guidance
-
-**`gif_url` (TEXT):**
-
-- Animated exercise demonstration URL
-- Example: "https://static.exercisedb.dev/media/trmte8s.gif"
-- Used for: Exercise detail screen, proper form visualization
-- Hosted by: GitHub ExerciseDB CDN
+**Cascade:** ON DELETE CASCADE - deleting workout deletes all associated workout_exercises and sets
 
 ---
 
-### ExerciseDB Import Strategy
+#### 4. **workout_exercises** (Join Table)
 
-**Approach:** Database Seeding from GitHub Dataset
+**Purpose:** Links workouts to exercises (many-to-many with order)
 
-**Import Status:** ✅ Completed (2025-11-06)
+**Key Fields:**
 
-- 1,500+ exercises seeded to Supabase PostgreSQL
-- Dataset backup retained in `scripts/exercisedb-full-dataset.json` (1.3MB)
-- Import/rollback scripts removed (no longer needed)
+- `id` - Record UUID
+- `workout_id` - Foreign key to workouts
+- `exercise_id` - Foreign key to exercises
+- `order_index` - Display order (1, 2, 3...)
+- `superset_group` - Optional superset grouping (e.g., "A", "B")
 
-**User Experience:**
+**Relationships:**
 
-1. **App first launch**:
-   - WatermelonDB sync runs automatically
-   - Downloads exercises from Supabase to local SQLite
-   - Duration: 30-60 seconds
-   - User sees: "Configuring exercise library..."
+- Belongs to one workout
+- References one exercise
+- Has many exercise_sets
 
-2. **Offline-first experience**:
-   - All 1,500+ exercises stored locally
-   - Search/filter works 100% offline
-   - Zero API calls during runtime
+**Cascade:**
 
-**References:**
-
-- Dataset Source: https://github.com/ExerciseDB/exercisedb-api
-- Dataset Backup: `scripts/exercisedb-full-dataset.json`
+- ON DELETE CASCADE (workout deleted → this deleted)
+- ON DELETE RESTRICT (exercise deletion blocked if referenced)
 
 ---
 
-## WatermelonDB Models
+#### 5. **exercise_sets**
 
-### Exercise Model
+**Purpose:** Individual sets within a workout exercise
 
-**File:** src/services/database/watermelon/models/Exercise.ts
+**Key Fields:**
 
-```typescript
-import { Model } from '@nozbe/watermelondb';
-import { field, json, readonly, date } from '@nozbe/watermelondb/decorators';
+- `id` - Set UUID
+- `workout_exercise_id` - Foreign key to workout_exercises
+- `set_number` - Set order within exercise (1, 2, 3...)
+- `weight` - Weight lifted (decimal for precision)
+- `weight_unit` - "kg" or "lbs"
+- `reps` - Repetitions completed
+- `duration_seconds` - For timed exercises (plank, cardio)
+- `distance_meters` - For cardio tracking
+- `rpe` - Rate of Perceived Exertion (1-10, optional - not MVP focus)
+- `rir` - Reps in Reserve (0-5, optional - not MVP focus)
+- `rest_time_seconds` - Rest period after set
+- `is_warmup` - Warmup set flag (excluded from analytics)
+- `is_failure` - Taken to failure flag
+- `notes` - Optional set notes
+- `completed_at` - Timestamp when set completed
 
-const sanitizeStringArray = (raw: any): string[] => {
-  if (Array.isArray(raw)) return raw.map(String);
-  if (typeof raw === 'string') {
-    if (raw === '') return [];
-    try {
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed.map(String) : [];
-    } catch {
-      return [];
-    }
-  }
-  return [];
-};
+**Relationships:**
 
-export default class Exercise extends Model {
-  static table = 'exercises';
+- Belongs to one workout_exercise
 
-  @field('exercisedb_id') exercisedbId!: string;
-  @field('name') name!: string;
+**Cascade:** ON DELETE CASCADE (workout_exercise deleted → sets deleted)
 
-  @json('body_parts', sanitizeStringArray) bodyParts!: string[];
-  @json('target_muscles', sanitizeStringArray) targetMuscles!: string[];
-  @json('secondary_muscles', sanitizeStringArray) secondaryMuscles!: string[];
-  @json('equipments', sanitizeStringArray) equipments!: string[];
-  @json('instructions', sanitizeStringArray) instructions!: string[];
-
-  @field('gif_url') gifUrl?: string;
-
-  @readonly @date('created_at') createdAt!: Date;
-  @readonly @date('updated_at') updatedAt!: Date;
-
-  get primaryMuscle(): string | undefined {
-    return this.targetMuscles[0];
-  }
-
-  get allMuscles(): string[] {
-    return [...this.targetMuscles, ...this.secondaryMuscles];
-  }
-
-  get requiresEquipment(): boolean {
-    return this.equipments.length > 0 && !this.equipments.includes('body weight');
-  }
-}
-```
-
-### Workout Model
-
-**File:** `src/services/database/watermelon/models/Workout.ts`
-
-```typescript
-import { Model, Q } from '@nozbe/watermelondb';
-import { field, date, readonly, children } from '@nozbe/watermelondb/decorators';
-import type WorkoutExercise from './WorkoutExercise';
-
-export default class Workout extends Model {
-  static table = 'workouts';
-  static associations = {
-    workout_exercises: { type: 'has_many', foreignKey: 'workout_id' },
-  };
-
-  @field('user_id') userId!: string;
-  @date('started_at') startedAt!: Date;
-  @date('completed_at') completedAt?: Date;
-  @field('duration_seconds') durationSeconds?: number;
-  @field('title') title?: string;
-  @field('notes') notes?: string;
-
-  @readonly @date('created_at') createdAt!: Date;
-  @readonly @date('updated_at') updatedAt!: Date;
-
-  @children('workout_exercises') workoutExercises!: Query<WorkoutExercise>;
-
-  // Computed properties
-  get isComplete(): boolean {
-    return !!this.completedAt;
-  }
-
-  get isInProgress(): boolean {
-    return !this.completedAt;
-  }
-
-  async getExerciseCount(): Promise<number> {
-    return await this.workoutExercises.fetchCount();
-  }
-
-  async getSetCount(): Promise<number> {
-    const exercises = await this.workoutExercises.fetch();
-    let total = 0;
-    for (const we of exercises) {
-      total += await we.sets.fetchCount();
-    }
-    return total;
-  }
-}
-```
-
-### WorkoutExercise Model
-
-**File:** `src/services/database/watermelon/models/WorkoutExercise.ts`
-
-```typescript
-import { Model } from '@nozbe/watermelondb';
-import { field, relation, children, readonly, date } from '@nozbe/watermelondb/decorators';
-import type Workout from './Workout';
-import type Exercise from './Exercise';
-import type ExerciseSet from './ExerciseSet';
-
-export default class WorkoutExercise extends Model {
-  static table = 'workout_exercises';
-  static associations = {
-    workouts: { type: 'belongs_to', key: 'workout_id' },
-    exercises: { type: 'belongs_to', key: 'exercise_id' },
-    exercise_sets: { type: 'has_many', foreignKey: 'workout_exercise_id' },
-  };
-
-  @relation('workouts', 'workout_id') workout!: Relation<Workout>;
-  @relation('exercises', 'exercise_id') exercise!: Relation<Exercise>;
-
-  @field('order_index') orderIndex!: number;
-  @field('superset_group') supersetGroup?: string;
-
-  @readonly @date('created_at') createdAt!: Date;
-  @readonly @date('updated_at') updatedAt!: Date;
-
-  @children('exercise_sets') sets!: Query<ExerciseSet>;
-
-  // Computed properties
-  async getTotalVolume(): Promise<number> {
-    const sets = await this.sets.fetch();
-    return sets.reduce((total, set) => {
-      const weight = set.weight || 0;
-      const reps = set.reps || 0;
-      return total + weight * reps;
-    }, 0);
-  }
-}
-```
-
-### ExerciseSet Model
-
-**File:** `src/services/database/watermelon/models/ExerciseSet.ts`
-
-```typescript
-import { Model } from '@nozbe/watermelondb';
-import { field, relation, readonly, date } from '@nozbe/watermelondb/decorators';
-import type WorkoutExercise from './WorkoutExercise';
-
-export default class ExerciseSet extends Model {
-  static table = 'exercise_sets';
-  static associations = {
-    workout_exercises: { type: 'belongs_to', key: 'workout_exercise_id' },
-  };
-
-  @relation('workout_exercises', 'workout_exercise_id') workoutExercise!: Relation<WorkoutExercise>;
-
-  @field('set_number') setNumber!: number;
-  @field('weight') weight?: number;
-  @field('weight_unit') weightUnit?: string;
-  @field('reps') reps?: number;
-  @field('duration_seconds') durationSeconds?: number;
-  @field('distance_meters') distanceMeters?: number;
-  @field('rpe') rpe?: number; // Optional (not MVP focus)
-  @field('rir') rir?: number; // Optional (not MVP focus)
-  @field('rest_time_seconds') restTimeSeconds?: number;
-  @field('is_warmup') isWarmup!: boolean;
-  @field('is_failure') isFailure!: boolean;
-  @field('notes') notes?: string;
-  @date('completed_at') completedAt?: Date;
-
-  @readonly @date('created_at') createdAt!: Date;
-  @readonly @date('updated_at') updatedAt!: Date;
-
-  // Computed properties
-  get volume(): number {
-    return (this.weight || 0) * (this.reps || 0);
-  }
-
-  get isCompleted(): boolean {
-    return !!this.completedAt;
-  }
-
-  // 1RM estimation (Epley formula)
-  get estimated1RM(): number | null {
-    if (!this.weight || !this.reps || this.reps > 10) return null;
-    return this.weight * (1 + this.reps / 30);
-  }
-}
-```
+**Note on RPE/RIR:** These fields exist in schema for future use but are not part of MVP scope. See [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md).
 
 ---
 
-## Common Operations
+### Sync Metadata Fields
 
-### Workout CRUD
+All tables (except users) include WatermelonDB sync fields:
+
+- `created_at` - Record creation timestamp (Unix ms)
+- `updated_at` - Last update timestamp (Unix ms)
+- `_changed` - Last change timestamp for sync protocol
+- `_status` - Sync status ("synced", "created", "updated", "deleted")
+
+These fields are managed automatically by WatermelonDB and Supabase triggers.
+
+---
+
+## ExerciseDB Dataset
+
+### Source
+
+Halterofit uses the **GitHub ExerciseDB static dataset** as the primary exercise data source.
+
+- **Dataset:** 1,500+ exercises with animated GIFs
+- **Format:** Static JSON file (not an API)
+- **Import:** One-time seeding to Supabase, synced to local devices
+- **GitHub Repo:** https://github.com/ExerciseDB/exercisedb-api
+- **Backup:** `scripts/exercisedb-full-dataset.json` (1.3MB)
+
+### Field Mapping
+
+| GitHub Field       | Halterofit Field    | Type       | Notes                       |
+| ------------------ | ------------------- | ---------- | --------------------------- |
+| `exerciseId`       | `exercisedb_id`     | string     | Unique ID (e.g., "trmte8s") |
+| `name`             | `name`              | string     | Exercise name               |
+| `bodyParts`        | `body_parts`        | JSON array | Anatomical regions          |
+| `targetMuscles`    | `target_muscles`    | JSON array | Primary muscles             |
+| `secondaryMuscles` | `secondary_muscles` | JSON array | Supporting muscles          |
+| `equipments`       | `equipments`        | JSON array | Required equipment          |
+| `instructions`     | `instructions`      | JSON array | Step-by-step guide          |
+| `gifUrl`           | `gif_url`           | string     | Animated demo URL           |
+
+### Dataset Version
+
+**Current Version:** v7 (GitHub dataset with animated GIFs)
+
+**Import Status:** Completed (2025-11-06)
+
+- 1,500+ exercises seeded to Supabase
+- Automatic sync to local devices on first launch
+- Initial sync duration: 30-60 seconds
+
+---
+
+## Working with Database
+
+### Basic Patterns
+
+**All database code resides in:** `src/services/database/`
 
 #### Create Workout
 
 ```typescript
 import { database } from '@/services/database/watermelon';
-import { Workout } from '@/models';
 
 const workout = await database.write(async () => {
-  return await database.collections.get<Workout>('workouts').create((workout) => {
-    workout.userId = 'user-uuid';
-    workout.startedAt = Date.now();
-    workout.title = 'Push Day A';
+  return await database.collections.get('workouts').create((w) => {
+    w.userId = userId;
+    w.startedAt = Date.now();
   });
 });
-
-console.log('Workout created:', workout.id);
 ```
 
-#### Complete Workout
+**Full implementation:** `src/services/database/operations/workouts.ts`
 
-```typescript
-await database.write(async () => {
-  await workout.update((w) => {
-    w.completedAt = Date.now();
-    w.durationSeconds = Math.floor((Date.now() - w.startedAt) / 1000);
-  });
-});
-
-console.log('Workout completed');
-```
-
-#### Fetch Recent Workouts (Reactive)
+#### Query Recent Workouts (Reactive)
 
 ```typescript
 import { Q } from '@nozbe/watermelondb';
 
-const workoutsCollection = database.collections.get<Workout>('workouts');
-
-// Reactive query (UI auto-updates)
-const recentWorkouts = workoutsCollection
-  .query(Q.where('user_id', userId), Q.where('completed_at', Q.notEq(null)), Q.sortBy('started_at', Q.desc), Q.take(20))
-  .observe();
-
-// Use in React
-const workouts = useObservable(recentWorkouts, [userId]);
+const workouts = database.collections
+  .get('workouts')
+  .query(Q.where('user_id', userId), Q.sortBy('started_at', Q.desc))
+  .observe(); // Reactive - UI auto-updates
 ```
 
-#### Delete Workout
+**Full implementation:** `src/services/database/operations/workouts.ts`
+
+#### Search Exercises
 
 ```typescript
-await database.write(async () => {
-  await workout.markAsDeleted(); // Soft delete (syncs to Supabase)
-  // or
-  await workout.destroyPermanently(); // Hard delete (local only)
-});
+const results = await database.collections
+  .get('exercises')
+  .query(Q.where('name', Q.like(`%${searchTerm}%`)))
+  .fetch();
 ```
 
----
+**Full implementation:** `src/services/database/operations/exercises.ts`
 
-### Exercise Queries
+### Sync Behavior
 
-#### Search Exercises by Name
+**Automatic Sync Triggers:**
 
-```typescript
-import { Q } from '@nozbe/watermelondb';
+- App launch (if internet available)
+- Network connection restored
+- Manual sync via pull-to-refresh (if implemented)
 
-const exercisesCollection = database.collections.get<Exercise>('exercises');
+**Sync Protocol Implementation:** `src/services/database/watermelon/sync.ts`
 
-// Search by name (case-insensitive)
-const results = await exercisesCollection.query(Q.where('name', Q.like(`%${searchTerm}%`))).fetch();
+**Conflict Resolution:** Last-write-wins based on `_changed` timestamp
 
-console.log(`Found ${results.length} exercises`);
+### Data Access Layers
+
+Halterofit uses a modular database service structure:
+
+```
+src/services/database/
+├── watermelon/
+│   ├── index.ts           # Database instance
+│   ├── schema.ts          # WatermelonDB schema (SSoT)
+│   ├── migrations.ts      # Schema migrations
+│   ├── sync.ts            # Sync protocol
+│   └── models/            # WatermelonDB models
+│       ├── Exercise.ts
+│       ├── Workout.ts
+│       ├── WorkoutExercise.ts
+│       └── ExerciseSet.ts
+├── operations/            # Business logic (CRUD operations)
+│   ├── workouts.ts
+│   ├── exercises.ts
+│   └── sets.ts
+└── local/                 # Local database utilities
+    └── index.ts
 ```
 
-#### Filter by Body Part
-
-```typescript
-// Note: WatermelonDB doesn't support JSONB queries directly
-// Solution: Use Supabase for complex JSONB queries, sync results to WatermelonDB
-
-// For local filtering after fetch:
-const allExercises = await exercisesCollection.query().fetch();
-const chestExercises = allExercises.filter((ex) => ex.bodyParts.some((bp) => bp.toLowerCase().includes('chest')));
-```
-
-#### Filter by Equipment
-
-```typescript
-const allExercises = await exercisesCollection.query().fetch();
-const barbellExercises = allExercises.filter((ex) => ex.equipments.some((eq) => eq.toLowerCase() === 'barbell'));
-
-const bodyweightExercises = allExercises.filter((ex) => ex.equipments.includes('bodyweight'));
-```
-
-#### Complex Query (Multiple Filters)
-
-```typescript
-// For complex JSONB queries, use Supabase directly:
-const { data, error } = await supabase
-  .from('exercises')
-  .select('*')
-  .contains('body_parts', ['Chest'])
-  .contains('equipments', ['Barbell'])
-  .limit(50);
-
-// Then sync results to WatermelonDB if needed
-```
-
----
-
-### Set Logging
-
-#### Log Single Set
-
-```typescript
-import { ExerciseSet } from '@/models';
-
-await database.write(async () => {
-  await database.collections.get<ExerciseSet>('exercise_sets').create((set) => {
-    set.workoutExercise.id = workoutExerciseId;
-    set.setNumber = 1;
-    set.weight = 100;
-    set.weightUnit = 'kg';
-    set.reps = 8;
-    set.isWarmup = false;
-    set.isFailure = false;
-    set.completedAt = Date.now();
-  });
-});
-```
-
-#### Log Multiple Sets (Batch)
-
-```typescript
-await database.write(async () => {
-  const setsCollection = database.collections.get<ExerciseSet>('exercise_sets');
-
-  for (let i = 1; i <= 3; i++) {
-    await setsCollection.create((set) => {
-      set.workoutExercise.id = workoutExerciseId;
-      set.setNumber = i;
-      set.weight = 100;
-      set.weightUnit = 'kg';
-      set.reps = 8;
-      set.completedAt = Date.now();
-    });
-  }
-});
-```
-
-#### Update Set
-
-```typescript
-await database.write(async () => {
-  await set.update((s) => {
-    s.weight = 105;
-    s.reps = 6;
-  });
-});
-```
-
----
-
-### Repeat Last Workout
-
-```typescript
-import { Q } from '@nozbe/watermelondb';
-
-// 1. Find last completed workout
-const lastWorkout = await database.collections
-  .get<Workout>('workouts')
-  .query(Q.where('user_id', userId), Q.where('completed_at', Q.notEq(null)), Q.sortBy('started_at', Q.desc), Q.take(1))
-  .fetch()
-  .then((workouts) => workouts[0]);
-
-if (!lastWorkout) {
-  throw new Error('No previous workout found');
-}
-
-// 2. Create new workout
-const newWorkout = await database.write(async () => {
-  return await database.collections.get<Workout>('workouts').create((workout) => {
-    workout.userId = userId;
-    workout.startedAt = Date.now();
-    workout.title = lastWorkout.title;
-  });
-});
-
-// 3. Clone exercises from last workout
-const oldExercises = await lastWorkout.workoutExercises.fetch();
-
-await database.write(async () => {
-  for (const oldWe of oldExercises) {
-    await database.collections.get<WorkoutExercise>('workout_exercises').create((we) => {
-      we.workout.set(newWorkout);
-      we.exercise.id = oldWe.exercise.id;
-      we.orderIndex = oldWe.orderIndex;
-      we.supersetGroup = oldWe.supersetGroup;
-    });
-  }
-});
-
-console.log('Workout repeated successfully');
-```
-
----
-
-## Supabase Sync
-
-### Sync Protocol
-
-**File:** `src/services/database/watermelon/sync.ts`
-
-```typescript
-import { synchronize } from '@nozbe/watermelondb/sync';
-import { database } from './index';
-import { supabase } from '@/services/supabase';
-
-export async function sync() {
-  await synchronize({
-    database,
-    pullChanges: async ({ lastPulledAt }) => {
-      const { data, error } = await supabase.rpc('pull_changes', {
-        last_pulled_at: lastPulledAt || 0,
-      });
-
-      if (error) throw error;
-
-      return {
-        changes: data.changes,
-        timestamp: data.timestamp,
-      };
-    },
-    pushChanges: async ({ changes, lastPulledAt }) => {
-      const { error } = await supabase.rpc('push_changes', {
-        changes,
-        last_pulled_at: lastPulledAt,
-      });
-
-      if (error) throw error;
-    },
-  });
-}
-```
-
-### Automatic Sync Trigger
-
-```typescript
-// src/app/_layout.tsx
-import { sync } from '@/services/database/watermelon/sync';
-import NetInfo from '@react-native-community/netinfo';
-
-useEffect(() => {
-  const unsubscribe = NetInfo.addEventListener((state) => {
-    if (state.isConnected) {
-      sync().catch((error) => {
-        console.error('Sync failed:', error);
-      });
-    }
-  });
-
-  return () => unsubscribe();
-}, []);
-```
-
-### Conflict Resolution
-
-**Strategy:** "Last write wins" based on `_changed` timestamp
-
-```sql
--- Supabase push_changes function (simplified)
-CREATE OR REPLACE FUNCTION push_changes(changes JSON, last_pulled_at BIGINT)
-RETURNS VOID AS $$
-BEGIN
-  -- Upsert workouts (conflict resolution)
-  INSERT INTO workouts (id, user_id, started_at, _changed, ...)
-  SELECT * FROM json_populate_recordset(NULL::workouts, changes->'workouts'->'created')
-  ON CONFLICT (id) DO UPDATE SET
-    started_at = EXCLUDED.started_at,
-    _changed = EXCLUDED._changed,
-    ...
-  WHERE EXCLUDED._changed > workouts._changed; -- Last write wins
-END;
-$$ LANGUAGE plpgsql;
-```
-
----
-
-## Performance
-
-### Benchmarks (iPhone 12 Pro, 2 years of data)
-
-| Operation               | Time   | Details                     |
-| ----------------------- | ------ | --------------------------- |
-| Log 1 set               | <5ms   | Instant write to SQLite     |
-| Load 20 workouts        | <20ms  | With pagination             |
-| Load workout details    | <50ms  | Includes exercises + sets   |
-| Search 1,500+ exercises | <100ms | Local full-text search      |
-| Sync 100 sets           | 1-2s   | Background sync to Supabase |
-| Repeat last workout     | <100ms | Clone workout + exercises   |
-
-### Optimization Tips
-
-1. **Use Reactive Queries:** `.observe()` auto-updates UI, no manual refetching
-2. **Batch Writes:** Group multiple operations in single `database.write()` call
-3. **Lazy Loading:** Only fetch related data when needed (avoid eager loading)
-4. **Indexes:** Ensure indexed columns for frequent queries (user_id, started_at)
-5. **Pagination:** Use `Q.take(20)` for large lists, implement infinite scroll
-6. **Offline-First:** Never block UI on network requests, write locally first
+**Pattern:** UI components → operations layer → WatermelonDB models
 
 ---
 
 ## Schema Evolution
 
-### Current Version: v7 (GitHub ExerciseDB Dataset)
+### Migration Workflow
 
-**WatermelonDB:** Schema version 7
-**Supabase:** Migrations v5, v6, v7
+When changing database schema, follow this 6-step process:
 
-**Migration History:**
-
-- v1-v4: Initial schema development
-- v5: Consolidated schema (8 incremental migrations merged into 1)
-- v6: Removed description, difficulty, category (not in GitHub dataset)
-- v7: Added gif_url (GitHub ExerciseDB provides animated GIFs)
-
-**Rationale:**
-
-GitHub ExerciseDB dataset provides 1,500+ exercises with 8 fields including animated GIFs. This is a static dataset import (not an API), providing reliable offline-first functionality.
-
-**Deprecated Fields:**
-
-- nutrition_phase (users table) - Removed per scope simplification
-- description, difficulty, category (exercises table) - Not in GitHub dataset
-
-**Migration Strategy:**
-
-- WatermelonDB schema version incremented: v5 → v6 → v7
-- Supabase migrations applied via timestamp-based SQL files
-- Exercises reseeded from GitHub dataset after schema changes
-
-### Future Schema Changes
-
-**Proposed for Post-MVP:**
-
-- Add `template_id` to workouts table (workout templates feature)
-- Add `personal_records` table (PR tracking optimization)
-- Add `workout_tags` table (workout categorization)
-
-**Migration Process:**
-
-1. Create new Supabase migration file: `YYYYMMDDHHMMSS_description.sql`
-2. Increment WatermelonDB schema version in `schema.ts`
-3. Add WatermelonDB migration in `migrations.ts`
-4. Test migration on development database
-5. Deploy to production via EAS Build
-
----
-
-## Migration History
-
-### Migration v5: Consolidated Schema (2025-11-05)
-
-**File:** supabase/migrations/20251105000000_consolidated_schema_v5.sql
-
-**Purpose:** Single consolidated migration replacing 8 incremental migrations
-
-**Changes:**
-
-- Replaced 8 incremental migrations with single consolidated schema
-- Created 5 tables: users, exercises, workouts, workout_exercises, exercise_sets
-- Initial exercise schema included description, difficulty, category fields
-- Applied via supabase db reset (complete rebuild)
-
-### Migration v6-v7: GitHub Dataset Alignment (2025-11-06)
-
-**File:** supabase/migrations/20251106000000_schema_v6_v7_github_dataset.sql
-
-**Purpose:** Align schema with GitHub ExerciseDB dataset structure
-
-**Changes:**
-
-- v6: Removed description, difficulty, category (not in GitHub dataset)
-- v7: Added gif_url (GitHub ExerciseDB provides animated GIFs)
-
-**Final Schema State:**
-
-- **users**: 7 columns (id, email, preferred_unit + metadata)
-- **exercises**: 13 columns (id, exercisedb_id, name, body_parts, target_muscles, secondary_muscles, equipments, instructions, gif_url + metadata)
-- **workouts**: 12 columns (id, user_id, started_at, completed_at, duration_seconds, title, notes + metadata)
-- **workout_exercises**: 12 columns (id, workout_id, exercise_id, order_index, superset_group, notes, target_sets, target_reps + metadata)
-- **exercise_sets**: 19 columns (id, workout_exercise_id, set_number, weight, weight_unit, reps, duration_seconds, distance_meters, rpe, rir, rest_time_seconds, is_warmup, is_failure, notes, completed_at + metadata)
-
-**Attack Vector (Pre-Fix - CVE-2018-1058):**
-
-```sql
--- Attacker creates malicious function
-CREATE FUNCTION public.now() RETURNS TIMESTAMP AS $$
-BEGIN
-  -- Malicious code here (data exfiltration, privilege escalation)
-  RETURN pg_catalog.now();
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger function calls NOW() → resolves to public.now() instead of pg_catalog.now()
-```
-
-**Fix:**
-
-```sql
-CREATE OR REPLACE FUNCTION update_changed_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-  -- ✅ SECURE: Fully-qualified function name
-  NEW._changed := (EXTRACT(EPOCH FROM pg_catalog.now()) * 1000)::BIGINT;
-  NEW.updated_at := (EXTRACT(EPOCH FROM pg_catalog.now()) * 1000)::BIGINT;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = ''; -- ✅ CRITICAL: Force empty search_path
-```
-
----
-
-### Applying Migrations
-
-**Via Supabase Dashboard (SQL Editor):**
-
-1. Navigate to: https://supabase.com/dashboard/project/_/sql
-2. Click **"+ New query"**
-3. Copy-paste migration SQL content
-4. Click **"Run"**
-5. Verify success: Check schema in Table Editor
-
-**Via Supabase CLI (for local development):**
+**1. Create Supabase Migration**
 
 ```bash
-# Apply all pending migrations
-supabase db push
-
-# Create new migration
-supabase migration new my_migration_name
+supabase migration new add_field_name
 ```
 
-**Verification Queries:**
+**2. Edit Migration SQL**
 
-```sql
--- Verify exercisedb_id column exists with correct constraints
-SELECT
-  column_name,
-  data_type,
-  is_nullable,
-  (SELECT constraint_name
-   FROM information_schema.constraint_column_usage ccu
-   JOIN information_schema.table_constraints tc ON ccu.constraint_name = tc.constraint_name
-   WHERE ccu.column_name = 'exercisedb_id'
-     AND ccu.table_name = 'exercises'
-     AND tc.constraint_type = 'UNIQUE') as unique_constraint
-FROM information_schema.columns
-WHERE table_schema = 'public'
-  AND table_name = 'exercises'
-  AND column_name = 'exercisedb_id';
+- File: `supabase/migrations/<timestamp>_add_field_name.sql`
+- Add column, index, or constraint
 
--- Verify search_path is empty in trigger function
-SELECT proname, proconfig
-FROM pg_proc
-WHERE proname = 'update_changed_timestamp';
--- Expected: proconfig = {search_path=}
+**3. Apply to Supabase**
 
--- Check for duplicate indexes
-SELECT
-  schemaname,
-  tablename,
-  indexname,
-  indexdef
-FROM pg_indexes
-WHERE tablename = 'exercises'
-  AND indexname LIKE '%exercisedb_id%';
--- Expected: Only "exercises_exercisedb_id_unique"
-```
+- Via SQL Editor: Copy-paste SQL and run
+- Or via CLI: `supabase db push`
 
----
+**4. Update WatermelonDB Schema**
 
-### Schema Versioning
+- File: `src/services/database/watermelon/schema.ts`
+- Add column to appropriate table
+- Match data types: TEXT → 'string', BIGINT → 'number', JSONB → 'string'
 
-**Current Version:** v7 (GitHub ExerciseDB Dataset)
-
-**WatermelonDB Schema Version:** Defined in src/services/database/watermelon/schema.ts
+**5. Increment Schema Version**
 
 ```typescript
 export const schema = appSchema({
-  version: 7, // GitHub ExerciseDB dataset with animated GIFs
-  tables: [
-    // ... table definitions
-  ],
+  version: 8, // Increment from 7 to 8
+  tables: [...]
 });
 ```
 
+**Warning:** Pre-commit hook blocks commits if schema version not incremented
+
+**6. Create WatermelonDB Migration** (if users have existing data)
+
+- File: `src/services/database/watermelon/migrations.ts`
+- Use `addColumns()` to add new fields
+- See [WatermelonDB Migrations Guide](https://nozbe.github.io/WatermelonDB/Advanced/Migrations.html)
+
+### Type Mapping
+
+| Supabase (PostgreSQL) | WatermelonDB (SQLite) | TypeScript     |
+| --------------------- | --------------------- | -------------- |
+| TEXT                  | 'string'              | string         |
+| BIGINT                | 'number'              | number         |
+| INTEGER               | 'number'              | number         |
+| NUMERIC               | 'number'              | number         |
+| BOOLEAN               | 'boolean'             | boolean        |
+| JSONB                 | 'string'              | any[] (parsed) |
+| UUID                  | 'string'              | string         |
+
+### Schema Versioning
+
+**Current Version:** v7 (GitHub ExerciseDB dataset with animated GIFs)
+
+**Version History:**
+
+- v1-v4: Initial development (deprecated)
+- v5: Consolidated schema (8 migrations merged)
+- v6: Removed fields not in GitHub dataset (description, difficulty, category)
+- v7: Added gif_url field for animated exercise demos
+
+**Deprecated Fields:**
+
+- `nutrition_phase` (users table) - Removed per scope simplification
+- `description`, `difficulty`, `category` (exercises table) - Not in GitHub dataset
+
 ---
 
-## Resources
+## Performance Guidelines
 
-### Official Documentation
+### Optimization Strategies
+
+**1. Use Reactive Queries**
+
+- `.observe()` returns Observable that auto-updates UI
+- No manual refetching required
+- Example: `workouts.query().observe()` instead of `.fetch()`
+
+**2. Batch Database Writes**
+
+- Group multiple operations in single `database.write()` call
+- Reduces transaction overhead
+- Example: Create workout + exercises + sets in one write block
+
+**3. Lazy Loading**
+
+- Only fetch related data when needed
+- Avoid eager loading all relationships upfront
+- Example: Fetch workout first, then exercises on-demand
+
+**4. Index Frequently Queried Columns**
+
+- Ensure indexed columns for common queries
+- Current indexes: `user_id`, `started_at`, `exercisedb_id`, `name`
+- Add indexes via Supabase migrations as needed
+
+**5. Pagination for Large Lists**
+
+- Use `Q.take(20)` for initial load
+- Implement infinite scroll for additional items
+- Example: Load 20 workouts, fetch next 20 on scroll
+
+**6. Offline-First Pattern**
+
+- Never block UI on network requests
+- Write to local database immediately
+- Sync in background when connection available
+
+### Expected Performance
+
+Typical operation times on modern devices (reference: iPhone 12 Pro):
+
+- Log single set: <5ms (instant write to SQLite)
+- Load 20 workouts: <20ms (with pagination)
+- Search 1,500+ exercises: <100ms (local full-text search)
+- Sync 100 sets: 1-2s (background sync to Supabase)
+- Repeat last workout: <100ms (clone workout structure)
+
+**Note:** Performance varies by device hardware and data volume.
+
+---
+
+## References
+
+### Schema Files (Single Source of Truth)
+
+**WatermelonDB:**
+
+- Schema definition: `src/services/database/watermelon/schema.ts`
+- Schema migrations: `src/services/database/watermelon/migrations.ts`
+- Models: `src/services/database/watermelon/models/`
+  - `Exercise.ts` - Exercise model with ExerciseDB fields
+  - `Workout.ts` - Workout model with computed properties
+  - `WorkoutExercise.ts` - Join table model
+  - `ExerciseSet.ts` - Set model with volume calculations
+
+**Supabase:**
+
+- Migrations directory: `supabase/migrations/`
+- Current migrations:
+  - `20251105000000_consolidated_schema_v5.sql` - Initial consolidated schema
+  - `20251106000000_schema_v6_v7_github_dataset.sql` - GitHub dataset alignment
+
+### Test Files
+
+- Test factories: `__tests__/__helpers__/database/factories.ts`
+- Database tests: `src/services/database/__tests__/`
+
+### External Documentation
 
 - [WatermelonDB Docs](https://nozbe.github.io/WatermelonDB/)
 - [WatermelonDB Sync Protocol](https://nozbe.github.io/WatermelonDB/Advanced/Sync.html)
 - [Supabase PostgreSQL](https://supabase.com/docs/guides/database)
 - [Supabase Row-Level Security](https://supabase.com/docs/guides/auth/row-level-security)
-- [ExerciseDB API](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)
+- [GitHub ExerciseDB](https://github.com/ExerciseDB/exercisedb-api)
 
 ### Internal Documentation
 
-- [ADR-018: Align Exercise Schema with ExerciseDB](ADR-018-Align-Exercise-Schema-ExerciseDB.md)
-- [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md)
-- [TECHNICAL.md](TECHNICAL.md)
-- [TESTING.md](TESTING.md)
-
-### Related Files
-
-- **WatermelonDB Schema:** `src/services/database/watermelon/schema.ts`
-- **WatermelonDB Models:** `src/services/database/watermelon/models/`
-- **Supabase Migrations:** `supabase/migrations/`
-- **Test Factories:** `tests/__helpers__/database/factories.ts`
-- **Database Tests:** `src/services/database/__tests__/`
+- [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md) - Removed features (RPE, RIR, nutrition_phase)
+- [TECHNICAL.md](TECHNICAL.md) - Architecture Decision Records (ADRs)
+- [TESTING.md](TESTING.md) - Testing strategy for database layer
 
 ---
 
