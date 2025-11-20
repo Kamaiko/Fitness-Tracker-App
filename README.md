@@ -42,14 +42,11 @@ Offline-first mobile fitness tracker for serious strength athletes. Track workou
 ## 🚀 Quick Start
 
 ```bash
-# 1. Clone and install
-git clone https://github.com/Kamaiko/HalteroFit.git
-cd HalteroFit
-npm install
-
-# 2. Configure environment & build (first time setup)
-# See CONTRIBUTING.md for complete setup guide (~15-20 min)
+npm install                    # Install dependencies
+npm start                      # Start development server
 ```
+
+**First-time setup:** See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for environment configuration (~15-20 min)
 
 ---
 
