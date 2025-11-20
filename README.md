@@ -25,6 +25,7 @@
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
 [![Sentry](https://img.shields.io/badge/Sentry-362D59?style=flat&logo=sentry&logoColor=white)](https://sentry.io)
 [![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io)
+[![Maestro](https://img.shields.io/badge/Maestro-6C47FF?style=flat)](https://maestro.mobile.dev)
 
 <br/>
 
