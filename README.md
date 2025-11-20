@@ -4,13 +4,23 @@
 
 **Science-based fitness tracking with intelligent analytics**
 
-[![Expo SDK](https://img.shields.io/badge/Expo-54.0.21-000020?style=flat&logo=expo)](https://expo.dev)
-[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat&logo=react)](https://react.dev)
+<!-- Tech Stack -->
+
+[![Expo SDK](https://img.shields.io/badge/Expo-54.0.23-000020?style=flat&logo=expo)](https://expo.dev)
 [![React Native](https://img.shields.io/badge/React%20Native-0.81.5-61DAFB?style=flat&logo=react)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
 [![NativeWind](https://img.shields.io/badge/NativeWind-v4-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
+
+<!-- Backend & Database -->
+
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
-[![Science-Based](https://img.shields.io/badge/Analytics-Science--Based-00A36C?style=flat)](https://github.com)
+[![WatermelonDB](https://img.shields.io/badge/Database-WatermelonDB-00D9C0?style=flat)]()
+[![Zustand](https://img.shields.io/badge/State-Zustand-black?style=flat)]()
+
+<!-- Platform Support -->
+
+![supports iOS](https://img.shields.io/badge/iOS-000000?style=flat&logo=apple&logoColor=white)
+![supports Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
 
 <br/>
 
