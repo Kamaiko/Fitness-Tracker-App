@@ -14,7 +14,7 @@
 <!-- Backend & Storage -->
 
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com)
-[![WatermelonDB](https://img.shields.io/badge/WatermelonDB-00D9C0?style=flat)](https://watermelondb.dev)
+[![WatermelonDB](https://img.shields.io/badge/🍉_WatermelonDB-00D9C0?style=flat)](https://watermelondb.dev)
 [![MMKV](https://img.shields.io/badge/MMKV-F59E0B?style=flat)](https://github.com/mrousavy/react-native-mmkv)
 [![TanStack Query](https://img.shields.io/badge/TanStack_Query-EF4444?style=flat&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zustand](https://img.shields.io/badge/Zustand-black?style=flat)](https://zustand-demo.pmnd.rs)
