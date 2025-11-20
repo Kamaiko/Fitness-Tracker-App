@@ -113,10 +113,10 @@ test('stores data', () => {
 **Why Needed:** Tests should not make real API calls (slow, unreliable, requires auth)
 **Implementation:** Mock all Supabase methods (auth, database, storage)
 
-**Mocked in jest.setup.js:**
+**Mocked in jest.setup.ts:**
 
-```javascript
-// jest.setup.js
+```typescript
+// jest.setup.ts
 jest.mock('@/services/supabase/client'); // Mock our wrapper, not supabase-js directly
 ```
 
@@ -148,12 +148,12 @@ __mocks__/
 
 ### Manual Mocking (When Needed)
 
-**How:** Call `jest.mock('module-path')` in jest.setup.js or test file
+**How:** Call `jest.mock('module-path')` in jest.setup.ts or test file
 **When:** Internal modules (our own code like @/services/supabase/client)
 **Benefits:** More control, can mock per-test
 
-```javascript
-// jest.setup.js
+```typescript
+// jest.setup.ts
 jest.mock('@/services/supabase/client'); // Mock our internal module
 
 // OR in test file
@@ -302,7 +302,7 @@ test('test 2', () => {
 **Fix: Use jest.clearAllMocks() in beforeEach**
 
 ```typescript
-// jest.setup.js
+// jest.setup.ts
 beforeEach(() => {
   jest.clearAllMocks(); // ✅ Reset all mocks before each test
 });
@@ -329,7 +329,7 @@ export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// jest.setup.js (test environment)
+// jest.setup.ts (test environment)
 jest.mock('@/services/supabase/client'); // ✅ Mock for tests
 ```
 
@@ -388,8 +388,8 @@ module.exports = {
 
 - **Test Root README:** [tests/README.md](../tests/README.md) - Architecture overview
 - **Database Helpers:** [tests/support/database/README.md](../tests/support/database/README.md) - Test utilities
-- **Jest Setup:** [jest.setup.js](../jest.setup.js) - Global test configuration
-- **Jest Config:** [jest.config.js](../jest.config.js) - Jest configuration
+- **Jest Setup:** [jest.setup.ts](../jest.setup.ts) - Global test configuration
+- **Jest Config:** [jest.config.ts](../jest.config.ts) - Jest configuration
 - **Unit Testing Guide:** [docs/testing/unit-guide.md](../docs/testing/unit-guide.md) (future)
 
 ## Debugging Mocks
@@ -459,7 +459,7 @@ __mocks__/
 └── @supabase/
     └── supabase-js.js          # ✅ Kept (scoped package mock)
 
-jest.setup.js:
+jest.setup.ts:
 jest.mock('@/services/supabase/client'); # ✅ Mock our wrapper instead
 ```
 

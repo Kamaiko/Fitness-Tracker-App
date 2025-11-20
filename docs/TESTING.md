@@ -306,8 +306,8 @@ import { createTestWorkout } from '../../../__helpers__/database/factories';
 | ----------------------- | -------------------------------- | ----------------------- |
 | `react-native-mmkv`     | `__mocks__/react-native-mmkv.js` | In-memory storage (Map) |
 | `expo-asset`            | `__mocks__/expo-asset.js`        | Mock Asset.loadAsync()  |
-| `@supabase/supabase-js` | `jest.setup.js`                  | Mock auth & API calls   |
-| `@sentry/react-native`  | `jest.setup.js`                  | Mock error tracking     |
+| `@supabase/supabase-js` | `jest.setup.ts`                  | Mock auth & API calls   |
+| `@sentry/react-native`  | `jest.setup.ts`                  | Mock error tracking     |
 
 ---
 
@@ -344,7 +344,7 @@ import { createTestWorkout } from '../../../__helpers__/database/factories';
 
 | Error                                    | Root Cause                     | Fix                                                        |
 | ---------------------------------------- | ------------------------------ | ---------------------------------------------------------- |
-| `Cannot find module '@test-helpers/...'` | Alias not configured           | Add to `jest.config.js` + `tsconfig.json` paths            |
+| `Cannot find module '@test-helpers/...'` | Alias not configured           | Add to `jest.config.ts` + `tsconfig.json` paths            |
 | `LokiJS: Table 'workouts' not found`     | Database not initialized       | Add `createTestDatabase()` in `beforeAll`                  |
 | `Test IDs inconsistent between runs`     | `resetTestIdCounter()` missing | Call in `beforeAll()` after `createTestDatabase()`         |
 | `Jest hangs or won't exit`               | Too many database instances    | Use shared instance pattern (`beforeAll` not `beforeEach`) |

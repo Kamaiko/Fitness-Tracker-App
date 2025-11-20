@@ -543,7 +543,7 @@ constants/
 **Conventions**:
 
 - Use PascalCase for constants: `Colors`, `Sizes`
-- Colors MUST match `tailwind.config.js`
+- Colors MUST match `tailwind.config.ts`
 - Export as `const` objects
 
 ---

@@ -839,7 +839,7 @@ See [ARCHITECTURE.md § Structure Détaillée](./ARCHITECTURE.md#-structure-dét
 
 ## Design System
 
-See `tailwind.config.js` for complete theme configuration (colors, spacing, typography).
+See `tailwind.config.ts` for complete theme configuration (colors, spacing, typography).
 
 **Quick reference**: Dark theme, 8px spacing grid, NativeWind v4 (Tailwind CSS 3.4)
 

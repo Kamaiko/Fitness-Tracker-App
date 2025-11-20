@@ -367,7 +367,7 @@ export const useStore = create(
 
 ```bash
 # 1. Ensure NativeWind is configured
-# Check metro.config.js, tailwind.config.js, babel.config.js
+# Check metro.config.js, tailwind.config.ts, babel.config.js
 
 # 2. Restart Metro with cache clear
 npx expo start -c
@@ -407,7 +407,7 @@ import '../../global.css';
 
 **Cause:**
 
-- `src/constants/colors.ts` not matching `tailwind.config.js`
+- `src/constants/colors.ts` not matching `tailwind.config.ts`
 
 **Solution:**
 
@@ -415,11 +415,11 @@ import '../../global.css';
 // src/constants/colors.ts
 export const Colors = {
   primary: {
-    DEFAULT: '#4299e1', // MUST match tailwind.config.js
+    DEFAULT: '#4299e1', // MUST match tailwind.config.ts
   },
 };
 
-// tailwind.config.js
+// tailwind.config.ts
 module.exports = {
   theme: {
     extend: {
@@ -435,7 +435,7 @@ module.exports = {
 
 **Check:**
 
-- [ ] Colors match between `colors.ts` and `tailwind.config.js`
+- [ ] Colors match between `colors.ts` and `tailwind.config.ts`
 - [ ] Using `Colors` not `COLORS` (naming changed)
 - [ ] Importing from `@/constants` not `@/constants/colors`
 

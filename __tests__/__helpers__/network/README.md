@@ -85,9 +85,9 @@ npm install -D msw
 
 ## Configuration
 
-msw setup in `jest.setup.js`:
+msw setup in `jest.setup.ts`:
 
-```javascript
+```typescript
 import { mockSupabaseServer } from '@test-helpers/network/mock-supabase';
 
 beforeAll(() => mockSupabaseServer.listen({ onUnhandledRequest: 'error' }));

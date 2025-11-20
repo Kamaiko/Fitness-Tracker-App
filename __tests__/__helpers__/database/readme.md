@@ -31,7 +31,7 @@ describe('Feature Tests', () => {
 
   test('example', async () => {
     const workout = await createTestWorkout(database, { title: 'Leg Day' });
-    expect(workout).toBeValidWorkout(); // Custom matcher from jest.setup.js
+    expect(workout).toBeValidWorkout(); // Custom matcher from jest.setup.ts
   });
 });
 ```
@@ -153,7 +153,7 @@ await wait(10); // Wait 10ms for timestamp to change
 
 - `measureExecutionTime(fn)` - Returns `{ result, durationMs }`
 
-**Custom Jest Matchers (in jest.setup.js):**
+**Custom Jest Matchers (in jest.setup.ts):**
 
 - `expect(workout).toBeValidWorkout()`
 - `expect(exercise).toBeValidExercise()`
