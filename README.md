@@ -7,10 +7,9 @@
 <!-- Tech Stack -->
 
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo)](https://expo.dev)
-[![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=flat&logo=react)](https://reactnative.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
-[![Expo Router](https://img.shields.io/badge/Expo_Router-000020?style=flat&logo=expo)](https://docs.expo.dev/router)
-[![NativeWind](https://img.shields.io/badge/NativeWind-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
+[![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=flat&logo=react&logoColor=white)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![NativeWind](https://img.shields.io/badge/NativeWind-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://nativewind.dev)
 
 <!-- Backend & Storage -->
 
