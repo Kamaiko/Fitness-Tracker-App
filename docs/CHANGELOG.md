@@ -26,7 +26,7 @@ This document tracks completed development milestones and major changes across a
 - **ExerciseDB Import**: 1,500+ exercises seeded to Supabase
   - Dataset: GitHub ExerciseDB (gif_url field added)
   - Schema: Migrated v5→v7
-  - Backup: `scripts/exercisedb-full-dataset.json` (1.3MB)
+  - Backup: `docs/archives/exercisedb-full-dataset.json` (1.3MB)
   - Cleanup: Import/rollback scripts removed, Zod dependency removed (5.2MB saved)
   - Result: Exercise library ready for Phase 2+ workout creation
 

@@ -75,24 +75,7 @@ app/
 
 ---
 
-### 2. `/scripts` - Utility Scripts
-
-**Purpose**: Data backups for development
-
-```
-scripts/
-└── exercisedb-full-dataset.json  # Exercise data backup (1.3MB)
-```
-
-**Status:**
-
-- ✅ Import completed (1,500+ exercises seeded to Supabase)
-- ✅ Import/rollback scripts deleted (no longer needed, recoverable from git history)
-- ✅ Dataset backup retained for reference
-
----
-
-### 3. `/components` - UI Components
+### 2. `/components` - UI Components
 
 **Purpose**: Reusable React components organized by feature and source
 
@@ -172,7 +155,7 @@ export function Button({ onPress, children, variant = 'primary' }: ButtonProps) 
 
 ---
 
-### 4. `/hooks` - Custom React Hooks
+### 3. `/hooks` - Custom React Hooks
 
 **Purpose**: Reusable stateful logic
 
@@ -229,7 +212,7 @@ export function useActiveWorkout() {
 
 ---
 
-### 5. `/services` - Business Logic Layer
+### 4. `/services` - Business Logic Layer
 
 **Purpose**: External services, API calls, database operations
 
@@ -303,7 +286,7 @@ export async function createWorkout(data: CreateWorkout): Promise<Workout> {
 
 ---
 
-### 6. `/stores` - Global State (Zustand)
+### 5. `/stores` - Global State (Zustand)
 
 **Purpose**: Application-wide state management
 
@@ -375,7 +358,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 ---
 
-### 7. `/types` - TypeScript Types
+### 6. `/types` - TypeScript Types
 
 **Purpose**: Shared type definitions (NOT colocated)
 
@@ -405,7 +388,7 @@ types/
 
 ---
 
-### 8. `/utils` - Pure Utility Functions
+### 7. `/utils` - Pure Utility Functions
 
 **Purpose**: Pure functions, no side effects
 
@@ -446,7 +429,7 @@ export function calculateOneRepMax(weight: number, reps: number): number {
 
 ---
 
-### 9. `/__tests__` & `/e2e` - Testing Infrastructure (Phase 0.6 - Reorganized)
+### 8. `/__tests__` & `/e2e` - Testing Infrastructure
 
 **Purpose**: Centralized test infrastructure, E2E automation
 
@@ -529,7 +512,7 @@ e2e/                            # E2E tests (manual + automated)
 
 ---
 
-### 10. `/constants` - App Constants
+### 9. `/constants` - App Constants
 
 **Purpose**: Configuration values, colors, sizes
 

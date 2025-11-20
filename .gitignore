@@ -114,4 +114,4 @@ patches/
 *.db-shm
 *.db-wal
 nul
-scripts/exercisedb-full-dataset.json
+docs/archives/exercisedb-full-dataset.json

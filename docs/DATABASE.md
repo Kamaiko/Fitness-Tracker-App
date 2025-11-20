@@ -214,7 +214,7 @@ Halterofit uses the **GitHub ExerciseDB static dataset** as the primary exercise
 - **Format:** Static JSON file (not an API)
 - **Import:** One-time seeding to Supabase, synced to local devices
 - **GitHub Repo:** https://github.com/ExerciseDB/exercisedb-api
-- **Backup:** `scripts/exercisedb-full-dataset.json` (1.3MB)
+- **Backup:** `docs/archives/exercisedb-full-dataset.json` (1.3MB)
 
 ### Field Mapping
 
