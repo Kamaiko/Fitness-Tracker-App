@@ -19,10 +19,8 @@
 [![TanStack Query](https://img.shields.io/badge/TanStack_Query-EF4444?style=flat&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zustand](https://img.shields.io/badge/Zustand-black?style=flat)](https://zustand-demo.pmnd.rs)
 
-<!-- Platform & Tools -->
+<!-- Dev Tools -->
 
-![iOS](https://img.shields.io/badge/iOS-000000?style=flat&logo=apple&logoColor=white)
-![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
 [![Sentry](https://img.shields.io/badge/Sentry-362D59?style=flat&logo=sentry&logoColor=white)](https://sentry.io)
 [![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io)
 [![Maestro](https://img.shields.io/badge/Maestro-6C47FF?style=flat)](https://maestro.mobile.dev)
