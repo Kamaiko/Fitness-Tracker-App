@@ -3,7 +3,7 @@
  *
  * WatermelonDB-based offline-first storage with reactive queries
  *
- * ARCHITECTURE (Phase 0.6 - Reorganized):
+ * ARCHITECTURE:
  * - local/ - WatermelonDB (schema, models, migrations)
  * - remote/ - Supabase sync protocol
  * - operations/ - Business logic (CRUD operations)

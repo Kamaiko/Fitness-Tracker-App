@@ -38,7 +38,7 @@ import { CachedImage } from '@/components/ui';
 
 **Purpose:** Optimized image loading with aggressive caching for instant retrieval.
 
-**Status:** ✅ Production-ready (Phase 0.5.4)
+**Status:** ✅ Production-ready
 
 **Use Cases:**
 
@@ -581,7 +581,7 @@ PRD requires <200ms cache retrieval → `memory-disk` is only option.
 
 ## Maintenance Notes
 
-**Created:** 2025-01-31 (Phase 0.5.4)
+**Created:** 2025-01-31
 
 **Next Review:** Phase 2.7.1 (When implementing ExerciseSelector)
 

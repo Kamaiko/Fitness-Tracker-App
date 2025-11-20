@@ -13,7 +13,7 @@
  * **Just-in-Time approach:**
  * Create type files as needed during implementation:
  * - Phase 1: auth.ts (login/register types)
- * - Phase 0.6.8: exercisedb.ts (API response types)
+ * - exercisedb.ts (API response types)
  * - Phase 4: analytics.ts (report types)
  *
  * USAGE:

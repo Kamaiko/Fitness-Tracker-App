@@ -426,7 +426,7 @@ const keyExtractor = useCallback((item: Workout) => item.title, []); // Titles n
 
 ## Maintenance Notes
 
-**Created:** 2025-01-31 (Phase 0.5.3)
+**Created:** 2025-01-31
 
 **Next Review:** Phase 2.6.4 (When creating workout history screen)
 
