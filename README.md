@@ -6,21 +6,26 @@
 
 <!-- Tech Stack -->
 
-[![Expo SDK](https://img.shields.io/badge/Expo-54.0.23-000020?style=flat&logo=expo)](https://expo.dev)
-[![React Native](https://img.shields.io/badge/React%20Native-0.81.5-61DAFB?style=flat&logo=react)](https://reactnative.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
-[![NativeWind](https://img.shields.io/badge/NativeWind-v4-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
+[![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=flat&logo=react)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript)](https://typescriptlang.org)
+[![Expo Router](https://img.shields.io/badge/Expo_Router-000020?style=flat&logo=expo)](https://docs.expo.dev/router)
+[![NativeWind](https://img.shields.io/badge/NativeWind-06B6D4?style=flat&logo=tailwindcss)](https://nativewind.dev)
 
-<!-- Backend & Database -->
+<!-- Backend & Storage -->
 
-[![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
-[![WatermelonDB](https://img.shields.io/badge/Database-WatermelonDB-00D9C0?style=flat)]()
-[![Zustand](https://img.shields.io/badge/State-Zustand-black?style=flat)]()
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
+[![WatermelonDB](https://img.shields.io/badge/WatermelonDB-00D9C0?style=flat)](https://watermelondb.dev)
+[![MMKV](https://img.shields.io/badge/MMKV-FF6B6B?style=flat)](https://github.com/mrousavy/react-native-mmkv)
+[![React Query](https://img.shields.io/badge/React_Query-FF4154?style=flat&logo=react-query&logoColor=white)](https://tanstack.com/query)
+[![Zustand](https://img.shields.io/badge/Zustand-black?style=flat)](https://zustand-demo.pmnd.rs)
 
-<!-- Platform Support -->
+<!-- Platform & Tools -->
 
-![supports iOS](https://img.shields.io/badge/iOS-000000?style=flat&logo=apple&logoColor=white)
-![supports Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-000000?style=flat&logo=apple&logoColor=white)
+![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
+[![Sentry](https://img.shields.io/badge/Sentry-362D59?style=flat&logo=sentry&logoColor=white)](https://sentry.io)
+[![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io)
 
 <br/>
 
