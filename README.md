@@ -7,7 +7,7 @@
 <!-- Tech Stack -->
 
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo)](https://expo.dev)
-[![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=flat&logo=react&logoColor=white)](https://reactnative.dev)
+[![React Native](https://img.shields.io/badge/React_Native-20232a?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![NativeWind](https://img.shields.io/badge/NativeWind-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://nativewind.dev)
 
@@ -16,7 +16,7 @@
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
 [![WatermelonDB](https://img.shields.io/badge/WatermelonDB-00D9C0?style=flat)](https://watermelondb.dev)
 [![MMKV](https://img.shields.io/badge/MMKV-FF6B6B?style=flat)](https://github.com/mrousavy/react-native-mmkv)
-[![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=flat&logo=react-query&logoColor=white)](https://tanstack.com/query)
+[![TanStack Query](https://img.shields.io/badge/TanStack_Query-EF4444?style=flat&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zustand](https://img.shields.io/badge/Zustand-black?style=flat)](https://zustand-demo.pmnd.rs)
 
 <!-- Platform & Tools -->
