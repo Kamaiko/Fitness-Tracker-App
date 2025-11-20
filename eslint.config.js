@@ -23,7 +23,7 @@ module.exports = [
   // Base ESLint recommended rules
   eslint.configs.recommended,
 
-  // JavaScript config files (no TypeScript checking)
+  // JavaScript/TypeScript config files (allow require, module, etc.)
   {
     files: [
       '**/*.config.js',
@@ -31,6 +31,7 @@ module.exports = [
       '**/.eslintrc.js',
       '**/.prettierrc.js',
       'jest.*.js', // Jest config variants (jest.config.integration.js, etc.)
+      'jest.*.ts', // Jest config variants TypeScript
     ],
     languageOptions: {
       globals: {
@@ -42,24 +43,7 @@ module.exports = [
     },
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
-    },
-  },
-
-  // Jest setup file
-  {
-    files: ['jest.setup.js'],
-    languageOptions: {
-      globals: {
-        global: 'writable',
-        console: 'writable',
-        jest: 'readonly',
-        require: 'readonly',
-        module: 'readonly',
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-var-requires': 'off',
-      'no-undef': 'off',
+      '@typescript-eslint/no-require-imports': 'off', // Config files can use require()
     },
   },
 
@@ -200,6 +184,32 @@ module.exports = [
     files: ['__tests__/__helpers__/database/factories.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off', // WatermelonDB limitation (untyped create callbacks)
+    },
+  },
+
+  // Jest setup file (.js and .ts) - MUST come after general TypeScript config
+  {
+    files: ['jest.setup.js', 'jest.setup.ts'],
+    languageOptions: {
+      globals: {
+        global: 'writable',
+        console: 'writable',
+        jest: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        require: 'readonly',
+        module: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-namespace': 'off', // Custom matcher declarations
+      '@typescript-eslint/no-empty-object-type': 'off', // Interface extensions
+      'no-undef': 'off',
+      'no-console': 'off', // Allow console in setup
     },
   },
 ];

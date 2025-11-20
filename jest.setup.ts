@@ -3,8 +3,16 @@
 // No need to import extend-expect anymore
 
 // Mock Expo globals
+declare global {
+  var __ExpoImportMetaRegistry: Map<string, unknown>;
+}
+
 global.__ExpoImportMetaRegistry = new Map();
-global.structuredClone = (val) => JSON.parse(JSON.stringify(val));
+
+// Polyfill structuredClone for older Node.js versions (< 17)
+if (typeof global.structuredClone === 'undefined') {
+  global.structuredClone = <T>(val: T): T => JSON.parse(JSON.stringify(val));
+}
 
 // Mock environment variables for Supabase (prevents errors during module loading)
 process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
@@ -45,16 +53,33 @@ beforeEach(() => {
 // 🆕 Custom Jest Matchers (Phase 0.5.28 refactor)
 // ============================================================================
 
+interface CustomMatchers<R = unknown> {
+  toBeValidWorkout(): R;
+  toBeValidExercise(): R;
+}
+
+declare global {
+  namespace jest {
+    interface Expect extends CustomMatchers {}
+    interface Matchers<R> extends CustomMatchers<R> {}
+    interface InverseAsymmetricMatchers extends CustomMatchers {}
+  }
+}
+
 expect.extend({
   /**
    * Assert workout object has valid structure
    * @example expect(workout).toBeValidWorkout()
    */
-  toBeValidWorkout(received) {
+  toBeValidWorkout(received: unknown): jest.CustomMatcherResult {
     const pass =
-      received &&
+      received !== null &&
+      typeof received === 'object' &&
+      'id' in received &&
       typeof received.id === 'string' &&
+      'title' in received &&
       typeof received.title === 'string' &&
+      'userId' in received &&
       typeof received.userId === 'string';
 
     return {
@@ -70,8 +95,14 @@ expect.extend({
    * Assert exercise object has valid structure
    * @example expect(exercise).toBeValidExercise()
    */
-  toBeValidExercise(received) {
-    const pass = received && typeof received.id === 'string' && typeof received.name === 'string';
+  toBeValidExercise(received: unknown): jest.CustomMatcherResult {
+    const pass =
+      received !== null &&
+      typeof received === 'object' &&
+      'id' in received &&
+      typeof received.id === 'string' &&
+      'name' in received &&
+      typeof received.name === 'string';
 
     return {
       pass,

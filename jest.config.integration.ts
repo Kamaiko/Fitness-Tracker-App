@@ -14,9 +14,12 @@
  * @see docs/TESTING.md § Limitations & Workarounds
  */
 
-module.exports = {
+import type { Config } from 'jest';
+import baseConfig from './jest.config';
+
+const config: Config = {
   // Extend base Jest config
-  ...require('./jest.config.js'),
+  ...baseConfig,
 
   // Display name for better test output
   displayName: 'integration',
@@ -25,7 +28,7 @@ module.exports = {
   testMatch: ['**/__tests__/integration/**/*.test.{ts,tsx}'],
 
   // Setup files for integration tests
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js', '<rootDir>/__tests__/integration/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', '<rootDir>/__tests__/integration/setup.ts'],
 
   // Integration tests use LokiJS (NOT Real SQLite - see limitations above)
   // Real SQLite requires React Native environment (use E2E tests instead)
@@ -43,6 +46,9 @@ module.exports = {
   ],
 
   coverageThreshold: {
+    global: {
+      // Global thresholds disabled for integration tests
+    },
     // Target 80% coverage for sync logic (Phase 1 goal)
     './src/services/database/': {
       branches: 50, // Start at 50%, increase to 80% in Phase 2
@@ -63,6 +69,8 @@ module.exports = {
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@nozbe/watermelondb|msw|@mswjs|until-async)',
   ],
 };
+
+export default config;
 
 // ============================================================================
 // SYNC TESTING STRATEGY
