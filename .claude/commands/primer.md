@@ -5,97 +5,64 @@ allowed-tools: Read, Bash(git status:*), Bash(git log:*)
 
 # /primer - Fast Project Familiarization
 
-**MISSION**: Execute ultra-fast session orientation (<10 seconds, <10k tokens) that familiarizes Claude with current project state and generates actionable dashboard with contextual documentation suggestions.
+**MISSION**: Ultra-fast session orientation (<10s, <10k tokens) - familiarize with project state, generate actionable dashboard with contextual doc suggestions.
 
 ---
 
 ## EXECUTION ALGORITHM
 
-### STEP 1: Data Collection (Parallel Execution)
+### STEP 1: Parallel Data Collection
 
-**Execute these 3 tool calls IN ONE MESSAGE:**
+**Execute these 3 tools IN ONE MESSAGE:**
 
-#### Tool 1: Read TASKS.md Header
-
-```
-Read('docs/TASKS.md', { limit: 100 })
-```
-
-**Extract:**
-
-- `PHASE_STATUS`: Line matching `**Status**: 🔄 Phase N - Title`
-- `TODO_TASKS`: Lines in `| TODO` column of Kanban table (first task = next task)
-- `DONE_TASKS`: Lines in `| DONE` column of Kanban table (last 5 tasks)
-
-**Parsing Rules:**
-
-- Phase number: Extract `N` from `Phase N -`
-- Phase title: Extract `Title` from `Phase N - Title`
-- Next task: First row in TODO column → Format: `**task_id** description \`[size]\``
-- Stop reading at first `## Phase` heading (phase details not needed)
-
-#### Tool 2: Git Status
-
-```bash
-git status
+```typescript
+Read('docs/TASKS.md', { limit: 100 });
+Bash('git status');
+Bash('git log -1 --format="%h - %s (%ar)"');
 ```
 
-**Extract:**
+**Extract from TASKS.md:**
 
-- `MODIFIED_COUNT`: Count of files in "Changes not staged for commit"
-- `MODIFIED_FILES`: List of modified file paths (first 3 files maximum)
-- `BRANCH_NAME`: Current branch name
+- `PHASE_STATUS`: Line `**Status**: 🔄 Phase N - Title`
+- `NEXT_TASK`: First row in `| TODO` column → `**id** description \`[size]\``
 
-#### Tool 3: Git Log
+**Extract from git status:**
 
-```bash
-git log -1 --format="%h - %s (%ar)"
-```
+- `MODIFIED_COUNT`: Count of changed files
+- `MODIFIED_FILES`: File paths (first 3 max)
 
-**Extract:**
+**Extract from git log:**
 
-- `COMMIT_HASH`: First 7 characters (e.g., `5cb24ae`)
-- `COMMIT_MSG`: Commit message (e.g., `refactor(config)`)
-- `TIME_AGO`: Relative time (e.g., `il y a 1h`)
+- `COMMIT_INFO`: Full output (hash, message, time)
 
 ---
 
-### STEP 2: Data Processing
+### STEP 2: Parse Variables
 
-Parse extracted data into variables:
+Extract these values with fallbacks:
 
-| Variable           | Source                       | Example                                | Fallback             |
-| ------------------ | ---------------------------- | -------------------------------------- | -------------------- |
-| `{PHASE_NUM}`      | PHASE_STATUS                 | `1`                                    | `0`                  |
-| `{PHASE_TITLE}`    | PHASE_STATUS                 | `Phase 1: Authentication & Foundation` | `Phase non détectée` |
-| `{NEXT_TASK_ID}`   | TODO_TASKS (first task)      | `1.10`                                 | `—`                  |
-| `{NEXT_TASK_DESC}` | TODO_TASKS (first task)      | `Login screen`                         | `Voir TASKS.md`      |
-| `{NEXT_TASK_SIZE}` | TODO_TASKS (first task)      | `M`                                    | `—`                  |
-| `{MODIFIED_COUNT}` | MODIFIED_COUNT               | `2`                                    | `0`                  |
-| `{MODIFIED_FILES}` | MODIFIED_FILES (first 3 max) | `TASKS.md, CHANGELOG.md`               | `—`                  |
-| `{COMMIT_INFO}`    | Full git log output          | `5cb24ae - refactor(config) (1h ago)`  | `Aucun commit`       |
+- `{PHASE_NUM}` from "Phase N -" (fallback: `0`)
+- `{PHASE_TITLE}` full status line (fallback: `"Phase non détectée"`)
+- `{NEXT_TASK_ID}` from TODO (fallback: `"—"`)
+- `{NEXT_TASK_DESC}` from TODO (fallback: `"Voir TASKS.md"`)
+- `{NEXT_TASK_SIZE}` from TODO (fallback: `"—"`)
+- `{MODIFIED_COUNT}` from status (fallback: `0`)
+- `{MODIFIED_FILES}` from status, max 3 files
+- `{COMMIT_INFO}` from log (fallback: `"Aucun commit"`)
 
-**Emphasis Flags** (computed from `{PHASE_NUM}` via DECISION RULES):
-
-- `{DB_EMPHASIS}`: String with emphasis marker or empty `""`
-- `{TEST_EMPHASIS}`: String with emphasis marker or empty `""`
-- `{ARCH_EMPHASIS}`: String with emphasis marker or empty `""`
-
-_See DECISION RULES > Rule 2 for phase-based logic._
+Compute emphasis markers from `{PHASE_NUM}` (see Rule 2).
 
 ---
 
-### STEP 3: Generate Output
+### STEP 3: Generate Dashboard
 
-Apply **OUTPUT TEMPLATE** with processed variables.
-Apply **DECISION RULES** for conditional sections.
-Output dashboard (5-7 lines).
+1. Replace `{VARIABLES}` in OUTPUT TEMPLATE
+2. Apply DECISION RULES for conditional sections
+3. Output 5-7 line dashboard
 
 ---
 
 ## OUTPUT TEMPLATE
-
-**Generate exactly this format:**
 
 ```
 ✅ Familiarisé avec Halterofit
@@ -118,29 +85,6 @@ Output dashboard (5-7 lines).
 Prêt pour vos instructions.
 ```
 
-**Example Output:**
-
-```
-✅ Familiarisé avec Halterofit
-
-📍 Phase 1: Authentication & Foundation 🔄
-⏱️ Dernier commit: 954c1b1 - docs!: Restructure task management (2h ago)
-
-⏭️ NEXT: **1.10** Login screen `[M]`
-
-⚠️ ALERTS: 2 fichiers modifiés (TASKS.md, CHANGELOG.md)
-
-💡 DOCS CLÉS À LIRE:
-   • CLAUDE.md (briefing complet)
-   • TASKS.md (roadmap + kanban)
-   • DATABASE.md (WatermelonDB schema + CRUD) ← Emphasized for Phase 1
-   • TESTING.md (stratégie 3-tier) ← Emphasized for Phase 1
-   • ARCHITECTURE.md (structure code + patterns)
-   • TECHNICAL.md (ADRs + stack decisions)
-
-Prêt pour vos instructions.
-```
-
 ---
 
 ## DECISION RULES
@@ -151,120 +95,74 @@ Prêt pour vos instructions.
 IF {MODIFIED_COUNT} > 0:
   {ALERTS_SECTION} = "⚠️ ALERTS: {MODIFIED_COUNT} fichiers modifiés ({MODIFIED_FILES})\n"
 ELSE:
-  {ALERTS_SECTION} = ""  (skip this line entirely)
+  {ALERTS_SECTION} = "" (skip line)
 ```
+
+If >3 files, show first 3 + `"..."`
+
+---
 
 ### Rule 2: Phase-Based Emphasis
 
-```
-IF {PHASE_NUM} == 1:
-  {DB_EMPHASIS}   = " ← Emphasized for Phase 1"
-  {TEST_EMPHASIS} = " ← Emphasized for Phase 1"
-  {ARCH_EMPHASIS} = ""
+| Phase      | DB_EMPHASIS    | TEST_EMPHASIS | ARCH_EMPHASIS  |
+| ---------- | -------------- | ------------- | -------------- |
+| **1**      | ` ← Phase 1`   | ` ← Phase 1`  | —              |
+| **2 or 3** | ` ← Phase 2-3` | —             | ` ← Phase 2-3` |
+| **4**      | —              | —             | ` ← Phase 4`   |
+| **5**      | —              | ` ← Phase 5`  | —              |
+| **Else**   | —              | —             | —              |
 
-ELSE IF {PHASE_NUM} IN [2, 3]:
-  {DB_EMPHASIS}   = " ← Emphasized for Phase 2-3"
-  {TEST_EMPHASIS} = ""
-  {ARCH_EMPHASIS} = " ← Emphasized for Phase 2-3"
+_Emphasis text format: `" ← Emphasized for Phase N"`_
 
-ELSE IF {PHASE_NUM} == 4:
-  {DB_EMPHASIS}   = ""
-  {TEST_EMPHASIS} = ""
-  {ARCH_EMPHASIS} = " ← Emphasized for Phase 4"
-
-ELSE IF {PHASE_NUM} == 5:
-  {DB_EMPHASIS}   = ""
-  {TEST_EMPHASIS} = " ← Emphasized for Phase 5"
-  {ARCH_EMPHASIS} = ""
-
-ELSE:
-  {DB_EMPHASIS}   = ""
-  {TEST_EMPHASIS} = ""
-  {ARCH_EMPHASIS} = ""
-```
+---
 
 ### Rule 3: Fallback Values
 
 ```
-IF {NEXT_TASK_ID} is empty:
-  Use: "⏭️ NEXT: Aucune tâche TODO (voir TASKS.md)"
-
-IF {COMMIT_INFO} is empty OR git log fails:
-  Use: "⏱️ Dernier commit: Aucun commit"
-
-IF {PHASE_TITLE} is empty OR parsing fails:
-  Use: "📍 Phase non détectée (voir TASKS.md)"
-```
-
-### Rule 4: Modified Files List
-
-```
-IF {MODIFIED_COUNT} > 3:
-  Show first 3 files + "..."
-  Example: "TASKS.md, CHANGELOG.md, primer.md, ..."
-
-ELSE:
-  Show all files comma-separated
-  Example: "TASKS.md, CHANGELOG.md"
+IF {NEXT_TASK_ID} is empty:  → "⏭️ NEXT: Aucune tâche TODO (voir TASKS.md)"
+IF {COMMIT_INFO} is empty:   → "⏱️ Dernier commit: Aucun commit"
+IF {PHASE_TITLE} is empty:   → "📍 Phase non détectée (voir TASKS.md)"
 ```
 
 ---
 
 ## CONSTRAINTS
 
-### Performance Limits
+**Performance:**
 
-- **Execution time**: <10 seconds total
-- **Token budget**: <10,000 tokens (~5% of context window)
-- **Tool calls**: Exactly 3 tools, executed in parallel in ONE message
-- **File reads**: TASKS.md header only (lines 1-100, stop at first `## Phase`)
+- <10 seconds execution
+- <10,000 tokens
+- Exactly 3 parallel tools in ONE message
+- Read TASKS.md header only (100 lines max)
 
-### Scope Boundaries
+**Scope - DO:**
 
-**DO:**
+- Read TASKS.md header (Kanban + Status)
+- Execute `git status` + `git log -1`
+- Parse into variables, apply rules
 
-- Read TASKS.md header (Kanban + Roadmap table + Status line)
-- Execute 2 git commands (status, log -1)
-- Parse extracted data into variables
-- Apply decision rules for conditional output
-- Generate compact dashboard (5-7 lines)
+**Scope - DO NOT:**
 
-**DO NOT:**
+- Read TASKS.md phase details (`## Phase` sections)
+- Read suggested docs (just suggest)
+- Count files, read package.json
+- Complex git commands
+- Deep analysis, calculate counters
 
-- Read TASKS.md phase details (## Phase 1, ## Phase 2 sections)
-- Read any suggested documentation files (just suggest them)
-- Count files in directories
-- Read package.json or config files
-- Execute complex git commands (diff, log --all, blame, etc.)
-- Perform deep codebase analysis
-- Calculate task counters or progress percentages
+**Output:**
 
-### Output Limits
-
-- **Total lines**: 5-7 lines maximum (excluding blank lines)
-- **Alerts**: Show only if `{MODIFIED_COUNT} > 0`
-- **Modified files list**: First 3 files maximum, add `...` if more
-- **Documentation suggestions**: Always exactly 6 files (core docs)
-- **Emphasis markers**: Maximum 2 emphasized docs per phase
+- 5-7 lines max
+- Always 6 docs suggested
+- Max 2 emphasis markers per phase
 
 ---
 
 ## IMPLEMENTATION NOTES
 
-**For Claude AI Agent:**
-
-1. **Parallel Execution**: Send ONE message with 3 tool uses (Read, Bash git status, Bash git log)
-2. **Error Handling**: Use fallback values from Rule 3 if any tool fails
-3. **Parsing Efficiency**: Stop reading TASKS.md at first `## Phase` line (header only)
-4. **Variable Substitution**: Replace all `{VARIABLE}` placeholders in OUTPUT TEMPLATE
-5. **Conditional Sections**: Apply DECISION RULES for `{ALERTS_SECTION}` and emphasis markers
-6. **No Auto-Reading**: DO NOT read suggested docs automatically - just suggest them
-7. **Zero Maintenance**: Works throughout project lifecycle (no hardcoded phase numbers in code)
-
-**Zero Maintenance Guarantee:**
-
-- Phase detection: Automatic from TASKS.md Status line
-- Next task: Automatic from Kanban TODO column
-- Emphasis: Rule-based (phase number only)
-- No counter dependencies (Zero Counters v5.0 philosophy)
-- No file paths maintenance (uses relative paths)
+1. **Parallel**: ONE message with 3 tool calls
+2. **Errors**: Use Rule 3 fallbacks if tools fail
+3. **Parsing**: Stop reading TASKS.md at first `## Phase`
+4. **Variables**: Replace all `{VARIABLE}` in template
+5. **Conditionals**: Apply Rules 1-3
+6. **No Auto-Read**: Suggest docs, don't read them
+7. **Zero Maintenance**: Auto-detects phase/tasks from TASKS.md
