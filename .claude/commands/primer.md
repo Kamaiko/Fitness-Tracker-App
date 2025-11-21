@@ -5,77 +5,126 @@ allowed-tools: Read, Bash(git status:*), Bash(git log:*)
 
 # /primer - Fast Project Familiarization
 
-Ultra-fast session orientation (<10 seconds) that familiarizes Claude with current project state and suggests relevant documentation.
-
-## Usage
-
-```bash
-/primer              # Full project familiarization
-```
-
-## 🎯 What It Does
-
-1. Reads TASKS.md header (Kanban + current phase)
-2. Checks git status + last commit
-3. **Generates compact dashboard** with next task and contextual doc suggestions
-4. **Zero maintenance required** - works throughout the project lifecycle
+**MISSION**: Execute ultra-fast session orientation (<10 seconds, <10k tokens) that familiarizes Claude with current project state and generates actionable dashboard with contextual documentation suggestions.
 
 ---
 
-## ⚡ Execution Workflow
+## EXECUTION ALGORITHM
 
-### Step 1: Read Project Status (TASKS.md Header Only)
+### STEP 1: Data Collection (Parallel Execution)
 
-**Find where phase details start:**
+**Execute these 3 tool calls IN ONE MESSAGE:**
 
-```bash
-grep -n "^## Phase" c:/DevTools/Projects/Halterofit/docs/TASKS.md | head -1
+#### Tool 1: Read TASKS.md Header
+
 ```
-
-**Read ONLY header (Kanban + Roadmap):**
-
-```typescript
-// If grep returns line 83, read lines 1-82
-read('c:/DevTools/Projects/Halterofit/docs/TASKS.md', { limit: <line_number - 1> })
+Read('docs/TASKS.md', { limit: 100 })
 ```
 
 **Extract:**
 
-- Current phase & status (e.g., "Phase 1 - Authentication")
-- Next task from Kanban TODO column (first row)
-- Recent completions from DONE column
+- `PHASE_STATUS`: Line matching `**Status**: 🔄 Phase N - Title`
+- `TODO_TASKS`: Lines in `| TODO` column of Kanban table (first task = next task)
+- `DONE_TASKS`: Lines in `| DONE` column of Kanban table (last 5 tasks)
 
----
+**Parsing Rules:**
 
-### Step 2: Git State (Fast Commands Only)
+- Phase number: Extract `N` from `Phase N -`
+- Phase title: Extract `Title` from `Phase N - Title`
+- Next task: First row in TODO column → Format: `**task_id** description \`[size]\``
+- Stop reading at first `## Phase` heading (phase details not needed)
 
-**Git status:**
+#### Tool 2: Git Status
 
 ```bash
 git status
 ```
 
-**Extract:** Uncommitted changes, branch state
+**Extract:**
 
-**Last commit (single command):**
+- `MODIFIED_COUNT`: Count of files in "Changes not staged for commit"
+- `MODIFIED_FILES`: List of modified file paths (first 3 files maximum)
+- `BRANCH_NAME`: Current branch name
+
+#### Tool 3: Git Log
 
 ```bash
 git log -1 --format="%h - %s (%ar)"
 ```
 
-**Extract:** Hash, message, time ago (e.g., "5cb24ae - refactor(config) (il y a 1h)")
+**Extract:**
+
+- `COMMIT_HASH`: First 7 characters (e.g., `5cb24ae`)
+- `COMMIT_MSG`: Commit message (e.g., `refactor(config)`)
+- `TIME_AGO`: Relative time (e.g., `il y a 1h`)
 
 ---
 
-### Step 3: Generate Compact Dashboard
+### STEP 2: Data Processing
 
-**Format (5-7 lines, highly actionable):**
+Parse extracted data into variables:
+
+| Variable           | Source                       | Example                                | Fallback             |
+| ------------------ | ---------------------------- | -------------------------------------- | -------------------- |
+| `{PHASE_NUM}`      | PHASE_STATUS                 | `1`                                    | `0`                  |
+| `{PHASE_TITLE}`    | PHASE_STATUS                 | `Phase 1: Authentication & Foundation` | `Phase non détectée` |
+| `{NEXT_TASK_ID}`   | TODO_TASKS (first task)      | `1.10`                                 | `—`                  |
+| `{NEXT_TASK_DESC}` | TODO_TASKS (first task)      | `Login screen`                         | `Voir TASKS.md`      |
+| `{NEXT_TASK_SIZE}` | TODO_TASKS (first task)      | `M`                                    | `—`                  |
+| `{MODIFIED_COUNT}` | MODIFIED_COUNT               | `2`                                    | `0`                  |
+| `{MODIFIED_FILES}` | MODIFIED_FILES (first 3 max) | `TASKS.md, CHANGELOG.md`               | `—`                  |
+| `{COMMIT_INFO}`    | Full git log output          | `5cb24ae - refactor(config) (1h ago)`  | `Aucun commit`       |
+
+**Emphasis Flags** (computed from `{PHASE_NUM}` via DECISION RULES):
+
+- `{DB_EMPHASIS}`: String with emphasis marker or empty `""`
+- `{TEST_EMPHASIS}`: String with emphasis marker or empty `""`
+- `{ARCH_EMPHASIS}`: String with emphasis marker or empty `""`
+
+_See DECISION RULES > Rule 2 for phase-based logic._
+
+---
+
+### STEP 3: Generate Output
+
+Apply **OUTPUT TEMPLATE** with processed variables.
+Apply **DECISION RULES** for conditional sections.
+Output dashboard (5-7 lines).
+
+---
+
+## OUTPUT TEMPLATE
+
+**Generate exactly this format:**
+
+```
+✅ Familiarisé avec Halterofit
+
+📍 {PHASE_TITLE} 🔄
+⏱️ Dernier commit: {COMMIT_INFO}
+
+⏭️ NEXT: **{NEXT_TASK_ID}** {NEXT_TASK_DESC} `[{NEXT_TASK_SIZE}]`
+
+{ALERTS_SECTION}
+
+💡 DOCS CLÉS À LIRE:
+   • CLAUDE.md (briefing complet)
+   • TASKS.md (roadmap + kanban)
+   • DATABASE.md (WatermelonDB schema + CRUD){DB_EMPHASIS}
+   • TESTING.md (stratégie 3-tier){TEST_EMPHASIS}
+   • ARCHITECTURE.md (structure code + patterns){ARCH_EMPHASIS}
+   • TECHNICAL.md (ADRs + stack decisions)
+
+Prêt pour vos instructions.
+```
+
+**Example Output:**
 
 ```
 ✅ Familiarisé avec Halterofit
 
 📍 Phase 1: Authentication & Foundation 🔄
-⏱️ Dernier commit: 5cb24ae - refactor(config) (il y a 1h)
+⏱️ Dernier commit: 954c1b1 - docs!: Restructure task management (2h ago)
 
 ⏭️ NEXT: **1.10** Login screen `[M]`
 
@@ -84,8 +133,8 @@ git log -1 --format="%h - %s (%ar)"
 💡 DOCS CLÉS À LIRE:
    • CLAUDE.md (briefing complet)
    • TASKS.md (roadmap + kanban)
-   • DATABASE.md (WatermelonDB schema + CRUD)
-   • TESTING.md (stratégie 3-tier)
+   • DATABASE.md (WatermelonDB schema + CRUD) ← Emphasized for Phase 1
+   • TESTING.md (stratégie 3-tier) ← Emphasized for Phase 1
    • ARCHITECTURE.md (structure code + patterns)
    • TECHNICAL.md (ADRs + stack decisions)
 
@@ -94,117 +143,128 @@ Prêt pour vos instructions.
 
 ---
 
-## 📊 Dashboard Components
+## DECISION RULES
 
-### Line 1: Phase Status
-
-- Format: `📍 Phase N: Title 🔄`
-- Source: TASKS.md Header "Status:" line
-- Example: `📍 Phase 1: Authentication & Foundation 🔄`
-
-### Line 2: Last Commit
-
-- Format: `⏱️ Dernier commit: hash - message (il y a Xh)`
-- Source: `git log -1 --format="%h - %s (%ar)"`
-- Example: `⏱️ Dernier commit: 5cb24ae - refactor(config) (il y a 1h)`
-
-### Line 3: Next Task
-
-- Format: `⏭️ NEXT: **task_id** description \`[size]\``
-- Source: TASKS.md Kanban TODO column (first task)
-- Example: `⏭️ NEXT: **1.10** Login screen \`[M]\``
-- **DO NOT** look up task details in phase sections (too slow)
-
-### Line 4: Alerts (conditional)
-
-- Format: `⚠️ ALERTS: X fichiers modifiés (list)`
-- Source: `git status`
-- **Only show if uncommitted changes exist**
-- Example: `⚠️ ALERTS: 2 fichiers modifiés (TASKS.md, CHANGELOG.md)`
-
-### Line 5: Contextual Docs
-
-- Format: `💡 DOCS CLÉS À LIRE:` followed by bullet list
-- **Always suggest core docs:**
-  - CLAUDE.md (project briefing)
-  - TASKS.md (current roadmap)
-  - DATABASE.md (WatermelonDB operations)
-  - TESTING.md (test strategy)
-  - ARCHITECTURE.md (code structure)
-  - TECHNICAL.md (tech stack decisions)
-
-- **Add phase-specific suggestions:**
-  - Phase 1 (Auth): Emphasize DATABASE.md, TESTING.md
-  - Phase 2-3 (Workouts): Emphasize DATABASE.md, ARCHITECTURE.md
-  - Phase 4 (Profile): Emphasize ARCHITECTURE.md
-  - Phase 5 (Polish): Emphasize TESTING.md
-
----
-
-## 🧠 Contextual Documentation Suggestions
-
-**Phase-based suggestions:**
-
-| Phase   | Theme               | Emphasized Docs               | Reason                    |
-| ------- | ------------------- | ----------------------------- | ------------------------- |
-| **1**   | Authentication      | DATABASE.md, TESTING.md       | Supabase auth, test infra |
-| **2-3** | Workouts & Tracking | DATABASE.md, ARCHITECTURE.md  | Complex CRUD, state mgmt  |
-| **4**   | Profile & Settings  | ARCHITECTURE.md, TECHNICAL.md | Navigation, preferences   |
-| **5**   | Polish & Deployment | TESTING.md                    | E2E tests, debugging      |
-
-**Task-specific triggers (if time permits):**
-
-- Task mentions "schema" or "migration" → Emphasize DATABASE.md
-- Task mentions "test" or "Jest" → Emphasize TESTING.md
-- Task mentions "component" or "UI" → Emphasize ARCHITECTURE.md
-
-**Always suggest core 6 docs:**
-
-1. CLAUDE.md (project briefing)
-2. TASKS.md (roadmap + kanban)
-3. DATABASE.md (WatermelonDB)
-4. TESTING.md (test strategy)
-5. ARCHITECTURE.md (code structure)
-6. TECHNICAL.md (tech stack + ADRs)
-
-**Example suggestion:**
+### Rule 1: Alerts Section
 
 ```
-💡 DOCS CLÉS À LIRE:
-   • CLAUDE.md (briefing complet)
-   • TASKS.md (roadmap + kanban)
-   • DATABASE.md (WatermelonDB schema + CRUD) ← Emphasized for Phase 1
-   • TESTING.md (stratégie 3-tier) ← Emphasized for Phase 1
-   • ARCHITECTURE.md (structure code + patterns)
-   • TECHNICAL.md (ADRs + stack decisions)
+IF {MODIFIED_COUNT} > 0:
+  {ALERTS_SECTION} = "⚠️ ALERTS: {MODIFIED_COUNT} fichiers modifiés ({MODIFIED_FILES})\n"
+ELSE:
+  {ALERTS_SECTION} = ""  (skip this line entirely)
+```
+
+### Rule 2: Phase-Based Emphasis
+
+```
+IF {PHASE_NUM} == 1:
+  {DB_EMPHASIS}   = " ← Emphasized for Phase 1"
+  {TEST_EMPHASIS} = " ← Emphasized for Phase 1"
+  {ARCH_EMPHASIS} = ""
+
+ELSE IF {PHASE_NUM} IN [2, 3]:
+  {DB_EMPHASIS}   = " ← Emphasized for Phase 2-3"
+  {TEST_EMPHASIS} = ""
+  {ARCH_EMPHASIS} = " ← Emphasized for Phase 2-3"
+
+ELSE IF {PHASE_NUM} == 4:
+  {DB_EMPHASIS}   = ""
+  {TEST_EMPHASIS} = ""
+  {ARCH_EMPHASIS} = " ← Emphasized for Phase 4"
+
+ELSE IF {PHASE_NUM} == 5:
+  {DB_EMPHASIS}   = ""
+  {TEST_EMPHASIS} = " ← Emphasized for Phase 5"
+  {ARCH_EMPHASIS} = ""
+
+ELSE:
+  {DB_EMPHASIS}   = ""
+  {TEST_EMPHASIS} = ""
+  {ARCH_EMPHASIS} = ""
+```
+
+### Rule 3: Fallback Values
+
+```
+IF {NEXT_TASK_ID} is empty:
+  Use: "⏭️ NEXT: Aucune tâche TODO (voir TASKS.md)"
+
+IF {COMMIT_INFO} is empty OR git log fails:
+  Use: "⏱️ Dernier commit: Aucun commit"
+
+IF {PHASE_TITLE} is empty OR parsing fails:
+  Use: "📍 Phase non détectée (voir TASKS.md)"
+```
+
+### Rule 4: Modified Files List
+
+```
+IF {MODIFIED_COUNT} > 3:
+  Show first 3 files + "..."
+  Example: "TASKS.md, CHANGELOG.md, primer.md, ..."
+
+ELSE:
+  Show all files comma-separated
+  Example: "TASKS.md, CHANGELOG.md"
 ```
 
 ---
 
-## ⚙️ Implementation Notes
+## CONSTRAINTS
 
-**For Claude:**
+### Performance Limits
 
-- Execute git commands in parallel (status + log)
-- Parse TASKS.md Kanban efficiently (no deep phase lookups)
-- Dashboard must be compact (5-7 lines max)
-- Only show ALERTS if issues exist
-- Always suggest core 6 docs
-- Contextual suggestions based on phase (simple rules, no complex logic)
-- **DO NOT read suggested docs automatically** - just suggest them
+- **Execution time**: <10 seconds total
+- **Token budget**: <10,000 tokens (~5% of context window)
+- **Tool calls**: Exactly 3 tools, executed in parallel in ONE message
+- **File reads**: TASKS.md header only (lines 1-100, stop at first `## Phase`)
 
-**Performance:**
+### Scope Boundaries
 
-- Target execution time: <10 seconds
-- Token budget: ~10,000 tokens (10% of context)
-- Only 2 git commands (status, log -1)
-- No file counting, no package.json read
-- Read TASKS.md header only (lines 1-82 typically)
+**DO:**
 
-**Zero Maintenance:**
+- Read TASKS.md header (Kanban + Roadmap table + Status line)
+- Execute 2 git commands (status, log -1)
+- Parse extracted data into variables
+- Apply decision rules for conditional output
+- Generate compact dashboard (5-7 lines)
 
-- Phase detection: automatic from TASKS.md
-- Next task: automatic from Kanban
-- Suggestions: rule-based (phase only, always suggest core 6)
-- Works throughout entire project lifecycle
-- No counter dependencies (eliminated in v5.0)
+**DO NOT:**
+
+- Read TASKS.md phase details (## Phase 1, ## Phase 2 sections)
+- Read any suggested documentation files (just suggest them)
+- Count files in directories
+- Read package.json or config files
+- Execute complex git commands (diff, log --all, blame, etc.)
+- Perform deep codebase analysis
+- Calculate task counters or progress percentages
+
+### Output Limits
+
+- **Total lines**: 5-7 lines maximum (excluding blank lines)
+- **Alerts**: Show only if `{MODIFIED_COUNT} > 0`
+- **Modified files list**: First 3 files maximum, add `...` if more
+- **Documentation suggestions**: Always exactly 6 files (core docs)
+- **Emphasis markers**: Maximum 2 emphasized docs per phase
+
+---
+
+## IMPLEMENTATION NOTES
+
+**For Claude AI Agent:**
+
+1. **Parallel Execution**: Send ONE message with 3 tool uses (Read, Bash git status, Bash git log)
+2. **Error Handling**: Use fallback values from Rule 3 if any tool fails
+3. **Parsing Efficiency**: Stop reading TASKS.md at first `## Phase` line (header only)
+4. **Variable Substitution**: Replace all `{VARIABLE}` placeholders in OUTPUT TEMPLATE
+5. **Conditional Sections**: Apply DECISION RULES for `{ALERTS_SECTION}` and emphasis markers
+6. **No Auto-Reading**: DO NOT read suggested docs automatically - just suggest them
+7. **Zero Maintenance**: Works throughout project lifecycle (no hardcoded phase numbers in code)
+
+**Zero Maintenance Guarantee:**
+
+- Phase detection: Automatic from TASKS.md Status line
+- Next task: Automatic from Kanban TODO column
+- Emphasis: Rule-based (phase number only)
+- No counter dependencies (Zero Counters v5.0 philosophy)
+- No file paths maintenance (uses relative paths)
