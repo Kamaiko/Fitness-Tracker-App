@@ -6,43 +6,61 @@ argument-hint: [next|status]
 
 # /task-update - Auto-Magic Task Completion
 
-Smart task tracker that detects what you just finished and updates everything automatically.
+Auto-detects completed work and cascades 6 levels of updates automatically.
 
 ---
 
 ## 🎯 Usage
 
 ```bash
-/task-update              # Auto-detect completed task & cascade updates
-/task-update next         # Suggest next task to work on
-/task-update status       # Show kanban board
+/task-update              # Auto-detect & update
+/task-update next         # Suggest next task
+/task-update status       # Show kanban
 ```
-
-**Most common**: Just `/task-update` after finishing work.
 
 ---
 
-## ⚡ How It Works
+## 🔍 Auto-Detection
 
-### Auto-Detection
+Analyzes 4 sources to detect completion:
 
-Claude analyzes:
-
-1. **Recent git commits** (last 24h) - messages, files, count
-2. **Kanban DOING column** - what's in progress
-3. **File patterns** - matches task "Files:" field with changed files
+1. **Git commits** (last 24h) - messages, files, count
+2. **Kanban DOING** - tasks marked in progress
+3. **File patterns** - matches task "Files:" with git diff
 4. **Task descriptions** - keyword matching
 
-Then Claude:
+**Handles ambiguity:**
 
-- ✅ Detects completed task
-- ✅ Marks `[x]` in TASKS.md
-- ✅ Updates Kanban (DOING → DONE)
-- ✅ Updates "Last Updated" date
-- ✅ Checks sub-section completion → triggers CHANGELOG migration
-- ✅ Suggests next task
+- Single strong match → Auto-proceeds with confirmation
+- Multiple candidates → Shows numbered list, user picks
+- No match → Shows DOING column, asks which task
 
-**Zero manual input required** 99% of the time.
+---
+
+## 🔄 Auto-Cascade Updates (6 Levels)
+
+One command updates **6 levels automatically:**
+
+### Core (1-2)
+
+1. Task checkbox: `[ ]` → `[x]`
+2. Last Updated: Set to current date (YYYY-MM-DD)
+
+### Kanban (3-5)
+
+3. DOING → DONE: Move task, remove "(started)"
+4. Auto-rotate DONE: Keep last 5, drop oldest if >5
+5. Update TODO: Remove completed task if present
+
+### Migration (6)
+
+6. Check sub-section: If 100% complete, trigger CHANGELOG migration
+   - Extract sub-section from TASKS.md
+   - Format with `<details>` collapse
+   - Insert at top of CHANGELOG (reverse chronological)
+   - Remove from TASKS.md
+
+**Time:** All 6 updates in ~2 seconds.
 
 ---
 
@@ -52,7 +70,7 @@ Then Claude:
 /task-update
 ```
 
-**Output:**
+**Success:**
 
 ```
 🔍 Analyzing recent work...
@@ -70,7 +88,7 @@ Then Claude:
 Start this task? [Y/n]
 ```
 
-**If ambiguous:**
+**Ambiguous:**
 
 ```
 🤔 Multiple tasks detected:
@@ -82,36 +100,11 @@ Which task did you complete?
 [1/2]: _
 ```
 
-Just type the number.
-
 ---
 
-## 🔄 Auto-Cascade Updates (6 Levels)
+## 📦 CHANGELOG Migration
 
-One `/task-update` command updates **6 levels automatically:**
-
-### Core (1-2)
-
-1. ✅ Task checkbox: `[ ]` → `[x]`
-2. 📅 Last Updated: Set to current date (YYYY-MM-DD)
-
-### Kanban (3-5)
-
-3. 📋 DOING → DONE: Move task, remove "(started)" annotation
-4. 📋 Auto-rotate DONE: Keep last 5 tasks, drop oldest if >5
-5. 📋 Update TODO: Remove completed task if present
-
-### Migration (6)
-
-6. 🔄 Check sub-section: If 100% complete, trigger CHANGELOG migration
-
-**Time:** All 6 updates complete in ~2 seconds.
-
----
-
-## 📦 CHANGELOG Migration (Automatic)
-
-When sub-section reaches 100% completion:
+When sub-section reaches 100%:
 
 ```
 ✅ Sub-section 1.1: Auth UI & Screens complete (5/5)
@@ -125,131 +118,56 @@ When sub-section reaches 100% completion:
 📋 CHANGELOG.md updated
 🗑️  TASKS.md cleaned
 
-⏭️ Next: Phase 1.2 Testing Infrastructure (0/8)
+⏭️ Next: Phase 1.2 Testing Infrastructure
 ```
 
-**Migration format:**
-
-```markdown
-## 2025-11-20 - Phase 1.1: Auth UI & Screens ✅
-
-**Status**: Complete
-**Stack**: React Native Reusables, Supabase Auth
-
-<details>
-<summary>📋 Completed Tasks (5 - Click to expand)</summary>
-
-- [x] **1.10** Create login screen UI (M - 2h) _2025-11-18_
-- [x] **1.11** Create register screen UI (M - 2h) _2025-11-18_
-      ...
-
-</details>
-
-**Key Achievements:**
-
-- Login/Register screens implemented
-- Form validation with error handling
-```
-
----
-
-## 🧠 Smart Features
-
-### Ambiguity Handling
-
-- **Single strong match**: Auto-proceeds with confirmation
-- **Multiple candidates**: Shows numbered list, user picks
-- **No match**: Shows DOING column, asks which task
-
-### Kanban Management
-
-**DONE auto-rotation**: Keeps last 5 tasks, oldest drops automatically.
-
-**TODO priority**: Top 5 tasks by priority, dependencies, blocking impact.
-
-### Next Task Suggestion
-
-`/task-update next` analyzes dependencies, blockers, priority, effort, critical path → suggests optimal next task.
-
----
-
-## ⚠️ Error Handling
-
-**No recent work:**
-
-```
-ℹ️ No recent commits (last 24h)
-Still working? Or mark specific task?
-```
-
-**Task already complete:**
-
-```
-✓ Task 1.10 already marked complete (2025-11-18)
-Next: 1.11 Register screen [M - 2h]
-```
-
-**Blocked dependencies:**
-
-```
-⚠️ Cannot start 1.30 - Dependencies not satisfied:
-   • 1.10 Login screen (pending)
-Recommended: Complete 1.10 first
-```
+**Format:** See `.claude/lib/tasks-format-spec.md` § CHANGELOG Format (lines 236-294)
 
 ---
 
 ## 🎯 Constraints
 
-**Performance:**
+### Performance
 
 - <5 seconds for auto-detection
 - <2 seconds for cascade updates
 - Git analysis: last 24h commits only
 
-**Scope - DO:**
+### Scope - DO
 
-- Analyze git log, git diff
+- Analyze `git log`, `git diff`
 - Parse TASKS.md (header + phase sections)
 - Update checkboxes, Kanban, Last Updated
 - Trigger CHANGELOG migration when sub-section complete
 
-**Scope - DO NOT:**
+### Scope - DO NOT
 
-- Calculate task counters or progress percentages (Zero Counters v5.0)
+- Calculate task counters or progress % (Zero Counters v5.0)
 - Modify git history
 - Read files outside project directory
 
-**Detection heuristics:**
+### Detection Heuristics
 
 - Match task ID with commit messages
 - Match "Files:" field with changed files
 - Match keywords in task description
 - Prioritize DOING column tasks
-- Simple confidence (strong/weak/none), no complex percentages
+- Simple confidence (strong/weak/none), no complex %
 
 ---
 
-## 💡 Daily Workflow
+## ⚠️ Error Handling
 
-```bash
-# Morning
-/task-update status      # See board, start task
-
-# Work...
-
-# After each task
-/task-update             # Auto-complete, get next
-
-# Repeat
-```
-
-**Time per update:** ~10 seconds total.
+| Scenario              | Response                                                                   |
+| --------------------- | -------------------------------------------------------------------------- |
+| No recent commits     | "ℹ️ No recent commits (last 24h). Still working? Or mark specific task?"   |
+| Task already complete | "✓ Task 1.10 already complete (2025-11-18). Next: 1.11..."                 |
+| Blocked dependencies  | "⚠️ Cannot start 1.30 - Dependencies: 1.10 (pending). Complete 1.10 first" |
 
 ---
 
 ## 📚 Reference
 
-**Format Spec**: `.claude/lib/tasks-format-spec.md` (v5.0 - Zero Counters, CHANGELOG migration)
-**Kanban Structure**: `TASKS.md` § Kanban (TODO/DOING/DONE columns)
-**CHANGELOG Format**: `CHANGELOG.md` (reverse chronological, `<details>` collapse)
+- **Format Spec**: `.claude/lib/tasks-format-spec.md` (v5.0)
+- **Kanban Structure**: `TASKS.md` § Kanban
+- **CHANGELOG Format**: `CHANGELOG.md`
