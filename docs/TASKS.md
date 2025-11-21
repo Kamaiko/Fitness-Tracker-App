@@ -19,13 +19,13 @@ This document tracks all development tasks across MVP phases. It serves as the s
 
 ## Kanban
 
-| TODO (Top 5)                      | DOING | DONE (Last 5)               |
-| --------------------------------- | ----- | --------------------------- |
-| **1.10** Login screen `[M]`       |       | **0.6.8** ExerciseDB import |
-| **1.11** Register screen `[M]`    |       | **0.6.10** Schema fix 🔥    |
-| **1.14** Supabase auth `[M]`      |       | **0.6.9** Design system     |
-| **1.13** Protected routes `[S]`   |       | **0.6.6** Environment vars  |
-| **1.15** Auth test infra `[S]` 🔥 |       | **0.6.4** Core components   |
+| TODO (Top 5)                      | DOING | DONE (Last 5) |
+| --------------------------------- | ----- | ------------- |
+| **1.10** Login screen `[M]`       |       |               |
+| **1.11** Register screen `[M]`    |       |               |
+| **1.14** Supabase auth `[M]`      |       |               |
+| **1.13** Protected routes `[S]`   |       |               |
+| **1.15** Auth test infra `[S]` 🔥 |       |               |
 
 **Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed phases and release notes
 
@@ -218,7 +218,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
 
 **Key Screens:** See `docs/images/emptyPlan.jpeg` and `docs/images/FullPlan.jpeg`
 
-- [ ] 2.01 **Implement Sync Conflict Detection** (L - 8h) `[JUST-IN-TIME]` `[src/services/database/remote/sync.ts]`
+- [ ] 2.05 **Implement Sync Conflict Detection** (L - 8h) `[JUST-IN-TIME]` `[src/services/database/remote/sync.ts]`
   - Must complete before multi-device sync becomes active
   - Implement conflict resolution strategy (last-write-wins with timestamp)
   - Add `_status` field handling (created, updated, deleted)
@@ -226,7 +226,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - WatermelonDB sync protocol validation
   - **Trigger:** Before activating multi-device sync in production
 
-- [ ] 2.02 **Install Navigation Components** (S - 1h) `[JUST-IN-TIME]` `[src/components/ui/]`
+- [ ] 2.08 **Install Navigation Components** (S - 1h) `[JUST-IN-TIME]` `[src/components/ui/]`
   - Install Sheet/Tabs components from React Native Reusables
   - Required for workout navigation (Phase 2)
   - Components: BottomSheet, Tabs, Modal
