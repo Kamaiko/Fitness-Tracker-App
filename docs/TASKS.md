@@ -29,7 +29,7 @@ Actionable tasks with Kanban tracking. For strategic overview and phase sequence
 **Timeline:** Weeks 9-11 | **Priority:** HIGH
 **Goal:** Login/Register basics + Testing infrastructure + Database enhancements
 
-**Est. Time:** ~40h (3 weeks)
+**Est. Time:** ~31h (3 weeks)
 
 **Dependencies:** Phase 0.6 complete (UI components ready + schema fix)
 

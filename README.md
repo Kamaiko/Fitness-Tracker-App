@@ -56,7 +56,8 @@ npm start                      # Start development server
 | Document                                          | When to Read                 | Purpose                            |
 | ------------------------------------------------- | ---------------------------- | ---------------------------------- |
 | **[PRD.md](docs/PRD.md)**                         | Understanding product vision | Product requirements and vision    |
-| **[TASKS.md](docs/TASKS.md)**                     | Planning next tasks          | Project roadmap and task tracking  |
+| **[ROADMAP.md](docs/ROADMAP.md)**                 | Understanding MVP phases     | Strategic timeline and milestones  |
+| **[TASKS.md](docs/TASKS.md)**                     | Planning next tasks          | Kanban board and task tracking     |
 | **[BACKLOG.md](docs/BACKLOG.md)**                 | Exploring future features    | Post-MVP features and enhancements |
 | **[CHANGELOG.md](docs/CHANGELOG.md)**             | Reviewing completed work     | Completed milestones and releases  |
 | **[ARCHITECTURE.md](docs/ARCHITECTURE.md)**       | Understanding code structure | Project structure and organization |
