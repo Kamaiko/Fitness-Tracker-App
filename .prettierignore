@@ -1,14 +1,43 @@
-# Auto-generated lock files
-package-lock.json
-*.lock
+# Dependencies
+node_modules/
 
-# Build outputs
-dist/
-build/
+# Environment Variables
+.env*
+
+# Expo
 .expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# React Native
+/ios/Pods/
+/android/
+
+# Testing
 coverage/
+.jest-cache/
+
+# Build Outputs
+build/
 
 # Caches
-.jest-cache/
 .eslintcache
 *.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# Temporary Files
+.cache/
+
+# Tools
+storybook-static/
+patches/
+.detox/
+.flipper/
+
+# Lock Files
+package-lock.json
+*.lock

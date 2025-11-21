@@ -1,8 +1,12 @@
 # Dependencies
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
 
 # Expo
 .expo/
@@ -10,8 +14,13 @@ dist/
 web-build/
 expo-env.d.ts
 
-# Native
+# React Native
 *.orig.*
+*.jsbundle
+/ios/Pods/
+/android/app/debug.keystore
+
+# Native Signing
 *.jks
 *.p8
 *.p12
@@ -21,23 +30,35 @@ expo-env.d.ts
 # Metro
 .metro-health-check*
 
-# Environment variables
-.env
-.env.local
-.env.production
-.env.development
-.env.staging
-
 # Testing
 coverage/
 *.lcov
 .nyc_output
 .jest-cache/
 
-# Debugging
+# Build Outputs
+build/
+*.tgz
+*.tar.gz
+
+# Caches
+.eslintcache
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Temporary Files
+*.tmp
+*.temp
+*.backup
+*.bak
+.cache/
+/*.py
 
 # OS
 .DS_Store
@@ -49,24 +70,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-
-# Build artifacts
-*.tgz
-*.tar.gz
-build/
-dist/
-
-# Temporary files
-*.tmp
-*.temp
-.cache/
-/*.py         # Python temporary migration scripts (root only)
-*.backup
-*.bak
-
-# Logs
-logs/
-*.log
 
 # EAS
 android-service-account.json
@@ -80,37 +83,20 @@ supabase/.temp
 # MCP Configuration (contains access tokens)
 .mcp.json
 
-# Claude Code local settings (machine-specific permissions)
+# Claude Code (machine-specific settings)
 .claude/settings.local.json
 
-# TypeScript
-*.tsbuildinfo
-
-# ESLint
-.eslintcache
-
-# Storybook
+# Tools
 storybook-static/
-
-# Patches
 patches/
-
-# Local development
-*.local
-
-# Detox
-*.detox
-
-# Flipper
+.detox/
 .flipper/
 
-# React Native specific
-*.jsbundle
-/ios/Pods/
-/android/app/debug.keystore
-
-# SQLite databases (prevent committing user data)
+# SQLite Databases
 *.db
 *.db-shm
 *.db-wal
-nul
+
+# Lock Files
+package-lock.json
+*.lock

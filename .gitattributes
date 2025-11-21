@@ -1,24 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Force LF line endings for these file types
-*.md text eol=lf
-*.json text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.js text eol=lf
-*.jsx text eol=lf
+# Force LF line endings for source files
+*.{md,json,ts,tsx,js,jsx} text eol=lf
 
 # Force CRLF for Windows-specific files
-*.bat text eol=crlf
-*.cmd text eol=crlf
+*.{bat,cmd} text eol=crlf
 
 # Binary files
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.ico binary
-*.ttf binary
-*.woff binary
-*.woff2 binary
+*.{png,jpg,jpeg,gif,ico} binary
+*.{ttf,woff,woff2} binary
