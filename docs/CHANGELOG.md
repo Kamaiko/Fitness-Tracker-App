@@ -37,7 +37,7 @@ This document tracks completed development milestones and major changes across a
 
 - [x] **0.6.3.3** Design Brainstorming: Fitness Components (M - 2-3h) _2025-01-30_
 
-- [x] **0.6.3.4** Fix nutrition_phase schema mismatch (XS - 1h) 🔥 _2025-11-04_
+- [x] **0.6.3.4** Fix nutrition*phase schema mismatch (XS - 1h) 🔥 \_2025-11-04*
 
 </details>
 
