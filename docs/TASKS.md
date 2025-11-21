@@ -1,21 +1,15 @@
-# Project Roadmap
+# Project Tasks
 
-This document tracks all development tasks across MVP phases. It serves as the single source of truth for project progress and planning.
+Actionable tasks with Kanban tracking. For strategic overview and phase sequence, see ROADMAP.md.
 
 ## Table of Contents
 
 1. [Kanban](#kanban)
-2. [Development Roadmap](#development-roadmap)
-3. [Phase Timeline & Effort](#phase-timeline--effort)
-4. [Phase 1: Authentication & Foundation](#phase-1-authentication--foundation)
-5. [Phase 2: Workout Plans & Navigation](#phase-2-workout-plans--navigation)
-6. [Phase 3: Active Workout Tracking](#phase-3-active-workout-tracking)
-7. [Phase 4: Profile & Settings](#phase-4-profile--settings)
-8. [Phase 5: Polish & Deployment](#phase-5-polish--deployment)
-
-**Project**: Halterofit v0.1.0
-**Status**: 🔄 Phase 1 - Authentication & Foundation
-**Last Updated**: 2025-11-20
+2. [Phase 1: Authentication & Foundation](#phase-1-authentication--foundation)
+3. [Phase 2: Workout Plans & Navigation](#phase-2-workout-plans--navigation)
+4. [Phase 3: Active Workout Tracking](#phase-3-active-workout-tracking)
+5. [Phase 4: Profile & Settings](#phase-4-profile--settings)
+6. [Phase 5: Polish & Deployment](#phase-5-polish--deployment)
 
 ## Kanban
 
@@ -27,58 +21,8 @@ This document tracks all development tasks across MVP phases. It serves as the s
 | **1.13** Protected routes `[S]`   |       |               |
 | **1.15** Auth test infra `[S]` 🔥 |       |               |
 
+**Phases Overview**: See [ROADMAP.md](./ROADMAP.md) for strategic timeline and dependencies
 **Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed phases and release notes
-
-## Development Roadmap
-
-```
-Phase 1: Authentication & Foundation 🔄
-   ├─ Auth UI & Screens
-   ├─ Testing Infrastructure
-   └─ Database Enhancements
-        ↓
-Phase 2: Workout Plans & Navigation
-   ├─ Bottom tabs (Workout, Profile)
-   ├─ Workout sub-tabs (Find, Planned)
-   ├─ Jefit-style Plan system
-   ├─ "All Plans" management
-   ├─ Exercise selector (1,300+ ExerciseDB)
-   └─ Workout Day creation/editing
-        ↓
-Phase 3: Active Workout Tracking
-   ├─ Active workout screen
-   ├─ Swipe gestures between exercises
-   ├─ Set logging (W marker, weight, reps)
-   ├─ Rest timer + notifications
-   ├─ Auto-fill from last workout
-   └─ Workout history
-        ↓
-Phase 4: Profile & Settings
-   ├─ Profile screen
-   ├─ Settings (units, logout)
-   └─ GDPR compliance (export, delete)
-        ↓
-Phase 5: Polish & Deployment
-   ├─ Sentry verification
-   ├─ Performance optimization
-   └─ TestFlight/Play Store
-        ↓
-    🎉 MVP COMPLETE
-
-    (Post-MVP: Analytics, Plate Calculator, Set History, etc.)
-```
-
-### Phase Timeline & Effort
-
-| Phase | Est. Time | Status   | Dependencies            |
-| ----- | --------- | -------- | ----------------------- |
-| **1** | ~31h      | READY 🟢 | Foundation complete     |
-| **2** | ~40h      | BLOCKED  | ← Phase 1 auth          |
-| **3** | ~27h      | BLOCKED  | ← Phase 2 plans         |
-| **4** | ~11h      | BLOCKED  | ← Phase 3 (parallel OK) |
-| **5** | ~9h       | BLOCKED  | ← Phases 1-4 complete   |
-
-**Critical Path:** Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
 ## Phase 1: Authentication & Foundation
 

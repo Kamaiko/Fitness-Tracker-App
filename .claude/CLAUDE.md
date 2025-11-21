@@ -149,20 +149,21 @@ When changing schema:
 
 **Choose the right document for your task:**
 
-| Document                  | When to Read                 | Purpose                                   |
-| ------------------------- | ---------------------------- | ----------------------------------------- |
-| **PRD.md** 📄             | Understanding product vision | Product requirements, user stories, goals |
-| **PHASE1_PLAN.md** 📐     | Implementing Phase 1         | Authentication implementation guide       |
-| **TASKS.md** 📋           | Planning next tasks          | Project roadmap and task tracking         |
-| **BACKLOG.md** 💡         | Exploring future features    | Post-MVP enhancements                     |
-| **CHANGELOG.md** 📝       | Reviewing completed work     | Release notes and milestones              |
-| **ARCHITECTURE.md** 🏗️    | Understanding code structure | Folder organization and patterns          |
-| **DATABASE.md** 💾        | Working with database        | WatermelonDB schema and operations        |
-| **TECHNICAL.md** 🎓       | Understanding tech decisions | Architecture Decision Records             |
-| **TESTING.md** 🧪         | Understanding test strategy  | Three-tier testing approach               |
-| **DEVOPS_PIPELINE.md** 🔄 | Setting up CI/CD             | DevOps pipeline and deployment            |
-| **CONTRIBUTING.md** ⭐    | Setup & daily workflow       | Developer guide and commands              |
-| **TROUBLESHOOTING.md** 🆘 | When something breaks        | Common issues and solutions               |
+| Document                  | When to Read                  | Purpose                                   |
+| ------------------------- | ----------------------------- | ----------------------------------------- |
+| **PRD.md** 📄             | Understanding product vision  | Product requirements, user stories, goals |
+| **ROADMAP.md** 🗺️         | Understanding phases sequence | MVP phases overview and critical path     |
+| **PHASE1_PLAN.md** 📐     | Implementing Phase 1          | Authentication implementation guide       |
+| **TASKS.md** 📋           | Planning next tasks           | Kanban board and task tracking            |
+| **BACKLOG.md** 💡         | Exploring future features     | Post-MVP enhancements                     |
+| **CHANGELOG.md** 📝       | Reviewing completed work      | Release notes and milestones              |
+| **ARCHITECTURE.md** 🏗️    | Understanding code structure  | Folder organization and patterns          |
+| **DATABASE.md** 💾        | Working with database         | WatermelonDB schema and operations        |
+| **TECHNICAL.md** 🎓       | Understanding tech decisions  | Architecture Decision Records             |
+| **TESTING.md** 🧪         | Understanding test strategy   | Three-tier testing approach               |
+| **DEVOPS_PIPELINE.md** 🔄 | Setting up CI/CD              | DevOps pipeline and deployment            |
+| **CONTRIBUTING.md** ⭐    | Setup & daily workflow        | Developer guide and commands              |
+| **TROUBLESHOOTING.md** 🆘 | When something breaks         | Common issues and solutions               |
 
 ---
 
