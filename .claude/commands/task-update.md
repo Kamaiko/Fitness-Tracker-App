@@ -18,7 +18,7 @@ argument-hint: [next|status]
 /task-update status       # Show kanban board
 ```
 
-That's it! 99% of the time, you just type `/task-update` and everything happens automatically.
+That's it! 99% of the time, just `/task-update` and everything happens automatically.
 
 ---
 
@@ -41,10 +41,12 @@ When you run `/task-update`, Claude analyzes:
 4. **Task descriptions** (keywords matching recent work)
 
 **Then Claude:**
+
 - ✅ Detects which task you completed
 - ✅ Marks it `[x]` in TASKS.md
-- ✅ Updates all progress counters automatically
-- ✅ Moves task from DOING → DONE in Kanban
+- ✅ Updates Kanban automatically (DOING → DONE)
+- ✅ Checks if sub-section is complete → triggers CHANGELOG migration
+- ✅ Updates "Last Updated" date
 - ✅ Suggests next task from TODO
 
 ---
@@ -58,16 +60,17 @@ When you run `/task-update`, Claude analyzes:
 ```
 
 **Output:**
+
 ```
 📋 Kanban Board
 
 TODO (5):           DOING (0):      DONE (5):
-0.6.8 ExerciseDB 🔥                 0.6.6 Env vars ✅
-1.10 Login screen 🟠                0.6.4 Components ✅
+1.10 Login screen                   0.6.8 ExerciseDB ✅
+1.11 Register      screen                   0.6.10 Schema fix ✅
 ...                                 ...
 
-⏭️ Next: Start 0.6.8 ExerciseDB import [L - 3-4h] 🔥
-   No blockers, critical priority
+⏭️ Next: Start 1.10 Login screen [M - 2h]
+   No blockers, high priority
 
 Start this task? [Y/n]
 ```
@@ -81,27 +84,24 @@ Type `Y` → Task moves to DOING column
 ```
 
 **Output:**
+
 ```
 🔍 Analyzing recent work...
 
-✅ Detected completion: 0.6.8 Bulk import ExerciseDB library
+✅ Detected completion: 1.10 Create login screen UI
    Evidence:
    • 3 commits in last 2 hours
-   • Files: scripts/seed-exercisedb.ts ✓
+   • Files: src/app/(auth)/login.tsx ✓
    • Matches task description
 
-📊 Auto-updated (16 levels):
+📊 Auto-updated:
    ✓ Task marked [x] in TASKS.md
-   ✓ Phase 0.6: 6/8 → 7/8 (88%)
-   ✓ Overall: 27/58 → 28/58 (48%)
-   ✓ Kanban: 0.6.8 moved DOING → DONE
-   ✓ Progress badge updated
-   ✓ Table of Contents synced
-   ✓ Velocity & ETA recalculated
+   ✓ Kanban: 1.10 moved DOING → DONE
+   ✓ Last Updated: 2025-11-20
 
 ⏭️ Next recommended:
-   1.10 Create login screen UI [M - 2h] 🟠
-   Phase 1 ready to start, UI components installed
+   1.11 Create register screen UI [M - 2h]
+   Similar task, UI components ready
 
 Start this task? [Y/n]
 ```
@@ -128,37 +128,74 @@ Which task did you complete?
 
 Just type the number. That's it.
 
-### 2. Auto-Cascade Updates
+### 2. Auto-Cascade Updates (6 Levels)
 
-One command updates **16 levels** automatically:
+One command updates **6 levels** automatically:
 
-#### Core Updates (1-3)
+#### Core Updates (1-2)
+
 1. ✅ Task checkbox: `[ ]` → `[x]`
-2. 📊 Phase progress: `6/8` → `7/8`
-3. 🎯 Overall progress: `27/58` → `28/58` (MVP scope = 58 tasks)
+2. 📅 Last Updated: Set to current date (YYYY-MM-DD)
 
-#### Visual Updates (4-9)
-4. 📋 Kanban DOING → DONE: Move task, remove "(started)"
-5. 📋 Kanban auto-rotate: If DONE > 5, drop oldest
-6. 📋 Kanban progress line: Update counts
-7. 📋 Kanban NEXT line: Update with new next task
-8. 📛 Progress badge: Update % in badge (color if threshold)
-9. 🗺️ Development Roadmap: Update phase tree visual
+#### Kanban Updates (3-5)
 
-#### Metadata Updates (10-13)
-10. 📅 "Last Updated": Set to current date (YYYY-MM-DD)
-11. 📋 "Recent Completions": Add task to list (keep last 5, rotate)
-12. 📊 Subsection progress: Update `0.5.B (X/M)` → `(X+1/M)`
-13. ✅ Subsection emoji: Change `⚡ NEXT` → `✅ COMPLETE` if all done
+3. 📋 Kanban DOING → DONE: Move task, remove "(started)"
+4. 📋 Kanban auto-rotate: If DONE > 5, drop oldest
+5. 📋 Update TODO: Remove completed task if present
 
-#### Strategic Updates (14-16)
-14. 📖 Table of Contents: Sync phase counts `(X/M)`
-15. 📅 Phase Timeline table: Mark `✅ COMPLETE` if phase done, update STATUS
-16. 📈 Velocity & ETA: Recalculate simple average, update ETA
+#### Migration Check (6)
 
-**Time:** All 16 updates complete in ~2 seconds
+6. 🔄 Check sub-section complete: If 100%, trigger CHANGELOG migration
 
-### 3. Smart Suggestions
+**Time:** All 6 updates complete in ~2 seconds
+
+### 3. CHANGELOG Migration (Automatic)
+
+When a sub-section completes:
+
+```
+✅ Sub-section 1.1: Auth UI & Screens complete (5/5)
+
+🔄 Migrating to CHANGELOG...
+   ✓ Extracted 5 tasks from TASKS.md
+   ✓ Created collapse block with <details>
+   ✓ Inserted in CHANGELOG (top, reverse chronological)
+   ✓ Removed sub-section from TASKS.md
+   ✓ Updated Last Updated date
+
+📋 CHANGELOG.md updated
+🗑️  TASKS.md cleaned
+
+⏭️ Next: Phase 1.2 Testing Infrastructure (0/8)
+```
+
+**Migration format:**
+
+```markdown
+## 2025-11-20 - Phase 1.1: Auth UI & Screens ✅
+
+**Status**: Complete
+**Stack**: React Native Reusables, Supabase Auth
+
+<details>
+<summary>📋 Completed Tasks (5 - Click to expand)</summary>
+
+- [x] **1.10** Create login screen UI (M - 2h) _2025-11-18_
+- [x] **1.11** Create register screen UI (M - 2h) _2025-11-18_
+      ...
+
+</details>
+
+**Key Achievements:**
+
+- Login/Register screens implemented
+- Form validation with error handling
+- Loading states and navigation
+
+---
+```
+
+### 4. Smart Suggestions
 
 `/task-update next` analyzes:
 
@@ -177,64 +214,58 @@ One command updates **16 levels** automatically:
 When you run `/task-update`, Claude follows this protocol automatically:
 
 ### Step 1: Analyze Recent Work
+
 ```typescript
 // Parse git log
-const commits = git.log('--since="24 hours ago"')
-const changedFiles = git.diff('--name-only HEAD~5..HEAD')
+const commits = git.log('--since="24 hours ago"');
+const changedFiles = git.diff('--name-only HEAD~5..HEAD');
 
 // Find tasks in DOING column
-const doingTasks = kanban.DOING
+const doingTasks = kanban.DOING;
 
 // Match evidence
-const mostLikelyTask = match(commits, changedFiles, doingTasks)
+const mostLikelyTask = match(commits, changedFiles, doingTasks);
 ```
 
 ### Step 2: Confirm or Ask
+
 ```typescript
 // Simple heuristics (no complex confidence %)
 if (singleMatchWithStrongEvidence) {
   // Auto-proceed with confirmation
-  showEvidence()
-  askUser(`Detected: ${task}. Correct? [Y/n]`)
+  showEvidence();
+  askUser(`Detected: ${task}. Correct? [Y/n]`);
 } else if (multipleCandidates) {
   // Show options
-  showOptions(candidateTasks)
+  showOptions(candidateTasks);
 } else {
   // No match - ask user
-  showKanbanDoing()
-  askUser('Which task did you complete?')
+  showKanbanDoing();
+  askUser('Which task did you complete?');
 }
 ```
 
-### Step 3: Cascade Updates (16 Levels)
+### Step 3: Cascade Updates (6 Levels)
+
 ```typescript
-// Core (1-3)
-markComplete(taskId)
-updatePhaseProgress()
-updateOverallProgress()
+// Core (1-2)
+markComplete(taskId);
+updateLastUpdatedDate();
 
-// Visual (4-9)
-moveKanbanDoingToDone()
-rotateKanbanDone()
-updateKanbanProgressLine()
-updateKanbanNext()
-updateProgressBadge()
-updateRoadmapTree()
+// Kanban (3-5)
+moveKanbanDoingToDone();
+rotateKanbanDone();
+updateKanbanTODO();
 
-// Metadata (10-13)
-updateLastUpdatedDate()
-rotateRecentCompletions()
-updateSubsectionProgress()
-updateSubsectionEmoji()
-
-// Strategic (14-16)
-syncTableOfContents()
-updatePhaseTimeline()
-recalculateVelocityETA()
+// Migration (6)
+if (isSubSectionComplete()) {
+  migrateToChangelog();
+  removeFromTasks();
+}
 
 // Show report
-displayImpact()
-suggestNext()
+displayImpact();
+suggestNext();
 ```
 
 ---
@@ -250,7 +281,7 @@ Before:
 DONE: [Task1, Task2, Task3, Task4, Task5]
 
 After completing Task6:
-DONE: [Task6, Task1, Task2, Task3, Task4]  ← Task5 auto-removed
+DONE: [Task6, Task1, Task2, Task3, Task4] ← Task5 auto-removed
 ```
 
 **No manual cleanup needed** - oldest task automatically drops off.
@@ -258,6 +289,7 @@ DONE: [Task6, Task1, Task2, Task3, Task4]  ← Task5 auto-removed
 ### TODO Priority Queue
 
 Top 5 tasks sorted by:
+
 1. Priority (🔴 Critical > 🟠 High > 🟡 Medium > 🟢 Low)
 2. Dependencies satisfied
 3. Blocking impact (tasks blocked by this task)
@@ -269,6 +301,7 @@ Auto-refreshes when tasks complete.
 ## ⚠️ Error Handling
 
 ### No Recent Work
+
 ```
 ℹ️ No recent commits detected (last 24h)
 
@@ -277,18 +310,20 @@ Or mark a specific task? (advanced)
 ```
 
 ### Task Already Complete
-```
-✓ Task 0.5.2 is already marked complete (2025-10-28)
 
-Next task: 0.5.3 Install FlashList [S - 1h]
+```
+✓ Task 1.10 is already marked complete (2025-11-18)
+
+Next task: 1.11 Register screen UI [M - 2h]
 Start this task? [Y/n]
 ```
 
 ### Blocked Dependencies
+
 ```
 ⚠️ Cannot start 1.30 - Dependencies not satisfied:
    • 1.10 Create login screen (pending)
-   • 1.20 Create register screen (pending)
+   • 1.11 Create register screen (pending)
 
 Recommended: Complete dependencies first
 Alternative: 1.40 (no blockers, similar priority)
@@ -307,21 +342,6 @@ If auto-detect fails, you can specify:
 ```
 
 But 99% of the time, just `/task-update` is enough.
-
-### Task ID Convention (New in v5.0)
-
-**Numbering by 10s (scalable):**
-- Initial tasks use multiples of 10: **1.10**, **1.20**, **1.30**, **1.40**
-- Insert tasks between existing ones: **1.15**, **1.25**, **1.11-1.19**
-- Example workflow:
-  ```
-  Initial:  1.10 Login, 1.20 Register, 1.30 Auth
-  Add task: 1.10 Login, 1.20 Register, 1.25 Validation (NEW), 1.30 Auth
-  ```
-
-**Benefit:** No renumbering chaos when adding/removing tasks mid-phase
-
-**Migration Note:** Phases 0.5 and 0.6 retain original numbering (already complete/in-progress). New phases (1-5) use spacing-by-10.
 
 ---
 
@@ -349,8 +369,8 @@ Kanban DOING column shows all active tasks:
 
 ```markdown
 DOING:
-• 0.5.2 Database schema (started 2 days ago)
-• 0.5.3 FlashList (started today)
+• 1.10 Login screen (started)
+• 1.11 Register screen (started)
 ```
 
 `/task-update` detects which one you just finished based on recent commits.
@@ -361,11 +381,11 @@ DOING:
 /task-update status
 ```
 
-Shows full kanban + metrics in <2 seconds.
+Shows full kanban in <2 seconds.
 
 ---
 
 ## 📚 Reference
 
-**Format Spec**: `.claude/lib/tasks-format-spec.md` (v5.0 - MVP scope 58 tasks, spacing by 10)
+**Format Spec**: `.claude/lib/tasks-format-spec.md` (v5.0 - Zero Counters, CHANGELOG migration)
 **Kanban Structure**: See TASKS.md § Kanban

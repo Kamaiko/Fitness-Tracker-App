@@ -1,6 +1,3 @@
-# Validate TASKS.md integrity (only if modified)
-bash .husky/validate-tasks.sh || exit 1
-
 # Check schema.version incremented when creating migrations
 bash .husky/check-schema-version.sh || exit 1
 

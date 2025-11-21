@@ -1,38 +1,23 @@
 # Project Roadmap
 
-This document tracks all development tasks across MVP phases, including executive summary, kanban board, and detailed phase breakdowns. It serves as the single source of truth for project progress and planning.
+This document tracks all development tasks across MVP phases. It serves as the single source of truth for project progress and planning.
 
 ## Table of Contents
 
-1. [Executive Summary](#executive-summary)
-2. [Kanban](#kanban)
-3. [Development Roadmap](#development-roadmap)
-4. [Phase Timeline & Effort](#phase-timeline--effort)
-5. [Phase 0.5: Architecture & Foundation (21/21)](#phase-05-architecture--foundation-2121)
-6. [Phase 0.6: UI/UX Foundation (8/8)](#phase-06-uiux-foundation-88)
-7. [Phase 1: Authentication & Foundation (0/16)](#phase-1-authentication--foundation-016)
-8. [Phase 2: Workout Plans & Navigation (0/14)](#phase-2-workout-plans--navigation-012)
-9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
-10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
-11. [Phase 5: Polish & Deployment (0/5)](#phase-5-polish--deployment-05)
+1. [Kanban](#kanban)
+2. [Development Roadmap](#development-roadmap)
+3. [Phase Timeline & Effort](#phase-timeline--effort)
+4. [Phase 1: Authentication & Foundation](#phase-1-authentication--foundation)
+5. [Phase 2: Workout Plans & Navigation](#phase-2-workout-plans--navigation)
+6. [Phase 3: Active Workout Tracking](#phase-3-active-workout-tracking)
+7. [Phase 4: Profile & Settings](#phase-4-profile--settings)
+8. [Phase 5: Polish & Deployment](#phase-5-polish--deployment)
 
 **Project**: Halterofit v0.1.0
-**Status**: 🔄 In Progress (Phase 1 - Authentication & Foundation)
-**Progress**: 29/78 tasks (37%) • MVP Scope: 78 active tasks
-**Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
-**Last Updated**: 2025-11-20 • **Next Milestone**: Phase 1 Auth Implementation 🚀
-
-## Executive Summary
-
-**Current Focus**: Phase 1 - Authentication & Foundation (Auth UI + Testing Infrastructure)
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/78 tasks (37%)
-**Critical Blockers**: None • **Velocity**: ~5 tasks/week
-
-**Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed tasks and release notes
+**Status**: 🔄 Phase 1 - Authentication & Foundation
+**Last Updated**: 2025-11-20
 
 ## Kanban
-
-**Legend:** 🔥 High Priority | 🟠 Blocked/Pending | Done | `[S/M/L]` Size (Small/Medium/Large)
 
 | TODO (Top 5)                      | DOING | DONE (Last 5)               |
 | --------------------------------- | ----- | --------------------------- |
@@ -42,43 +27,17 @@ This document tracks all development tasks across MVP phases, including executiv
 | **1.13** Protected routes `[S]`   |       | **0.6.6** Environment vars  |
 | **1.15** Auth test infra `[S]` 🔥 |       | **0.6.4** Core components   |
 
-**Progress**: Phase 0.5: 21/21 (100%) • Phase 0.6: 8/8 (100%) • Phase 1: 0/16 (0%) • Overall: 29/76 (38%)
-**Velocity**: ~5 tasks/week • **ETA**: Phase 1 completion in ~3 weeks, MVP in 12 weeks
-**NEXT**: 1.10 Login Screen (2h) → Phase 1 Auth kickoff
+**Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed phases and release notes
 
 ## Development Roadmap
 
-**Note:** MVP scope = 78 tasks total (78 active). Analytics and advanced features moved to Post-MVP backlog.
-
 ```
-Phase 0.5: Architecture & Foundation (21/21 tasks) 100%
-   ├─ Initial setup
-   ├─ Dev tools setup
-   ├─ EAS Build + Dev Client
-   ├─ WatermelonDB Schema & Models
-   ├─ WatermelonDB Database Operations
-   ├─ MMKV Storage Migration
-   ├─ Victory Native Charts Migration
-   ├─ Development Build Migration
-   └─ Infrastructure Complete
+Phase 1: Authentication & Foundation 🔄
+   ├─ Auth UI & Screens
+   ├─ Testing Infrastructure
+   └─ Database Enhancements
         ↓
-Phase 0.6: UI/UX Foundation (8/8 tasks) 100%
-   ├─ React Native Reusables
-   ├─ Vector Icons
-   ├─ Dark theme
-   ├─ Core components
-   ├─ Design system
-   ├─ Environment variables
-   ├─ Schema Fix
-   ├─ ExerciseDB Import
-   └─ Infrastructure Complete
-        ↓
-Phase 1: Authentication & Foundation (0/16 tasks) 🔄
-   ├─ A: Auth UI & Screens (5 tasks)
-   ├─ B: Testing Infrastructure (8 tasks) 🆕
-   └─ C: Database Enhancements (3 tasks) 🆕
-        ↓
-Phase 2: Workout Plans & Navigation (0/14 tasks)
+Phase 2: Workout Plans & Navigation
    ├─ Bottom tabs (Workout, Profile)
    ├─ Workout sub-tabs (Find, Planned)
    ├─ Jefit-style Plan system
@@ -86,7 +45,7 @@ Phase 2: Workout Plans & Navigation (0/14 tasks)
    ├─ Exercise selector (1,300+ ExerciseDB)
    └─ Workout Day creation/editing
         ↓
-Phase 3: Active Workout Tracking (0/9 tasks)
+Phase 3: Active Workout Tracking
    ├─ Active workout screen
    ├─ Swipe gestures between exercises
    ├─ Set logging (W marker, weight, reps)
@@ -94,12 +53,12 @@ Phase 3: Active Workout Tracking (0/9 tasks)
    ├─ Auto-fill from last workout
    └─ Workout history
         ↓
-Phase 4: Profile & Settings (0/5 tasks)
+Phase 4: Profile & Settings
    ├─ Profile screen
    ├─ Settings (units, logout)
    └─ GDPR compliance (export, delete)
         ↓
-Phase 5: Polish & Deployment (0/5 tasks)
+Phase 5: Polish & Deployment
    ├─ Sentry verification
    ├─ Performance optimization
    └─ TestFlight/Play Store
@@ -111,107 +70,28 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 ### Phase Timeline & Effort
 
-| Phase     | Tasks  | Est. Time | Status       | Dependencies                  |
-| --------- | ------ | --------- | ------------ | ----------------------------- |
-| **0.5**   | 21     | 50-60h    | 100% DONE    | None (started)                |
-| **0.6**   | 8      | 15-18h    | 100% DONE    | ← Phase 0.5 complete          |
-| **1**     | 16     | ~31h      | READY 🟢     | ← Phase 0.6 complete          |
-| **2**     | 14     | ~40h      | BLOCKED      | ← Phase 1 auth                |
-| **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans               |
-| **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)       |
-| **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete         |
-| **TOTAL** | **78** | **~166h** | **35% done** | **13.5-14 weeks at 10h/week** |
+| Phase | Est. Time | Status   | Dependencies            |
+| ----- | --------- | -------- | ----------------------- |
+| **1** | ~31h      | READY 🟢 | Foundation complete     |
+| **2** | ~40h      | BLOCKED  | ← Phase 1 auth          |
+| **3** | ~27h      | BLOCKED  | ← Phase 2 plans         |
+| **4** | ~11h      | BLOCKED  | ← Phase 3 (parallel OK) |
+| **5** | ~9h       | BLOCKED  | ← Phases 1-4 complete   |
 
 **Critical Path:** Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
-**📊 MVP Scope Update (Post-Audit):**
-
-- Original: 119 tasks, 17 weeks
-- Pre-Audit: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
-- **Post-Audit: 78 total (78 active) tasks, 13.5-14 weeks** 🆕
-- **Added**: 12 tasks (+31h) for quality/reliability (schema fix, auth tests, DB enhancements)
-- **Removed**: 4 deferred tasks (~15h) - Repository Pattern, Chart Abstraction, Domain/DB Types (handled by Claude Code)
-- **Moved to Backlog**: 1 task (Database Indexes - 2h) + 47 Post-MVP features
-- Analytics, advanced features → Post-MVP backlog
-
-## Phase 0.5: Architecture & Foundation (21/21) COMPLETE
-
-**Timeline:** Weeks 1-7 | **Priority:** HIGHEST
-**Goal:** Production-ready architecture and critical foundation
-
-**Progress:** 21/21 tasks (100%) | **Status:** COMPLETE | **Deferred:** 5 optional tasks (0.5.12-0.5.16)
-**Stack:** Development Build (WatermelonDB + MMKV + Victory Native + Supabase Sync)
-**Details:** See [CHANGELOG.md § 2025-01-31](./CHANGELOG.md#2025-01-31---phase-05-complete-)
-
-### 0.5.A: Initial Setup & Analysis (5/5) COMPLETE
-
-- [x] 0.5.1 **Setup database with Supabase sync** (M - 4h)
-- [x] 0.5.7 **Complete modular architecture refactor** (M - 3h)
-- [x] 0.5.8 **Technical audit and corrections planning** (M - 2h)
-- [x] 0.5.17 **Setup professional dev tools** (S - 30min)
-- [x] 0.5.18 **Setup Jest testing infrastructure** (S - 1h)
-
-### 0.5.B: Development Build Migration (10/10) COMPLETE
-
-- [x] 0.5.20 **Setup EAS Build Account & CLI** (S - 30min)
-- [x] 0.5.21 **Create eas.json Configuration** (S - 30min)
-- [x] 0.5.22 **Install Native Packages & Build Development Build** (L - 2-3h)
-- [x] 0.5.23 **Create WatermelonDB Models & Schema** (L - 2h)
-- [x] 0.5.23.1 **Phase 1 Critical Fixes (Post-Analysis)** (M - 1.5h)
-- [x] 0.5.24 **Migrate Database Operations to WatermelonDB** (L - 1.5h)
-- [x] 0.5.25 **Migrate Storage to MMKV** (M - 1h)
-- [x] 0.5.26 **Migrate Charts to Victory Native** (M - 1h)
-- [x] 0.5.27 **Create Supabase Schema & Sync Functions** (L - 1.5h) 2025-01-31
-- [x] 0.5.28 **Verify Development Build Launch** (S - 15min) 2025-01-31
-
-### 0.5.C: Critical Corrections - Blockers (4/4) COMPLETE
-
-- [x] 0.5.9 **User ID Persistence with Zustand Persist** (M - 2.5h)
-- [x] 0.5.10 **Zustand Persist for Workout Store** (S - 1h)
-- [x] 0.5.11 **Error Handling Layer** (M - 3h)
-- [x] 0.5.5 **Configure Sentry for error monitoring** (M - 2h)
-
-### 0.5.D: Infrastructure Completion (2/2) COMPLETE
-
-- [x] 0.5.3 **Configure FlashList for optimized lists** (S - 1h)
-- [x] 0.5.4 **Configure expo-image with caching** (S - 1h) 2025-01-31
-
-## Phase 0.6: UI/UX Foundation (8/8) COMPLETE
-
-**Timeline:** Week 8 | **Priority:** COMPLETE
-**Progress:** 8/8 tasks (100%) | **Completed:** 2025-11-06 | **Deferred:** 2 tasks (0.6.5, 0.6.7)
-**Stack:** React Native Reusables + @expo/vector-icons + NativeWind v4 + Reanimated v4
-**Details:** See [CHANGELOG.md § 2025-11-06](./CHANGELOG.md#2025-11-06---phase-06-complete-)
-
-### 0.6.A: Component Library Setup (3/3) COMPLETE
-
-- [x] 0.6.1 **Install React Native Reusables + Dependencies** (M - 2h) 2025-01-30
-- [x] 0.6.2 **Configure @expo/vector-icons** (S - 30min) 2025-01-30
-- [x] 0.6.3 **Validate Dark Theme Configuration** (M - 1h) 2025-01-30
-
-### 0.6.B: Core Components Installation (1/1) COMPLETE
-
-- [x] 0.6.4 **Install Phase 1 Components (Auth)** (M - 1.5h) 2025-01-30
-
-### 0.6.C: Foundation Infrastructure (4/4) COMPLETE
-
-- [x] 0.6.6 **Setup Environment Variables** (S - 10min) 2025-02-01
-- [x] **Bulk Import ExerciseDB Library (1,500+ exercises)** (L - 4h) 2025-11-06
-- [x] 0.6.9 **Design Brainstorming: Fitness Components** (M - 2-3h) 2025-01-30
-- [x] 0.6.10 **Fix nutrition_phase schema mismatch** (XS - 1h) 🔥 2025-11-04
-
-## Phase 1: Authentication & Foundation (0/16)
+## Phase 1: Authentication & Foundation
 
 **Timeline:** Weeks 9-11 | **Priority:** HIGH
-**Goal:** Login/Register basics + Testing infrastructure (90% auth coverage) + Database enhancements
+**Goal:** Login/Register basics + Testing infrastructure + Database enhancements
 
-**Progress:** 0/16 tasks (0%) | \*\*Est. Time: ~40h (3 weeks)
+**Est. Time:** ~40h (3 weeks)
 
-**Dependencies:** Phase 0.6 complete (UI components ready + schema fix 0.6.10)
+**Dependencies:** Phase 0.6 complete (UI components ready + schema fix)
 
 **Key Note:** Biometric auth removed (not needed - user logs in once). Simple email/password authentication only.
 
-**Organization:** Tasks grouped by category (A: Auth UI, B: Testing, C: Database) for clarity and logical execution flow.
+**Organization:** Tasks grouped by category (1.1: Auth UI, 1.2: Testing, 1.3: Database) for clarity and logical execution flow.
 
 **📐 Architecture Decision (ADR):**
 Auth implementation follows **Hooks + Services + Store** pattern for optimal testability and code clarity:
@@ -220,10 +100,10 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
 - **Services** (`auth/`): Raw Supabase API calls (signIn, signUp, signOut)
 - **Hooks** (`useAuth`): Business logic wrapper integrating store + services
 
-**Rationale:** 3x easier testing (8 testing tasks in Phase 1.B), industry standard, positive ROI.
+**Rationale:** 3x easier testing, industry standard, positive ROI.
 → **Full implementation details:** [PHASE1_PLAN.md](./PHASE1_PLAN.md)
 
-### A: Auth UI & Screens (5 tasks - ~10.5h)
+### 1.1: Auth UI & Screens
 
 → **Implementation Guide:** [PHASE1_PLAN.md § Task Details A](./PHASE1_PLAN.md#task-details-a-auth-ui--screens)
 
@@ -257,7 +137,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Error handling with user-friendly messages
   - Auth state persistence across app restarts
 
-### B: Testing Infrastructure (8 tasks - ~16.5h)
+### 1.2: Testing Infrastructure
 
 **Goal:** Achieve 90% auth test coverage to prevent security vulnerabilities and user lockout issues.
 
@@ -290,7 +170,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Test cases: storage full, invalid JSON, encryption failures
   - Blocked by: 1.15 (MMKV mock)
 
-- [ ] 1.21 **Add CI coverage threshold (70% global, 90% auth)** (XS - 30min) 🔥 HIGH
+- [ ] 1.21 **Add CI coverage threshold** (XS - 30min) 🔥 HIGH
   - Update jest.config.js → coverageThreshold (global: 70%, auth services: 90%, database: 80%)
   - Update `.github/workflows/ci.yml` to fail on threshold miss
   - Blocked by: None (can set immediately)
@@ -301,7 +181,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Document execution in [TESTING.md](./TESTING.md)
   - Run tests on Development Build to verify
 
-### C: Database Enhancements (3 tasks - ~10h)
+### 1.3: Database Enhancements
 
 **Goal:** Improve database reliability and prevent data loss/corruption.
 
@@ -324,12 +204,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - File: [sync.ts](../src/services/database/remote/sync.ts)
   - Testing: Manual E2E (network failure scenarios)
 
-## Phase 2: Workout Plans & Navigation (0/14)
+## Phase 2: Workout Plans & Navigation
 
 **Timeline:** Weeks 11-14 | **Priority:** CRITICAL
 **Goal:** Jefit-style navigation with Find/Planned tabs + Plan management
 
-**Progress:** 0/14 tasks (0%) | \*\*Est. Time: ~40h (4 weeks)
+**Est. Time:** ~40h (4 weeks)
 
 **Dependencies:**
 
@@ -451,12 +331,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Delete exercise (swipe or 3-dots menu)
   - Save changes to WatermelonDB + Supabase
 
-## Phase 3: Active Workout Tracking (0/9)
+## Phase 3: Active Workout Tracking
 
 **Timeline:** Weeks 15-17 | **Priority:** CRITICAL
 **Goal:** Start workout → Swipe exercises → Log sets → Rest timer
 
-**Progress:** 0/9 tasks (0%) | **Est. Time:** ~27h (3 weeks)
+**Est. Time:** ~27h (3 weeks)
 
 **Dependencies:** Phase 2 complete (need plans and exercises to start workout)
 
@@ -542,12 +422,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Write workout-complete.yaml (end workout, verify history)
   - Run tests on Development Build to verify
 
-## Phase 4: Profile & Settings (0/5)
+## Phase 4: Profile & Settings
 
 **Timeline:** Week 18 | **Priority:** MEDIUM
 **Goal:** Profile screen, settings, GDPR compliance
 
-**Progress:** 0/5 tasks (0%) | **Est. Time:** ~11h (1-2 weeks)
+**Est. Time:** ~11h (1-2 weeks)
 
 **Dependencies:** None (can develop in parallel with Phase 3)
 
@@ -589,12 +469,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Share via system share sheet (email, cloud storage)
   - Show success message with file path
 
-## Phase 5: Polish & Deployment (0/5)
+## Phase 5: Polish & Deployment
 
 **Timeline:** Week 19 | **Priority:** HIGH
 **Goal:** Production-ready MVP
 
-**Progress:** 0/5 tasks (0%) | **Est. Time:** ~9h (1 week)
+**Est. Time:** ~9h (1 week)
 
 **Dependencies:** Phases 1-4 complete (all MVP features done)
 
