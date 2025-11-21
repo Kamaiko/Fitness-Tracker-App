@@ -865,7 +865,7 @@ Halterofit needs reliable data sync between WatermelonDB (local) and Supabase (c
 
 **When to Consider GraphQL:**
 
-Post-MVP (Phase 6+), ONLY if:
+Post-MVP ONLY if:
 
 - Web dashboard with complex nested data (4+ levels deep)
 - Analytics queries requiring precise field selection
@@ -903,9 +903,9 @@ See [DATABASE.md](./DATABASE.md) for complete schema documentation (WatermelonDB
 
 ---
 
-## Analytics & Algorithms (Post-MVP - Phase 6)
+## Analytics & Algorithms (Post-MVP)
 
-**Status:** 🔮 Post-MVP - All analytics features deferred to Phase 6
+**Status:** 🔮 Post-MVP - All analytics features deferred to Post-MVP
 
 **Principle:** Use scientifically validated formulas (no reinventing). Science-based, context-aware analytics. Avoid AI/ML complexity.
 
@@ -1230,4 +1230,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventio
 
 ---
 
-**Last Updated:** February 2025 (MVP scope refinement: 65 tasks, Post-MVP Phase 6 analytics)
+**Last Updated:** November 2025 (MVP scope refinement: 79 tasks, Post-MVP analytics)

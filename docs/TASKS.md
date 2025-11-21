@@ -15,14 +15,13 @@ This document tracks all development tasks across MVP phases, including executiv
 9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
 10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
 11. [Phase 5: Polish & Deployment (0/5)](#phase-5-polish--deployment-05)
-12. [Deferred Tasks](#deferred-tasks-7-tasks)
-13. [Post-MVP Backlog](#post-mvp-backlog)
+12. [Deferred Tasks](#deferred-tasks-3-tasks)
 
 **Project**: Halterofit v0.1.0
 **Status**: 🔄 In Progress (Phase 1 - Authentication & Foundation)
-**Progress**: 29/76 tasks (38%) • MVP Scope: 76 active + 7 deferred tasks
+**Progress**: 29/76 tasks (38%) • MVP Scope: 76 active + 3 deferred tasks
 **Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
-**Last Updated**: 2025-11-06 • **Next Milestone**: Phase 1 Auth Implementation 🚀
+**Last Updated**: 2025-11-20 • **Next Milestone**: Phase 1 Auth Implementation 🚀
 
 ## Executive Summary
 
@@ -50,7 +49,7 @@ This document tracks all development tasks across MVP phases, including executiv
 
 ## Development Roadmap
 
-**Note:** MVP scope = 83 tasks total (76 active + 7 deferred). Analytics and advanced features moved to Post-MVP backlog.
+**Note:** MVP scope = 79 tasks total (76 active + 3 deferred). Analytics and advanced features moved to Post-MVP backlog.
 
 ```
 Phase 0.5: Architecture & Foundation (21/21 tasks) 100%
@@ -130,9 +129,10 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 - Original: 119 tasks, 17 weeks
 - Pre-Audit: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
-- **Post-Audit: 83 total (76 active + 7 deferred) tasks, 13.5-14 weeks** 🆕
+- **Post-Audit: 79 total (76 active + 3 deferred) tasks, 13.5-14 weeks** 🆕
 - **Added**: 12 tasks (+31h) for quality/reliability (schema fix, auth tests, DB enhancements)
-- **Excludes**: 7 deferred/optional tasks + 47 Post-MVP features
+- **Removed**: 4 deferred tasks (~15h) - Repository Pattern, Chart Abstraction, Domain/DB Types (handled by Claude Code)
+- **Excludes**: 3 deferred/optional tasks + 47 Post-MVP features
 - Analytics, advanced features → Post-MVP backlog
 
 ## Phase 0.5: Architecture & Foundation (21/21) COMPLETE
@@ -619,19 +619,15 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Known limitations
   - Expected timeline for fixes
 
-## Deferred Tasks (7 tasks)
+## Deferred Tasks (3 tasks)
 
-**Note:** These tasks are part of MVP scope (included in 83 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
+**Note:** These tasks are part of MVP scope (included in 79 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
 
 **Status:** Tracked but not blocking MVP progress. Can be completed progressively during Phases 1-4.
 
 ### 📋 Deferred Task List
 
-**From Phase 0.5: Optional Improvements** (5 tasks - 0.5.12 to 0.5.16)
-
-- **0.5.12** Repository Pattern `[L - 8h]` → Defer: Implement progressively in Phase 1-2
-  - Impact: Makes future DB optimization easier
-  - Not blocking: Current direct database access works fine for MVP
+**From Phase 0.5: Optional Improvements** (2 tasks)
 
 - **0.5.13** Sync Conflict Detection `[L - 8h]` → Defer: Must complete before Phase 2 (multi-device)
   - Impact: Prevents data corruption on conflicts
@@ -641,39 +637,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - Impact: Query performance optimization
   - Not blocking: Performance acceptable with <100 workouts
 
-- **0.5.15** Chart Abstraction `[M - 3h]` → Defer: Victory Native already abstracted
-  - Impact: Minimal (already using good library)
-  - Not needed: Current abstraction sufficient
-
-- **0.5.16** Domain vs DB Types `[M - 4h]` → Defer: Organize types during Phase 1-2 development
-  - Impact: Minor code organization
-  - Just-in-time: Create types as features are built
-
-**From Phase 0.6: UI/UX Foundation** (2 tasks)
+**From Phase 0.6: UI/UX Foundation** (1 task)
 
 - **0.6.5** Install Navigation Components `[S - 1h]` → Defer: Not required for Phase 1 (Auth screens)
   - Impact: Sheet/Tabs components for Phase 2+
   - Timeline: Install when needed for workout navigation
 
-- **0.6.7** Create Core TypeScript Types `[M - 2h]` → Defer: Create types just-in-time during Phase 1-4
-  - Impact: Non-database types (API responses, auth, form validation, UI state)
-  - YAGNI: WatermelonDB models already provide database types
-  - Just-in-time plan:
-    - Phase 1: Create `auth.ts` (login/register types)
-    - Phase 0.6.8: Create `exercisedb.ts` (API response types)
-    - Phase 4: Create `analytics.ts` (report types)
-
-**Total Deferred:** 7 tasks (~26h estimated)
+**Total Deferred:** 3 tasks (~11h estimated)
 **MVP Active Tasks:** 76 tasks
-**MVP Total (Active + Deferred):** 83 tasks
-
-## Post-MVP Backlog
-
-> 📖 **See [BACKLOG.md](./BACKLOG.md)** for ~60+ post-launch features
-
-**Priority Categories:**
-
-- 🔥 **Analytics & Progression** (~35-45h) - Volume charts, 1RM estimation, plateau detection
-- ✨ **UX Enhancements** (~20-25h) - Plate calculator, set history, notes
-- 🚀 **Advanced Features** (~40-50h) - Custom exercises, RPE tracking, auto-suggestions
-- 🛠️ **Infrastructure** (~15-20h) - Auto-sync, i18n, social features
+**MVP Total (Active + Deferred):** 79 tasks

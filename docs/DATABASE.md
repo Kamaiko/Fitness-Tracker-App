@@ -486,5 +486,5 @@ Typical operation times on modern devices (reference: iPhone 12 Pro):
 
 ---
 
-**Last Updated:** 2025-11-06
+**Last Updated:** 2025-11-20
 **Schema Version:** v7 (GitHub ExerciseDB dataset with animated GIFs)

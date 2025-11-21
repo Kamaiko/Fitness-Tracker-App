@@ -1,7 +1,7 @@
 # Claude Instructions - Halterofit
 
-> **Version**: 5.0
-> **Last Updated**: 2025-11-18
+> **Version**: 5.0 (document version, not app version)
+> **Last Updated**: 2025-11-20
 > **Purpose**: AI agent project briefing and development guide
 
 ---

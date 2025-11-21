@@ -50,7 +50,7 @@ Halterofit MVP delivers a reliable, fast, and straightforward workout tracking e
 
 ### Non-goals (deferred to post-MVP)
 
-**Analytics features (Phase 6+):**
+**Analytics features (Post-MVP+):**
 
 - Volume charts, progression tracking, 1RM estimation, plateau detection, personal records tracking
 - Advanced analytics: RIR/RPE-adjusted 1RM, Mann-Kendall plateau detection, acute/chronic load ratios

@@ -165,7 +165,7 @@ hooks/
 │   ├── useActiveWorkout.ts
 │   ├── useSetLogger.ts
 │   └── index.ts
-├── analytics/        # 🔮 Post-MVP (Phase 6)
+├── analytics/        # 🔮 Post-MVP (Post-MVP)
 │   ├── useWorkoutStats.ts
 │   └── index.ts
 ├── auth/
@@ -246,7 +246,7 @@ services/
 │   ├── mmkvStorage.ts
 │   └── index.ts
 ├── api/              # External APIs (if needed)
-├── analytics/        # 🔮 Post-MVP (Phase 6) - Analytics calculations
+├── analytics/        # 🔮 Post-MVP (Post-MVP) - Analytics calculations
 └── notifications/    # Push notifications
 ```
 
@@ -298,7 +298,7 @@ stores/
 ├── workout/
 │   ├── workoutStore.ts
 │   └── index.ts
-├── analytics/        # 🔮 Post-MVP (Phase 6)
+├── analytics/        # 🔮 Post-MVP (Post-MVP)
 │   └── analyticsStore.ts
 ├── settings/
 │   └── settingsStore.ts
