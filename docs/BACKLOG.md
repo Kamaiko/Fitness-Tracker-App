@@ -79,6 +79,12 @@ This document lists features deferred from the MVP roadmap. These enhancements w
   - Rate limit management (free tier: 10,000 req/month)
   - **Estimated effort:** ~6-8h (serverless architecture)
   - **Dependencies:** MVP complete, validated user adoption
+- **React Query / TanStack Query** (Server State Caching)
+  - Consider for advanced analytics queries (Phase 4+)
+  - Useful if implementing web dashboard or complex data fetching
+  - Alternative: Continue with direct Supabase calls + Zustand
+  - **Estimated effort:** ~4-6h (setup + migration)
+  - **Dependencies:** Validated need for advanced caching
 - **Multi-language support (i18n)** - Defer until international expansion
 - **Social features** (share workouts, follow friends) - Defer until user base >1,000
 - **Coach-client relationship** (team accounts) - Defer until B2B validation

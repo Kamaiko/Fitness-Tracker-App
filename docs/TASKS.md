@@ -584,6 +584,7 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
 **Dependencies:** Phases 1-4 complete (all MVP features done)
 
 - [ ] 5.10 **Verify Sentry monitoring** (S - 1h) `[already setup in 0.5.5]`
+  - **Note:** DSN should be configured in Phase 1 (not Phase 5) to catch errors early. This task verifies production monitoring works correctly.
   - Test error reporting (throw test error)
   - Verify crash reports appear in Sentry dashboard
   - Verify performance monitoring (slow query simulation)

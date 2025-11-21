@@ -13,7 +13,6 @@ This document covers all technical architecture decisions (ADRs), technology sta
 - [Architecture Decisions (ADRs)](#architecture-decisions-adrs)
   - [ADR-001: Expo SDK 54 Managed Workflow](#adr-001-expo-sdk-54-managed-workflow)
   - [ADR-002: Zustand for State Management](#adr-002-zustand-for-state-management)
-  - [ADR-003: React Query for Server State](#adr-003-react-query-for-server-state)
   - [ADR-004: WatermelonDB for Offline-First Storage](#adr-004-watermelondb-for-offline-first-storage-phase-05)
   - [ADR-005: NativeWind (Tailwind CSS) for Styling](#adr-005-nativewind-tailwind-css-for-styling)
   - [ADR-006: Relative Imports (No Path Aliases)](#adr-006-relative-imports-no-path-aliases)
@@ -30,6 +29,7 @@ This document covers all technical architecture decisions (ADRs), technology sta
   - [ADR-015: Single Dark Mode Design](#adr-015-single-dark-mode-design)
   - [ADR-016: React Native Vector Icons](#adr-016-react-native-vector-icons)
 - [Project Structure](#project-structure)
+  - [ADR-020: REST API Strategy (Supabase RPC)](#adr-020-rest-api-strategy-supabase-rpc)
 - [Design System](#design-system)
 - [Database Schema](#database-schema)
 - [Analytics & Algorithms](#analytics--algorithms)
@@ -161,7 +161,6 @@ This document covers all technical architecture decisions (ADRs), technology sta
 | **Database**         | WatermelonDB              | 0.28.0  | Offline-first reactive database              |
 | **Storage**          | MMKV                      | 4.0.0   | Encrypted key-value storage                  |
 | **State Management** | Zustand                   | 5.0.8   | Lightweight global state                     |
-| **Server State**     | React Query (TanStack)    | 5.90.5  | Installed, not yet used                      |
 | **Backend**          | Supabase                  | 2.78.0  | PostgreSQL + Auth + Storage                  |
 | **Charts**           | Victory Native            | 41.20.1 | Data visualization (Skia-based)              |
 | **Lists**            | FlashList                 | 2.2.0   | High-performance lists                       |
@@ -199,18 +198,6 @@ This document covers all technical architecture decisions (ADRs), technology sta
 **Trade-offs:** Smaller ecosystem than Redux, fewer middleware options
 
 **Status:** ✅ Implemented
-
----
-
-### ADR-003: React Query for Server State
-
-**Decision:** React Query for Supabase data caching
-
-**Rationale:** Automatic cache invalidation, built-in loading/error states, optimistic updates
-
-**Trade-offs:** Learning curve, additional dependency (~20KB)
-
-**Status:** ✅ Installed (not yet used)
 
 ---
 
@@ -831,6 +818,71 @@ npm start
 
 ---
 
+### ADR-020: REST API Strategy (Supabase RPC)
+
+**Decision:** Use REST API via Supabase client library for all backend communication
+
+**Context:**
+
+Halterofit needs reliable data sync between WatermelonDB (local) and Supabase (cloud). Two main options:
+
+- REST API (via `supabase-js` client + RPC functions)
+- GraphQL (via Supabase GraphQL extensions or custom server)
+
+**Rationale:**
+
+**Why REST for this project:**
+
+1. **Native Supabase Support**
+   - `supabase-js` provides REST API out-of-the-box
+   - `supabase.rpc()` for custom functions (sync protocol)
+   - Built-in auth, RLS, real-time subscriptions
+
+2. **Simpler Architecture**
+   - No additional GraphQL layer needed
+   - Direct Supabase client integration
+   - Less code, fewer concepts
+
+3. **WatermelonDB Sync Protocol**
+   - Official sync uses simple pull/push RPC calls
+   - REST perfectly suited for batch operations
+   - See [src/services/database/remote/sync.ts](../src/services/database/remote/sync.ts)
+
+4. **MVP Efficiency**
+   - Solo developer: minimize learning curve
+   - Faster development (no schema definitions, resolvers)
+   - Adequate for workout tracking use case
+
+**Trade-offs:**
+
+| Aspect              | REST (Chosen) | GraphQL (Rejected)             |
+| ------------------- | ------------- | ------------------------------ |
+| **Setup**           | ✅ Minimal    | ❌ Complex (schema, resolvers) |
+| **Supabase**        | ✅ Native     | ⚠️ Via extensions              |
+| **Learning Curve**  | ✅ Simple     | ❌ Steep                       |
+| **Overfetching**    | ⚠️ Possible   | ✅ Precise                     |
+| **Mobile Use Case** | ✅ Perfect    | ⚠️ Overkill                    |
+
+**When to Consider GraphQL:**
+
+Post-MVP (Phase 6+), ONLY if:
+
+- Web dashboard with complex nested data (4+ levels deep)
+- Analytics queries requiring precise field selection
+- Multiple frontend clients with different data needs
+- Team size justifies added complexity (5+ developers)
+
+For mobile workout tracking, REST is the correct choice.
+
+**Status:** ✅ Implemented (Phase 0.5)
+
+**References:**
+
+- Supabase Docs: https://supabase.com/docs/reference/javascript
+- WatermelonDB Sync: https://nozbe.github.io/WatermelonDB/Advanced/Sync.html
+
+---
+
 ## Project Structure
 
 See [ARCHITECTURE.md § Structure Détaillée](./ARCHITECTURE.md#-structure-détaillée) for complete folder organization.
@@ -1168,7 +1220,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete workflow (commit conventio
 
 ## Resources
 
-**Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [MMKV](https://github.com/mrousavy/react-native-mmkv) | [Zustand](https://docs.pmnd.rs/zustand) | [React Query](https://tanstack.com/query/latest) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
+**Docs:** [Expo](https://docs.expo.dev/) | [React Native](https://reactnative.dev/) | [Supabase](https://supabase.com/docs) | [WatermelonDB](https://nozbe.github.io/WatermelonDB/) | [MMKV](https://github.com/mrousavy/react-native-mmkv) | [Zustand](https://docs.pmnd.rs/zustand) | [FlashList](https://shopify.github.io/flash-list/) | [Victory Native](https://commerce.nearform.com/open-source/victory-native/)
 
 **APIs:** [ExerciseDB](https://v2.exercisedb.io/docs) | [Sentry](https://docs.sentry.io/platforms/react-native/) | [RevenueCat](https://www.revenuecat.com/docs)
 

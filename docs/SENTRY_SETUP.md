@@ -1,6 +1,6 @@
 # Sentry Setup Guide
 
-This guide explains how to configure Sentry for production error monitoring. It covers account setup, DSN configuration, testing, and troubleshooting error tracking in production builds.
+This guide explains how to configure Sentry for production error monitoring. Configure the DSN early (Phase 1 recommended) to catch errors during development and testing, even though error reporting only activates in production builds.
 
 ## Table of Contents
 
@@ -28,6 +28,7 @@ Sentry is a production error monitoring service that:
 - Alerts you when errors occur
 
 **Important:** Sentry is **disabled in development** (`__DEV__ = true`). Only production builds send errors to Sentry.
+**Recommended Timeline:** Configure Sentry DSN in Phase 1 (Authentication & Foundation). The free tier (5k errors/month) is sufficient for MVP and early production. See Task 5.10 in TASKS.md for verification checklist.
 
 ## Step 1: Create Sentry Account (Free)
 
