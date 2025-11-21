@@ -35,7 +35,7 @@ Halterofit uses a two-tier database architecture combining local-first storage w
 **Storage (MMKV)**
 
 - Encrypted local storage for auth tokens and preferences
-- Faster than AsyncStorage (10-30x performance improvement)
+- High-performance key-value storage optimized for mobile
 
 ### Sync Strategy
 
@@ -187,7 +187,7 @@ Halterofit uses a two-tier database architecture combining local-first storage w
 
 **Cascade:** ON DELETE CASCADE (workout_exercise deleted → sets deleted)
 
-**Note on RPE/RIR:** These fields exist in schema for future use but are not part of MVP scope. See [SCOPE-SIMPLIFICATION.md](SCOPE-SIMPLIFICATION.md).
+**Note on RPE/RIR:** These fields exist in schema for future use but are not part of MVP scope.
 
 ---
 
@@ -233,11 +233,11 @@ Halterofit uses the **GitHub ExerciseDB static dataset** as the primary exercise
 
 **Current Version:** v7 (GitHub dataset with animated GIFs)
 
-**Import Status:** Completed (2025-11-06)
+**Import Method:**
 
-- 1,500+ exercises seeded to Supabase
-- Automatic sync to local devices on first launch
-- Initial sync duration: 30-60 seconds
+- One-time seeding to Supabase during setup
+- Automatic sync to local devices on first app launch
+- Contains 1,500+ exercises with animated demonstrations
 
 ---
 
@@ -387,17 +387,7 @@ export const schema = appSchema({
 
 **Current Version:** v7 (GitHub ExerciseDB dataset with animated GIFs)
 
-**Version History:**
-
-- v1-v4: Initial development (deprecated)
-- v5: Consolidated schema (8 migrations merged)
-- v6: Removed fields not in GitHub dataset (description, difficulty, category)
-- v7: Added gif_url field for animated exercise demos
-
-**Deprecated Fields:**
-
-- `nutrition_phase` (users table) - Removed per scope simplification
-- `description`, `difficulty`, `category` (exercises table) - Not in GitHub dataset
+Schema versions track structural changes to database tables and fields. The current schema aligns with the GitHub ExerciseDB dataset format, including animated GIF demonstrations for all exercises.
 
 ---
 
@@ -443,15 +433,15 @@ export const schema = appSchema({
 
 ### Expected Performance
 
-Typical operation times on modern devices (reference: iPhone 12 Pro):
+Typical operation times on modern devices:
 
-- Log single set: <5ms (instant write to SQLite)
-- Load 20 workouts: <20ms (with pagination)
-- Search 1,500+ exercises: <100ms (local full-text search)
-- Sync 100 sets: 1-2s (background sync to Supabase)
-- Repeat last workout: <100ms (clone workout structure)
+- Log single set: Instant (local SQLite write)
+- Load workout history: Fast with pagination (<100ms for 20 items)
+- Search exercises: Real-time local search across 1,500+ exercises
+- Cloud sync: Background operation, non-blocking to UI
+- Workout duplication: Instant local operation
 
-**Note:** Performance varies by device hardware and data volume.
+**Note:** Actual performance varies by device hardware and data volume. All operations are optimized for offline-first usage with local database priority.
 
 ---
 
@@ -486,5 +476,4 @@ Typical operation times on modern devices (reference: iPhone 12 Pro):
 
 ---
 
-**Last Updated:** 2025-11-20
 **Schema Version:** v7 (GitHub ExerciseDB dataset with animated GIFs)
