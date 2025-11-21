@@ -2,6 +2,17 @@
 
 Strategic overview of development phases and execution sequence. This roadmap defines the path to MVP completion through five sequential phases. For current progress and actionable tasks, see TASKS.md.
 
+## Table of Contents
+
+- [Phase 1: Authentication & Foundation](#phase-1-authentication--foundation)
+- [Phase 2: Workout Plans & Navigation](#phase-2-workout-plans--navigation)
+- [Phase 3: Active Workout Tracking](#phase-3-active-workout-tracking)
+- [Phase 4: Profile & Settings](#phase-4-profile--settings)
+- [Phase 5: Polish & Deployment](#phase-5-polish--deployment)
+- [Critical Path](#critical-path)
+- [Post-MVP Direction](#post-mvp-direction)
+- [References](#references)
+
 ## Phase 1: Authentication & Foundation
 
 Estimated effort: 31 hours
