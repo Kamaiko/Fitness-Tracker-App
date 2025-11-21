@@ -1,3 +1,14 @@
 # Auto-generated lock files
 package-lock.json
 *.lock
+
+# Build outputs
+dist/
+build/
+.expo/
+coverage/
+
+# Caches
+.jest-cache/
+.eslintcache
+*.tsbuildinfo

@@ -25,12 +25,7 @@ const config: Config = {
     '/__tests__/integration/', // Integration tests have separate config
   ],
 
-  // Coverage thresholds for database layer (Phase 0.5 - Foundation)
-  // TEMPORARY: Lowered to 5% to unblock CI (task 0.5.27 complete)
-  // TODO(Phase 2.1): Increase to 60-70% when adding unit tests for sync.ts and workouts.ts
-  // Current: 37 tests cover __tests__/ helpers, models (3.58% overall)
-  // Target: Add tests for sync protocol and CRUD operations
-  // See: .claude/CLAUDE.md for testing strategy
+  // Coverage thresholds (see TESTING.md for strategy)
   coverageThreshold: {
     global: {
       // Global thresholds disabled for Phase 0.5 (only testing database layer)

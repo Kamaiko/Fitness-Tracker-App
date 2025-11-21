@@ -11,22 +11,21 @@ This document tracks all development tasks across MVP phases, including executiv
 5. [Phase 0.5: Architecture & Foundation (21/21)](#phase-05-architecture--foundation-2121)
 6. [Phase 0.6: UI/UX Foundation (8/8)](#phase-06-uiux-foundation-88)
 7. [Phase 1: Authentication & Foundation (0/16)](#phase-1-authentication--foundation-016)
-8. [Phase 2: Workout Plans & Navigation (0/12)](#phase-2-workout-plans--navigation-012)
+8. [Phase 2: Workout Plans & Navigation (0/14)](#phase-2-workout-plans--navigation-012)
 9. [Phase 3: Active Workout Tracking (0/9)](#phase-3-active-workout-tracking-09)
 10. [Phase 4: Profile & Settings (0/5)](#phase-4-profile--settings-05)
 11. [Phase 5: Polish & Deployment (0/5)](#phase-5-polish--deployment-05)
-12. [Deferred Tasks](#deferred-tasks-3-tasks)
 
 **Project**: Halterofit v0.1.0
 **Status**: 🔄 In Progress (Phase 1 - Authentication & Foundation)
-**Progress**: 29/76 tasks (38%) • MVP Scope: 76 active + 3 deferred tasks
+**Progress**: 29/78 tasks (37%) • MVP Scope: 78 active tasks
 **Timeline**: 13.5-14 weeks • Started 2025-01-20 • Target 2025-04-22
 **Last Updated**: 2025-11-20 • **Next Milestone**: Phase 1 Auth Implementation 🚀
 
 ## Executive Summary
 
 **Current Focus**: Phase 1 - Authentication & Foundation (Auth UI + Testing Infrastructure)
-**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/76 tasks (38%)
+**Phase Progress**: 21/21 (Phase 0.5 - 100%) + 8/8 (Phase 0.6 - 100%) • **Overall**: 29/78 tasks (37%)
 **Critical Blockers**: None • **Velocity**: ~5 tasks/week
 
 **Recent Milestones**: See [CHANGELOG.md](./CHANGELOG.md) for completed tasks and release notes
@@ -49,7 +48,7 @@ This document tracks all development tasks across MVP phases, including executiv
 
 ## Development Roadmap
 
-**Note:** MVP scope = 79 tasks total (76 active + 3 deferred). Analytics and advanced features moved to Post-MVP backlog.
+**Note:** MVP scope = 78 tasks total (78 active). Analytics and advanced features moved to Post-MVP backlog.
 
 ```
 Phase 0.5: Architecture & Foundation (21/21 tasks) 100%
@@ -79,7 +78,7 @@ Phase 1: Authentication & Foundation (0/16 tasks) 🔄
    ├─ B: Testing Infrastructure (8 tasks) 🆕
    └─ C: Database Enhancements (3 tasks) 🆕
         ↓
-Phase 2: Workout Plans & Navigation (0/12 tasks)
+Phase 2: Workout Plans & Navigation (0/14 tasks)
    ├─ Bottom tabs (Workout, Profile)
    ├─ Workout sub-tabs (Find, Planned)
    ├─ Jefit-style Plan system
@@ -117,11 +116,11 @@ Phase 5: Polish & Deployment (0/5 tasks)
 | **0.5**   | 21     | 50-60h    | 100% DONE    | None (started)                |
 | **0.6**   | 8      | 15-18h    | 100% DONE    | ← Phase 0.5 complete          |
 | **1**     | 16     | ~31h      | READY 🟢     | ← Phase 0.6 complete          |
-| **2**     | 12     | ~31h      | BLOCKED      | ← Phase 1 auth                |
+| **2**     | 14     | ~40h      | BLOCKED      | ← Phase 1 auth                |
 | **3**     | 9      | ~27h      | BLOCKED      | ← Phase 2 plans               |
 | **4**     | 5      | ~11h      | BLOCKED      | ← Phase 3 (parallel OK)       |
 | **5**     | 5      | ~9h       | BLOCKED      | ← Phases 1-4 complete         |
-| **TOTAL** | **76** | **~157h** | **35% done** | **13.5-14 weeks at 10h/week** |
+| **TOTAL** | **78** | **~166h** | **35% done** | **13.5-14 weeks at 10h/week** |
 
 **Critical Path:** Phase 1 (Auth + Tests) → Phase 2 (Plans) → Phase 3 (Active Workout)
 
@@ -129,10 +128,10 @@ Phase 5: Polish & Deployment (0/5 tasks)
 
 - Original: 119 tasks, 17 weeks
 - Pre-Audit: 72 total (65 active + 7 deferred) tasks, 12-13 weeks (~45% reduction)
-- **Post-Audit: 79 total (76 active + 3 deferred) tasks, 13.5-14 weeks** 🆕
+- **Post-Audit: 78 total (78 active) tasks, 13.5-14 weeks** 🆕
 - **Added**: 12 tasks (+31h) for quality/reliability (schema fix, auth tests, DB enhancements)
 - **Removed**: 4 deferred tasks (~15h) - Repository Pattern, Chart Abstraction, Domain/DB Types (handled by Claude Code)
-- **Excludes**: 3 deferred/optional tasks + 47 Post-MVP features
+- **Moved to Backlog**: 1 task (Database Indexes - 2h) + 47 Post-MVP features
 - Analytics, advanced features → Post-MVP backlog
 
 ## Phase 0.5: Architecture & Foundation (21/21) COMPLETE
@@ -206,7 +205,7 @@ Phase 5: Polish & Deployment (0/5 tasks)
 **Timeline:** Weeks 9-11 | **Priority:** HIGH
 **Goal:** Login/Register basics + Testing infrastructure (90% auth coverage) + Database enhancements
 
-**Progress:** 0/16 tasks (0%) | **Est. Time:** ~31h (3 weeks)
+**Progress:** 0/16 tasks (0%) | \*\*Est. Time: ~40h (3 weeks)
 
 **Dependencies:** Phase 0.6 complete (UI components ready + schema fix 0.6.10)
 
@@ -325,12 +324,12 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - File: [sync.ts](../src/services/database/remote/sync.ts)
   - Testing: Manual E2E (network failure scenarios)
 
-## Phase 2: Workout Plans & Navigation (0/12)
+## Phase 2: Workout Plans & Navigation (0/14)
 
 **Timeline:** Weeks 11-14 | **Priority:** CRITICAL
 **Goal:** Jefit-style navigation with Find/Planned tabs + Plan management
 
-**Progress:** 0/12 tasks (0%) | **Est. Time:** ~31h (4 weeks)
+**Progress:** 0/14 tasks (0%) | \*\*Est. Time: ~40h (4 weeks)
 
 **Dependencies:**
 
@@ -338,6 +337,22 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
 - Phase 0.6.8 complete (ExerciseDB needed for plan creation)
 
 **Key Screens:** See `docs/images/emptyPlan.jpeg` and `docs/images/FullPlan.jpeg`
+
+- [ ] 2.01 **Implement Sync Conflict Detection** (L - 8h) `[JUST-IN-TIME]` `[src/services/database/remote/sync.ts]`
+  - Must complete before multi-device sync becomes active
+  - Implement conflict resolution strategy (last-write-wins with timestamp)
+  - Add `_status` field handling (created, updated, deleted)
+  - Test with simulated conflicts (multiple devices)
+  - WatermelonDB sync protocol validation
+  - **Trigger:** Before activating multi-device sync in production
+
+- [ ] 2.02 **Install Navigation Components** (S - 1h) `[JUST-IN-TIME]` `[src/components/ui/]`
+  - Install Sheet/Tabs components from React Native Reusables
+  - Required for workout navigation (Phase 2)
+  - Components: BottomSheet, Tabs, Modal
+  - Configure with NativeWind theme
+  - Test basic Sheet/Tabs functionality
+  - **Trigger:** Start of Phase 2 development
 
 - [ ] 2.10 **Create bottom tab navigation** (M - 2h) `[src/app/(tabs)/_layout.tsx]`
   - 2 main tabs: Workout, Profile
@@ -618,31 +633,3 @@ Auth implementation follows **Hooks + Services + Store** pattern for optimal tes
   - How to report bugs (email, form, GitHub issues)
   - Known limitations
   - Expected timeline for fixes
-
-## Deferred Tasks (3 tasks)
-
-**Note:** These tasks are part of MVP scope (included in 79 total) but deferred to be implemented just-in-time or when needed, following YAGNI and Agile principles.
-
-**Status:** Tracked but not blocking MVP progress. Can be completed progressively during Phases 1-4.
-
-### 📋 Deferred Task List
-
-**From Phase 0.5: Optional Improvements** (2 tasks)
-
-- **0.5.13** Sync Conflict Detection `[L - 8h]` → Defer: Must complete before Phase 2 (multi-device)
-  - Impact: Prevents data corruption on conflicts
-  - Timeline: Implement when multi-device sync becomes active
-
-- **0.5.14** Database Indexes `[M - 2h]` → Defer: Add when performance becomes issue (500+ workouts)
-  - Impact: Query performance optimization
-  - Not blocking: Performance acceptable with <100 workouts
-
-**From Phase 0.6: UI/UX Foundation** (1 task)
-
-- **0.6.5** Install Navigation Components `[S - 1h]` → Defer: Not required for Phase 1 (Auth screens)
-  - Impact: Sheet/Tabs components for Phase 2+
-  - Timeline: Install when needed for workout navigation
-
-**Total Deferred:** 3 tasks (~11h estimated)
-**MVP Active Tasks:** 76 tasks
-**MVP Total (Active + Deferred):** 79 tasks

@@ -199,5 +199,6 @@ After: - [x] 1.1 Task description
 - TypeScript strict mode, no `any` types
 - Data persistence: Local database first, cloud sync when available
 - All features functional without internet
+- **Avoid temporary comments** - Comments that quickly become outdated (e.g., "Current: 37 tests", "TODO(Phase 2.1)") should be avoided. Reference documentation files instead (e.g., "see TESTING.md for strategy")
 
 **For complete standards:** See [TECHNICAL.md](../docs/TECHNICAL.md) and [CONTRIBUTING.md](../docs/CONTRIBUTING.md)
